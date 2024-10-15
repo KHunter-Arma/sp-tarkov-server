@@ -5,7 +5,7 @@
     },
     "returnChancePercent": {
         "54cb50c76803fa8b248b4571": 66,
-        "54cb57776803fa99248b456e": 80
+        "54cb57776803fa99248b456e": 77
     },
     "blacklistedEquipment": [
         "SpecialSlot1",
@@ -17,5 +17,7 @@
         "patron_in_weapon"
     ],
     "returnTimeOverrideSeconds": 0,
-    "runIntervalSeconds": 600
+    "runIntervalSeconds": 600,
+    "minAttachmentRoublePriceToBeTaken": 2000,
+    "chanceNoAttachmentsTakenPercent": 10
 }
