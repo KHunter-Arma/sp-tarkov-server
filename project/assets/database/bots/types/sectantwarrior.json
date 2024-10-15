@@ -36,10 +36,10 @@
       "TacticalVest": 100
     },
     "equipmentMods": {
-      "back_plate": 100,
-      "front_plate": 100,
-      "left_side_plate": 66,
-      "right_side_plate": 66
+      "back_plate": 0,
+      "front_plate": 0,
+      "left_side_plate": 0,
+      "right_side_plate": 0
     },
     "weaponMods": {
       "mod_charge": 0,
@@ -189,13 +189,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
         "ShotgunFireDistancePref": 50,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -693,13 +693,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
         "ShotgunFireDistancePref": 50,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -1197,13 +1197,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
         "ShotgunFireDistancePref": 50,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -1701,13 +1701,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
         "ShotgunFireDistancePref": 50,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -2335,7 +2335,6 @@
         "5ac66d9b5acfc4001633997a": 262,
         "5beed0f50db834001c062b12": 161,
         "5c46fbd72e2216398b5a8c9c": 286,
-        "5df8ce05b11454561e39243b": 19,
         "5e00903ae9dc277128008b87": 20,
         "5fb64bc92b1b027b1f50bcf2": 105,
         "60339954d62c9b14ed777c06": 88,
