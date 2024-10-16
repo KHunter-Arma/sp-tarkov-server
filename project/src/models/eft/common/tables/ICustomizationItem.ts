@@ -1,7 +1,6 @@
-import { Ixyz } from "@spt-aki/models/eft/common/Ixyz";
+import { Ixyz } from "@spt/models/eft/common/Ixyz";
 
-export interface ICustomizationItem
-{
+export interface ICustomizationItem {
     _id: string;
     _name: string;
     _parent: string;
@@ -10,8 +9,7 @@ export interface ICustomizationItem
     _proto: string;
 }
 
-export interface Props
-{
+export interface Props {
     Name: string;
     ShortName: string;
     Description: string;
@@ -28,8 +26,7 @@ export interface Props
     WatchRotation: Ixyz;
 }
 
-export interface Prefab
-{
+export interface Prefab {
     path: string;
     rcid: string;
 }

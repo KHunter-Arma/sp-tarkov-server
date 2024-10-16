@@ -1,34 +1,31 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { IBaseConfig, IRunIntervalValues } from "@spt-aki/models/spt/config/IBaseConfig";
+import { MinMax } from "@spt/models/common/MinMax";
+import { IBaseConfig, IRunIntervalValues } from "@spt/models/spt/config/IBaseConfig";
 
-export interface IRagfairConfig extends IBaseConfig
-{
-    kind: "aki-ragfair";
+export interface IRagfairConfig extends IBaseConfig {
+    kind: "spt-ragfair";
     /** How many seconds should pass before expired offers and procesed + player offers checked if sold */
     runIntervalSeconds: number;
     /** Default values used to hydrate `runIntervalSeconds` with */
     runIntervalValues: IRunIntervalValues;
     /** Player listing settings */
     sell: Sell;
-    /** Trader ids + should their assorts be listed on flea*/
+    /** Trader ids + should their assorts be listed on flea */
     traders: Record<string, boolean>;
     dynamic: Dynamic;
 }
 
-export interface Sell
-{
+export interface Sell {
     /** Should a fee be deducted from player when liting an item for sale */
     fees: boolean;
     /** Settings to control chances of offer being sold */
     chance: Chance;
     /** Settings to control how long it takes for a player offer to sell */
     time: MinMax;
-    /**Seconds from clicking remove to remove offer from market */
+    /** Seconds from clicking remove to remove offer from market */
     expireSeconds: number;
 }
 
-export interface Chance
-{
+export interface Chance {
     /** Base chance percent to sell an item */
     base: number;
     /** Value to multiply the sell chance by */
@@ -39,8 +36,7 @@ export interface Chance
     minSellChancePercent: number;
 }
 
-export interface Dynamic
-{
+export interface Dynamic {
     // Should a purchased dynamic offers items be flagged as found in raid
     purchasesAreFoundInRaid: boolean;
     /** Use the highest trader price for an offer if its greater than the price in templates/prices.json */
@@ -83,15 +79,13 @@ export interface Dynamic
     unreasonableModPrices: Record<string, IUnreasonableModPrices>;
 }
 
-export interface IPriceRanges
-{
+export interface IPriceRanges {
     default: MinMax;
     preset: MinMax;
     pack: MinMax;
 }
 
-export interface IBarterDetails
-{
+export interface IBarterDetails {
     /** Percentage change an offer is listed as a barter */
     chancePercent: number;
     /** Min number of required items for a barter requirement */
@@ -106,8 +100,7 @@ export interface IBarterDetails
     itemTypeBlacklist: string[];
 }
 
-export interface IPackDetails
-{
+export interface IPackDetails {
     /** Percentage change an offer is listed as a pack */
     chancePercent: number;
     /** Min number of required items for a pack */
@@ -118,8 +111,7 @@ export interface IPackDetails
     itemTypeWhitelist: string[];
 }
 
-export interface OfferAdjustment
-{
+export interface OfferAdjustment {
     /** Shuld offer price be adjusted when below handbook price */
     adjustPriceWhenBelowHandbookPrice: boolean;
     /** How big a percentage difference does price need to vary from handbook to be considered for adjustment */
@@ -130,16 +122,14 @@ export interface OfferAdjustment
     priceThreshholdRub: number;
 }
 
-export interface Condition
-{
+export interface Condition {
     /** Percentage change durability is altered */
     conditionChance: number;
     current: MinMax;
     max: MinMax;
 }
 
-export interface Blacklist
-{
+export interface Blacklist {
     /** Damaged ammo packs */
     damagedAmmoPacks: boolean;
     /** Custom blacklist for item Tpls */
@@ -158,16 +148,14 @@ export interface Blacklist
     customItemCategoryList: string[];
 }
 
-export interface IArmorPlateBlacklistSettings
-{
+export interface IArmorPlateBlacklistSettings {
     /** Max level of plates an armor can have without being removed */
     maxProtectionLevel: number;
     /** Item slots to NOT remove from items on flea */
     ignoreSlots: string[];
 }
 
-export interface IUnreasonableModPrices
-{
+export interface IUnreasonableModPrices {
     /** Enable a system that adjusts very high ragfair prices to be below a max multiple of items the handbook values */
     enabled: boolean;
     /** Multipler to start adjusting item values from, e.g. a value of 10 means any value over 10x the handbook price gets adjusted  */
@@ -176,8 +164,7 @@ export interface IUnreasonableModPrices
     newPriceHandbookMultiplier: number;
 }
 
-export interface IArmorSettings
-{
+export interface IArmorSettings {
     /** % chance / 100 that armor plates will be removed from an offer before listing */
     removeRemovablePlateChance: number;
     /** What slots are to be removed when removeRemovablePlateChance is true */

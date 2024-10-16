@@ -1,38 +1,33 @@
+import { Dialogue, IUserDialogInfo, Message } from "@spt/models/eft/profile/ISptProfile";
+import { IWsChatMessageReceived } from "@spt/models/eft/ws/IWsChatMessageReceived";
+import { IWsNotificationEvent } from "@spt/models/eft/ws/IWsNotificationEvent";
+import { MemberCategory } from "@spt/models/enums/MemberCategory";
+import { MessageType } from "@spt/models/enums/MessageType";
+import { NotificationEventType } from "@spt/models/enums/NotificationEventType";
+import { SaveServer } from "@spt/servers/SaveServer";
+import { SptWebSocketConnectionHandler } from "@spt/servers/ws/SptWebSocketConnectionHandler";
+import { NotificationService } from "@spt/services/NotificationService";
+import { HashUtil } from "@spt/utils/HashUtil";
 import { inject, injectable } from "tsyringe";
 
-import { INotification, NotificationType } from "@spt-aki/models/eft/notifier/INotifier";
-import { Dialogue, IUserDialogInfo, Message } from "@spt-aki/models/eft/profile/IAkiProfile";
-import { MemberCategory } from "@spt-aki/models/enums/MemberCategory";
-import { MessageType } from "@spt-aki/models/enums/MessageType";
-import { SaveServer } from "@spt-aki/servers/SaveServer";
-import { WebSocketServer } from "@spt-aki/servers/WebSocketServer";
-import { NotificationService } from "@spt-aki/services/NotificationService";
-import { HashUtil } from "@spt-aki/utils/HashUtil";
-
 @injectable()
-export class NotificationSendHelper
-{
+export class NotificationSendHelper {
     constructor(
-        @inject("WebSocketServer") protected webSocketServer: WebSocketServer,
+        @inject("SptWebSocketConnectionHandler") protected sptWebSocketConnection: SptWebSocketConnectionHandler,
         @inject("HashUtil") protected hashUtil: HashUtil,
         @inject("SaveServer") protected saveServer: SaveServer,
         @inject("NotificationService") protected notificationService: NotificationService,
-    )
-    {}
+    ) {}
 
     /**
      * Send notification message to the appropriate channel
      * @param sessionID
      * @param notificationMessage
      */
-    public sendMessage(sessionID: string, notificationMessage: INotification): void
-    {
-        if (this.webSocketServer.isConnectionWebSocket(sessionID))
-        {
-            this.webSocketServer.sendMessage(sessionID, notificationMessage);
-        }
-        else
-        {
+    public sendMessage(sessionID: string, notificationMessage: IWsNotificationEvent): void {
+        if (this.sptWebSocketConnection.isConnectionWebSocket(sessionID)) {
+            this.sptWebSocketConnection.sendMessage(sessionID, notificationMessage);
+        } else {
             this.notificationService.add(sessionID, notificationMessage);
         }
     }
@@ -49,8 +44,7 @@ export class NotificationSendHelper
         senderDetails: IUserDialogInfo,
         messageText: string,
         messageType: MessageType,
-    ): void
-    {
+    ): void {
         const dialog = this.getDialog(sessionId, messageType, senderDetails);
 
         dialog.new += 1;
@@ -66,8 +60,8 @@ export class NotificationSendHelper
         };
         dialog.messages.push(message);
 
-        const notification: INotification = {
-            type: NotificationType.NEW_MESSAGE,
+        const notification: IWsChatMessageReceived = {
+            type: NotificationEventType.CHAT_MESSAGE_RECEIVED,
             eventId: message._id,
             dialogId: message.uid,
             message: message,
@@ -82,19 +76,18 @@ export class NotificationSendHelper
      * @param senderDetails Who is sending the message
      * @returns Dialogue
      */
-    protected getDialog(sessionId: string, messageType: MessageType, senderDetails: IUserDialogInfo): Dialogue
-    {
+    protected getDialog(sessionId: string, messageType: MessageType, senderDetails: IUserDialogInfo): Dialogue {
         // Use trader id if sender is trader, otherwise use nickname
-        const key = (senderDetails.Info.MemberCategory === MemberCategory.TRADER)
-            ? senderDetails._id
-            : senderDetails.Info.Nickname;
+        const key =
+            senderDetails.Info.MemberCategory === MemberCategory.TRADER
+                ? senderDetails._id
+                : senderDetails.Info.Nickname;
         const dialogueData = this.saveServer.getProfile(sessionId).dialogues;
         const isNewDialogue = !(key in dialogueData);
         let dialogue: Dialogue = dialogueData[key];
 
         // Existing dialog not found, make new one
-        if (isNewDialogue)
-        {
+        if (isNewDialogue) {
             dialogue = {
                 _id: key,
                 type: messageType,
@@ -102,7 +95,7 @@ export class NotificationSendHelper
                 pinned: false,
                 new: 0,
                 attachmentsNew: 0,
-                Users: (senderDetails.Info.MemberCategory === MemberCategory.TRADER) ? undefined : [senderDetails],
+                Users: senderDetails.Info.MemberCategory === MemberCategory.TRADER ? undefined : [senderDetails],
             };
 
             dialogueData[key] = dialogue;

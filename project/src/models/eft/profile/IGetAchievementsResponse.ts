@@ -1,6 +1,5 @@
-import { IAchievement } from "../common/tables/IAchievement";
+import { IAchievement } from "@spt/models/eft/common/tables/IAchievement";
 
-export interface IGetAchievementsResponse
-{
+export interface IGetAchievementsResponse {
     elements: IAchievement[];
 }

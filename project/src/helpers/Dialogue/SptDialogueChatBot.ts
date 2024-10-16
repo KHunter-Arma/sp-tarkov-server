@@ -1,22 +1,21 @@
+import { IDialogueChatBot } from "@spt/helpers/Dialogue/IDialogueChatBot";
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
+import { ISendMessageRequest } from "@spt/models/eft/dialog/ISendMessageRequest";
+import { IUserDialogInfo } from "@spt/models/eft/profile/ISptProfile";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { GiftSentResult } from "@spt/models/enums/GiftSentResult";
+import { MemberCategory } from "@spt/models/enums/MemberCategory";
+import { Season } from "@spt/models/enums/Season";
+import { ICoreConfig } from "@spt/models/spt/config/ICoreConfig";
+import { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { GiftService } from "@spt/services/GiftService";
+import { MailSendService } from "@spt/services/MailSendService";
+import { RandomUtil } from "@spt/utils/RandomUtil";
 import { inject, injectable } from "tsyringe";
 
-import { IDialogueChatBot } from "@spt-aki/helpers/Dialogue/IDialogueChatBot";
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
-import { ISendMessageRequest } from "@spt-aki/models/eft/dialog/ISendMessageRequest";
-import { IUserDialogInfo } from "@spt-aki/models/eft/profile/IAkiProfile";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { GiftSentResult } from "@spt-aki/models/enums/GiftSentResult";
-import { MemberCategory } from "@spt-aki/models/enums/MemberCategory";
-import { ICoreConfig } from "@spt-aki/models/spt/config/ICoreConfig";
-import { IWeatherConfig } from "@spt-aki/models/spt/config/IWeatherConfig";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { GiftService } from "@spt-aki/services/GiftService";
-import { MailSendService } from "@spt-aki/services/MailSendService";
-import { RandomUtil } from "@spt-aki/utils/RandomUtil";
-
 @injectable()
-export class SptDialogueChatBot implements IDialogueChatBot
-{
+export class SptDialogueChatBot implements IDialogueChatBot {
     protected coreConfig: ICoreConfig;
     protected weatherConfig: IWeatherConfig;
 
@@ -26,20 +25,19 @@ export class SptDialogueChatBot implements IDialogueChatBot
         @inject("MailSendService") protected mailSendService: MailSendService,
         @inject("GiftService") protected giftService: GiftService,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+    ) {
         this.coreConfig = this.configServer.getConfig(ConfigTypes.CORE);
         this.weatherConfig = this.configServer.getConfig(ConfigTypes.WEATHER);
     }
 
-    public getChatBot(): IUserDialogInfo
-    {
+    public getChatBot(): IUserDialogInfo {
         return {
             _id: "sptFriend",
             aid: 1234566,
             Info: {
                 Level: 1,
                 MemberCategory: MemberCategory.DEVELOPER,
+                SelectedMemberCategory: MemberCategory.DEVELOPER,
                 Nickname: this.coreConfig.sptFriendNickname,
                 Side: "Usec",
             },
@@ -51,16 +49,16 @@ export class SptDialogueChatBot implements IDialogueChatBot
      * @param sessionId Session Id
      * @param request send message request
      */
-    public handleMessage(sessionId: string, request: ISendMessageRequest): string
-    {
+    public handleMessage(sessionId: string, request: ISendMessageRequest): string {
         const sender = this.profileHelper.getPmcProfile(sessionId);
 
         const sptFriendUser = this.getChatBot();
 
         const giftSent = this.giftService.sendGiftToPlayer(sessionId, request.text);
 
-        if (giftSent === GiftSentResult.SUCCESS)
-        {
+        const requestInput = request.text.toLowerCase();
+
+        if (giftSent === GiftSentResult.SUCCESS) {
             this.mailSendService.sendUserMessageToPlayer(
                 sessionId,
                 sptFriendUser,
@@ -74,8 +72,7 @@ export class SptDialogueChatBot implements IDialogueChatBot
             return;
         }
 
-        if (giftSent === GiftSentResult.FAILED_GIFT_ALREADY_RECEIVED)
-        {
+        if (giftSent === GiftSentResult.FAILED_GIFT_ALREADY_RECEIVED) {
             this.mailSendService.sendUserMessageToPlayer(
                 sessionId,
                 sptFriendUser,
@@ -85,8 +82,7 @@ export class SptDialogueChatBot implements IDialogueChatBot
             return;
         }
 
-        if (request.text.toLowerCase().includes("love you"))
-        {
+        if (requestInput.includes("love you")) {
             this.mailSendService.sendUserMessageToPlayer(
                 sessionId,
                 sptFriendUser,
@@ -99,8 +95,7 @@ export class SptDialogueChatBot implements IDialogueChatBot
             );
         }
 
-        if (request.text.toLowerCase() === "spt")
-        {
+        if (requestInput === "spt") {
             this.mailSendService.sendUserMessageToPlayer(
                 sessionId,
                 sptFriendUser,
@@ -108,8 +103,7 @@ export class SptDialogueChatBot implements IDialogueChatBot
             );
         }
 
-        if (["hello", "hi", "sup", "yo", "hey"].includes(request.text.toLowerCase()))
-        {
+        if (["hello", "hi", "sup", "yo", "hey"].includes(requestInput)) {
             this.mailSendService.sendUserMessageToPlayer(
                 sessionId,
                 sptFriendUser,
@@ -128,8 +122,7 @@ export class SptDialogueChatBot implements IDialogueChatBot
             );
         }
 
-        if (request.text.toLowerCase() === "nikita")
-        {
+        if (requestInput === "nikita") {
             this.mailSendService.sendUserMessageToPlayer(
                 sessionId,
                 sptFriendUser,
@@ -137,13 +130,12 @@ export class SptDialogueChatBot implements IDialogueChatBot
                     "I know that guy!",
                     "Cool guy, he made EFT!",
                     "Legend",
-                    "Remember when he said webel-webel-webel-webel, classic nikita moment",
+                    "Remember when he said webel-webel-webel-webel, classic Nikita moment",
                 ]),
             );
         }
 
-        if (request.text.toLowerCase() === "are you a bot")
-        {
+        if (requestInput === "are you a bot") {
             this.mailSendService.sendUserMessageToPlayer(
                 sessionId,
                 sptFriendUser,
@@ -151,9 +143,8 @@ export class SptDialogueChatBot implements IDialogueChatBot
             );
         }
 
-        if (request.text.toLowerCase() === "itsonlysnowalan")
-        {
-            this.weatherConfig.forceWinterEvent = true;
+        if (requestInput === "itsonlysnowalan") {
+            this.weatherConfig.overrideSeason = Season.WINTER;
 
             this.mailSendService.sendUserMessageToPlayer(
                 sessionId,
@@ -162,15 +153,26 @@ export class SptDialogueChatBot implements IDialogueChatBot
             );
         }
 
-        if (request.text.toLowerCase() === "givemespace")
-        {
-            this.profileHelper.addStashRowsBonusToProfile(sessionId, 2);
+        if (requestInput === "givemespace") {
+            const stashRowGiftId = "StashRows";
+            const maxGiftsToSendCount = this.coreConfig.features.chatbotFeatures.commandUseLimits[stashRowGiftId] ?? 5;
+            if (this.profileHelper.playerHasRecievedMaxNumberOfGift(sessionId, stashRowGiftId, maxGiftsToSendCount)) {
+                this.mailSendService.sendUserMessageToPlayer(
+                    sessionId,
+                    sptFriendUser,
+                    "You cannot accept any more of this gift",
+                );
+            } else {
+                this.profileHelper.addStashRowsBonusToProfile(sessionId, 2);
 
-            this.mailSendService.sendUserMessageToPlayer(
-                sessionId,
-                sptFriendUser,
-                this.randomUtil.getArrayValue(["Added 2 rows to stash, please restart your game to see them"]),
-            );
+                this.mailSendService.sendUserMessageToPlayer(
+                    sessionId,
+                    sptFriendUser,
+                    this.randomUtil.getArrayValue(["Added 2 rows to stash, please restart your game to see them"]),
+                );
+
+                this.profileHelper.flagGiftReceivedInProfile(sessionId, stashRowGiftId, maxGiftsToSendCount);
+            }
         }
 
         return request.dialogId;

@@ -1,5 +1,4 @@
-export interface IHideoutSingleProductionStartRequestData
-{
+export interface IHideoutSingleProductionStartRequestData {
     Action: "HideoutSingleProductionStart";
     recipeId: string;
     items: Item[];
@@ -7,8 +6,7 @@ export interface IHideoutSingleProductionStartRequestData
     timestamp: number;
 }
 
-export interface Item
-{
+export interface Item {
     id: string;
     count: number;
 }

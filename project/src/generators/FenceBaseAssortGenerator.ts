@@ -1,124 +1,110 @@
+import { HandbookHelper } from "@spt/helpers/HandbookHelper";
+import { ItemHelper } from "@spt/helpers/ItemHelper";
+import { PresetHelper } from "@spt/helpers/PresetHelper";
+import { Item } from "@spt/models/eft/common/tables/IItem";
+import { ITemplateItem } from "@spt/models/eft/common/tables/ITemplateItem";
+import { IBarterScheme } from "@spt/models/eft/common/tables/ITrader";
+import { BaseClasses } from "@spt/models/enums/BaseClasses";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { Money } from "@spt/models/enums/Money";
+import { Traders } from "@spt/models/enums/Traders";
+import { ITraderConfig } from "@spt/models/spt/config/ITraderConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { FenceService } from "@spt/services/FenceService";
+import { ItemFilterService } from "@spt/services/ItemFilterService";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { SeasonalEventService } from "@spt/services/SeasonalEventService";
+import { HashUtil } from "@spt/utils/HashUtil";
 import { inject, injectable } from "tsyringe";
 
-import { HandbookHelper } from "@spt-aki/helpers/HandbookHelper";
-import { ItemHelper } from "@spt-aki/helpers/ItemHelper";
-import { PresetHelper } from "@spt-aki/helpers/PresetHelper";
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
-import { ITemplateItem } from "@spt-aki/models/eft/common/tables/ITemplateItem";
-import { IBarterScheme } from "@spt-aki/models/eft/common/tables/ITrader";
-import { BaseClasses } from "@spt-aki/models/enums/BaseClasses";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { Money } from "@spt-aki/models/enums/Money";
-import { Traders } from "@spt-aki/models/enums/Traders";
-import { ITraderConfig } from "@spt-aki/models/spt/config/ITraderConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { FenceService } from "@spt-aki/services/FenceService";
-import { ItemFilterService } from "@spt-aki/services/ItemFilterService";
-import { SeasonalEventService } from "@spt-aki/services/SeasonalEventService";
-import { HashUtil } from "@spt-aki/utils/HashUtil";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-
 @injectable()
-export class FenceBaseAssortGenerator
-{
+export class FenceBaseAssortGenerator {
     protected traderConfig: ITraderConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("HashUtil") protected hashUtil: HashUtil,
-        @inject("JsonUtil") protected jsonUtil: JsonUtil,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("HandbookHelper") protected handbookHelper: HandbookHelper,
         @inject("ItemHelper") protected itemHelper: ItemHelper,
         @inject("PresetHelper") protected presetHelper: PresetHelper,
         @inject("ItemFilterService") protected itemFilterService: ItemFilterService,
         @inject("SeasonalEventService") protected seasonalEventService: SeasonalEventService,
+        @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("ConfigServer") protected configServer: ConfigServer,
         @inject("FenceService") protected fenceService: FenceService,
-    )
-    {
+    ) {
         this.traderConfig = this.configServer.getConfig(ConfigTypes.TRADER);
     }
 
     /**
      * Create base fence assorts dynamically and store in memory
      */
-    public generateFenceBaseAssorts(): void
-    {
+    public generateFenceBaseAssorts(): void {
         const blockedSeasonalItems = this.seasonalEventService.getInactiveSeasonalEventItems();
-        const baseFenceAssort = this.databaseServer.getTables().traders[Traders.FENCE].assort;
+        const baseFenceAssort = this.databaseService.getTrader(Traders.FENCE).assort;
 
-        for (const rootItemDb of this.itemHelper.getItems().filter((item) => this.isValidFenceItem(item)))
-        {
+        for (const rootItemDb of this.itemHelper.getItems().filter((item) => this.isValidFenceItem(item))) {
             // Skip blacklisted items
-            if (this.itemFilterService.isItemBlacklisted(rootItemDb._id))
-            {
+            if (this.itemFilterService.isItemBlacklisted(rootItemDb._id)) {
                 continue;
             }
 
             // Invalid
-            if (!this.itemHelper.isValidItem(rootItemDb._id))
-            {
+            if (!this.itemHelper.isValidItem(rootItemDb._id)) {
                 continue;
             }
 
             // Item base type blacklisted
-            if (this.traderConfig.fence.blacklist.length > 0)
-            {
+            if (this.traderConfig.fence.blacklist.length > 0) {
                 if (
-                    this.traderConfig.fence.blacklist.includes(rootItemDb._id)
-                    || this.itemHelper.isOfBaseclasses(rootItemDb._id, this.traderConfig.fence.blacklist)
-                )
-                {
+                    this.traderConfig.fence.blacklist.includes(rootItemDb._id) ||
+                    this.itemHelper.isOfBaseclasses(rootItemDb._id, this.traderConfig.fence.blacklist)
+                ) {
                     continue;
                 }
             }
 
             // Only allow rigs with no slots (carrier rigs)
-            if (this.itemHelper.isOfBaseclass(rootItemDb._id, BaseClasses.VEST) && rootItemDb._props.Slots.length > 0)
-            {
+            if (this.itemHelper.isOfBaseclass(rootItemDb._id, BaseClasses.VEST) && rootItemDb._props.Slots.length > 0) {
                 continue;
             }
 
             // Skip seasonal event items when not in seasonal event
-            if (this.traderConfig.fence.blacklistSeasonalItems && blockedSeasonalItems.includes(rootItemDb._id))
-            {
+            if (this.traderConfig.fence.blacklistSeasonalItems && blockedSeasonalItems.includes(rootItemDb._id)) {
                 continue;
             }
 
             // Create item object in array
-            const itemWithChildrenToAdd: Item[] = [{
-                _id: this.hashUtil.generate(),
-                _tpl: rootItemDb._id,
-                parentId: "hideout",
-                slotId: "hideout",
-                upd: { StackObjectsCount: 9999999 },
-            }];
+            const itemWithChildrenToAdd: Item[] = [
+                {
+                    _id: this.hashUtil.generate(),
+                    _tpl: rootItemDb._id,
+                    parentId: "hideout",
+                    slotId: "hideout",
+                    upd: { StackObjectsCount: 9999999 },
+                },
+            ];
 
             // Ensure ammo is not above penetration limit value
-            if (this.itemHelper.isOfBaseclasses(rootItemDb._id, [BaseClasses.AMMO_BOX, BaseClasses.AMMO]))
-            {
-                if (this.isAmmoAbovePenetrationLimit(rootItemDb))
-                {
+            if (this.itemHelper.isOfBaseclasses(rootItemDb._id, [BaseClasses.AMMO_BOX, BaseClasses.AMMO])) {
+                if (this.isAmmoAbovePenetrationLimit(rootItemDb)) {
                     continue;
                 }
             }
 
-            if (this.itemHelper.isOfBaseclass(rootItemDb._id, BaseClasses.AMMO_BOX))
-            {
+            if (this.itemHelper.isOfBaseclass(rootItemDb._id, BaseClasses.AMMO_BOX)) {
                 // Only add cartridges to box if box has no children
-                if (itemWithChildrenToAdd.length === 1)
-                {
+                if (itemWithChildrenToAdd.length === 1) {
                     this.itemHelper.addCartridgesToAmmoBox(itemWithChildrenToAdd, rootItemDb);
                 }
             }
 
             // Ensure IDs are unique
             this.itemHelper.remapRootItemId(itemWithChildrenToAdd);
-            if (itemWithChildrenToAdd.length > 1)
-            {
+            if (itemWithChildrenToAdd.length > 1) {
                 this.itemHelper.reparentItemAndChildren(itemWithChildrenToAdd[0], itemWithChildrenToAdd);
                 itemWithChildrenToAdd[0].parentId = "hideout";
             }
@@ -141,11 +127,9 @@ export class FenceBaseAssortGenerator
 
         // Add all default presets to base fence assort
         const defaultPresets = Object.values(this.presetHelper.getDefaultPresets());
-        for (const defaultPreset of defaultPresets)
-        {
+        for (const defaultPreset of defaultPresets) {
             // Skip presets we've already added
-            if (baseFenceAssort.items.some((item) => item.upd && item.upd.sptPresetId === defaultPreset._id))
-            {
+            if (baseFenceAssort.items.some((item) => item.upd && item.upd.sptPresetId === defaultPreset._id)) {
                 continue;
             }
 
@@ -153,13 +137,11 @@ export class FenceBaseAssortGenerator
             const itemAndChildren: Item[] = this.itemHelper.replaceIDs(defaultPreset._items);
 
             // Find root item and add some properties to it
-            for (let i = 0; i < itemAndChildren.length; i++)
-            {
+            for (let i = 0; i < itemAndChildren.length; i++) {
                 const mod = itemAndChildren[i];
 
                 // Build root Item info
-                if (!("parentId" in mod))
-                {
+                if (!("parentId" in mod)) {
                     mod.parentId = "hideout";
                     mod.slotId = "hideout";
                     mod.upd = {
@@ -177,7 +159,7 @@ export class FenceBaseAssortGenerator
 
             // Calculate preset price (root item + child items)
             const price = this.handbookHelper.getTemplatePriceForItems(itemAndChildren);
-            const itemQualityModifier = this.itemHelper.getItemQualityModifierForOfferItems(itemAndChildren);
+            const itemQualityModifier = this.itemHelper.getItemQualityModifierForItems(itemAndChildren);
 
             // Multiply weapon+mods rouble price by quality modifier
             baseFenceAssort.barter_scheme[itemAndChildren[0]._id] = [[]];
@@ -195,12 +177,13 @@ export class FenceBaseAssortGenerator
      * @param rootItemDb Ammo box or ammo item from items.db
      * @returns True if penetration value is above limit set in config
      */
-    protected isAmmoAbovePenetrationLimit(rootItemDb: ITemplateItem): boolean
-    {
+    protected isAmmoAbovePenetrationLimit(rootItemDb: ITemplateItem): boolean {
         const ammoPenetrationPower = this.getAmmoPenetrationPower(rootItemDb);
-        if (ammoPenetrationPower === null)
-        {
-            this.logger.warning(`Ammo: ${rootItemDb._id} has no penetration value, skipping`);
+        if (ammoPenetrationPower === undefined) {
+            this.logger.warning(
+                this.localisationService.getText("fence-unable_to_get_ammo_penetration_value", rootItemDb._id),
+            );
+
             return false;
         }
 
@@ -210,31 +193,31 @@ export class FenceBaseAssortGenerator
     /**
      * Get the penetration power value of an ammo, works with ammo boxes and raw ammos
      * @param rootItemDb Ammo box or ammo item from items.db
-     * @returns Penetration power of passed in item, null if it doesnt have a power
+     * @returns Penetration power of passed in item, undefined if it doesnt have a power
      */
-    protected getAmmoPenetrationPower(rootItemDb: ITemplateItem): number
-    {
-        if (this.itemHelper.isOfBaseclass(rootItemDb._id, BaseClasses.AMMO_BOX))
-        {
-            const ammoTplInBox = rootItemDb._props.StackSlots[0]._props.filters[0].Filter[0];
-            const ammoItemDb = this.itemHelper.getItem(ammoTplInBox);
-            if (!ammoItemDb[0])
-            {
-                this.logger.warning(`Ammo: ${ammoTplInBox} not an item, skipping`);
-                return null;
+    protected getAmmoPenetrationPower(rootItemDb: ITemplateItem): number | undefined {
+        if (this.itemHelper.isOfBaseclass(rootItemDb._id, BaseClasses.AMMO_BOX)) {
+            // Get the cartridge tpl found inside ammo box
+            const cartridgeTplInBox = rootItemDb._props.StackSlots[0]._props.filters[0].Filter[0];
+
+            // Look up cartridge tpl in db
+            const ammoItemDb = this.itemHelper.getItem(cartridgeTplInBox);
+            if (!ammoItemDb[0]) {
+                this.logger.warning(this.localisationService.getText("fence-ammo_not_found_in_db", cartridgeTplInBox));
+
+                return undefined;
             }
 
             return ammoItemDb[1]._props.PenetrationPower;
         }
 
         // Plain old ammo, get its pen property
-        if (this.itemHelper.isOfBaseclass(rootItemDb._id, BaseClasses.AMMO))
-        {
+        if (this.itemHelper.isOfBaseclass(rootItemDb._id, BaseClasses.AMMO)) {
             return rootItemDb._props.PenetrationPower;
         }
 
         // Not an ammobox or ammo
-        return null;
+        return undefined;
     }
 
     /**
@@ -242,26 +225,21 @@ export class FenceBaseAssortGenerator
      * @param armor Armor item array to add mods into
      * @param itemDbDetails Armor items db template
      */
-    protected addChildrenToArmorModSlots(armor: Item[], itemDbDetails: ITemplateItem): void
-    {
+    protected addChildrenToArmorModSlots(armor: Item[], itemDbDetails: ITemplateItem): void {
         // Armor has no mods, make no additions
         const hasMods = itemDbDetails._props.Slots.length > 0;
-        if (!hasMods)
-        {
+        if (!hasMods) {
             return;
         }
 
         // Check for and add required soft inserts to armors
         const requiredSlots = itemDbDetails._props.Slots.filter((slot) => slot._required);
         const hasRequiredSlots = requiredSlots.length > 0;
-        if (hasRequiredSlots)
-        {
-            for (const requiredSlot of requiredSlots)
-            {
+        if (hasRequiredSlots) {
+            for (const requiredSlot of requiredSlots) {
                 const modItemDbDetails = this.itemHelper.getItem(requiredSlot._props.filters[0].Plate)[1];
                 const plateTpl = requiredSlot._props.filters[0].Plate; // `Plate` property appears to be the 'default' item for slot
-                if (plateTpl === "")
-                {
+                if (plateTpl === "") {
                     // Some bsg plate properties are empty, skip mod
                     continue;
                 }
@@ -285,15 +263,12 @@ export class FenceBaseAssortGenerator
 
         // Check for and add plate items
         const plateSlots = itemDbDetails._props.Slots.filter((slot) =>
-            this.itemHelper.isRemovablePlateSlot(slot._name)
+            this.itemHelper.isRemovablePlateSlot(slot._name),
         );
-        if (plateSlots.length > 0)
-        {
-            for (const plateSlot of plateSlots)
-            {
+        if (plateSlots.length > 0) {
+            for (const plateSlot of plateSlots) {
                 const plateTpl = plateSlot._props.filters[0].Plate;
-                if (!plateTpl)
-                {
+                if (!plateTpl) {
                     // Bsg data lacks a default plate, skip adding mod
                     continue;
                 }
@@ -319,10 +294,8 @@ export class FenceBaseAssortGenerator
      * @param item Item to check
      * @returns true if valid fence item
      */
-    protected isValidFenceItem(item: ITemplateItem): boolean
-    {
-        if (item._type === "Item")
-        {
+    protected isValidFenceItem(item: ITemplateItem): boolean {
+        if (item._type === "Item") {
             return true;
         }
 

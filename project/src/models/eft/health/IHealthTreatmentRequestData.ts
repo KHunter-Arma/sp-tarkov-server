@@ -1,5 +1,4 @@
-export interface IHealthTreatmentRequestData
-{
+export interface IHealthTreatmentRequestData {
     Action: "RestoreHealth";
     trader: string;
     items: Cost[];
@@ -7,23 +6,20 @@ export interface IHealthTreatmentRequestData
     timestamp: number;
 }
 
-export interface Cost
-{
+export interface Cost {
     /** Id of stack to take money from */
     id: string;
     /** Amount of money to take off player for treatment */
     count: number;
 }
 
-export interface Difference
-{
+export interface Difference {
     BodyParts: BodyParts;
     Energy: number;
     Hydration: number;
 }
 
-export interface BodyParts
-{
+export interface BodyParts {
     Head: BodyPart;
     Chest: BodyPart;
     Stomach: BodyPart;
@@ -33,8 +29,7 @@ export interface BodyParts
     RightLeg: BodyPart;
 }
 
-export interface BodyPart
-{
+export interface BodyPart {
     Health: number;
     /** Effects in array are to be removed */
     Effects: string[];

@@ -1,20 +1,18 @@
+import path from "node:path";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import { promisify } from "node:util";
-import winston, { createLogger, format, transports } from "winston";
-// eslint-disable-next-line @typescript-eslint/naming-convention
+import { Daum } from "@spt/models/eft/itemEvent/IItemEventRouterRequest";
+import { LogBackgroundColor } from "@spt/models/spt/logging/LogBackgroundColor";
+import { LogTextColor } from "@spt/models/spt/logging/LogTextColor";
+import { SptLogger } from "@spt/models/spt/logging/SptLogger";
+import { IAsyncQueue } from "@spt/models/spt/utils/IAsyncQueue";
+import { ICommand } from "@spt/models/spt/utils/ICommand";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import winston, { createLogger, format, transports, addColors } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 
-import { Daum } from "@spt-aki/models/eft/itemEvent/IItemEventRouterRequest";
-import { LogBackgroundColor } from "@spt-aki/models/spt/logging/LogBackgroundColor";
-import { LogTextColor } from "@spt-aki/models/spt/logging/LogTextColor";
-import { SptLogger } from "@spt-aki/models/spt/logging/SptLogger";
-import { IAsyncQueue } from "@spt-aki/models/spt/utils/IAsyncQueue";
-import { ICommand } from "@spt-aki/models/spt/utils/ICommand";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-
-export abstract class AbstractWinstonLogger implements ILogger
-{
+export abstract class AbstractWinstonLogger implements ILogger {
     protected showDebugInConsole = false;
     protected filePath: string;
     protected logLevels = {
@@ -32,38 +30,34 @@ export abstract class AbstractWinstonLogger implements ILogger
             whiteBG: "whiteBG",
         },
     };
+
     protected logger: winston.Logger & SptLogger;
     protected writeFilePromisify: (path: fs.PathLike, data: string, options?: any) => Promise<void>;
 
-    constructor(protected asyncQueue: IAsyncQueue)
-    {
-        this.filePath = `${this.getFilePath()}${this.getFileName()}`;
+    constructor(protected asyncQueue: IAsyncQueue) {
+        this.filePath = path.join(this.getFilePath(), this.getFileName());
         this.writeFilePromisify = promisify(fs.writeFile);
         this.showDebugInConsole = globalThis.G_DEBUG_CONFIGURATION;
-        if (!fs.existsSync(this.getFilePath()))
-        {
+        if (!fs.existsSync(this.getFilePath())) {
             fs.mkdirSync(this.getFilePath(), { recursive: true });
         }
 
         const transportsList: winston.transport[] = [];
 
-        if (this.isLogToConsole())
-        {
+        if (this.isLogToConsole()) {
             transportsList.push(
                 new transports.Console({
                     level: this.showDebugInConsole ? "debug" : "custom",
                     format: format.combine(
                         format.colorize({ all: true, colors: this.logLevels.colors }),
-                        format.printf(({ message }) =>
-                        {
+                        format.printf(({ message }) => {
                             return `${message}`;
                         }),
                     ),
                 }),
             );
         }
-        if (this.isLogToFile())
-        {
+        if (this.isLogToFile()) {
             transportsList.push(
                 new DailyRotateFile({
                     level: "debug",
@@ -77,8 +71,7 @@ export abstract class AbstractWinstonLogger implements ILogger
                         format.timestamp(),
                         format.align(),
                         format.json(),
-                        format.printf(({ timestamp, level, message }) =>
-                        {
+                        format.printf(({ timestamp, level, message }) => {
                             return `[${timestamp}] ${level}: ${message}`;
                         }),
                     ),
@@ -86,15 +79,13 @@ export abstract class AbstractWinstonLogger implements ILogger
             );
         }
 
-        winston.addColors(this.logLevels.colors);
+        addColors(this.logLevels.colors);
         this.logger = createLogger({ levels: this.logLevels.levels, transports: [...transportsList] });
 
-        if (this.isLogExceptions())
-        {
-            process.on("uncaughtException", (error) =>
-            {
+        if (this.isLogExceptions()) {
+            process.on("uncaughtException", (error) => {
                 this.error(`${error.name}: ${error.message}`);
-                this.error(error.stack);
+                this.error(error.stack ?? "No stack");
             });
         }
     }
@@ -109,23 +100,19 @@ export abstract class AbstractWinstonLogger implements ILogger
 
     protected abstract getFileName(): string;
 
-    protected getLogFrequency(): string
-    {
+    protected getLogFrequency(): string {
         return "3h";
     }
 
-    protected getLogMaxSize(): string
-    {
+    protected getLogMaxSize(): string {
         return "5m";
     }
 
-    protected getLogMaxFiles(): string
-    {
+    protected getLogMaxFiles(): string {
         return "14d";
     }
 
-    public async writeToLogFile(data: string | Daum): Promise<void>
-    {
+    public async writeToLogFile(data: string | Daum): Promise<void> {
         const command: ICommand = {
             uuid: crypto.randomUUID(),
             cmd: async () => await this.writeFilePromisify(this.filePath, `${data}\n`, true),
@@ -133,8 +120,11 @@ export abstract class AbstractWinstonLogger implements ILogger
         await this.asyncQueue.waitFor(command);
     }
 
-    public async log(data: string | Error | Record<string, unknown>, color: string, backgroundColor = ""): Promise<void>
-    {
+    public async log(
+        data: string | Error | Record<string, unknown>,
+        color: string,
+        backgroundColor = "",
+    ): Promise<void> {
         const textColor = `${color} ${backgroundColor}`.trimEnd();
         const tmpLogger = createLogger({
             levels: { custom: 0 },
@@ -151,41 +141,34 @@ export abstract class AbstractWinstonLogger implements ILogger
 
         let command: ICommand;
 
-        if (typeof data === "string")
-        {
+        if (typeof data === "string") {
             command = { uuid: crypto.randomUUID(), cmd: async () => await tmpLogger.log("custom", data) };
-        }
-        else
-        {
+        } else {
             command = {
                 uuid: crypto.randomUUID(),
-                cmd: async () => await tmpLogger.log("custom", JSON.stringify(data, null, 4)),
+                cmd: async () => await tmpLogger.log("custom", JSON.stringify(data, undefined, 4)),
             };
         }
 
         await this.asyncQueue.waitFor(command);
     }
 
-    public async error(data: string | Record<string, unknown>): Promise<void>
-    {
+    public async error(data: string | Record<string, unknown>): Promise<void> {
         const command: ICommand = { uuid: crypto.randomUUID(), cmd: async () => await this.logger.error(data) };
         await this.asyncQueue.waitFor(command);
     }
 
-    public async warning(data: string | Record<string, unknown>): Promise<void>
-    {
+    public async warning(data: string | Record<string, unknown>): Promise<void> {
         const command: ICommand = { uuid: crypto.randomUUID(), cmd: async () => await this.logger.warn(data) };
         await this.asyncQueue.waitFor(command);
     }
 
-    public async success(data: string | Record<string, unknown>): Promise<void>
-    {
-        const command: ICommand = { uuid: crypto.randomUUID(), cmd: async () => await this.logger.succ(data) };
+    public async success(data: string | Record<string, unknown>): Promise<void> {
+        const command: ICommand = { uuid: crypto.randomUUID(), cmd: async () => await this.logger.succ!(data) };
         await this.asyncQueue.waitFor(command);
     }
 
-    public async info(data: string | Record<string, unknown>): Promise<void>
-    {
+    public async info(data: string | Record<string, unknown>): Promise<void> {
         const command: ICommand = { uuid: crypto.randomUUID(), cmd: async () => await this.logger.info(data) };
         await this.asyncQueue.waitFor(command);
     }
@@ -200,8 +183,7 @@ export abstract class AbstractWinstonLogger implements ILogger
         data: string | Record<string, unknown>,
         textColor: LogTextColor,
         backgroundColor = LogBackgroundColor.DEFAULT,
-    ): Promise<void>
-    {
+    ): Promise<void> {
         const command: ICommand = {
             uuid: crypto.randomUUID(),
             cmd: async () => await this.log(data, textColor.toString(), backgroundColor.toString()),
@@ -210,16 +192,12 @@ export abstract class AbstractWinstonLogger implements ILogger
         await this.asyncQueue.waitFor(command);
     }
 
-    public async debug(data: string | Record<string, unknown>, onlyShowInConsole = false): Promise<void>
-    {
+    public async debug(data: string | Record<string, unknown>, onlyShowInConsole = false): Promise<void> {
         let command: ICommand;
 
-        if (onlyShowInConsole)
-        {
+        if (onlyShowInConsole) {
             command = { uuid: crypto.randomUUID(), cmd: async () => await this.log(data, this.logLevels.colors.debug) };
-        }
-        else
-        {
+        } else {
             command = { uuid: crypto.randomUUID(), cmd: async () => await this.logger.debug(data) };
         }
 

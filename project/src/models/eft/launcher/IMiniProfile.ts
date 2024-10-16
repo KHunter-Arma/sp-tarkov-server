@@ -1,5 +1,4 @@
-export interface IMiniProfile
-{
+export interface IMiniProfile {
     username: string;
     nickname: string;
     side: string;
@@ -8,10 +7,9 @@ export interface IMiniProfile
     prevexp: number;
     nextlvl: number;
     maxlvl: number;
-    akiData: AkiData;
+    sptData: SPTData;
 }
 
-export interface AkiData
-{
+export interface SPTData {
     version: string;
 }

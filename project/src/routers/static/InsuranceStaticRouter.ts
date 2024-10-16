@@ -1,18 +1,21 @@
+import { InsuranceCallbacks } from "@spt/callbacks/InsuranceCallbacks";
+import { RouteAction, StaticRouter } from "@spt/di/Router";
+import { IGetBodyResponseData } from "@spt/models/eft/httpResponse/IGetBodyResponseData";
+import { IGetInsuranceCostResponseData } from "@spt/models/eft/insurance/IGetInsuranceCostResponseData";
 import { inject, injectable } from "tsyringe";
 
-import { InsuranceCallbacks } from "@spt-aki/callbacks/InsuranceCallbacks";
-import { RouteAction, StaticRouter } from "@spt-aki/di/Router";
-
 @injectable()
-export class InsuranceStaticRouter extends StaticRouter
-{
-    constructor(@inject("InsuranceCallbacks") protected insuranceCallbacks: InsuranceCallbacks)
-    {
+export class InsuranceStaticRouter extends StaticRouter {
+    constructor(@inject("InsuranceCallbacks") protected insuranceCallbacks: InsuranceCallbacks) {
         super([
             new RouteAction(
                 "/client/insurance/items/list/cost",
-                (url: string, info: any, sessionID: string, output: string): any =>
-                {
+                async (
+                    url: string,
+                    info: any,
+                    sessionID: string,
+                    output: string,
+                ): Promise<IGetBodyResponseData<IGetInsuranceCostResponseData>> => {
                     return this.insuranceCallbacks.getInsuranceCost(url, info, sessionID);
                 },
             ),

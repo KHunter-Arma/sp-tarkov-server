@@ -1,28 +1,25 @@
-import { Health, IQuestStatus, Productive, Skills } from "@spt-aki/models/eft/common/tables/IBotBase";
-import { Item, Upd } from "@spt-aki/models/eft/common/tables/IItem";
-import { IQuest } from "@spt-aki/models/eft/common/tables/IQuest";
-import { IPmcDataRepeatableQuest } from "@spt-aki/models/eft/common/tables/IRepeatableQuests";
-import { IRagfairOffer } from "@spt-aki/models/eft/ragfair/IRagfairOffer";
-import { EquipmentBuildType } from "@spt-aki/models/enums/EquipmentBuildType";
+import { Health, IQuestStatus, Productive, Skills } from "@spt/models/eft/common/tables/IBotBase";
+import { Item, Upd } from "@spt/models/eft/common/tables/IItem";
+import { IQuest } from "@spt/models/eft/common/tables/IQuest";
+import { IPmcDataRepeatableQuest } from "@spt/models/eft/common/tables/IRepeatableQuests";
+import { IRagfairOffer } from "@spt/models/eft/ragfair/IRagfairOffer";
+import { EquipmentBuildType } from "@spt/models/enums/EquipmentBuildType";
 
-export interface IItemEventRouterBase
-{
+export interface IItemEventRouterBase {
     warnings: Warning[];
     profileChanges: TProfileChanges | "";
 }
 
 export type TProfileChanges = Record<string, ProfileChange>;
 
-export interface Warning
-{
+export interface Warning {
     index: number;
     errmsg: string;
     code?: string;
     data?: any;
 }
 
-export interface ProfileChange
-{
+export interface ProfileChange {
     _id: string;
     experience: number;
     quests: IQuest[];
@@ -42,22 +39,19 @@ export interface ProfileChange
     questsStatus: IQuestStatus[];
 }
 
-export interface IHideoutStashItem
-{
+export interface IHideoutStashItem {
     Id: string;
     Tpl: string;
 }
 
-export interface IWeaponBuildChange
-{
+export interface IWeaponBuildChange {
     id: string;
     name: string;
     root: string;
     items: Item[];
 }
 
-export interface IEquipmentBuildChange
-{
+export interface IEquipmentBuildChange {
     id: string;
     name: string;
     root: string;
@@ -67,22 +61,19 @@ export interface IEquipmentBuildChange
     buildType: EquipmentBuildType;
 }
 
-export interface ItemChanges
-{
+export interface ItemChanges {
     new: Product[];
     change: Product[];
     del: Product[]; // Only needs _id property
 }
 
-export interface Improvement
-{
+export interface Improvement {
     completed: boolean;
     improveCompleteTimestamp: number;
 }
 
 /** Related to TraderInfo */
-export interface TraderData
-{
+export interface TraderData {
     salesSum: number;
     standing: number;
     loyalty: number;
@@ -90,8 +81,7 @@ export interface TraderData
     disabled: boolean;
 }
 
-export interface Product
-{
+export interface Product {
     _id: string;
     _tpl?: string;
     parentId?: string;
@@ -100,8 +90,7 @@ export interface Product
     upd?: Upd;
 }
 
-export interface ItemChangeLocation
-{
+export interface ItemChangeLocation {
     x: number;
     y: number;
     r: number;

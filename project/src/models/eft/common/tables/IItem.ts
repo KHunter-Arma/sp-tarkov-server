@@ -1,5 +1,4 @@
-export interface Item
-{
+export interface Item {
     _id: string;
     _tpl: string;
     parentId?: string;
@@ -8,8 +7,7 @@ export interface Item
     upd?: Upd;
 }
 
-export interface Upd
-{
+export interface Upd {
     Buff?: Buff;
     OriginalStackObjectsCount?: number;
     Togglable?: Togglable;
@@ -39,98 +37,81 @@ export interface Upd
     CultistAmulet?: ICultistAmulet;
 }
 
-export interface Buff
-{
+export interface Buff {
     rarity: string;
     buffType: string;
     value: number;
     thresholdDurability?: number;
 }
 
-export interface Togglable
-{
+export interface Togglable {
     On: boolean;
 }
 
-export interface Map
-{
+export interface Map {
     Markers: MapMarker[];
 }
 
-export interface MapMarker
-{
+export interface MapMarker {
     X: number;
     Y: number;
 }
 
-export interface Tag
-{
+export interface Tag {
     Color: number;
     Name: string;
 }
 
-export interface FaceShield
-{
+export interface FaceShield {
     Hits: number;
 }
 
-export interface Repairable
-{
+export interface Repairable {
     Durability: number;
     MaxDurability: number;
 }
 
-export interface RecodableComponent
-{
+export interface RecodableComponent {
     IsEncoded: boolean;
 }
 
-export interface MedKit
-{
+export interface MedKit {
     HpResource: number;
 }
 
-export interface Sight
-{
+export interface Sight {
     ScopesCurrentCalibPointIndexes: number[];
     ScopesSelectedModes: number[];
     SelectedScope: number;
 }
 
-export interface Foldable
-{
+export interface Foldable {
     Folded: boolean;
 }
 
-export interface FireMode
-{
+export interface FireMode {
     FireMode: string;
 }
 
-export interface FoodDrink
-{
+export interface FoodDrink {
     HpPercent: number;
 }
 
-export interface Key
-{
+export interface Key {
     NumberOfUsages: number;
 }
 
-export interface Resource
-{
+export interface Resource {
     Value: number;
     UnitsConsumed: number;
 }
 
-export interface Light
-{
+export interface Light {
     IsActive: boolean;
     SelectedMode: number;
 }
 
-export interface Dogtag
-{
+export interface Dogtag {
     AccountId: string;
     ProfileId: string;
     Nickname: string;
@@ -144,8 +125,7 @@ export interface Dogtag
     WeaponName: string;
 }
 
-export interface Location
-{
+export interface Location {
     x: number;
     y: number;
     r: string | number;
@@ -154,17 +134,14 @@ export interface Location
     rotation?: string | boolean;
 }
 
-export interface SideEffect
-{
+export interface SideEffect {
     Value: number;
 }
 
-export interface RepairKit
-{
+export interface RepairKit {
     Resource: number;
 }
 
-export interface ICultistAmulet
-{
+export interface ICultistAmulet {
     NumberOfUsages: number;
 }

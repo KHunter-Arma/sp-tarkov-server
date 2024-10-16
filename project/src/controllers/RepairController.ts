@@ -1,38 +1,34 @@
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
+import { QuestHelper } from "@spt/helpers/QuestHelper";
+import { RepairHelper } from "@spt/helpers/RepairHelper";
+import { TraderHelper } from "@spt/helpers/TraderHelper";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
+import { IRepairActionDataRequest } from "@spt/models/eft/repair/IRepairActionDataRequest";
+import { ITraderRepairActionDataRequest } from "@spt/models/eft/repair/ITraderRepairActionDataRequest";
+import { IRepairConfig } from "@spt/models/spt/config/IRepairConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { EventOutputHolder } from "@spt/routers/EventOutputHolder";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { PaymentService } from "@spt/services/PaymentService";
+import { RepairService } from "@spt/services/RepairService";
 import { inject, injectable } from "tsyringe";
 
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
-import { QuestHelper } from "@spt-aki/helpers/QuestHelper";
-import { RepairHelper } from "@spt-aki/helpers/RepairHelper";
-import { TraderHelper } from "@spt-aki/helpers/TraderHelper";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import { IItemEventRouterResponse } from "@spt-aki/models/eft/itemEvent/IItemEventRouterResponse";
-import { IRepairActionDataRequest } from "@spt-aki/models/eft/repair/IRepairActionDataRequest";
-import { ITraderRepairActionDataRequest } from "@spt-aki/models/eft/repair/ITraderRepairActionDataRequest";
-import { SkillTypes } from "@spt-aki/models/enums/SkillTypes";
-import { IRepairConfig } from "@spt-aki/models/spt/config/IRepairConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { EventOutputHolder } from "@spt-aki/routers/EventOutputHolder";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { PaymentService } from "@spt-aki/services/PaymentService";
-import { RepairService } from "@spt-aki/services/RepairService";
-
 @injectable()
-export class RepairController
-{
+export class RepairController {
     protected repairConfig: IRepairConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("EventOutputHolder") protected eventOutputHolder: EventOutputHolder,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("QuestHelper") protected questHelper: QuestHelper,
         @inject("TraderHelper") protected traderHelper: TraderHelper,
         @inject("PaymentService") protected paymentService: PaymentService,
         @inject("RepairHelper") protected repairHelper: RepairHelper,
         @inject("RepairService") protected repairService: RepairService,
         @inject("ProfileHelper") protected profileHelper: ProfileHelper,
-    )
-    {}
+    ) {}
 
     /**
      * Handle TraderRepair event
@@ -46,13 +42,11 @@ export class RepairController
         sessionID: string,
         body: ITraderRepairActionDataRequest,
         pmcData: IPmcData,
-    ): IItemEventRouterResponse
-    {
+    ): IItemEventRouterResponse {
         const output = this.eventOutputHolder.getOutput(sessionID);
 
         // find the item to repair
-        for (const repairItem of body.repairItems)
-        {
+        for (const repairItem of body.repairItems) {
             const repairDetails = this.repairService.repairItemByTrader(sessionID, pmcData, repairItem, body.tid);
 
             this.repairService.payForRepair(
@@ -64,8 +58,7 @@ export class RepairController
                 output,
             );
 
-            if (output.warnings.length > 0)
-            {
+            if (output.warnings.length > 0) {
                 return output;
             }
 
@@ -87,8 +80,11 @@ export class RepairController
      * @param pmcData player profile
      * @returns item event router action
      */
-    public repairWithKit(sessionID: string, body: IRepairActionDataRequest, pmcData: IPmcData): IItemEventRouterResponse
-    {
+    public repairWithKit(
+        sessionID: string,
+        body: IRepairActionDataRequest,
+        pmcData: IPmcData,
+    ): IItemEventRouterResponse {
         const output = this.eventOutputHolder.getOutput(sessionID);
 
         // repair item

@@ -1,13 +1,12 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { ELocationName } from "@spt-aki/models/enums/ELocationName";
-import { SeasonalEventType } from "@spt-aki/models/enums/SeasonalEventType";
-import { IBaseConfig } from "@spt-aki/models/spt/config/IBaseConfig";
+import { MinMax } from "@spt/models/common/MinMax";
+import { ELocationName } from "@spt/models/enums/ELocationName";
+import { SeasonalEventType } from "@spt/models/enums/SeasonalEventType";
+import { IBaseConfig } from "@spt/models/spt/config/IBaseConfig";
 
-export interface IQuestConfig extends IBaseConfig
-{
-    kind: "aki-quest";
-    // Hours to get/redeem items from quest mail
-    redeemTime: number;
+export interface IQuestConfig extends IBaseConfig {
+    kind: "spt-quest";
+    // Hours to get/redeem items from quest mail keyed by profile type
+    mailRedeemTimeHours: Record<string, number>;
     questTemplateIds: IPlayerTypeQuestIds;
     /** Show non-seasonal quests be shown to player */
     showNonSeasonalEventQuests: boolean;
@@ -18,21 +17,18 @@ export interface IQuestConfig extends IBaseConfig
     usecOnlyQuests: string[];
 }
 
-export interface IPlayerTypeQuestIds
-{
+export interface IPlayerTypeQuestIds {
     pmc: IQuestTypeIds;
     scav: IQuestTypeIds;
 }
 
-export interface IQuestTypeIds
-{
+export interface IQuestTypeIds {
     Elimination: string;
     Completion: string;
     Exploration: string;
 }
 
-export interface IEventQuestData
-{
+export interface IEventQuestData {
     name: string;
     season: SeasonalEventType;
     startTimestamp: number;
@@ -40,8 +36,7 @@ export interface IEventQuestData
     yearly: boolean;
 }
 
-export interface IRepeatableQuestConfig
-{
+export interface IRepeatableQuestConfig {
     id: string;
     name: string;
     side: string;
@@ -58,13 +53,15 @@ export interface IRepeatableQuestConfig
     /** Item tplIds to ignore when generating rewards */
     rewardBlacklist: string[];
     rewardAmmoStackMinSize: number;
+    freeChangesAvailable: number;
+    freeChanges: number;
 }
 
-export interface IRewardScaling
-{
+export interface IRewardScaling {
     levels: number[];
     experience: number[];
     roubles: number[];
+    gpCoins: number[];
     items: number[];
     reputation: number[];
     rewardSpread: number;
@@ -72,8 +69,7 @@ export interface IRewardScaling
     skillPointReward: number[];
 }
 
-export interface ITraderWhitelist
-{
+export interface ITraderWhitelist {
     traderId: string;
     questTypes: string[];
     rewardBaseWhitelist: string[];
@@ -81,29 +77,25 @@ export interface ITraderWhitelist
     weaponRewardChancePercent: number;
 }
 
-export interface IRepeatableQuestTypesConfig
-{
+export interface IRepeatableQuestTypesConfig {
     Exploration: IExploration;
     Completion: ICompletion;
     Pickup: IPickup;
     Elimination: IEliminationConfig[];
 }
 
-export interface IExploration extends IBaseQuestConfig
-{
+export interface IExploration extends IBaseQuestConfig {
     maxExtracts: number;
     maxExtractsWithSpecificExit: number;
     specificExits: ISpecificExits;
 }
 
-export interface ISpecificExits
-{
+export interface ISpecificExits {
     probability: number;
     passageRequirementWhitelist: string[];
 }
 
-export interface ICompletion extends IBaseQuestConfig
-{
+export interface ICompletion extends IBaseQuestConfig {
     minRequestedAmount: number;
     maxRequestedAmount: number;
     uniqueItemCount: number;
@@ -113,20 +105,17 @@ export interface ICompletion extends IBaseQuestConfig
     useBlacklist: boolean;
 }
 
-export interface IPickup extends IBaseQuestConfig
-{
+export interface IPickup extends IBaseQuestConfig {
     ItemTypeToFetchWithMaxCount: IPickupTypeWithMaxCount[];
 }
 
-export interface IPickupTypeWithMaxCount
-{
+export interface IPickupTypeWithMaxCount {
     itemType: string;
     maxPickupCount: number;
     minPickupCount: number;
 }
 
-export interface IEliminationConfig extends IBaseQuestConfig
-{
+export interface IEliminationConfig extends IBaseQuestConfig {
     levelRange: MinMax;
     targets: ITarget[];
     bodyPartProb: number;
@@ -148,34 +137,28 @@ export interface IEliminationConfig extends IBaseQuestConfig
     weaponRequirements: IWeaponRequirement[];
 }
 
-export interface IBaseQuestConfig
-{
+export interface IBaseQuestConfig {
     possibleSkillRewards: string[];
 }
 
-export interface ITarget extends IProbabilityObject
-{
+export interface ITarget extends IProbabilityObject {
     data: IBossInfo;
 }
 
-export interface IBossInfo
-{
+export interface IBossInfo {
     isBoss: boolean;
     isPmc: boolean;
 }
 
-export interface IBodyPart extends IProbabilityObject
-{
+export interface IBodyPart extends IProbabilityObject {
     data: string[];
 }
 
-export interface IWeaponRequirement extends IProbabilityObject
-{
+export interface IWeaponRequirement extends IProbabilityObject {
     data: string[];
 }
 
-export interface IProbabilityObject
-{
+export interface IProbabilityObject {
     key: string;
     relativeProbability: number;
     data?: any;

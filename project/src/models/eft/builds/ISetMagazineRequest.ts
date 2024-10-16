@@ -1,7 +1,6 @@
-import { IMagazineTemplateAmmoItem } from "../profile/IAkiProfile";
+import { IMagazineTemplateAmmoItem } from "@spt/models/eft/profile/ISptProfile";
 
-export interface ISetMagazineRequest
-{
+export interface ISetMagazineRequest {
     Id: string;
     Name: string;
     Caliber: string;

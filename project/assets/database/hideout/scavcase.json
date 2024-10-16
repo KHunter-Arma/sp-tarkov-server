@@ -1,28 +1,28 @@
 [
   {
-    "_id": "62710a69adfbd4354d79c58e",
-    "ProductionTime": 81000,
+    "_id": "6271093e621b0a76055cd61e",
+    "ProductionTime": 168000,
     "Requirements": [
       {
-        "templateId": "5449016a4bdc2d6f028b456f",
-        "count": 95000,
+        "templateId": "5d1b376e86f774252519444e",
+        "count": 1,
         "isFunctional": false,
         "isEncoded": false,
         "type": "Item"
       }
     ],
     "EndProducts": {
+      "Common": {
+        "min": "2",
+        "max": "3"
+      },
       "Rare": {
         "min": "1",
         "max": "2"
       },
-      "Common": {
-        "min": "2",
-        "max": "4"
-      },
       "Superrare": {
         "min": "0",
-        "max": "1"
+        "max": "2"
       }
     }
   },
@@ -46,6 +46,33 @@
       "Common": {
         "min": "2",
         "max": "5"
+      },
+      "Superrare": {
+        "min": "0",
+        "max": "0"
+      }
+    }
+  },
+  {
+    "_id": "62710974e71632321e5afd5f",
+    "ProductionTime": 2500,
+    "Requirements": [
+      {
+        "templateId": "5449016a4bdc2d6f028b456f",
+        "count": 2500,
+        "isFunctional": false,
+        "isEncoded": false,
+        "type": "Item"
+      }
+    ],
+    "EndProducts": {
+      "Common": {
+        "min": "1",
+        "max": "2"
+      },
+      "Rare": {
+        "min": "0",
+        "max": "1"
       },
       "Superrare": {
         "min": "0",
@@ -81,29 +108,29 @@
     }
   },
   {
-    "_id": "6271093e621b0a76055cd61e",
-    "ProductionTime": 168000,
+    "_id": "62710a69adfbd4354d79c58e",
+    "ProductionTime": 81000,
     "Requirements": [
       {
-        "templateId": "5d1b376e86f774252519444e",
-        "count": 1,
+        "templateId": "5449016a4bdc2d6f028b456f",
+        "count": 95000,
         "isFunctional": false,
         "isEncoded": false,
         "type": "Item"
       }
     ],
     "EndProducts": {
-      "Common": {
-        "min": "2",
-        "max": "3"
-      },
       "Rare": {
         "min": "1",
         "max": "2"
       },
+      "Common": {
+        "min": "2",
+        "max": "4"
+      },
       "Superrare": {
         "min": "0",
-        "max": "2"
+        "max": "1"
       }
     }
   }

@@ -1,4 +1,3 @@
-export interface IUpdatePingRequestData
-{
+export interface IUpdatePingRequestData {
     servers: any[];
 }

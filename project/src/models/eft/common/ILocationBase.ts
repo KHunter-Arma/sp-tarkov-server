@@ -1,9 +1,7 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { Ixyz } from "@spt-aki/models/eft/common/Ixyz";
+import { MinMax } from "@spt/models/common/MinMax";
+import { Ixyz } from "@spt/models/eft/common/Ixyz";
 
-/* eslint-disable @typescript-eslint/naming-convention */
-export interface ILocationBase
-{
+export interface ILocationBase {
     AccessKeys: string[];
     AirdropParameters: AirdropParameter[];
     Area: number;
@@ -20,6 +18,7 @@ export interface ILocationBase
     BotMax: number;
     BotMaxPlayer: number;
     BotMaxTimePlayer: number;
+    BotMaxPvE: number;
     BotNormal: number;
     BotSpawnCountStep: number;
     BotSpawnPeriodCheck: number;
@@ -35,6 +34,7 @@ export interface ILocationBase
     Enabled: boolean;
     EnableCoop: boolean;
     GlobalLootChanceModifier: number;
+    GlobalLootChanceModifierPvE: number;
     GlobalContainerChanceModifier: number;
     IconX: number;
     IconY: number;
@@ -75,6 +75,7 @@ export interface ILocationBase
     doors: any[];
     EscapeTimeLimit: number;
     EscapeTimeLimitCoop: number;
+    EscapeTimeLimitPVE: number;
     exit_access_time: number;
     exit_count: number;
     exit_time: number;
@@ -93,21 +94,18 @@ export interface ILocationBase
     waves: Wave[];
 }
 
-export interface INonWaveGroupScenario
-{
+export interface INonWaveGroupScenario {
     Chance: number;
     Enabled: boolean;
     MaxToBeGroup: number;
     MinToBeGroup: number;
 }
 
-export interface ILimit extends MinMax
-{
+export interface ILimit extends MinMax {
     items: any[];
 }
 
-export interface AirdropParameter
-{
+export interface AirdropParameter {
     AirdropPointDeactivateDistance: number;
     MinPlayersCountToSpawnAirdrop: number;
     PlaneAirdropChance: number;
@@ -120,20 +118,17 @@ export interface AirdropParameter
     UnsuccessfulTryPenalty: number;
 }
 
-export interface Banner
-{
+export interface Banner {
     id: string;
     pic: Pic;
 }
 
-export interface Pic
-{
+export interface Pic {
     path: string;
     rcid: string;
 }
 
-export interface BossLocationSpawn
-{
+export interface BossLocationSpawn {
     BossChance: number;
     BossDifficult: string;
     BossEscortAmount: string;
@@ -151,17 +146,16 @@ export interface BossLocationSpawn
     IgnoreMaxBots?: boolean;
     Supports?: BossSupport[];
     sptId?: string;
+    spawnMode: string[];
 }
 
-export interface BossSupport
-{
+export interface BossSupport {
     BossEscortAmount: string;
     BossEscortDifficult: string[];
     BossEscortType: string;
 }
 
-export interface BotLocationModifier
-{
+export interface BotLocationModifier {
     AccuracySpeed: number;
     DistToActivate: number;
     DistToPersueAxemanCoef: number;
@@ -174,31 +168,26 @@ export interface BotLocationModifier
     VisibleDistance: number;
 }
 
-export interface MinMaxBot extends MinMax
-{
+export interface MinMaxBot extends MinMax {
     WildSpawnType: WildSpawnType | string;
 }
 
-export interface MinPlayerWaitTime
-{
+export interface MinPlayerWaitTime {
     minPlayers: number;
     time: number;
 }
 
-export interface Preview
-{
+export interface Preview {
     path: string;
     rcid: string;
 }
 
-export interface Scene
-{
+export interface Scene {
     path: string;
     rcid: string;
 }
 
-export interface SpawnPointParam
-{
+export interface SpawnPointParam {
     BotZoneName: string;
     Categories: string[];
     ColliderParams: ColliderParams;
@@ -211,46 +200,47 @@ export interface SpawnPointParam
     Sides: string[];
 }
 
-export interface ColliderParams
-{
+export interface ColliderParams {
     _parent: string;
     _props: Props;
 }
 
-export interface Props
-{
+export interface Props {
     Center: Ixyz;
     Radius: number;
 }
 
-export interface Exit
-{
+export interface Exit {
     /** % Chance out of 100 exit will appear in raid */
     Chance: number;
+    ChancePVE: number;
     Count: number;
+    CountPVE: number;
     EntryPoints: string;
     EventAvailable: boolean;
     ExfiltrationTime: number;
+    ExfiltrationTimePVE: number;
     ExfiltrationType: string;
     RequiredSlot?: string;
     Id: string;
     MaxTime: number;
+    MaxTimePVE: number;
     MinTime: number;
+    MinTimePVE: number;
     Name: string;
     PassageRequirement: string;
     PlayersCount: number;
+    PlayersCountPVE: number;
     RequirementTip: string;
     Side?: string;
 }
 
-export interface MaxItemCountInLocation
-{
+export interface MaxItemCountInLocation {
     TemplateId: string;
     Value: number;
 }
 
-export interface Wave
-{
+export interface Wave {
     BotPreset: string;
     BotSide: string;
     SpawnPoints: string;
@@ -265,8 +255,7 @@ export interface Wave
     ChanceGroup?: number;
 }
 
-export enum WildSpawnType
-{
+export enum WildSpawnType {
     ASSAULT = "assault",
     MARKSMAN = "marksman",
     PMCBOT = "pmcbot",

@@ -1,3 +1,1 @@
-export interface IEmptyRequestData
-{
-}
+export type IEmptyRequestData = {};

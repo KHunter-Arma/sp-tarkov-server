@@ -1,4 +1,3 @@
-export interface ICreateProfileResponse
-{
+export interface ICreateProfileResponse {
     uid: string;
 }

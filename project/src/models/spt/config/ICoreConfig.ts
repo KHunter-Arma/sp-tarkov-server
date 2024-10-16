@@ -1,9 +1,8 @@
-import { IBaseConfig } from "@spt-aki/models/spt/config/IBaseConfig";
+import { IBaseConfig } from "@spt/models/spt/config/IBaseConfig";
 
-export interface ICoreConfig extends IBaseConfig
-{
-    kind: "aki-core";
-    akiVersion: string;
+export interface ICoreConfig extends IBaseConfig {
+    kind: "spt-core";
+    sptVersion: string;
     projectName: string;
     compatibleTarkovVersion: string;
     serverName: string;
@@ -18,10 +17,11 @@ export interface ICoreConfig extends IBaseConfig
     commit?: string;
     /** Timestamp of server build */
     buildTime?: string;
+    /** Server locale keys that will be added to the bottom of the startup watermark */
+    customWatermarkLocaleKeys?: string[];
 }
 
-export interface IBsgLogging
-{
+export interface IBsgLogging {
     /**
      * verbosity of what to log, yes I know this is backwards, but its how nlog deals with ordinals.
      * complain to them about it! In all cases, better exceptions will be logged.
@@ -39,8 +39,7 @@ export interface IBsgLogging
     sendToServer: boolean;
 }
 
-export interface IRelease
-{
+export interface IRelease {
     // Disclaimer outlining the intended usage of bleeding edge
     betaDisclaimerText?: string;
     // Text logged when users agreed to terms
@@ -69,32 +68,31 @@ export interface IRelease
     betaDisclaimerTimeoutDelay: number;
 }
 
-export interface IGameFixes
-{
+export interface IGameFixes {
     /** Shotguns use a different value than normal guns causing huge pellet dispersion  */
     fixShotgunDispersion: boolean;
-    /** Remove items added by mods when the mod no longer exists - can fix dead profiles stuck at game load*/
+    /** Remove items added by mods when the mod no longer exists - can fix dead profiles stuck at game load */
     removeModItemsFromProfile: boolean;
     /** Fix issues that cause the game to not start due to inventory item issues */
     fixProfileBreakingInventoryItemIssues: boolean;
 }
 
-export interface IServerFeatures
-{
+export interface IServerFeatures {
     /* Controls whether or not the server attempts to download mod dependencies not included in the server's executable */
     autoInstallModDependencies: boolean;
     compressProfile: boolean;
     chatbotFeatures: IChatbotFeatures;
+    /** Keyed to profile type e.g. "Standard" or "SPT Developer" */
+    createNewProfileTypesBlacklist: string[];
 }
 
-export interface IChatbotFeatures
-{
+export interface IChatbotFeatures {
     sptFriendEnabled: boolean;
     commandoEnabled: boolean;
     commandoFeatures: ICommandoFeatures;
+    commandUseLimits: Record<string, number>;
 }
 
-export interface ICommandoFeatures
-{
+export interface ICommandoFeatures {
     giveCommandEnabled: boolean;
 }

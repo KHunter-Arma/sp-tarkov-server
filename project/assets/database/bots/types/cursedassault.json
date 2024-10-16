@@ -2408,7 +2408,7 @@
         },
         "whitelist": []
       },
-      "food": {
+	  "food": {
         "weights": {
           "0": 10,
           "1": 5,

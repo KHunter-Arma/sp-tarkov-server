@@ -1,8 +1,7 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { Skills } from "@spt-aki/models/eft/common/tables/IBotBase";
+import { MinMax } from "@spt/models/common/MinMax";
+import { Skills } from "@spt/models/eft/common/tables/IBotBase";
 
-export interface IBotType
-{
+export interface IBotType {
     appearance: Appearance;
     chances: Chances;
     difficulty: Difficulties;
@@ -15,8 +14,7 @@ export interface IBotType
     skills: Skills;
 }
 
-export interface Appearance
-{
+export interface Appearance {
     body: Record<string, number>;
     feet: Record<string, number>;
     hands: Record<string, number>;
@@ -24,15 +22,13 @@ export interface Appearance
     voice: Record<string, number>;
 }
 
-export interface Chances
-{
+export interface Chances {
     equipment: EquipmentChances;
     weaponMods: ModsChances;
     equipmentMods: ModsChances;
 }
 
-export interface EquipmentChances
-{
+export interface EquipmentChances {
     ArmBand: number;
     ArmorVest: number;
     Backpack: number;
@@ -49,9 +45,7 @@ export interface EquipmentChances
     TacticalVest: number;
 }
 
-/* eslint-disable @typescript-eslint/naming-convention */
-export interface ModsChances
-{
+export interface ModsChances {
     mod_charge: number;
     mod_equipment: number;
     mod_equipment_000: number;
@@ -86,16 +80,14 @@ export interface ModsChances
     mod_handguard: number;
 }
 
-export interface Difficulties
-{
+export interface Difficulties {
     easy: Difficulty;
     normal: Difficulty;
     hard: Difficulty;
     impossible: Difficulty;
 }
 
-export interface Difficulty
-{
+export interface Difficulty {
     Aiming: Record<string, string | number | boolean>;
     Boss: Record<string, string | number | boolean>;
     Change: Record<string, string | number | boolean>;
@@ -112,21 +104,18 @@ export interface Difficulty
     Shoot: Record<string, string | number | boolean>;
 }
 
-export interface Experience
-{
+export interface Experience {
     aggressorBonus: number;
     level: MinMax;
     reward: MinMax;
     standingForKill: number;
 }
 
-export interface Generation
-{
+export interface Generation {
     items: GenerationWeightingItems;
 }
 
-export interface GenerationWeightingItems
-{
+export interface GenerationWeightingItems {
     grenades: GenerationData;
     healing: GenerationData;
     drugs: GenerationData;
@@ -141,24 +130,21 @@ export interface GenerationWeightingItems
     specialItems: GenerationData;
 }
 
-export interface GenerationData
-{
+export interface GenerationData {
     /** key: number of items, value: weighting */
     weights: Record<string, number>;
     /** Array of item tpls */
     whitelist: Record<string, number>;
 }
 
-export interface Health
-{
+export interface Health {
     BodyParts: BodyPart[];
     Energy: MinMax;
     Hydration: MinMax;
     Temperature: MinMax;
 }
 
-export interface BodyPart
-{
+export interface BodyPart {
     Chest: MinMax;
     Head: MinMax;
     LeftArm: MinMax;
@@ -168,16 +154,14 @@ export interface BodyPart
     Stomach: MinMax;
 }
 
-export interface Inventory
-{
+export interface Inventory {
     equipment: Equipment;
     Ammo: Record<string, Record<string, number>>;
     items: Items;
     mods: Mods;
 }
 
-export interface Equipment
-{
+export interface Equipment {
     ArmBand: Record<string, number>;
     ArmorVest: Record<string, number>;
     Backpack: Record<string, number>;
@@ -194,8 +178,7 @@ export interface Equipment
     TacticalVest: Record<string, number>;
 }
 
-export interface Items
-{
+export interface Items {
     Backpack: Record<string, number>;
     Pockets: Record<string, number>;
     SecuredContainer: Record<string, number>;

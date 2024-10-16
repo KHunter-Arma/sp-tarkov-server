@@ -1,5 +1,4 @@
-export interface IGameConfigResponse
-{
+export interface IGameConfigResponse {
     aid: number;
     lang: string;
     languages: Record<string, string>;
@@ -15,8 +14,7 @@ export interface IGameConfigResponse
     twitchEventMember: boolean;
 }
 
-export interface Backend
-{
+export interface Backend {
     Lobby: string;
     Trading: string;
     Messaging: string;

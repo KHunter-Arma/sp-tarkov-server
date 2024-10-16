@@ -1,52 +1,47 @@
+import { RepeatableQuestGenerator } from "@spt/generators/RepeatableQuestGenerator";
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
+import { QuestHelper } from "@spt/helpers/QuestHelper";
+import { RepeatableQuestHelper } from "@spt/helpers/RepeatableQuestHelper";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { IPmcDataRepeatableQuest, IRepeatableQuest } from "@spt/models/eft/common/tables/IRepeatableQuests";
+import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
+import { ISptProfile } from "@spt/models/eft/profile/ISptProfile";
+import { IRepeatableQuestChangeRequest } from "@spt/models/eft/quests/IRepeatableQuestChangeRequest";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { ELocationName } from "@spt/models/enums/ELocationName";
+import { HideoutAreas } from "@spt/models/enums/HideoutAreas";
+import { QuestStatus } from "@spt/models/enums/QuestStatus";
+import { SkillTypes } from "@spt/models/enums/SkillTypes";
+import { IQuestConfig, IRepeatableQuestConfig } from "@spt/models/spt/config/IQuestConfig";
+import { IGetRepeatableByIdResult } from "@spt/models/spt/quests/IGetRepeatableByIdResult";
+import { IQuestTypePool } from "@spt/models/spt/repeatable/IQuestTypePool";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { EventOutputHolder } from "@spt/routers/EventOutputHolder";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { PaymentService } from "@spt/services/PaymentService";
+import { ProfileFixerService } from "@spt/services/ProfileFixerService";
+import { HttpResponseUtil } from "@spt/utils/HttpResponseUtil";
+import { ObjectId } from "@spt/utils/ObjectId";
+import { RandomUtil } from "@spt/utils/RandomUtil";
+import { TimeUtil } from "@spt/utils/TimeUtil";
+import { ICloner } from "@spt/utils/cloners/ICloner";
 import { inject, injectable } from "tsyringe";
 
-import { RepeatableQuestGenerator } from "@spt-aki/generators/RepeatableQuestGenerator";
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
-import { QuestHelper } from "@spt-aki/helpers/QuestHelper";
-import { RepeatableQuestHelper } from "@spt-aki/helpers/RepeatableQuestHelper";
-import { IEmptyRequestData } from "@spt-aki/models/eft/common/IEmptyRequestData";
-import { ILocationBase } from "@spt-aki/models/eft/common/ILocationBase";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import {
-    IChangeRequirement,
-    IPmcDataRepeatableQuest,
-    IRepeatableQuest,
-} from "@spt-aki/models/eft/common/tables/IRepeatableQuests";
-import { IItemEventRouterResponse } from "@spt-aki/models/eft/itemEvent/IItemEventRouterResponse";
-import { IRepeatableQuestChangeRequest } from "@spt-aki/models/eft/quests/IRepeatableQuestChangeRequest";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { ELocationName } from "@spt-aki/models/enums/ELocationName";
-import { HideoutAreas } from "@spt-aki/models/enums/HideoutAreas";
-import { QuestStatus } from "@spt-aki/models/enums/QuestStatus";
-import { SkillTypes } from "@spt-aki/models/enums/SkillTypes";
-import { IQuestConfig, IRepeatableQuestConfig } from "@spt-aki/models/spt/config/IQuestConfig";
-import { IQuestTypePool } from "@spt-aki/models/spt/repeatable/IQuestTypePool";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { EventOutputHolder } from "@spt-aki/routers/EventOutputHolder";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { PaymentService } from "@spt-aki/services/PaymentService";
-import { ProfileFixerService } from "@spt-aki/services/ProfileFixerService";
-import { HttpResponseUtil } from "@spt-aki/utils/HttpResponseUtil";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { ObjectId } from "@spt-aki/utils/ObjectId";
-import { RandomUtil } from "@spt-aki/utils/RandomUtil";
-import { TimeUtil } from "@spt-aki/utils/TimeUtil";
-
 @injectable()
-export class RepeatableQuestController
-{
+export class RepeatableQuestController {
     protected questConfig: IQuestConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("PrimaryLogger") protected logger: ILogger,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("TimeUtil") protected timeUtil: TimeUtil,
         @inject("RandomUtil") protected randomUtil: RandomUtil,
         @inject("HttpResponseUtil") protected httpResponse: HttpResponseUtil,
-        @inject("JsonUtil") protected jsonUtil: JsonUtil,
         @inject("ProfileHelper") protected profileHelper: ProfileHelper,
         @inject("ProfileFixerService") protected profileFixerService: ProfileFixerService,
+        @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("EventOutputHolder") protected eventOutputHolder: EventOutputHolder,
         @inject("PaymentService") protected paymentService: PaymentService,
         @inject("ObjectId") protected objectId: ObjectId,
@@ -54,8 +49,8 @@ export class RepeatableQuestController
         @inject("RepeatableQuestHelper") protected repeatableQuestHelper: RepeatableQuestHelper,
         @inject("QuestHelper") protected questHelper: QuestHelper,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+        @inject("PrimaryCloner") protected cloner: ICloner,
+    ) {
         this.questConfig = this.configServer.getConfig(ConfigTypes.QUEST);
     }
 
@@ -80,127 +75,191 @@ export class RepeatableQuestController
      * (if the are on "Succeed" but not "Completed" we keep them, to allow the player to complete them and get the rewards)
      * The new quests generated are again persisted in profile.RepeatableQuests
      *
-     * @param   {string}    _info       Request from client
      * @param   {string}    sessionID   Player's session id
      *
-     * @returns  {array}                Array of "repeatableQuestObjects" as descibed above
+     * @returns  {array}                Array of "repeatableQuestObjects" as described above
      */
-    public getClientRepeatableQuests(_info: IEmptyRequestData, sessionID: string): IPmcDataRepeatableQuest[]
-    {
+    public getClientRepeatableQuests(sessionID: string): IPmcDataRepeatableQuest[] {
         const returnData: Array<IPmcDataRepeatableQuest> = [];
-        const pmcData = this.profileHelper.getPmcProfile(sessionID);
-        const time = this.timeUtil.getTimestamp();
-        const scavQuestUnlocked =
-            pmcData?.Hideout?.Areas?.find((hideoutArea) => hideoutArea.type === HideoutAreas.INTEL_CENTER)?.level >= 1;
+        const fullProfile = this.profileHelper.getFullProfile(sessionID)!;
+        const pmcData = fullProfile.characters.pmc;
+        const currentTime = this.timeUtil.getTimestamp();
 
         // Daily / weekly / Daily_Savage
-        for (const repeatableConfig of this.questConfig.repeatableQuests)
-        {
-            // get daily/weekly data from profile, add empty object if missing
-            const currentRepeatableQuestType = this.getRepeatableQuestSubTypeFromProfile(repeatableConfig, pmcData);
+        for (const repeatableConfig of this.questConfig.repeatableQuests) {
+            // Get daily/weekly data from profile, add empty object if missing
+            const generatedRepeatables = this.getRepeatableQuestSubTypeFromProfile(repeatableConfig, pmcData);
+            const repeatableTypeLower = repeatableConfig.name.toLowerCase();
 
-            if (
-                repeatableConfig.side === "Pmc" && pmcData.Info.Level >= repeatableConfig.minPlayerLevel
-                || repeatableConfig.side === "Scav" && scavQuestUnlocked
-            )
-            {
-                if (time > currentRepeatableQuestType.endTime - 1)
-                {
-                    currentRepeatableQuestType.endTime = time + repeatableConfig.resetTime;
-                    currentRepeatableQuestType.inactiveQuests = [];
-                    this.logger.debug(`Generating new ${repeatableConfig.name}`);
-
-                    // put old quests to inactive (this is required since only then the client makes them fail due to non-completion)
-                    // we also need to push them to the "inactiveQuests" list since we need to remove them from offraidData.profile.Quests
-                    // after a raid (the client seems to keep quests internally and we want to get rid of old repeatable quests)
-                    // and remove them from the PMC's Quests and RepeatableQuests[i].activeQuests
-                    const questsToKeep = [];
-                    // for (let i = 0; i < currentRepeatable.activeQuests.length; i++)
-                    for (const activeQuest of currentRepeatableQuestType.activeQuests)
-                    {
-                        // Keep finished quests in list so player can hand in
-                        const quest = pmcData.Quests.find((quest) => quest.qid === activeQuest._id);
-                        if (quest)
-                        {
-                            if (quest.status === QuestStatus.AvailableForFinish)
-                            {
-                                questsToKeep.push(activeQuest);
-                                this.logger.debug(
-                                    `Keeping repeatable quest ${activeQuest._id} in activeQuests since it is available to hand in`,
-                                );
-
-                                continue;
-                            }
-                        }
-                        this.profileFixerService.removeDanglingConditionCounters(pmcData);
-
-                        // Remove expired quest from pmc.quest array
-                        pmcData.Quests = pmcData.Quests.filter((quest) => quest.qid !== activeQuest._id);
-                        currentRepeatableQuestType.inactiveQuests.push(activeQuest);
-                    }
-                    currentRepeatableQuestType.activeQuests = questsToKeep;
-
-                    // introduce a dynamic quest pool to avoid duplicates
-                    const questTypePool = this.generateQuestPool(repeatableConfig, pmcData.Info.Level);
-
-                    // Add daily quests
-                    for (let i = 0; i < this.getQuestCount(repeatableConfig, pmcData); i++)
-                    {
-                        let quest = null;
-                        let lifeline = 0;
-                        while (!quest && questTypePool.types.length > 0)
-                        {
-                            quest = this.repeatableQuestGenerator.generateRepeatableQuest(
-                                pmcData.Info.Level,
-                                pmcData.TradersInfo,
-                                questTypePool,
-                                repeatableConfig,
-                            );
-                            lifeline++;
-                            if (lifeline > 10)
-                            {
-                                this.logger.debug(
-                                    "We were stuck in repeatable quest generation. This should never happen. Please report",
-                                );
-                                break;
-                            }
-                        }
-
-                        // check if there are no more quest types available
-                        if (questTypePool.types.length === 0)
-                        {
-                            break;
-                        }
-                        quest.side = repeatableConfig.side;
-                        currentRepeatableQuestType.activeQuests.push(quest);
-                    }
-                }
-                else
-                {
-                    this.logger.debug(`[Quest Check] ${repeatableConfig.name} quests are still valid.`);
-                }
+            const canAccessRepeatables = this.canProfileAccessRepeatableQuests(repeatableConfig, pmcData);
+            if (!canAccessRepeatables) {
+                // Dont send any repeatables, even existing ones
+                continue;
             }
 
+            // Existing repeatables are still valid, add to return data and move to next sub-type
+            if (currentTime < generatedRepeatables.endTime - 1) {
+                returnData.push(generatedRepeatables);
+
+                this.logger.debug(`[Quest Check] ${repeatableTypeLower} quests are still valid.`);
+
+                continue;
+            }
+
+            // Current time is past expiry time
+
+            // Set endtime to be now + new duration
+            generatedRepeatables.endTime = currentTime + repeatableConfig.resetTime;
+            generatedRepeatables.inactiveQuests = [];
+            this.logger.debug(`Generating new ${repeatableTypeLower}`);
+
+            // Put old quests to inactive (this is required since only then the client makes them fail due to non-completion)
+            // Also need to push them to the "inactiveQuests" list since we need to remove them from offraidData.profile.Quests
+            // after a raid (the client seems to keep quests internally and we want to get rid of old repeatable quests)
+            // and remove them from the PMC's Quests and RepeatableQuests[i].activeQuests
+            this.processExpiredQuests(generatedRepeatables, pmcData);
+
+            // Create dynamic quest pool to avoid generating duplicates
+            const questTypePool = this.generateQuestPool(repeatableConfig, pmcData.Info.Level);
+
+            // Add repeatable quests of this loops sub-type (daily/weekly)
+            for (let i = 0; i < this.getQuestCount(repeatableConfig, pmcData); i++) {
+                let quest: IRepeatableQuest | undefined = undefined;
+                let lifeline = 0;
+                while (!quest && questTypePool.types.length > 0) {
+                    quest = this.repeatableQuestGenerator.generateRepeatableQuest(
+                        pmcData.Info.Level,
+                        pmcData.TradersInfo,
+                        questTypePool,
+                        repeatableConfig,
+                    );
+                    lifeline++;
+                    if (lifeline > 10) {
+                        this.logger.debug(
+                            "We were stuck in repeatable quest generation. This should never happen. Please report",
+                        );
+                        break;
+                    }
+                }
+
+                // check if there are no more quest types available
+                if (questTypePool.types.length === 0) {
+                    break;
+                }
+                quest.side = repeatableConfig.side;
+                generatedRepeatables.activeQuests.push(quest);
+            }
+
+            // Nullguard
+            fullProfile.spt.freeRepeatableRefreshUsedCount ||= {};
+
+            // Reset players free quest count for this repeatable sub-type as we're generating new repeatables for this group (daily/weekly)
+            fullProfile.spt.freeRepeatableRefreshUsedCount[repeatableTypeLower] = 0;
+
             // Create stupid redundant change requirements from quest data
-            for (const quest of currentRepeatableQuestType.activeQuests)
-            {
-                currentRepeatableQuestType.changeRequirement[quest._id] = {
+            for (const quest of generatedRepeatables.activeQuests) {
+                generatedRepeatables.changeRequirement[quest._id] = {
                     changeCost: quest.changeCost,
-                    changeStandingCost: this.randomUtil.getArrayValue([0, 0.01]),
+                    changeStandingCost: this.randomUtil.getArrayValue([0, 0.01]), // Randomise standing cost to replace
                 };
             }
 
+            // Reset free repeatable values in player profile to defaults
+            generatedRepeatables.freeChanges = repeatableConfig.freeChanges;
+            generatedRepeatables.freeChangesAvailable = repeatableConfig.freeChanges;
+
             returnData.push({
                 id: repeatableConfig.id,
-                name: currentRepeatableQuestType.name,
-                endTime: currentRepeatableQuestType.endTime,
-                activeQuests: currentRepeatableQuestType.activeQuests,
-                inactiveQuests: currentRepeatableQuestType.inactiveQuests,
-                changeRequirement: currentRepeatableQuestType.changeRequirement,
+                name: generatedRepeatables.name,
+                endTime: generatedRepeatables.endTime,
+                activeQuests: generatedRepeatables.activeQuests,
+                inactiveQuests: generatedRepeatables.inactiveQuests,
+                changeRequirement: generatedRepeatables.changeRequirement,
+                freeChanges: generatedRepeatables.freeChanges,
+                freeChangesAvailable: generatedRepeatables.freeChanges,
             });
         }
 
         return returnData;
+    }
+
+    /**
+     * Expire quests and replace expired quests with ready-to-hand-in quests inside generatedRepeatables.activeQuests
+     * @param generatedRepeatables Repeatables to process (daily/weekly)
+     * @param pmcData Player profile
+     */
+    protected processExpiredQuests(generatedRepeatables: IPmcDataRepeatableQuest, pmcData: IPmcData): void {
+        const questsToKeep = [];
+        for (const activeQuest of generatedRepeatables.activeQuests) {
+            const questStatusInProfile = pmcData.Quests.find((quest) => quest.qid === activeQuest._id);
+            if (!questStatusInProfile) {
+                continue;
+            }
+
+            // Keep finished quests in list so player can hand in
+            if (questStatusInProfile.status === QuestStatus.AvailableForFinish) {
+                questsToKeep.push(activeQuest);
+                this.logger.debug(
+                    `Keeping repeatable quest: ${activeQuest._id} in activeQuests since it is available to hand in`,
+                );
+
+                continue;
+            }
+
+            // Clean up quest-related counters being left in profile
+            this.profileFixerService.removeDanglingConditionCounters(pmcData);
+
+            // Remove expired quest from pmc.quest array
+            pmcData.Quests = pmcData.Quests.filter((quest) => quest.qid !== activeQuest._id);
+
+            // Store in inactive array
+            generatedRepeatables.inactiveQuests.push(activeQuest);
+        }
+
+        generatedRepeatables.activeQuests = questsToKeep;
+    }
+
+    /**
+     * Check if a repeatable quest type (daily/weekly) is active for the given profile
+     * @param repeatableConfig Repeatable quest config
+     * @param pmcData Player profile
+     * @returns True if profile is allowed to access dailies
+     */
+    protected canProfileAccessRepeatableQuests(repeatableConfig: IRepeatableQuestConfig, pmcData: IPmcData): boolean {
+        // PMC and daily quests not unlocked yet
+        if (repeatableConfig.side === "Pmc" && !this.playerHasDailyPmcQuestsUnlocked(pmcData, repeatableConfig)) {
+            return false;
+        }
+
+        // Scav and daily quests not unlocked yet
+        if (repeatableConfig.side === "Scav" && !this.playerHasDailyScavQuestsUnlocked(pmcData)) {
+            this.logger.debug("Daily scav quests still locked, Intel center not built");
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Does player have daily scav quests unlocked
+     * @param pmcData Player profile to check
+     * @returns True if unlocked
+     */
+    protected playerHasDailyScavQuestsUnlocked(pmcData: IPmcData): boolean {
+        return (
+            pmcData?.Hideout?.Areas?.find((hideoutArea) => hideoutArea.type === HideoutAreas.INTEL_CENTER)?.level >= 1
+        );
+    }
+
+    /**
+     * Does player have daily pmc quests unlocked
+     * @param pmcData Player profile to check
+     * @param repeatableConfig Config of daily type to check
+     * @returns True if unlocked
+     */
+    protected playerHasDailyPmcQuestsUnlocked(pmcData: IPmcData, repeatableConfig: IRepeatableQuestConfig): boolean {
+        return pmcData.Info.Level >= repeatableConfig.minPlayerLevel;
     }
 
     /**
@@ -209,17 +268,17 @@ export class RepeatableQuestController
      * @param pmcData Player profile
      * @returns Quest count
      */
-    protected getQuestCount(repeatableConfig: IRepeatableQuestConfig, pmcData: IPmcData): number
-    {
+    protected getQuestCount(repeatableConfig: IRepeatableQuestConfig, pmcData: IPmcData): number {
         if (
-            repeatableConfig.name.toLowerCase() === "daily"
-            && this.profileHelper.hasEliteSkillLevel(SkillTypes.CHARISMA, pmcData)
-        )
-        {
+            repeatableConfig.name.toLowerCase() === "daily" &&
+            this.profileHelper.hasEliteSkillLevel(SkillTypes.CHARISMA, pmcData)
+        ) {
             // Elite charisma skill gives extra daily quest(s)
-            return repeatableConfig.numQuests
-                + this.databaseServer.getTables().globals.config.SkillsSettings.Charisma.BonusSettings
-                    .EliteBonusSettings.RepeatableQuestExtraCount;
+            return (
+                repeatableConfig.numQuests +
+                this.databaseService.getGlobals().config.SkillsSettings.Charisma.BonusSettings.EliteBonusSettings
+                    .RepeatableQuestExtraCount
+            );
         }
 
         return repeatableConfig.numQuests;
@@ -234,12 +293,14 @@ export class RepeatableQuestController
     protected getRepeatableQuestSubTypeFromProfile(
         repeatableConfig: IRepeatableQuestConfig,
         pmcData: IPmcData,
-    ): IPmcDataRepeatableQuest
-    {
+    ): IPmcDataRepeatableQuest {
         // Get from profile, add if missing
-        let repeatableQuestDetails = pmcData.RepeatableQuests.find((x) => x.name === repeatableConfig.name);
-        if (!repeatableQuestDetails)
-        {
+        let repeatableQuestDetails = pmcData.RepeatableQuests.find(
+            (repeatable) => repeatable.name === repeatableConfig.name,
+        );
+        if (!repeatableQuestDetails) {
+            // Not in profile, generate
+            const hasAccess = this.profileHelper.hasAccessToRepeatableFreeRefreshSystem(pmcData);
             repeatableQuestDetails = {
                 id: repeatableConfig.id,
                 name: repeatableConfig.name,
@@ -247,6 +308,8 @@ export class RepeatableQuestController
                 inactiveQuests: [],
                 endTime: 0,
                 changeRequirement: {},
+                freeChanges: hasAccess ? repeatableConfig.freeChanges : 0,
+                freeChangesAvailable: hasAccess ? repeatableConfig.freeChangesAvailable : 0,
             };
 
             // Add base object that holds repeatable data to profile
@@ -259,13 +322,11 @@ export class RepeatableQuestController
     /**
      * Just for debug reasons. Draws dailies a random assort of dailies extracted from dumps
      */
-    public generateDebugDailies(dailiesPool: any, factory: any, number: number): any
-    {
+    public generateDebugDailies(dailiesPool: any, factory: any, number: number): any {
         let randomQuests = [];
         let numberOfQuests = number;
 
-        if (factory)
-        {
+        if (factory) {
             // First is factory extract always add for debugging
             randomQuests.push(dailiesPool[0]);
             numberOfQuests -= 1;
@@ -273,14 +334,11 @@ export class RepeatableQuestController
 
         randomQuests = randomQuests.concat(this.randomUtil.drawRandomFromList(dailiesPool, numberOfQuests, false));
 
-        for (const element of randomQuests)
-        {
+        for (const element of randomQuests) {
             element._id = this.objectId.generate();
             const conditions = element.conditions.AvailableForFinish;
-            for (const condition of conditions)
-            {
-                if ("counter" in condition._props)
-                {
+            for (const condition of conditions) {
+                if ("counter" in condition._props) {
                     condition._props.counter.id = this.objectId.generate();
                 }
             }
@@ -296,15 +354,15 @@ export class RepeatableQuestController
      * @param pmcLevel level of pmc generating quest pool
      * @returns IQuestTypePool
      */
-    protected generateQuestPool(repeatableConfig: IRepeatableQuestConfig, pmcLevel: number): IQuestTypePool
-    {
+    protected generateQuestPool(repeatableConfig: IRepeatableQuestConfig, pmcLevel: number): IQuestTypePool {
         const questPool = this.createBaseQuestPool(repeatableConfig);
 
-        const locations = this.getAllowedLocations(repeatableConfig.locations, pmcLevel);
-        for (const location in locations)
-        {
-            if (location !== ELocationName.ANY)
-            {
+        // Get the allowed locations based on the PMC's level
+        const locations = this.getAllowedLocationsForPmcLevel(repeatableConfig.locations, pmcLevel);
+
+        // Populate Exploration and Pickup quest locations
+        for (const location in locations) {
+            if (location !== ELocationName.ANY) {
                 questPool.pool.Exploration.locations[location] = locations[location];
                 questPool.pool.Pickup.locations[location] = locations[location];
             }
@@ -315,29 +373,29 @@ export class RepeatableQuestController
 
         const eliminationConfig = this.repeatableQuestHelper.getEliminationConfigByPmcLevel(pmcLevel, repeatableConfig);
         const targetsConfig = this.repeatableQuestHelper.probabilityObjectArray(eliminationConfig.targets);
-        for (const probabilityObject of targetsConfig)
-        {
+
+        // Populate Elimination quest targets and their locations
+        for (const { data: target, key: targetKey } of targetsConfig) {
             // Target is boss
-            if (probabilityObject.data.isBoss)
-            {
-                questPool.pool.Elimination.targets[probabilityObject.key] = { locations: ["any"] };
-            }
-            else
-            {
+            if (target.isBoss) {
+                questPool.pool.Elimination.targets[targetKey] = { locations: ["any"] };
+            } else {
+                // Non-boss targets
                 const possibleLocations = Object.keys(locations);
 
-                // Set possible locations for elimination task, if target is savage, exclude labs from locations
-                questPool.pool.Elimination.targets[probabilityObject.key] = (probabilityObject.key === "Savage")
-                    ? { locations: possibleLocations.filter((x) => x !== "laboratory") }
-                    : { locations: possibleLocations };
+                const allowedLocations =
+                    targetKey === "Savage"
+                        ? possibleLocations.filter((location) => location !== "laboratory") // Exclude labs for Savage targets.
+                        : possibleLocations;
+
+                questPool.pool.Elimination.targets[targetKey] = { locations: allowedLocations };
             }
         }
 
         return questPool;
     }
 
-    protected createBaseQuestPool(repeatableConfig: IRepeatableQuestConfig): IQuestTypePool
-    {
+    protected createBaseQuestPool(repeatableConfig: IRepeatableQuestConfig): IQuestTypePool {
         return {
             types: repeatableConfig.types.slice(),
             pool: { Exploration: { locations: {} }, Elimination: { targets: {} }, Pickup: { locations: {} } },
@@ -347,29 +405,24 @@ export class RepeatableQuestController
     /**
      * Return the locations this PMC is allowed to get daily quests for based on their level
      * @param locations The original list of locations
-     * @param pmcLevel The level of the player PMC
+     * @param pmcLevel The players level
      * @returns A filtered list of locations that allow the player PMC level to access it
      */
-    protected getAllowedLocations(
+    protected getAllowedLocationsForPmcLevel(
         locations: Record<ELocationName, string[]>,
         pmcLevel: number,
-    ): Partial<Record<ELocationName, string[]>>
-    {
+    ): Partial<Record<ELocationName, string[]>> {
         const allowedLocation: Partial<Record<ELocationName, string[]>> = {};
 
-        for (const location in locations)
-        {
+        for (const location in locations) {
             const locationNames = [];
-            for (const locationName of locations[location])
-            {
-                if (this.isPmcLevelAllowedOnLocation(locationName, pmcLevel))
-                {
+            for (const locationName of locations[location]) {
+                if (this.isPmcLevelAllowedOnLocation(locationName, pmcLevel)) {
                     locationNames.push(locationName);
                 }
             }
 
-            if (locationNames.length > 0)
-            {
+            if (locationNames.length > 0) {
                 allowedLocation[location] = locationNames;
             }
         }
@@ -383,35 +436,29 @@ export class RepeatableQuestController
      * @param pmcLevel The level of the pmc
      * @returns True if the given pmc level is allowed to access the given location
      */
-    protected isPmcLevelAllowedOnLocation(location: string, pmcLevel: number): boolean
-    {
-        if (location === ELocationName.ANY)
-        {
+    protected isPmcLevelAllowedOnLocation(location: string, pmcLevel: number): boolean {
+        // All PMC levels are allowed for 'any' location requirement
+        if (location === ELocationName.ANY) {
             return true;
         }
 
-        const locationBase: ILocationBase = this.databaseServer.getTables().locations[location.toLowerCase()]?.base;
-        if (!locationBase)
-        {
+        const locationBase = this.databaseService.getLocation(location.toLowerCase())?.base;
+        if (!locationBase) {
             return true;
         }
 
-        return (pmcLevel <= locationBase.RequiredPlayerLevelMax && pmcLevel >= locationBase.RequiredPlayerLevelMin);
+        return pmcLevel <= locationBase.RequiredPlayerLevelMax && pmcLevel >= locationBase.RequiredPlayerLevelMin;
     }
 
-    public debugLogRepeatableQuestIds(pmcData: IPmcData): void
-    {
-        for (const repeatable of pmcData.RepeatableQuests)
-        {
+    public debugLogRepeatableQuestIds(pmcData: IPmcData): void {
+        for (const repeatable of pmcData.RepeatableQuests) {
             const activeQuestsIds = [];
             const inactiveQuestsIds = [];
-            for (const active of repeatable.activeQuests)
-            {
+            for (const active of repeatable.activeQuests) {
                 activeQuestsIds.push(active._id);
             }
 
-            for (const inactive of repeatable.inactiveQuests)
-            {
+            for (const inactive of repeatable.inactiveQuests) {
                 inactiveQuestsIds.push(inactive._id);
             }
 
@@ -422,135 +469,213 @@ export class RepeatableQuestController
 
     /**
      * Handle RepeatableQuestChange event
+     *
+     * Replace a players repeatable quest
+     * @param pmcData Player profile
+     * @param changeRequest Request object
+     * @param sessionID Session id
+     * @returns IItemEventRouterResponse
      */
     public changeRepeatableQuest(
         pmcData: IPmcData,
         changeRequest: IRepeatableQuestChangeRequest,
         sessionID: string,
-    ): IItemEventRouterResponse
-    {
-        let repeatableToChange: IPmcDataRepeatableQuest;
-        let changeRequirement: IChangeRequirement;
-
-        // Trader existing quest is linked to
-        let replacedQuestTraderId: string;
-
-        // Daily,weekly or scav daily
-        for (const currentRepeatablePool of pmcData.RepeatableQuests)
-        {
-            // Check for existing quest in (daily/weekly/scav arrays)
-            const questToReplace = currentRepeatablePool.activeQuests.find((x) => x._id === changeRequest.qid);
-            if (!questToReplace)
-            {
-                continue;
-            }
-
-            // Save for later standing loss calculation
-            replacedQuestTraderId = questToReplace.traderId;
-
-            // Update active quests to exclude the quest we're replacing
-            currentRepeatablePool.activeQuests = currentRepeatablePool.activeQuests.filter((x) =>
-                x._id !== changeRequest.qid
-            );
-
-            // Get cost to replace existing quest
-            changeRequirement = this.jsonUtil.clone(currentRepeatablePool.changeRequirement[changeRequest.qid]);
-            delete currentRepeatablePool.changeRequirement[changeRequest.qid];
-            // TODO: somehow we need to reduce the questPool by the currently active quests (for all repeatables)
-
-            const repeatableConfig = this.questConfig.repeatableQuests.find((x) =>
-                x.name === currentRepeatablePool.name
-            );
-            const questTypePool = this.generateQuestPool(repeatableConfig, pmcData.Info.Level);
-            const newRepeatableQuest = this.attemptToGenerateRepeatableQuest(pmcData, questTypePool, repeatableConfig);
-            if (newRepeatableQuest)
-            {
-                // Add newly generated quest to daily/weekly array
-                newRepeatableQuest.side = repeatableConfig.side;
-                currentRepeatablePool.activeQuests.push(newRepeatableQuest);
-                currentRepeatablePool.changeRequirement[newRepeatableQuest._id] = {
-                    changeCost: newRepeatableQuest.changeCost,
-                    changeStandingCost: this.randomUtil.getArrayValue([0, 0.01]),
-                };
-
-                const fullProfile = this.profileHelper.getFullProfile(sessionID);
-
-                // Find quest we're replacing in pmc profile quests array and remove it
-                this.questHelper.findAndRemoveQuestFromArrayIfExists(questToReplace._id, pmcData.Quests);
-
-                // Find quest we're replacing in scav profile quests array and remove it
-                this.questHelper.findAndRemoveQuestFromArrayIfExists(
-                    questToReplace._id,
-                    fullProfile.characters.scav?.Quests ?? [],
-                );
-            }
-
-            // Found and replaced the quest in current repeatable
-            repeatableToChange = this.jsonUtil.clone(currentRepeatablePool);
-            delete repeatableToChange.inactiveQuests;
-
-            break;
-        }
-
+    ): IItemEventRouterResponse {
         const output = this.eventOutputHolder.getOutput(sessionID);
-        if (!repeatableToChange)
-        {
-            const message = "Unable to find repeatable quest to replace";
+
+        const fullProfile = this.profileHelper.getFullProfile(sessionID);
+
+        // Check for existing quest in (daily/weekly/scav arrays)
+        const { quest: questToReplace, repeatableType: repeatablesInProfile } = this.getRepeatableById(
+            changeRequest.qid,
+            pmcData,
+        );
+
+        // Subtype name of quest - daily/weekly/scav
+        const repeatableTypeLower = repeatablesInProfile.name.toLowerCase();
+
+        // Save for later standing loss calculation
+        const replacedQuestTraderId = questToReplace.traderId;
+
+        // Update active quests to exclude the quest we're replacing
+        repeatablesInProfile.activeQuests = repeatablesInProfile.activeQuests.filter(
+            (quest) => quest._id !== changeRequest.qid,
+        );
+
+        // Save for later cost calculation
+        const previousChangeRequirement = this.cloner.clone(repeatablesInProfile.changeRequirement[changeRequest.qid]);
+
+        // Delete the replaced quest change requrement as we're going to replace it
+        delete repeatablesInProfile.changeRequirement[changeRequest.qid];
+
+        // Get config for this repeatable sub-type (daily/weekly/scav)
+        const repeatableConfig = this.questConfig.repeatableQuests.find(
+            (config) => config.name === repeatablesInProfile.name,
+        );
+
+        // Generate meta-data for what type/levelrange of quests can be generated for player
+        const allowedQuestTypes = this.generateQuestPool(repeatableConfig, pmcData.Info.Level);
+        const newRepeatableQuest = this.attemptToGenerateRepeatableQuest(pmcData, allowedQuestTypes, repeatableConfig);
+        if (!newRepeatableQuest) {
+            // Unable to find quest being replaced
+            const message = `Unable to generate repeatable quest of type: ${repeatableTypeLower} to replace trader: ${replacedQuestTraderId} quest ${changeRequest.qid}`;
             this.logger.error(message);
 
             return this.httpResponse.appendErrorToOutput(output, message);
         }
 
-        // Charge player money for replacing quest
-        for (const cost of changeRequirement.changeCost)
-        {
-            this.paymentService.addPaymentToOutput(pmcData, cost.templateId, cost.count, sessionID, output);
-            if (output.warnings.length > 0)
-            {
-                return output;
+        // Add newly generated quest to daily/weekly/scav type array
+        newRepeatableQuest.side = repeatableConfig.side;
+        repeatablesInProfile.activeQuests.push(newRepeatableQuest);
+
+        // Find quest we're replacing in pmc profile quests array and remove it
+        this.questHelper.findAndRemoveQuestFromArrayIfExists(questToReplace._id, pmcData.Quests);
+
+        // Find quest we're replacing in scav profile quests array and remove it
+        this.questHelper.findAndRemoveQuestFromArrayIfExists(
+            questToReplace._id,
+            fullProfile.characters.scav?.Quests ?? [],
+        );
+
+        // Add new quests replacement cost to profile
+        repeatablesInProfile.changeRequirement[newRepeatableQuest._id] = {
+            changeCost: newRepeatableQuest.changeCost,
+            changeStandingCost: this.randomUtil.getArrayValue([0, 0.01]),
+        };
+
+        // Check if we should charge player for replacing quest
+        const isFreeToReplace = this.useFreeRefreshIfAvailable(fullProfile, repeatablesInProfile, repeatableTypeLower);
+        if (!isFreeToReplace) {
+            // Reduce standing with trader for not doing their quest
+            const traderOfReplacedQuest = pmcData.TradersInfo[replacedQuestTraderId];
+            traderOfReplacedQuest.standing -= previousChangeRequirement.changeStandingCost;
+
+            const charismaBonus = this.profileHelper.getSkillFromProfile(pmcData, SkillTypes.CHARISMA)?.Progress ?? 0;
+            for (const cost of previousChangeRequirement.changeCost) {
+                // Not free, Charge player + appy charisma bonus to cost of replacement
+                cost.count = Math.trunc(cost.count * (1 - Math.trunc(charismaBonus / 100) * 0.001) ?? 1);
+                this.paymentService.addPaymentToOutput(pmcData, cost.templateId, cost.count, sessionID, output);
+                if (output.warnings.length > 0) {
+                    return output;
+                }
             }
         }
 
-        // Reduce standing with trader for not doing their quest
-        const droppedQuestTrader = pmcData.TradersInfo[replacedQuestTraderId];
-        droppedQuestTrader.standing -= changeRequirement.changeStandingCost;
+        // Clone data before we send it to client
+        const repeatableToChangeClone = this.cloner.clone(repeatablesInProfile);
+
+        // Purge inactive repeatables
+        repeatableToChangeClone.inactiveQuests = [];
+
+        if (!repeatableToChangeClone) {
+            // Unable to find quest being replaced
+            const message = this.localisationService.getText("quest-unable_to_find_repeatable_to_replace");
+            this.logger.error(message);
+
+            return this.httpResponse.appendErrorToOutput(output, message);
+        }
+
+        // Nullguard
+        output.profileChanges[sessionID].repeatableQuests ||= [];
 
         // Update client output with new repeatable
-        if (!output.profileChanges[sessionID].repeatableQuests)
-        {
-            output.profileChanges[sessionID].repeatableQuests = [];
-        }
-        output.profileChanges[sessionID].repeatableQuests.push(repeatableToChange);
+        output.profileChanges[sessionID].repeatableQuests.push(repeatableToChangeClone);
 
         return output;
+    }
+
+    /**
+     * Find a repeatable (daily/weekly/scav) from a players profile by its id
+     * @param questId Id of quest to find
+     * @param pmcData Profile that contains quests to look through
+     * @returns IGetRepeatableByIdResult
+     */
+    protected getRepeatableById(questId: string, pmcData: IPmcData): IGetRepeatableByIdResult {
+        for (const repeatablesInProfile of pmcData.RepeatableQuests) {
+            // Check for existing quest in (daily/weekly/scav arrays)
+            const questToReplace = repeatablesInProfile.activeQuests.find((repeatable) => repeatable._id === questId);
+            if (!questToReplace) {
+                // Not found, skip to next repeatable sub-type
+                continue;
+            }
+
+            return { quest: questToReplace, repeatableType: repeatablesInProfile };
+        }
+
+        return undefined;
     }
 
     protected attemptToGenerateRepeatableQuest(
         pmcData: IPmcData,
         questTypePool: IQuestTypePool,
         repeatableConfig: IRepeatableQuestConfig,
-    ): IRepeatableQuest
-    {
-        let newRepeatableQuest: IRepeatableQuest = null;
-        let attemptsToGenerateQuest = 0;
-        while (!newRepeatableQuest && questTypePool.types.length > 0)
-        {
+    ): IRepeatableQuest {
+        const maxAttempts = 10;
+        let newRepeatableQuest: IRepeatableQuest = undefined;
+        let attempts = 0;
+        while (attempts < maxAttempts && questTypePool.types.length > 0) {
             newRepeatableQuest = this.repeatableQuestGenerator.generateRepeatableQuest(
                 pmcData.Info.Level,
                 pmcData.TradersInfo,
                 questTypePool,
                 repeatableConfig,
             );
-            attemptsToGenerateQuest++;
-            if (attemptsToGenerateQuest > 10)
-            {
-                this.logger.debug(
-                    "We were stuck in repeatable quest generation. This should never happen. Please report",
-                );
+
+            if (newRepeatableQuest) {
+                // Successfully generated a quest, exit loop
                 break;
             }
+
+            attempts++;
+        }
+
+        if (attempts > maxAttempts) {
+            this.logger.debug("We were stuck in repeatable quest generation. This should never happen. Please report");
         }
 
         return newRepeatableQuest;
+    }
+
+    /**
+     * Some accounts have access to free repeatable quest refreshes
+     * Track the usage of them inside players profile
+     * @param fullProfile Player profile
+     * @param repeatableSubType Can be daily / weekly / scav repeatable
+     * @param repeatableTypeName Subtype of repeatable quest: daily / weekly / scav
+     * @returns Is the repeatable being replaced for free
+     */
+    protected useFreeRefreshIfAvailable(
+        fullProfile: ISptProfile,
+        repeatableSubType: IPmcDataRepeatableQuest,
+        repeatableTypeName: string,
+    ): boolean {
+        // No free refreshes, exit early
+        if (repeatableSubType.freeChangesAvailable <= 0) {
+            // Reset counter to 0
+            repeatableSubType.freeChangesAvailable = 0;
+
+            return false;
+        }
+
+        // Only certain game versions have access to free refreshes
+        const hasAccessToFreeRefreshSystem = this.profileHelper.hasAccessToRepeatableFreeRefreshSystem(
+            fullProfile.characters.pmc,
+        );
+
+        // If the player has access and available refreshes:
+        if (hasAccessToFreeRefreshSystem) {
+            // Initialize/retrieve free refresh count for the desired subtype: daily/weekly
+            fullProfile.spt.freeRepeatableRefreshUsedCount ||= {};
+            const repeatableRefreshCounts = fullProfile.spt.freeRepeatableRefreshUsedCount;
+            repeatableRefreshCounts[repeatableTypeName] ||= 0; // Set to 0 if undefined
+
+            // Increment the used count and decrement the available count.
+            repeatableRefreshCounts[repeatableTypeName]++;
+            repeatableSubType.freeChangesAvailable--;
+
+            return true;
+        }
+
+        return false;
     }
 }

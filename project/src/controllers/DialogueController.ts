@@ -1,66 +1,65 @@
+import { IDialogueChatBot } from "@spt/helpers/Dialogue/IDialogueChatBot";
+import { DialogueHelper } from "@spt/helpers/DialogueHelper";
+import { IFriendRequestData } from "@spt/models/eft/dialog/IFriendRequestData";
+import { IFriendRequestSendResponse } from "@spt/models/eft/dialog/IFriendRequestSendResponse";
+import { IGetAllAttachmentsResponse } from "@spt/models/eft/dialog/IGetAllAttachmentsResponse";
+import { IGetFriendListDataResponse } from "@spt/models/eft/dialog/IGetFriendListDataResponse";
+import { IGetMailDialogViewRequestData } from "@spt/models/eft/dialog/IGetMailDialogViewRequestData";
+import { IGetMailDialogViewResponseData } from "@spt/models/eft/dialog/IGetMailDialogViewResponseData";
+import { ISendMessageRequest } from "@spt/models/eft/dialog/ISendMessageRequest";
+import { Dialogue, DialogueInfo, ISptProfile, IUserDialogInfo, Message } from "@spt/models/eft/profile/ISptProfile";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { MessageType } from "@spt/models/enums/MessageType";
+import { ICoreConfig } from "@spt/models/spt/config/ICoreConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { SaveServer } from "@spt/servers/SaveServer";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { MailSendService } from "@spt/services/MailSendService";
+import { TimeUtil } from "@spt/utils/TimeUtil";
 import { inject, injectAll, injectable } from "tsyringe";
 
-import { IDialogueChatBot } from "@spt-aki/helpers/Dialogue/IDialogueChatBot";
-import { DialogueHelper } from "@spt-aki/helpers/DialogueHelper";
-import { IGetAllAttachmentsResponse } from "@spt-aki/models/eft/dialog/IGetAllAttachmentsResponse";
-import { IGetFriendListDataResponse } from "@spt-aki/models/eft/dialog/IGetFriendListDataResponse";
-import { IGetMailDialogViewRequestData } from "@spt-aki/models/eft/dialog/IGetMailDialogViewRequestData";
-import { IGetMailDialogViewResponseData } from "@spt-aki/models/eft/dialog/IGetMailDialogViewResponseData";
-import { ISendMessageRequest } from "@spt-aki/models/eft/dialog/ISendMessageRequest";
-import { Dialogue, DialogueInfo, IAkiProfile, IUserDialogInfo, Message } from "@spt-aki/models/eft/profile/IAkiProfile";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { MessageType } from "@spt-aki/models/enums/MessageType";
-import { ICoreConfig } from "@spt-aki/models/spt/config/ICoreConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { SaveServer } from "@spt-aki/servers/SaveServer";
-import { MailSendService } from "@spt-aki/services/MailSendService";
-import { TimeUtil } from "@spt-aki/utils/TimeUtil";
-
 @injectable()
-export class DialogueController
-{
+export class DialogueController {
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("SaveServer") protected saveServer: SaveServer,
         @inject("TimeUtil") protected timeUtil: TimeUtil,
         @inject("DialogueHelper") protected dialogueHelper: DialogueHelper,
         @inject("MailSendService") protected mailSendService: MailSendService,
+        @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("ConfigServer") protected configServer: ConfigServer,
         @injectAll("DialogueChatBot") protected dialogueChatBots: IDialogueChatBot[],
-    )
-    {
+    ) {
         const coreConfigs = this.configServer.getConfig<ICoreConfig>(ConfigTypes.CORE);
         // if give command is disabled or commando commands are disabled
-        if (!coreConfigs.features?.chatbotFeatures?.commandoEnabled)
-        {
-            const sptCommando = this.dialogueChatBots.find((c) =>
-                c.getChatBot()._id.toLocaleLowerCase() === "sptcommando"
-            );
+        if (!coreConfigs.features?.chatbotFeatures?.commandoEnabled) {
+            const sptCommando = this.dialogueChatBots.find(
+                (c) => c.getChatBot()._id.toLocaleLowerCase() === "sptcommando",
+            )!;
             this.dialogueChatBots.splice(this.dialogueChatBots.indexOf(sptCommando), 1);
         }
-        if (!coreConfigs.features?.chatbotFeatures?.sptFriendEnabled)
-        {
-            const sptFriend = this.dialogueChatBots.find((c) => c.getChatBot()._id.toLocaleLowerCase() === "sptFriend");
+        if (!coreConfigs.features?.chatbotFeatures?.sptFriendEnabled) {
+            const sptFriend = this.dialogueChatBots.find(
+                (c) => c.getChatBot()._id.toLocaleLowerCase() === "sptFriend",
+            )!;
             this.dialogueChatBots.splice(this.dialogueChatBots.indexOf(sptFriend), 1);
         }
     }
 
-    public registerChatBot(chatBot: IDialogueChatBot): void
-    {
-        if (this.dialogueChatBots.some((cb) => cb.getChatBot()._id === chatBot.getChatBot()._id))
-        {
-            throw new Error(`The chat bot ${chatBot.getChatBot()._id} being registered already exists!`);
+    public registerChatBot(chatBot: IDialogueChatBot): void {
+        if (this.dialogueChatBots.some((cb) => cb.getChatBot()._id === chatBot.getChatBot()._id)) {
+            throw new Error(
+                this.localisationService.getText("dialog-chatbot_id_already_exists", chatBot.getChatBot()._id),
+            );
         }
         this.dialogueChatBots.push(chatBot);
     }
 
     /** Handle onUpdate spt event */
-    public update(): void
-    {
+    public update(): void {
         const profiles = this.saveServer.getProfiles();
-        for (const sessionID in profiles)
-        {
+        for (const sessionID in profiles) {
             this.removeExpiredItemsFromMessages(sessionID);
         }
     }
@@ -69,9 +68,7 @@ export class DialogueController
      * Handle client/friend/list
      * @returns IGetFriendListDataResponse
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public getFriendList(sessionID: string): IGetFriendListDataResponse
-    {
+    public getFriendList(sessionID: string): IGetFriendListDataResponse {
         // Force a fake friend called SPT into friend list
         return { Friends: this.dialogueChatBots.map((v) => v.getChatBot()), Ignore: [], InIgnoreList: [] };
     }
@@ -83,11 +80,9 @@ export class DialogueController
      * @param sessionID Session Id
      * @returns array of dialogs
      */
-    public generateDialogueList(sessionID: string): DialogueInfo[]
-    {
+    public generateDialogueList(sessionID: string): DialogueInfo[] {
         const data: DialogueInfo[] = [];
-        for (const dialogueId in this.dialogueHelper.getDialogsForProfile(sessionID))
-        {
+        for (const dialogueId in this.dialogueHelper.getDialogsForProfile(sessionID)) {
             data.push(this.getDialogueInfo(dialogueId, sessionID));
         }
 
@@ -100,8 +95,7 @@ export class DialogueController
      * @param sessionID Session Id
      * @returns DialogueInfo
      */
-    public getDialogueInfo(dialogueID: string, sessionID: string): DialogueInfo
-    {
+    public getDialogueInfo(dialogueID: string, sessionID: string): DialogueInfo {
         const dialogs = this.dialogueHelper.getDialogsForProfile(sessionID);
         const dialogue = dialogs[dialogueID];
 
@@ -117,6 +111,7 @@ export class DialogueController
 
         return result;
     }
+
     /**
      *  Get the users involved in a dialog (player + other party)
      * @param dialog The dialog to check for users
@@ -124,18 +119,19 @@ export class DialogueController
      * @param sessionID Player id
      * @returns IUserDialogInfo array
      */
-    public getDialogueUsers(dialog: Dialogue, messageType: MessageType, sessionID: string): IUserDialogInfo[]
-    {
+    public getDialogueUsers(
+        dialog: Dialogue,
+        messageType: MessageType,
+        sessionID: string,
+    ): IUserDialogInfo[] | undefined {
         const profile = this.saveServer.getProfile(sessionID);
 
         // User to user messages are special in that they need the player to exist in them, add if they don't
         if (
-            messageType === MessageType.USER_MESSAGE
-            && !dialog.Users?.find((userDialog) => userDialog._id === profile.characters.pmc.sessionId)
-        )
-        {
-            if (!dialog.Users)
-            {
+            messageType === MessageType.USER_MESSAGE &&
+            !dialog.Users?.some((userDialog) => userDialog._id === profile.characters.pmc.sessionId)
+        ) {
+            if (!dialog.Users) {
                 dialog.Users = [];
             }
 
@@ -147,6 +143,7 @@ export class DialogueController
                     Nickname: profile.characters.pmc.Info.Nickname,
                     Side: profile.characters.pmc.Info.Side,
                     MemberCategory: profile.characters.pmc.Info.MemberCategory,
+                    SelectedMemberCategory: profile.characters.pmc.Info.SelectedMemberCategory,
                 },
             });
         }
@@ -166,8 +163,7 @@ export class DialogueController
     public generateDialogueView(
         request: IGetMailDialogViewRequestData,
         sessionId: string,
-    ): IGetMailDialogViewResponseData
-    {
+    ): IGetMailDialogViewResponseData {
         const dialogueId = request.dialogId;
         const fullProfile = this.saveServer.getProfile(sessionId);
         const dialogue = this.getDialogByIdFromProfile(fullProfile, request);
@@ -191,10 +187,8 @@ export class DialogueController
      * @param request get dialog request (params used when dialog doesnt exist in profile)
      * @returns Dialogue
      */
-    protected getDialogByIdFromProfile(profile: IAkiProfile, request: IGetMailDialogViewRequestData): Dialogue
-    {
-        if (!profile.dialogues[request.dialogId])
-        {
+    protected getDialogByIdFromProfile(profile: ISptProfile, request: IGetMailDialogViewRequestData): Dialogue {
+        if (!profile.dialogues[request.dialogId]) {
             profile.dialogues[request.dialogId] = {
                 _id: request.dialogId,
                 attachmentsNew: 0,
@@ -204,34 +198,33 @@ export class DialogueController
                 type: request.type,
             };
 
-            if (request.type === MessageType.USER_MESSAGE)
-            {
+            if (request.type === MessageType.USER_MESSAGE) {
                 profile.dialogues[request.dialogId].Users = [];
                 const chatBot = this.dialogueChatBots.find((cb) => cb.getChatBot()._id === request.dialogId);
-                if (chatBot)
-                {
-                    profile.dialogues[request.dialogId].Users.push(chatBot.getChatBot());
+                if (chatBot) {
+                    if (!profile.dialogues[request.dialogId].Users) {
+                        profile.dialogues[request.dialogId].Users = [];
+                    }
+                    profile.dialogues[request.dialogId].Users!.push(chatBot.getChatBot());
                 }
             }
         }
 
         return profile.dialogues[request.dialogId];
     }
+
     /**
      * Get the users involved in a mail between two entities
      * @param fullProfile Player profile
      * @param dialogUsers The participants of the mail
      * @returns IUserDialogInfo array
      */
-    protected getProfilesForMail(fullProfile: IAkiProfile, dialogUsers: IUserDialogInfo[]): IUserDialogInfo[]
-    {
+    protected getProfilesForMail(fullProfile: ISptProfile, dialogUsers?: IUserDialogInfo[]): IUserDialogInfo[] {
         const result: IUserDialogInfo[] = [];
-        if (dialogUsers)
-        {
+        if (dialogUsers) {
             result.push(...dialogUsers);
 
-            if (!result.find((userDialog) => userDialog._id === fullProfile.info.id))
-            {
+            if (!result.some((userDialog) => userDialog._id === fullProfile.info.id)) {
                 // Player doesnt exist, add them in before returning
                 const pmcProfile = fullProfile.characters.pmc;
                 result.push({
@@ -242,6 +235,7 @@ export class DialogueController
                         Side: pmcProfile.Info.Side,
                         Level: pmcProfile.Info.Level,
                         MemberCategory: pmcProfile.Info.MemberCategory,
+                        SelectedMemberCategory: pmcProfile.Info.SelectedMemberCategory,
                     },
                 });
             }
@@ -256,14 +250,11 @@ export class DialogueController
      * @param dialogueID Dialog id
      * @returns Count of messages with attachments
      */
-    protected getUnreadMessagesWithAttachmentsCount(sessionID: string, dialogueID: string): number
-    {
+    protected getUnreadMessagesWithAttachmentsCount(sessionID: string, dialogueID: string): number {
         let newAttachmentCount = 0;
         const activeMessages = this.getActiveMessagesFromDialog(sessionID, dialogueID);
-        for (const message of activeMessages)
-        {
-            if (message.hasRewards && !message.rewardCollected)
-            {
+        for (const message of activeMessages) {
+            if (message.hasRewards && !message.rewardCollected) {
                 newAttachmentCount++;
             }
         }
@@ -276,9 +267,8 @@ export class DialogueController
      * @param messages Messages to check
      * @returns true if uncollected rewards found
      */
-    protected messagesHaveUncollectedRewards(messages: Message[]): boolean
-    {
-        return messages.some((message) => message.items?.data?.length > 0);
+    protected messagesHaveUncollectedRewards(messages: Message[]): boolean {
+        return messages.some((message) => (message.items?.data?.length ?? 0) > 0);
     }
 
     /**
@@ -287,13 +277,16 @@ export class DialogueController
      * @param dialogueId id of the dialog to remove
      * @param sessionId Player id
      */
-    public removeDialogue(dialogueId: string, sessionId: string): void
-    {
+    public removeDialogue(dialogueId: string, sessionId: string): void {
         const profile = this.saveServer.getProfile(sessionId);
         const dialog = profile.dialogues[dialogueId];
-        if (!dialog)
-        {
-            this.logger.error(`No dialog in profile: ${sessionId} found with id: ${dialogueId}`);
+        if (!dialog) {
+            this.logger.error(
+                this.localisationService.getText("dialogue-unable_to_find_in_profile", {
+                    sessionId: sessionId,
+                    dialogueId: dialogueId,
+                }),
+            );
 
             return;
         }
@@ -302,12 +295,15 @@ export class DialogueController
     }
 
     /** Handle client/mail/dialog/pin && Handle client/mail/dialog/unpin */
-    public setDialoguePin(dialogueId: string, shouldPin: boolean, sessionId: string): void
-    {
+    public setDialoguePin(dialogueId: string, shouldPin: boolean, sessionId: string): void {
         const dialog = this.dialogueHelper.getDialogsForProfile(sessionId)[dialogueId];
-        if (!dialog)
-        {
-            this.logger.error(`No dialog in profile: ${sessionId} found with id: ${dialogueId}`);
+        if (!dialog) {
+            this.logger.error(
+                this.localisationService.getText("dialogue-unable_to_find_in_profile", {
+                    sessionId: sessionId,
+                    dialogueId: dialogueId,
+                }),
+            );
 
             return;
         }
@@ -321,18 +317,19 @@ export class DialogueController
      * @param dialogueIds Dialog ids to set as read
      * @param sessionId Player profile id
      */
-    public setRead(dialogueIds: string[], sessionId: string): void
-    {
+    public setRead(dialogueIds: string[], sessionId: string): void {
         const dialogs = this.dialogueHelper.getDialogsForProfile(sessionId);
-        if (!dialogs)
-        {
-            this.logger.error(`No dialog object in profile: ${sessionId}`);
+        if (!dialogs) {
+            this.logger.error(
+                this.localisationService.getText("dialogue-unable_to_find_dialogs_in_profile", {
+                    sessionId: sessionId,
+                }),
+            );
 
             return;
         }
 
-        for (const dialogId of dialogueIds)
-        {
+        for (const dialogId of dialogueIds) {
             dialogs[dialogId].new = 0;
             dialogs[dialogId].attachmentsNew = 0;
         }
@@ -345,15 +342,18 @@ export class DialogueController
      * @param sessionId Session id
      * @returns IGetAllAttachmentsResponse
      */
-    public getAllAttachments(dialogueId: string, sessionId: string): IGetAllAttachmentsResponse
-    {
+    public getAllAttachments(dialogueId: string, sessionId: string): IGetAllAttachmentsResponse | undefined {
         const dialogs = this.dialogueHelper.getDialogsForProfile(sessionId);
         const dialog = dialogs[dialogueId];
-        if (!dialog)
-        {
-            this.logger.error(`No dialog in profile: ${sessionId} found with id: ${dialogueId}`);
+        if (!dialog) {
+            this.logger.error(
+                this.localisationService.getText("dialogue-unable_to_find_in_profile", {
+                    sessionId: sessionId,
+                    dialogueId: dialogueId,
+                }),
+            );
 
-            return;
+            return undefined;
         }
 
         // Removes corner 'new messages' tag
@@ -370,15 +370,14 @@ export class DialogueController
     }
 
     /** client/mail/msg/send */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public sendMessage(sessionId: string, request: ISendMessageRequest): string
-    {
+    public sendMessage(sessionId: string, request: ISendMessageRequest): string {
         this.mailSendService.sendPlayerMessageToNpc(sessionId, request.dialogId, request.text);
 
-        return this.dialogueChatBots.find((cb) => cb.getChatBot()._id === request.dialogId)?.handleMessage(
-            sessionId,
-            request,
-        ) ?? request.dialogId;
+        return (
+            this.dialogueChatBots
+                .find((cb) => cb.getChatBot()._id === request.dialogId)
+                ?.handleMessage(sessionId, request) ?? request.dialogId
+        );
     }
 
     /**
@@ -387,11 +386,10 @@ export class DialogueController
      * @param dialogueId Dialog to get mail attachments from
      * @returns Message array
      */
-    protected getActiveMessagesFromDialog(sessionId: string, dialogueId: string): Message[]
-    {
+    protected getActiveMessagesFromDialog(sessionId: string, dialogueId: string): Message[] {
         const timeNow = this.timeUtil.getTimestamp();
         const dialogs = this.dialogueHelper.getDialogsForProfile(sessionId);
-        return dialogs[dialogueId].messages.filter((message) => timeNow < (message.dt + message.maxStorageTime));
+        return dialogs[dialogueId].messages.filter((message) => timeNow < message.dt + (message.maxStorageTime ?? 0));
     }
 
     /**
@@ -399,19 +397,16 @@ export class DialogueController
      * @param messages Messages to parse
      * @returns messages with items to collect
      */
-    protected getMessagesWithAttachments(messages: Message[]): Message[]
-    {
-        return messages.filter((message) => message.items?.data?.length > 0);
+    protected getMessagesWithAttachments(messages: Message[]): Message[] {
+        return messages.filter((message) => (message.items?.data?.length ?? 0) > 0);
     }
 
     /**
      * Delete expired items from all messages in player profile. triggers when updating traders.
      * @param sessionId Session id
      */
-    protected removeExpiredItemsFromMessages(sessionId: string): void
-    {
-        for (const dialogueId in this.dialogueHelper.getDialogsForProfile(sessionId))
-        {
+    protected removeExpiredItemsFromMessages(sessionId: string): void {
+        for (const dialogueId in this.dialogueHelper.getDialogsForProfile(sessionId)) {
             this.removeExpiredItemsFromMessage(sessionId, dialogueId);
         }
     }
@@ -421,19 +416,15 @@ export class DialogueController
      * @param sessionId Session id
      * @param dialogueId Dialog id
      */
-    protected removeExpiredItemsFromMessage(sessionId: string, dialogueId: string): void
-    {
+    protected removeExpiredItemsFromMessage(sessionId: string, dialogueId: string): void {
         const dialogs = this.dialogueHelper.getDialogsForProfile(sessionId);
         const dialog = dialogs[dialogueId];
-        if (!dialog.messages)
-        {
+        if (!dialog.messages) {
             return;
         }
 
-        for (const message of dialog.messages)
-        {
-            if (this.messageHasExpired(message))
-            {
+        for (const message of dialog.messages) {
+            if (this.messageHasExpired(message)) {
                 message.items = {};
             }
         }
@@ -444,8 +435,12 @@ export class DialogueController
      * @param message Message to check expiry of
      * @returns true or false
      */
-    protected messageHasExpired(message: Message): boolean
-    {
-        return (this.timeUtil.getTimestamp()) > (message.dt + message.maxStorageTime);
+    protected messageHasExpired(message: Message): boolean {
+        return this.timeUtil.getTimestamp() > message.dt + (message.maxStorageTime ?? 0);
+    }
+
+    /** Handle client/friend/request/send  */
+    public sendFriendRequest(sessionID: string, request: IFriendRequestData): IFriendRequestSendResponse {
+        return { status: 0, requestId: "12345", retryAfter: 600 };
     }
 }

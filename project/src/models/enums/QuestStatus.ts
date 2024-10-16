@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-export enum QuestStatus
-{
+export enum QuestStatus {
     Locked = 0,
     AvailableForStart = 1,
     Started = 2,

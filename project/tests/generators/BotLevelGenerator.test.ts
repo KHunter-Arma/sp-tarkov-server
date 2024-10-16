@@ -1,32 +1,27 @@
 import "reflect-metadata";
+
+import { BotLevelGenerator } from "@spt/generators/BotLevelGenerator";
+import { MinMax } from "@spt/models/common/MinMax";
+import { BotGenerationDetails } from "@spt/models/spt/bots/BotGenerationDetails";
+import { DatabaseServer } from "@spt/servers/DatabaseServer";
 import { container } from "tsyringe";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { BotLevelGenerator } from "@spt-aki/generators/BotLevelGenerator";
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { BotGenerationDetails } from "@spt-aki/models/spt/bots/BotGenerationDetails";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-
-describe("BotLevelGenerator", () =>
-{
+describe("BotLevelGenerator", () => {
     let botLevelGenerator: any;
     let databaseServer: DatabaseServer;
 
-    beforeEach(() =>
-    {
+    beforeEach(() => {
         botLevelGenerator = container.resolve<BotLevelGenerator>("BotLevelGenerator");
         databaseServer = container.resolve<DatabaseServer>("DatabaseServer");
     });
 
-    afterEach(() =>
-    {
+    afterEach(() => {
         vi.restoreAllMocks();
     });
 
-    describe("generateBotLevel", () =>
-    {
-        it("should return value between 5 and 10 when player is level 5 and max is 10", () =>
-        {
+    describe("generateBotLevel", () => {
+        it("should return value between 5 and 10 when player is level 5 and max is 10", () => {
             const levelDetails: MinMax = { min: 5, max: 10 };
 
             const botGenerationDetails: BotGenerationDetails = {
@@ -47,33 +42,41 @@ describe("BotLevelGenerator", () =>
         });
     });
 
-    describe("getHighestRelativeBotLevel", () =>
-    {
-        it("should return 10 when player level is 5 and delta is 5", () =>
-        {
+    describe("getHighestRelativeBotLevel", () => {
+        it("should return 10 when player level is 5 and delta is 5", () => {
             const levelDetails: MinMax = { min: 5, max: 10 };
+            const botGenDetails: BotGenerationDetails = {
+                isPmc: false,
+                role: "",
+                side: "",
+                botRelativeLevelDeltaMax: 5,
+                botRelativeLevelDeltaMin: 5,
+                playerLevel: 5,
+                botCountToGenerate: 0,
+                botDifficulty: "",
+                isPlayerScav: false,
+            };
 
-            const expTable = databaseServer.getTables().globals.config.exp.level.exp_table;
-
-            const result = botLevelGenerator.getHighestRelativeBotLevel(5, 5, levelDetails, expTable);
+            const result = botLevelGenerator.getHighestRelativeBotLevel(botGenDetails, levelDetails, 79);
 
             expect(result).toBe(10);
         });
 
-        it("should return 79 when player level is above possible max (100), desired max is 100 and delta is 5", () =>
-        {
+        it("should return 79 when player level is above possible max (100), desired max is 100 and delta is 5", () => {
             const levelDetails: MinMax = { min: 100, max: 100 };
+            const botGenDetails: BotGenerationDetails = {
+                isPmc: false,
+                role: "",
+                side: "",
+                botRelativeLevelDeltaMax: 5,
+                botRelativeLevelDeltaMin: 5,
+                playerLevel: 100,
+                botCountToGenerate: 0,
+                botDifficulty: "",
+                isPlayerScav: false,
+            };
 
-            const expTable = databaseServer.getTables().globals.config.exp.level.exp_table;
-            const playerLevel = 100;
-            const relativeDeltaMax = 5;
-
-            const result = botLevelGenerator.getHighestRelativeBotLevel(
-                playerLevel,
-                relativeDeltaMax,
-                levelDetails,
-                expTable,
-            );
+            const result = botLevelGenerator.getHighestRelativeBotLevel(botGenDetails, levelDetails, 79);
 
             expect(result).toBe(79);
         });

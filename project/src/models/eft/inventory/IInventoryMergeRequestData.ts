@@ -1,7 +1,6 @@
-import { IInventoryBaseActionRequestData } from "@spt-aki/models/eft/inventory/IInventoryBaseActionRequestData";
+import { IInventoryBaseActionRequestData } from "@spt/models/eft/inventory/IInventoryBaseActionRequestData";
 
-export interface IInventoryMergeRequestData extends IInventoryBaseActionRequestData
-{
+export interface IInventoryMergeRequestData extends IInventoryBaseActionRequestData {
     Action: "Merge";
     item: string;
     with: string;

@@ -1,10 +1,9 @@
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
-import { QuestRewardType } from "@spt-aki/models/enums/QuestRewardType";
-import { QuestStatus } from "@spt-aki/models/enums/QuestStatus";
-import { QuestTypeEnum } from "@spt-aki/models/enums/QuestTypeEnum";
+import { Item } from "@spt/models/eft/common/tables/IItem";
+import { QuestRewardType } from "@spt/models/enums/QuestRewardType";
+import { QuestStatus } from "@spt/models/enums/QuestStatus";
+import { QuestTypeEnum } from "@spt/models/enums/QuestTypeEnum";
 
-export interface IQuest
-{
+export interface IQuest {
     /** SPT addition - human readable quest name */
     QuestName?: string;
     _id: string;
@@ -41,8 +40,7 @@ export interface IQuest
     sptStatus?: QuestStatus;
 }
 
-export interface IQuestConditionTypes
-{
+export interface IQuestConditionTypes {
     Started: IQuestCondition[];
     AvailableForFinish: IQuestCondition[];
     AvailableForStart: IQuestCondition[];
@@ -50,8 +48,7 @@ export interface IQuestConditionTypes
     Fail: IQuestCondition[];
 }
 
-export interface IQuestCondition
-{
+export interface IQuestCondition {
     id: string;
     index?: number;
     compareMethod?: string;
@@ -80,14 +77,12 @@ export interface IQuestCondition
     conditionType?: string;
 }
 
-export interface IQuestConditionCounter
-{
+export interface IQuestConditionCounter {
     id: string;
     conditions: IQuestConditionCounterCondition[];
 }
 
-export interface IQuestConditionCounterCondition
-{
+export interface IQuestConditionCounterCondition {
     id: string;
     dynamicLocale: boolean;
     target?: string[] | string; // TODO: some objects have an array and some are just strings, thanks bsg very cool
@@ -115,32 +110,27 @@ export interface IQuestConditionCounterCondition
     resetOnSessionEnd?: boolean;
 }
 
-export interface IEnemyHealthEffect
-{
+export interface IEnemyHealthEffect {
     bodyParts: string[];
     effects: string[];
 }
 
-export interface IValueCompare
-{
+export interface IValueCompare {
     compareMethod: string;
     value: number;
 }
 
-export interface ICounterConditionDistance
-{
+export interface ICounterConditionDistance {
     value: number;
     compareMethod: string;
 }
 
-export interface IDaytimeCounter
-{
+export interface IDaytimeCounter {
     from: number;
     to: number;
 }
 
-export interface VisibilityCondition
-{
+export interface VisibilityCondition {
     id: string;
     target: string;
     value?: number;
@@ -149,8 +139,7 @@ export interface VisibilityCondition
     conditionType: string;
 }
 
-export interface IQuestRewards
-{
+export interface IQuestRewards {
     AvailableForStart?: IQuestReward[];
     AvailableForFinish?: IQuestReward[];
     Started?: IQuestReward[];
@@ -160,8 +149,7 @@ export interface IQuestRewards
     Expired?: IQuestReward[];
 }
 
-export interface IQuestReward
-{
+export interface IQuestReward {
     value?: string | number;
     id?: string;
     type: QuestRewardType;

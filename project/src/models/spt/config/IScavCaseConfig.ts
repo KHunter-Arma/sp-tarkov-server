@@ -1,9 +1,8 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { IBaseConfig } from "@spt-aki/models/spt/config/IBaseConfig";
+import { MinMax } from "@spt/models/common/MinMax";
+import { IBaseConfig } from "@spt/models/spt/config/IBaseConfig";
 
-export interface IScavCaseConfig extends IBaseConfig
-{
-    kind: "aki-scavcase";
+export interface IScavCaseConfig extends IBaseConfig {
+    kind: "spt-scavcase";
     rewardItemValueRangeRub: Record<string, MinMax>;
     moneyRewards: MoneyRewards;
     ammoRewards: AmmoRewards;
@@ -14,23 +13,21 @@ export interface IScavCaseConfig extends IBaseConfig
     allowBossItemsAsRewards: boolean;
 }
 
-export interface MoneyRewards
-{
+export interface MoneyRewards {
     moneyRewardChancePercent: number;
     rubCount: MoneyLevels;
     usdCount: MoneyLevels;
     eurCount: MoneyLevels;
+    gpCount: MoneyLevels;
 }
 
-export interface MoneyLevels
-{
+export interface MoneyLevels {
     common: MinMax;
     rare: MinMax;
     superrare: MinMax;
 }
 
-export interface AmmoRewards
-{
+export interface AmmoRewards {
     ammoRewardChancePercent: number;
     ammoRewardBlacklist: Record<string, string[]>;
     ammoRewardValueRangeRub: Record<string, MinMax>;

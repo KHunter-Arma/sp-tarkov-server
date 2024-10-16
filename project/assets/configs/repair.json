@@ -163,7 +163,7 @@
                 "MalfunctionProtections": {
                     "valuesMinMax": {
                         "min": 0.75,
-                        "max": 0.90
+                        "max": 0.9
                     },
                     "activeDurabilityPercentMinMax": {
                         "min": 75,

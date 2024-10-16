@@ -1,33 +1,28 @@
+import { InraidCallbacks } from "@spt/callbacks/InraidCallbacks";
+import { DynamicRouter, RouteAction } from "@spt/di/Router";
+import { INullResponseData } from "@spt/models/eft/httpResponse/INullResponseData";
 import { inject, injectable } from "tsyringe";
 
-import { InraidCallbacks } from "@spt-aki/callbacks/InraidCallbacks";
-import { DynamicRouter, RouteAction } from "@spt-aki/di/Router";
-
 @injectable()
-export class InraidDynamicRouter extends DynamicRouter
-{
-    constructor(@inject("InraidCallbacks") protected inraidCallbacks: InraidCallbacks)
-    {
+export class InraidDynamicRouter extends DynamicRouter {
+    constructor(@inject("InraidCallbacks") protected inraidCallbacks: InraidCallbacks) {
         super([
             new RouteAction(
                 "/client/location/getLocalloot",
-                (url: string, info: any, sessionID: string, output: string): any =>
-                {
+                async (url: string, info: any, sessionID: string, output: string): Promise<INullResponseData> => {
                     return this.inraidCallbacks.registerPlayer(url, info, sessionID);
                 },
             ),
             new RouteAction(
                 "/singleplayer/traderServices/getTraderServices/",
-                (url: string, info: any, sessionID: string, output: string): any =>
-                {
+                async (url: string, info: any, sessionID: string, output: string): Promise<string> => {
                     return this.inraidCallbacks.getTraderServices(url, info, sessionID);
                 },
             ),
         ]);
     }
 
-    public override getTopLevelRoute(): string
-    {
-        return "aki-name";
+    public override getTopLevelRoute(): string {
+        return "spt-name";
     }
 }

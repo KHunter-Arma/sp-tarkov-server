@@ -1,21 +1,17 @@
+import { HideoutCallbacks } from "@spt/callbacks/HideoutCallbacks";
+import { HandledRoute, ItemEventRouterDefinition } from "@spt/di/Router";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
+import { HideoutEventActions } from "@spt/models/enums/HideoutEventActions";
 import { inject, injectable } from "tsyringe";
 
-import { HideoutCallbacks } from "@spt-aki/callbacks/HideoutCallbacks";
-import { HandledRoute, ItemEventRouterDefinition } from "@spt-aki/di/Router";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import { IItemEventRouterResponse } from "@spt-aki/models/eft/itemEvent/IItemEventRouterResponse";
-import { HideoutEventActions } from "@spt-aki/models/enums/HideoutEventActions";
-
 @injectable()
-export class HideoutItemEventRouter extends ItemEventRouterDefinition
-{
-    constructor(@inject("HideoutCallbacks") protected hideoutCallbacks: HideoutCallbacks)
-    {
+export class HideoutItemEventRouter extends ItemEventRouterDefinition {
+    constructor(@inject("HideoutCallbacks") protected hideoutCallbacks: HideoutCallbacks) {
         super();
     }
 
-    public override getHandledRoutes(): HandledRoute[]
-    {
+    public override getHandledRoutes(): HandledRoute[] {
         return [
             new HandledRoute(HideoutEventActions.HIDEOUT_UPGRADE, false),
             new HandledRoute(HideoutEventActions.HIDEOUT_UPGRADE_COMPLETE, false),
@@ -32,16 +28,14 @@ export class HideoutItemEventRouter extends ItemEventRouterDefinition
         ];
     }
 
-    public override handleItemEvent(
+    public override async handleItemEvent(
         url: string,
         pmcData: IPmcData,
         body: any,
         sessionID: string,
         output: IItemEventRouterResponse,
-    ): IItemEventRouterResponse
-    {
-        switch (url)
-        {
+    ): Promise<IItemEventRouterResponse> {
+        switch (url) {
             case HideoutEventActions.HIDEOUT_UPGRADE:
                 return this.hideoutCallbacks.upgrade(pmcData, body, sessionID, output);
             case HideoutEventActions.HIDEOUT_UPGRADE_COMPLETE:

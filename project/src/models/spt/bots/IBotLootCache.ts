@@ -1,5 +1,4 @@
-export interface IBotLootCache
-{
+export interface IBotLootCache {
     backpackLoot: Record<string, number>;
     pocketLoot: Record<string, number>;
     vestLoot: Record<string, number>;
@@ -16,8 +15,7 @@ export interface IBotLootCache
     grenadeItems: Record<string, number>;
 }
 
-export enum LootCacheType
-{
+export enum LootCacheType {
     SPECIAL = "Special",
     BACKPACK = "Backpack",
     POCKET = "Pocket",

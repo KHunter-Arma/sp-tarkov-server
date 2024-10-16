@@ -1,5 +1,4 @@
-export interface MinMax
-{
+export interface MinMax {
     max: number;
     min: number;
 }

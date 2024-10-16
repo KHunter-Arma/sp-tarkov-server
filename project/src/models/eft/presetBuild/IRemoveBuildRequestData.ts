@@ -1,4 +1,3 @@
-export interface IRemoveBuildRequestData
-{
+export interface IRemoveBuildRequestData {
     id: string;
 }

@@ -1,10 +1,9 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { AirdropTypeEnum } from "@spt-aki/models/enums/AirdropType";
-import { IBaseConfig } from "@spt-aki/models/spt/config/IBaseConfig";
+import { MinMax } from "@spt/models/common/MinMax";
+import { AirdropTypeEnum } from "@spt/models/enums/AirdropType";
+import { IBaseConfig } from "@spt/models/spt/config/IBaseConfig";
 
-export interface IAirdropConfig extends IBaseConfig
-{
-    kind: "aki-airdrop";
+export interface IAirdropConfig extends IBaseConfig {
+    kind: "spt-airdrop";
     airdropChancePercent: AirdropChancePercent;
     airdropTypeWeightings: Record<AirdropTypeEnum, number>;
     /** Lowest point plane will fly at */
@@ -28,8 +27,7 @@ export interface IAirdropConfig extends IBaseConfig
 }
 
 /** Chance map will have an airdrop occur out of 100 - locations not included count as 0% */
-export interface AirdropChancePercent
-{
+export interface AirdropChancePercent {
     bigmap: number;
     woods: number;
     lighthouse: number;
@@ -41,8 +39,7 @@ export interface AirdropChancePercent
 }
 
 /** Loot inside crate */
-export interface AirdropLoot
-{
+export interface AirdropLoot {
     /** Min/max of weapons inside crate */
     weaponPresetCount?: MinMax;
     /** Min/max of armors (head/chest/rig) inside crate */

@@ -1,62 +1,62 @@
+import { HideoutController } from "@spt/controllers/HideoutController";
+import { RagfairController } from "@spt/controllers/RagfairController";
+import { TraderHelper } from "@spt/helpers/TraderHelper";
+import { IEmptyRequestData } from "@spt/models/eft/common/IEmptyRequestData";
+import { IGlobals } from "@spt/models/eft/common/IGlobals";
+import { ICustomizationItem } from "@spt/models/eft/common/tables/ICustomizationItem";
+import { IHandbookBase } from "@spt/models/eft/common/tables/IHandbookBase";
+import { IGetItemPricesResponse } from "@spt/models/eft/game/IGetItemPricesResponse";
+import { IHideoutArea } from "@spt/models/eft/hideout/IHideoutArea";
+import { IHideoutProduction } from "@spt/models/eft/hideout/IHideoutProduction";
+import { IHideoutScavCase } from "@spt/models/eft/hideout/IHideoutScavCase";
+import { IHideoutSettingsBase } from "@spt/models/eft/hideout/IHideoutSettingsBase";
+import { IGetBodyResponseData } from "@spt/models/eft/httpResponse/IGetBodyResponseData";
+import { Money } from "@spt/models/enums/Money";
+import { ISettingsBase } from "@spt/models/spt/server/ISettingsBase";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { HttpResponseUtil } from "@spt/utils/HttpResponseUtil";
+import { TimeUtil } from "@spt/utils/TimeUtil";
 import { inject, injectable } from "tsyringe";
-
-import { HideoutController } from "@spt-aki/controllers/HideoutController";
-import { RagfairController } from "@spt-aki/controllers/RagfairController";
-import { IEmptyRequestData } from "@spt-aki/models/eft/common/IEmptyRequestData";
-import { IGlobals } from "@spt-aki/models/eft/common/IGlobals";
-import { ICustomizationItem } from "@spt-aki/models/eft/common/tables/ICustomizationItem";
-import { IHandbookBase } from "@spt-aki/models/eft/common/tables/IHandbookBase";
-import { IGetItemPricesResponse } from "@spt-aki/models/eft/game/IGetItemPricesResponse";
-import { IHideoutArea } from "@spt-aki/models/eft/hideout/IHideoutArea";
-import { IHideoutProduction } from "@spt-aki/models/eft/hideout/IHideoutProduction";
-import { IHideoutScavCase } from "@spt-aki/models/eft/hideout/IHideoutScavCase";
-import { IHideoutSettingsBase } from "@spt-aki/models/eft/hideout/IHideoutSettingsBase";
-import { IGetBodyResponseData } from "@spt-aki/models/eft/httpResponse/IGetBodyResponseData";
-import { Money } from "@spt-aki/models/enums/Money";
-import { ISettingsBase } from "@spt-aki/models/spt/server/ISettingsBase";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { HttpResponseUtil } from "@spt-aki/utils/HttpResponseUtil";
 
 /**
  * Handle client requests
  */
 @injectable()
-export class DataCallbacks
-{
+export class DataCallbacks {
     constructor(
         @inject("HttpResponseUtil") protected httpResponse: HttpResponseUtil,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("TimeUtil") protected timeUtil: TimeUtil,
+        @inject("TraderHelper") protected traderHelper: TraderHelper,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("RagfairController") protected ragfairController: RagfairController,
         @inject("HideoutController") protected hideoutController: HideoutController,
-    )
-    {}
+    ) {}
 
     /**
      * Handle client/settings
      * @returns ISettingsBase
      */
-    public getSettings(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<ISettingsBase>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().settings);
+    public getSettings(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<ISettingsBase> {
+        return this.httpResponse.getBody(this.databaseService.getSettings());
     }
 
     /**
      * Handle client/globals
      * @returns IGlobals
      */
-    public getGlobals(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<IGlobals>
-    {
-        this.databaseServer.getTables().globals.time = Date.now() / 1000;
-        return this.httpResponse.getBody(this.databaseServer.getTables().globals);
+    public getGlobals(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<IGlobals> {
+        const globals = this.databaseService.getGlobals();
+        globals.time = Date.now() / 1000;
+
+        return this.httpResponse.getBody(this.databaseService.getGlobals());
     }
 
     /**
      * Handle client/items
      * @returns string
      */
-    public getTemplateItems(url: string, info: IEmptyRequestData, sessionID: string): string
-    {
-        return this.httpResponse.getUnclearedBody(this.databaseServer.getTables().templates.items);
+    public getTemplateItems(url: string, info: IEmptyRequestData, sessionID: string): string {
+        return this.httpResponse.getUnclearedBody(this.databaseService.getItems());
     }
 
     /**
@@ -67,9 +67,8 @@ export class DataCallbacks
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IHandbookBase>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().templates.handbook);
+    ): IGetBodyResponseData<IHandbookBase> {
+        return this.httpResponse.getBody(this.databaseService.getHandbook());
     }
 
     /**
@@ -80,18 +79,20 @@ export class DataCallbacks
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<Record<string, ICustomizationItem>>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().templates.customization);
+    ): IGetBodyResponseData<Record<string, ICustomizationItem>> {
+        return this.httpResponse.getBody(this.databaseService.getTemplates().customization);
     }
 
     /**
      * Handle client/account/customization
      * @returns string[]
      */
-    public getTemplateCharacter(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<string[]>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().templates.character);
+    public getTemplateCharacter(
+        url: string,
+        info: IEmptyRequestData,
+        sessionID: string,
+    ): IGetBodyResponseData<string[]> {
+        return this.httpResponse.getBody(this.databaseService.getTemplates().character);
     }
 
     /**
@@ -102,36 +103,32 @@ export class DataCallbacks
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IHideoutSettingsBase>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().hideout.settings);
+    ): IGetBodyResponseData<IHideoutSettingsBase> {
+        return this.httpResponse.getBody(this.databaseService.getHideout().settings);
     }
 
     public getHideoutAreas(
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IHideoutArea[]>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().hideout.areas);
+    ): IGetBodyResponseData<IHideoutArea[]> {
+        return this.httpResponse.getBody(this.databaseService.getHideout().areas);
     }
 
     public gethideoutProduction(
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IHideoutProduction[]>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().hideout.production);
+    ): IGetBodyResponseData<IHideoutProduction[]> {
+        return this.httpResponse.getBody(this.databaseService.getHideout().production);
     }
 
     public getHideoutScavcase(
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IHideoutScavCase[]>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().hideout.scavcase);
+    ): IGetBodyResponseData<IHideoutScavCase[]> {
+        return this.httpResponse.getBody(this.databaseService.getHideout().scavcase);
     }
 
     /**
@@ -141,24 +138,23 @@ export class DataCallbacks
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<Record<string, string>>
-    {
-        return this.httpResponse.getBody(this.databaseServer.getTables().locales.languages);
+    ): IGetBodyResponseData<Record<string, string>> {
+        return this.httpResponse.getBody(this.databaseService.getLocales().languages);
     }
 
     /**
      * Handle client/menu/locale
      */
-    public getLocalesMenu(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<string>
-    {
+    public getLocalesMenu(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<string> {
         const localeId = url.replace("/client/menu/locale/", "");
-        const tables = this.databaseServer.getTables();
-        let result = tables.locales.menu[localeId];
+        const locales = this.databaseService.getLocales();
+        let result = locales.menu[localeId];
 
-        if (result === undefined)
-        {
-            result = tables.locales.menu.en;
+        if (result === undefined) {
+            result = locales.menu.en;
         }
+
+        if (result === undefined) throw new Error(`Unable to determine locale for request with '${localeId}'`);
 
         return this.httpResponse.getBody(result);
     }
@@ -166,15 +162,13 @@ export class DataCallbacks
     /**
      * Handle client/locale
      */
-    public getLocalesGlobal(url: string, info: IEmptyRequestData, sessionID: string): string
-    {
+    public getLocalesGlobal(url: string, info: IEmptyRequestData, sessionID: string): string {
         const localeId = url.replace("/client/locale/", "");
-        const tables = this.databaseServer.getTables();
-        let result = tables.locales.global[localeId];
+        const locales = this.databaseService.getLocales();
+        let result = locales.global[localeId];
 
-        if (result === undefined)
-        {
-            result = tables.locales.global[localeId];
+        if (result === undefined) {
+            result = locales.global["en"];
         }
 
         return this.httpResponse.getUnclearedBody(result);
@@ -183,8 +177,7 @@ export class DataCallbacks
     /**
      * Handle client/hideout/qte/list
      */
-    public getQteList(url: string, info: IEmptyRequestData, sessionID: string): string
-    {
+    public getQteList(url: string, info: IEmptyRequestData, sessionID: string): string {
         return this.httpResponse.getUnclearedBody(this.hideoutController.getQteList(sessionID));
     }
 
@@ -197,20 +190,23 @@ export class DataCallbacks
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IGetItemPricesResponse>
-    {
+    ): IGetBodyResponseData<IGetItemPricesResponse> {
+        const traderId = url.replace("/client/items/prices/", "");
+
+        // All traders share same item prices, unknown how to tell what items are shown for each trader
+        // Shown items listed are likely linked to traders items_buy/category array
         const handbookPrices = this.ragfairController.getStaticPrices();
+
         const response: IGetItemPricesResponse = {
-            supplyNextTime: 1672236024, // todo: get trader refresh time?
+            supplyNextTime: this.traderHelper.getNextUpdateTimestamp(traderId),
             prices: handbookPrices,
             currencyCourses: {
-                /* eslint-disable @typescript-eslint/naming-convention */
                 "5449016a4bdc2d6f028b456f": handbookPrices[Money.ROUBLES],
                 "569668774bdc2da2298b4568": handbookPrices[Money.EUROS],
                 "5696686a4bdc2da3298b456a": handbookPrices[Money.DOLLARS],
-                /* eslint-enable @typescript-eslint/naming-convention */
             },
         };
+
         return this.httpResponse.getBody(response);
     }
 }

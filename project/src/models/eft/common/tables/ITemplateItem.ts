@@ -1,17 +1,15 @@
-import { Ixyz } from "@spt-aki/models/eft/common/Ixyz";
+import { Ixyz } from "@spt/models/eft/common/Ixyz";
 
-export interface ITemplateItem
-{
+export interface ITemplateItem {
     _id: string;
     _name: string;
     _parent: string;
-    _type: string;
+    _type: ItemType;
     _props: Props;
-    _proto: string;
+    _proto?: string;
 }
 
-export interface Props
-{
+export interface Props {
     AllowSpawnOnLocations?: any[];
     BeltMagazineRefreshCount?: number;
     ChangePriceCoef?: number;
@@ -41,6 +39,7 @@ export interface Props
     IsUngivable?: boolean;
     IsUnremovable?: boolean;
     IsLockedafterEquip?: boolean;
+    IsRagfairCurrency?: boolean;
     IsSpecialSlotOnly?: boolean;
     IsStationaryWeapon?: boolean;
     QuestItem?: boolean;
@@ -67,6 +66,7 @@ export interface Props
     DiscardingBlock?: boolean;
     DropSoundType?: string;
     RagFairCommissionModifier?: number;
+    RarityPvE?: string;
     IsAlwaysAvailableForInsurance?: boolean;
     DiscardLimit?: number;
     MaxResource?: number;
@@ -356,7 +356,8 @@ export interface Props
     casingMass?: number;
     casingSounds?: string;
     ProjectileCount?: number;
-    PenetrationChance?: number;
+    PenetrationChanceObstacle?: number;
+    PenetrationDamageMod?: number;
     RicochetChance?: number;
     FragmentationChance?: number;
     Deterioration?: number;
@@ -416,22 +417,25 @@ export interface Props
     LayoutName?: string;
     Lower75Prefab?: Prefab;
     MaxUsages?: number;
+    ScavKillExpPenalty?: number;
+    ScavKillExpPenaltyPVE?: number;
+    ScavKillStandingPenalty?: number;
+    ScavKillStandingPenaltyPVE?: number;
+    TradersDiscount?: number;
+    TradersDiscountPVE?: number;
 }
 
-export interface IHealthEffect
-{
+export interface IHealthEffect {
     type: string;
     value: number;
 }
 
-export interface Prefab
-{
+export interface Prefab {
     path: string;
     rcid: string;
 }
 
-export interface Grid
-{
+export interface Grid {
     _name: string;
     _id: string;
     _parent: string;
@@ -439,8 +443,7 @@ export interface Grid
     _proto: string;
 }
 
-export interface GridProps
-{
+export interface GridProps {
     filters: GridFilter[];
     cellsH: number;
     cellsV: number;
@@ -450,14 +453,12 @@ export interface GridProps
     isSortingTable: boolean;
 }
 
-export interface GridFilter
-{
+export interface GridFilter {
     Filter: string[];
     ExcludedFilter: string[];
 }
 
-export interface Slot
-{
+export interface Slot {
     _name: string;
     _id: string;
     _parent: string;
@@ -468,13 +469,12 @@ export interface Slot
     _proto: string;
 }
 
-export interface SlotProps
-{
+export interface SlotProps {
     filters: SlotFilter[];
+    MaxStackCount?: number;
 }
 
-export interface SlotFilter
-{
+export interface SlotFilter {
     Shift?: number;
     locked?: boolean;
     Plate?: string;
@@ -484,24 +484,21 @@ export interface SlotFilter
     AnimationIndex?: number;
 }
 
-export interface StackSlot
-{
+export interface StackSlot {
     _name?: string;
     _id: string;
     _parent: string;
     _max_count: number;
     _props: StackSlotProps;
     _proto: string;
-    upd: any;
+    upd?: any;
 }
 
-export interface StackSlotProps
-{
+export interface StackSlotProps {
     filters: SlotFilter[];
 }
 
-export interface IRandomLootSettings
-{
+export interface IRandomLootSettings {
     allowToSpawnIdenticalItems: boolean;
     allowToSpawnQuestItems: boolean;
     countByRarity: any[];
@@ -512,26 +509,22 @@ export interface IRandomLootSettings
     minCount: number;
 }
 
-export interface IRandomLootExcluded
-{
+export interface IRandomLootExcluded {
     categoryTemplates: any[];
     rarity: string[];
     templates: any[];
 }
 
-export interface EffectsHealth
-{
+export interface EffectsHealth {
     Energy: EffectsHealthProps;
     Hydration: EffectsHealthProps;
 }
 
-export interface EffectsHealthProps
-{
+export interface EffectsHealthProps {
     value: number;
 }
 
-export interface EffectsDamage
-{
+export interface EffectsDamage {
     Pain: IEffectDamageProps;
     LightBleeding: IEffectDamageProps;
     HeavyBleeding: IEffectDamageProps;
@@ -541,8 +534,7 @@ export interface EffectsDamage
     DestroyedPart: IEffectDamageProps;
 }
 
-export interface IEffectDamageProps
-{
+export interface IEffectDamageProps {
     delay: number;
     duration: number;
     fadeOut: number;
@@ -551,19 +543,22 @@ export interface IEffectDamageProps
     healthPenaltyMax?: number;
 }
 
-export interface IColor
-{
+export interface IColor {
     r: number;
     g: number;
     b: number;
     a: number;
 }
 
-export interface IShotsGroupSettings
-{
+export interface IShotsGroupSettings {
     EndShotIndex: number;
     ShotRecoilPositionStrength: Ixyz;
     ShotRecoilRadianRange: Ixyz;
     ShotRecoilRotationStrength: Ixyz;
     StartShotIndex: number;
+}
+
+export enum ItemType {
+    NODE = "Node",
+    ITEM = "Item",
 }

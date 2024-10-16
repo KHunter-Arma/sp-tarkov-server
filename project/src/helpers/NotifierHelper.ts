@@ -1,22 +1,21 @@
+import { HttpServerHelper } from "@spt/helpers/HttpServerHelper";
+import { Message, MessageContentRagfair } from "@spt/models/eft/profile/ISptProfile";
+import { IWsChatMessageReceived } from "@spt/models/eft/ws/IWsChatMessageReceived";
+import { IWsNotificationEvent } from "@spt/models/eft/ws/IWsNotificationEvent";
+import { IWsRagfairOfferSold } from "@spt/models/eft/ws/IWsRagfairOfferSold";
+import { NotificationEventType } from "@spt/models/enums/NotificationEventType";
 import { inject, injectable } from "tsyringe";
 
-import { HttpServerHelper } from "@spt-aki/helpers/HttpServerHelper";
-import { INotification, NotificationType } from "@spt-aki/models/eft/notifier/INotifier";
-import { Message, MessageContentRagfair } from "@spt-aki/models/eft/profile/IAkiProfile";
-
 @injectable()
-export class NotifierHelper
-{
+export class NotifierHelper {
     /**
      * The default notification sent when waiting times out.
      */
-    protected defaultNotification: INotification = { type: NotificationType.PING, eventId: "ping" };
+    protected defaultNotification: IWsNotificationEvent = { type: NotificationEventType.PING, eventId: "ping" };
 
-    constructor(@inject("HttpServerHelper") protected httpServerHelper: HttpServerHelper)
-    {}
+    constructor(@inject("HttpServerHelper") protected httpServerHelper: HttpServerHelper) {}
 
-    public getDefaultNotification(): INotification
-    {
+    public getDefaultNotification(): IWsNotificationEvent {
         return this.defaultNotification;
     }
 
@@ -29,12 +28,10 @@ export class NotifierHelper
     public createRagfairOfferSoldNotification(
         dialogueMessage: Message,
         ragfairData: MessageContentRagfair,
-    ): INotification
-    {
+    ): IWsRagfairOfferSold {
         return {
-            type: NotificationType.RAGFAIR_OFFER_SOLD,
+            type: NotificationEventType.RAGFAIR_OFFER_SOLD,
             eventId: dialogueMessage._id,
-            dialogId: dialogueMessage.uid,
             ...ragfairData,
         };
     }
@@ -44,18 +41,16 @@ export class NotifierHelper
      * @param dialogueMessage
      * @returns
      */
-    public createNewMessageNotification(dialogueMessage: Message): INotification
-    {
+    public createNewMessageNotification(dialogueMessage: Message): IWsChatMessageReceived {
         return {
-            type: NotificationType.NEW_MESSAGE,
+            type: NotificationEventType.CHAT_MESSAGE_RECEIVED,
             eventId: dialogueMessage._id,
             dialogId: dialogueMessage.uid,
             message: dialogueMessage,
         };
     }
 
-    public getWebSocketServer(sessionID: string): string
-    {
+    public getWebSocketServer(sessionID: string): string {
         return `${this.httpServerHelper.getWebsocketUrl()}/notifierServer/getwebsocket/${sessionID}`;
     }
 }

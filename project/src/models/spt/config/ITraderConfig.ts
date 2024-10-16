@@ -1,10 +1,9 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { IBaseConfig } from "@spt-aki/models/spt/config/IBaseConfig";
-import { LootRequest } from "@spt-aki/models/spt/services/LootRequest";
+import { MinMax } from "@spt/models/common/MinMax";
+import { IBaseConfig } from "@spt/models/spt/config/IBaseConfig";
+import { LootRequest } from "@spt/models/spt/services/LootRequest";
 
-export interface ITraderConfig extends IBaseConfig
-{
-    kind: "aki-trader";
+export interface ITraderConfig extends IBaseConfig {
+    kind: "spt-trader";
     updateTime: UpdateTime[];
     purchasesAreFoundInRaid: boolean;
     /** Should trader reset times be set based on server start time (false = bsg time - on the hour) */
@@ -14,15 +13,13 @@ export interface ITraderConfig extends IBaseConfig
     fence: FenceConfig;
 }
 
-export interface UpdateTime
-{
+export interface UpdateTime {
     traderId: string;
     /** Seconds between trader resets */
     seconds: MinMax;
 }
 
-export interface FenceConfig
-{
+export interface FenceConfig {
     discountOptions: DiscountOptions;
     partialRefreshTimeSeconds: number;
     partialRefreshChangePercent: number;
@@ -33,11 +30,12 @@ export interface FenceConfig
     presetPriceMult: number;
     armorMaxDurabilityPercentMinMax: IItemDurabilityCurrentMax;
     weaponDurabilityPercentMinMax: IItemDurabilityCurrentMax;
-    chancePlateExistsInArmorPercent: number;
+    /** Keyed to plate protection level */
+    chancePlateExistsInArmorPercent: Record<string, number>;
     /** Key: item tpl */
     itemStackSizeOverrideMinMax: Record<string, MinMax>;
     itemTypeLimits: Record<string, number>;
-    /** Prevent duplicate offers of items of specific categories by parentId*/
+    /** Prevent duplicate offers of items of specific categories by parentId */
     preventDuplicateOffersOfCategory: string[];
     regenerateAssortsOnRefresh: boolean;
     /** Max rouble price before item is not listed on flea */
@@ -53,21 +51,18 @@ export interface FenceConfig
     btrDeliveryExpireHours: number;
 }
 
-export interface IItemDurabilityCurrentMax
-{
+export interface IItemDurabilityCurrentMax {
     current: MinMax;
     max: MinMax;
 }
 
-export interface CoopExtractReward extends LootRequest
-{
+export interface CoopExtractReward extends LootRequest {
     sendGift: boolean;
     messageLocaleIds: string[];
     giftExpiryHours: number;
 }
 
-export interface DiscountOptions
-{
+export interface DiscountOptions {
     assortSize: number;
     itemPriceMult: number;
     presetPriceMult: number;

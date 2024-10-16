@@ -1,5 +1,4 @@
-export enum QuestRewardType
-{
+export enum QuestRewardType {
     SKILL = "Skill",
     EXPERIENCE = "Experience",
     TRADER_STANDING = "TraderStanding",
@@ -10,4 +9,5 @@ export enum QuestRewardType
     TRADER_STANDING_RESET = "TraderStandingReset",
     TRADER_STANDING_RESTORE = "TraderStandingRestore",
     STASH_ROWS = "StashRows",
+    ACHIEVEMENT = "Achievement",
 }

@@ -1,66 +1,64 @@
+import { RagfairOfferGenerator } from "@spt/generators/RagfairOfferGenerator";
+import { HandbookHelper } from "@spt/helpers/HandbookHelper";
+import { InventoryHelper } from "@spt/helpers/InventoryHelper";
+import { ItemHelper } from "@spt/helpers/ItemHelper";
+import { PaymentHelper } from "@spt/helpers/PaymentHelper";
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
+import { RagfairHelper } from "@spt/helpers/RagfairHelper";
+import { RagfairOfferHelper } from "@spt/helpers/RagfairOfferHelper";
+import { RagfairSellHelper } from "@spt/helpers/RagfairSellHelper";
+import { RagfairSortHelper } from "@spt/helpers/RagfairSortHelper";
+import { TraderHelper } from "@spt/helpers/TraderHelper";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { Item } from "@spt/models/eft/common/tables/IItem";
+import { IBarterScheme, ITraderAssort } from "@spt/models/eft/common/tables/ITrader";
+import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
+import { ISptProfile } from "@spt/models/eft/profile/ISptProfile";
+import { IAddOfferRequestData, Requirement } from "@spt/models/eft/ragfair/IAddOfferRequestData";
+import { IExtendOfferRequestData } from "@spt/models/eft/ragfair/IExtendOfferRequestData";
+import { IGetItemPriceResult } from "@spt/models/eft/ragfair/IGetItemPriceResult";
+import { IGetMarketPriceRequestData } from "@spt/models/eft/ragfair/IGetMarketPriceRequestData";
+import { IGetOffersResult } from "@spt/models/eft/ragfair/IGetOffersResult";
+import { IGetRagfairOfferByIdRequest } from "@spt/models/eft/ragfair/IGetRagfairOfferByIdRequest";
+import { IRagfairOffer } from "@spt/models/eft/ragfair/IRagfairOffer";
+import { IRemoveOfferRequestData } from "@spt/models/eft/ragfair/IRemoveOfferRequestData";
+import { ISearchRequestData } from "@spt/models/eft/ragfair/ISearchRequestData";
+import { IProcessBuyTradeRequestData } from "@spt/models/eft/trade/IProcessBuyTradeRequestData";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { FleaOfferType } from "@spt/models/enums/FleaOfferType";
+import { MemberCategory } from "@spt/models/enums/MemberCategory";
+import { IRagfairConfig } from "@spt/models/spt/config/IRagfairConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { EventOutputHolder } from "@spt/routers/EventOutputHolder";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { RagfairServer } from "@spt/servers/RagfairServer";
+import { SaveServer } from "@spt/servers/SaveServer";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { PaymentService } from "@spt/services/PaymentService";
+import { RagfairOfferService } from "@spt/services/RagfairOfferService";
+import { RagfairPriceService } from "@spt/services/RagfairPriceService";
+import { RagfairRequiredItemsService } from "@spt/services/RagfairRequiredItemsService";
+import { RagfairTaxService } from "@spt/services/RagfairTaxService";
+import { HttpResponseUtil } from "@spt/utils/HttpResponseUtil";
+import { TimeUtil } from "@spt/utils/TimeUtil";
 import { inject, injectable } from "tsyringe";
-
-import { RagfairOfferGenerator } from "@spt-aki/generators/RagfairOfferGenerator";
-import { HandbookHelper } from "@spt-aki/helpers/HandbookHelper";
-import { InventoryHelper } from "@spt-aki/helpers/InventoryHelper";
-import { ItemHelper } from "@spt-aki/helpers/ItemHelper";
-import { PaymentHelper } from "@spt-aki/helpers/PaymentHelper";
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
-import { RagfairHelper } from "@spt-aki/helpers/RagfairHelper";
-import { RagfairOfferHelper } from "@spt-aki/helpers/RagfairOfferHelper";
-import { RagfairSellHelper } from "@spt-aki/helpers/RagfairSellHelper";
-import { RagfairSortHelper } from "@spt-aki/helpers/RagfairSortHelper";
-import { TraderHelper } from "@spt-aki/helpers/TraderHelper";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
-import { IBarterScheme, ITraderAssort } from "@spt-aki/models/eft/common/tables/ITrader";
-import { IItemEventRouterResponse } from "@spt-aki/models/eft/itemEvent/IItemEventRouterResponse";
-import { IAkiProfile } from "@spt-aki/models/eft/profile/IAkiProfile";
-import { IAddOfferRequestData, Requirement } from "@spt-aki/models/eft/ragfair/IAddOfferRequestData";
-import { IExtendOfferRequestData } from "@spt-aki/models/eft/ragfair/IExtendOfferRequestData";
-import { IGetItemPriceResult } from "@spt-aki/models/eft/ragfair/IGetItemPriceResult";
-import { IGetMarketPriceRequestData } from "@spt-aki/models/eft/ragfair/IGetMarketPriceRequestData";
-import { IGetOffersResult } from "@spt-aki/models/eft/ragfair/IGetOffersResult";
-import { IGetRagfairOfferByIdRequest } from "@spt-aki/models/eft/ragfair/IGetRagfairOfferByIdRequest";
-import { IRagfairOffer } from "@spt-aki/models/eft/ragfair/IRagfairOffer";
-import { IRemoveOfferRequestData } from "@spt-aki/models/eft/ragfair/IRemoveOfferRequestData";
-import { ISearchRequestData } from "@spt-aki/models/eft/ragfair/ISearchRequestData";
-import { IProcessBuyTradeRequestData } from "@spt-aki/models/eft/trade/IProcessBuyTradeRequestData";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { MemberCategory } from "@spt-aki/models/enums/MemberCategory";
-import { RagfairSort } from "@spt-aki/models/enums/RagfairSort";
-import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { EventOutputHolder } from "@spt-aki/routers/EventOutputHolder";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { RagfairServer } from "@spt-aki/servers/RagfairServer";
-import { SaveServer } from "@spt-aki/servers/SaveServer";
-import { LocalisationService } from "@spt-aki/services/LocalisationService";
-import { PaymentService } from "@spt-aki/services/PaymentService";
-import { RagfairOfferService } from "@spt-aki/services/RagfairOfferService";
-import { RagfairPriceService } from "@spt-aki/services/RagfairPriceService";
-import { RagfairRequiredItemsService } from "@spt-aki/services/RagfairRequiredItemsService";
-import { RagfairTaxService } from "@spt-aki/services/RagfairTaxService";
-import { HttpResponseUtil } from "@spt-aki/utils/HttpResponseUtil";
-import { TimeUtil } from "@spt-aki/utils/TimeUtil";
 
 /**
  * Handle RagfairCallback events
  */
 @injectable()
-export class RagfairController
-{
+export class RagfairController {
     protected ragfairConfig: IRagfairConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("TimeUtil") protected timeUtil: TimeUtil,
         @inject("HttpResponseUtil") protected httpResponse: HttpResponseUtil,
         @inject("EventOutputHolder") protected eventOutputHolder: EventOutputHolder,
         @inject("RagfairServer") protected ragfairServer: RagfairServer,
         @inject("RagfairPriceService") protected ragfairPriceService: RagfairPriceService,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("ItemHelper") protected itemHelper: ItemHelper,
         @inject("SaveServer") protected saveServer: SaveServer,
         @inject("RagfairSellHelper") protected ragfairSellHelper: RagfairSellHelper,
@@ -79,8 +77,7 @@ export class RagfairController
         @inject("RagfairOfferGenerator") protected ragfairOfferGenerator: RagfairOfferGenerator,
         @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+    ) {
         this.ragfairConfig = this.configServer.getConfig(ConfigTypes.RAGFAIR);
     }
 
@@ -91,8 +88,7 @@ export class RagfairController
      * @param searchRequest Search request data
      * @returns IGetOffersResult
      */
-    public getOffers(sessionID: string, searchRequest: ISearchRequestData): IGetOffersResult
-    {
+    public getOffers(sessionID: string, searchRequest: ISearchRequestData): IGetOffersResult {
         const profile = this.profileHelper.getFullProfile(sessionID);
 
         const itemsToAdd = this.ragfairHelper.filterCategories(sessionID, searchRequest);
@@ -106,8 +102,7 @@ export class RagfairController
         result.offers = this.getOffersForSearchType(searchRequest, itemsToAdd, traderAssorts, profile.characters.pmc);
 
         // Client requested a category refresh
-        if (searchRequest.updateOfferCount)
-        {
+        if (searchRequest.updateOfferCount) {
             result.categories = this.getSpecificCategories(profile.characters.pmc, searchRequest, result.offers);
         }
 
@@ -121,14 +116,11 @@ export class RagfairController
         );
 
         // Match offers with quests and lock unfinished quests
-        for (const offer of result.offers)
-        {
-            if (offer.user.memberType === MemberCategory.TRADER)
-            {
+        for (const offer of result.offers) {
+            if (offer.user.memberType === MemberCategory.TRADER) {
                 // for the items, check the barter schemes. The method getDisplayableAssorts sets a flag sptQuestLocked
                 // to true if the quest is not completed yet
-                if (this.ragfairOfferHelper.traderOfferItemQuestLocked(offer, traderAssorts))
-                {
+                if (this.ragfairOfferHelper.traderOfferItemQuestLocked(offer, traderAssorts)) {
                     offer.locked = true;
                 }
 
@@ -141,8 +133,7 @@ export class RagfairController
         result.offersCount = result.offers.length;
 
         // Handle paging before returning results only if searching for general items, not preset items
-        if (searchRequest.buildCount === 0)
-        {
+        if (searchRequest.buildCount === 0) {
             const start = searchRequest.page * searchRequest.limit;
             const end = Math.min((searchRequest.page + 1) * searchRequest.limit, result.offers.length);
             result.offers = result.offers.slice(start, end);
@@ -157,10 +148,9 @@ export class RagfairController
      * @param request Request data
      * @returns IRagfairOffer
      */
-    public getOfferById(sessionId: string, request: IGetRagfairOfferByIdRequest): IRagfairOffer
-    {
+    public getOfferById(sessionId: string, request: IGetRagfairOfferByIdRequest): IRagfairOffer {
         const offers = this.ragfairOfferService.getOffers();
-        const offerToReturn = offers.find((x) => x.intId === request.id);
+        const offerToReturn = offers.find((offer) => offer.intId === request.id);
 
         return offerToReturn;
     }
@@ -178,16 +168,13 @@ export class RagfairController
         itemsToAdd: string[],
         traderAssorts: Record<string, ITraderAssort>,
         pmcProfile: IPmcData,
-    ): IRagfairOffer[]
-    {
+    ): IRagfairOffer[] {
         // Searching for items in preset menu
-        if (searchRequest.buildCount)
-        {
+        if (searchRequest.buildCount) {
             return this.ragfairOfferHelper.getOffersForBuild(searchRequest, itemsToAdd, traderAssorts, pmcProfile);
         }
 
-        if (searchRequest.neededSearchId?.length > 0)
-        {
+        if (searchRequest.neededSearchId?.length > 0) {
             return this.ragfairOfferHelper.getOffersThatRequireItem(searchRequest, pmcProfile);
         }
 
@@ -205,24 +192,18 @@ export class RagfairController
         pmcProfile: IPmcData,
         searchRequest: ISearchRequestData,
         offers: IRagfairOffer[],
-    ): Record<string, number>
-    {
+    ): Record<string, number> {
         // Linked/required search categories
         const playerHasFleaUnlocked =
-            pmcProfile.Info.Level >= this.databaseServer.getTables().globals.config.RagFair.minUserLevel;
+            pmcProfile.Info.Level >= this.databaseService.getGlobals().config.RagFair.minUserLevel;
         let offerPool = [];
-        if (this.isLinkedSearch(searchRequest) || this.isRequiredSearch(searchRequest))
-        {
+        if (this.isLinkedSearch(searchRequest) || this.isRequiredSearch(searchRequest)) {
             offerPool = offers;
-        }
-        else if ((!(this.isLinkedSearch(searchRequest) || this.isRequiredSearch(searchRequest))))
-        {
+        } else if (!(this.isLinkedSearch(searchRequest) || this.isRequiredSearch(searchRequest))) {
             // Get all categories
             offerPool = this.ragfairOfferService.getOffers();
-        }
-        else
-        {
-            this.logger.error("Unable to get categories from search criteria, see log for request data");
+        } else {
+            this.logger.error(this.localisationService.getText("ragfair-unable_to_get_categories"));
             this.logger.debug(JSON.stringify(searchRequest));
             return {};
         }
@@ -234,12 +215,10 @@ export class RagfairController
      * Add index to all offers passed in (0-indexed)
      * @param offers Offers to add index value to
      */
-    protected addIndexValueToOffers(offers: IRagfairOffer[]): void
-    {
+    protected addIndexValueToOffers(offers: IRagfairOffer[]): void {
         let counter = 0;
 
-        for (const offer of offers)
-        {
+        for (const offer of offers) {
             offer.intId = ++counter;
             offer.items[0].parentId = ""; // Without this it causes error: "Item deserialization error: No parent with id hideout found for item x"
         }
@@ -250,17 +229,13 @@ export class RagfairController
      * @param offer Flea offer to update
      * @param fullProfile Players full profile
      */
-    protected setTraderOfferPurchaseLimits(offer: IRagfairOffer, fullProfile: IAkiProfile): void
-    {
+    protected setTraderOfferPurchaseLimits(offer: IRagfairOffer, fullProfile: ISptProfile): void {
         // No trader found, create a blank record for them
-        if (!fullProfile.traderPurchases[offer.user.id])
-        {
-            fullProfile.traderPurchases[offer.user.id] = {};
-        }
+        fullProfile.traderPurchases[offer.user.id] ||= {};
 
         const traderAssorts = this.traderHelper.getTraderAssortsByTraderId(offer.user.id).items;
         const assortId = offer.items[0]._id;
-        const assortData = traderAssorts.find((x) => x._id === assortId);
+        const assortData = traderAssorts.find((item) => item._id === assortId);
 
         // Use value stored in profile, otherwise use value directly from in-memory trader assort data
         offer.buyRestrictionCurrent = fullProfile.traderPurchases[offer.user.id][assortId]
@@ -274,14 +249,12 @@ export class RagfairController
      * Adjust ragfair offer stack count to match same value as traders assort stack count
      * @param offer Flea offer to adjust stack size of
      */
-    protected setTraderOfferStackSize(offer: IRagfairOffer): void
-    {
+    protected setTraderOfferStackSize(offer: IRagfairOffer): void {
         const firstItem = offer.items[0];
         const traderAssorts = this.traderHelper.getTraderAssortsByTraderId(offer.user.id).items;
 
         const assortPurchased = traderAssorts.find((x) => x._id === offer.items[0]._id);
-        if (!assortPurchased)
-        {
+        if (!assortPurchased) {
             this.logger.warning(
                 this.localisationService.getText("ragfair-unable_to_adjust_stack_count_assort_not_found", {
                     offerId: offer.items[0]._id,
@@ -300,8 +273,7 @@ export class RagfairController
      * @param info Search request
      * @returns True if it is a 'linked' search type
      */
-    protected isLinkedSearch(info: ISearchRequestData): boolean
-    {
+    protected isLinkedSearch(info: ISearchRequestData): boolean {
         return info.linkedSearchId !== "";
     }
 
@@ -310,26 +282,22 @@ export class RagfairController
      * @param info Search request
      * @returns True if it is a 'required' search type
      */
-    protected isRequiredSearch(info: ISearchRequestData): boolean
-    {
+    protected isRequiredSearch(info: ISearchRequestData): boolean {
         return info.neededSearchId !== "";
     }
 
     /**
      * Check all profiles and sell player offers / send player money for listing if it sold
      */
-    public update(): void
-    {
+    public update(): void {
         const profilesDict = this.saveServer.getProfiles();
-        for (const sessionID in this.saveServer.getProfiles())
-        {
+        for (const sessionID in this.saveServer.getProfiles()) {
             // Check profile is capable of creating offers
             const pmcProfile = profilesDict[sessionID].characters.pmc;
             if (
-                pmcProfile.RagfairInfo !== undefined
-                && pmcProfile.Info.Level >= this.databaseServer.getTables().globals.config.RagFair.minUserLevel
-            )
-            {
+                pmcProfile.RagfairInfo !== undefined &&
+                pmcProfile.Info.Level >= this.databaseService.getGlobals().config.RagFair.minUserLevel
+            ) {
                 this.ragfairOfferHelper.processOffersOnProfile(sessionID);
             }
         }
@@ -340,49 +308,44 @@ export class RagfairController
      * @param getPriceRequest
      * @returns min/avg/max values for an item based on flea offers available
      */
-    public getItemMinAvgMaxFleaPriceValues(getPriceRequest: IGetMarketPriceRequestData): IGetItemPriceResult
-    {
+    public getItemMinAvgMaxFleaPriceValues(getPriceRequest: IGetMarketPriceRequestData): IGetItemPriceResult {
         // Get all items of tpl
         const offers = this.ragfairOfferService.getOffersOfType(getPriceRequest.templateId);
 
         // Offers exist for item, get averages of what's listed
-        if (typeof offers === "object" && offers.length > 0)
-        {
+        if (typeof offers === "object" && offers.length > 0) {
             // These get calculated while iterating through the list below
             let min = Number.MAX_VALUE;
             let max = 0;
 
             // Get the average offer price, excluding barter offers
             let avgOfferCount = 0;
-            const avg = offers.reduce((sum, offer) =>
-            {
-                // Exclude barter items, they tend to have outrageous equivalent prices
-                if (offer.requirements.some((req) => !this.paymentHelper.isMoneyTpl(req._tpl)))
-                {
-                    return sum;
-                }
+            const avg =
+                offers.reduce((sum, offer) => {
+                    // Exclude barter items, they tend to have outrageous equivalent prices
+                    if (offer.requirements.some((req) => !this.paymentHelper.isMoneyTpl(req._tpl))) {
+                        return sum;
+                    }
 
-                // Figure out how many items the requirementsCost is applying to, and what the per-item price is
-                const offerItemCount = Math.max(offer.sellInOnePiece ? offer.items[0].upd?.StackObjectsCount ?? 1 : 1);
-                const perItemPrice = offer.requirementsCost / offerItemCount;
+                    // Figure out how many items the requirementsCost is applying to, and what the per-item price is
+                    const offerItemCount = Math.max(
+                        offer.sellInOnePiece ? offer.items[0].upd?.StackObjectsCount ?? 1 : 1,
+                    );
+                    const perItemPrice = offer.requirementsCost / offerItemCount;
 
-                // Handle min/max calculations based on the per-item price
-                if (perItemPrice < min)
-                {
-                    min = perItemPrice;
-                }
-                else if (perItemPrice > max)
-                {
-                    max = perItemPrice;
-                }
+                    // Handle min/max calculations based on the per-item price
+                    if (perItemPrice < min) {
+                        min = perItemPrice;
+                    } else if (perItemPrice > max) {
+                        max = perItemPrice;
+                    }
 
-                avgOfferCount++;
-                return sum + perItemPrice;
-            }, 0) / Math.max(avgOfferCount, 1);
+                    avgOfferCount++;
+                    return sum + perItemPrice;
+                }, 0) / Math.max(avgOfferCount, 1);
 
             // If no items were actually counted, min will still be MAX_VALUE, so set it to 0
-            if (min === Number.MAX_VALUE)
-            {
+            if (min === Number.MAX_VALUE) {
                 min = 0;
             }
 
@@ -390,11 +353,8 @@ export class RagfairController
         }
 
         // No offers listed, get price from live ragfair price list prices.json
-        const templatesDb = this.databaseServer.getTables().templates;
-
-        let tplPrice = templatesDb.prices[getPriceRequest.templateId];
-        if (!tplPrice)
-        {
+        let tplPrice = this.databaseService.getPrices()[getPriceRequest.templateId];
+        if (!tplPrice) {
             // No flea price, get handbook price
             tplPrice = this.handbookHelper.getTemplatePrice(getPriceRequest.templateId);
         }
@@ -413,83 +373,103 @@ export class RagfairController
         pmcData: IPmcData,
         offerRequest: IAddOfferRequestData,
         sessionID: string,
-    ): IItemEventRouterResponse
-    {
+    ): IItemEventRouterResponse {
         const output = this.eventOutputHolder.getOutput(sessionID);
         const fullProfile = this.saveServer.getProfile(sessionID);
 
         const validationMessage = "";
-        if (!this.isValidPlayerOfferRequest(offerRequest, validationMessage))
-        {
+        if (!this.isValidPlayerOfferRequest(offerRequest, validationMessage)) {
             return this.httpResponse.appendErrorToOutput(output, validationMessage);
         }
 
-        // Get an array of items from player inventory to list on flea
-        const { items: itemsInInventoryToList, errorMessage: itemsInInventoryError } = this
-            .getItemsToListOnFleaFromInventory(pmcData, offerRequest.items);
-        if (!itemsInInventoryToList || itemsInInventoryError)
-        {
+        const typeOfOffer = this.getOfferType(offerRequest);
+        if (typeOfOffer === FleaOfferType.UNKNOWN) {
+            return this.httpResponse.appendErrorToOutput(output, "Unknown offer type, cannot list item on flea");
+        }
+
+        switch (typeOfOffer) {
+            case FleaOfferType.SINGLE:
+                return this.createSingleOffer(sessionID, offerRequest, fullProfile, output);
+            case FleaOfferType.MULTI:
+                return this.createMultiOffer(sessionID, offerRequest, fullProfile, output);
+            case FleaOfferType.PACK:
+                return this.createPackOffer(sessionID, offerRequest, fullProfile, output);
+        }
+    }
+
+    /**
+     * Create a flea offer for a single item - uncludes an item with > 1 sized stack
+     * e.g. 1 ammo stack of 30 cartridges
+     * @param sessionID Session id
+     * @param offerRequest Offer request from client
+     * @param fullProfile Full profile of player
+     * @param output Response to send to client
+     * @returns IItemEventRouterResponse
+     */
+    protected createSingleOffer(
+        sessionID: string,
+        offerRequest: IAddOfferRequestData,
+        fullProfile: ISptProfile,
+        output: IItemEventRouterResponse,
+    ): IItemEventRouterResponse {
+        const pmcData = fullProfile.characters.pmc;
+        const itemsToListCount = offerRequest.items.length; // Does not count stack size, only items
+
+        // Find items to be listed on flea from player inventory
+        const { items: itemsAndChildrenInInventoryToList, errorMessage: itemsInInventoryError } =
+            this.getItemsToListOnFleaFromInventory(pmcData, offerRequest.items);
+        if (!itemsAndChildrenInInventoryToList || itemsInInventoryError) {
             this.httpResponse.appendErrorToOutput(output, itemsInInventoryError);
         }
+
+        // Total count of items summed using their stack counts
+        const stackCountTotal = this.ragfairOfferHelper.getTotalStackCountSize(itemsAndChildrenInInventoryToList);
 
         // Checks are done, create the offer
         const playerListedPriceInRub = this.calculateRequirementsPriceInRub(offerRequest.requirements);
         const offer = this.createPlayerOffer(
             sessionID,
             offerRequest.requirements,
-            this.ragfairHelper.mergeStackable(itemsInInventoryToList),
-            offerRequest.sellInOnePiece,
+            itemsAndChildrenInInventoryToList[0],
+            false,
         );
         const rootItem = offer.items[0];
 
         // Get average of items quality+children
-        const qualityMultiplier = this.itemHelper.getItemQualityModifierForOfferItems(offer.items);
-        let averageOfferPrice = this.ragfairPriceService.getFleaPriceForOfferItems(offer.items);
+        const qualityMultiplier = this.itemHelper.getItemQualityModifierForItems(offer.items, true);
 
-        // Check for and apply item price modifer if it exists
+        // Average offer price for single item (or whole weapon)
+        let averageOfferPriceSingleItem = this.ragfairPriceService.getFleaPriceForOfferItems(offer.items);
+
+        // Check for and apply item price modifer if it exists in config
         const itemPriceModifer = this.ragfairConfig.dynamic.itemPriceMultiplier[rootItem._tpl];
-        if (itemPriceModifer)
-        {
-            averageOfferPrice *= itemPriceModifer;
+        if (itemPriceModifer) {
+            averageOfferPriceSingleItem *= itemPriceModifer;
         }
 
-        // Multiply single item price by stack count and quality
-        averageOfferPrice *= rootItem.upd.StackObjectsCount * qualityMultiplier;
-
-        const itemStackCount = (offerRequest.sellInOnePiece) ? 1 : rootItem.upd.StackObjectsCount;
-
-        // Get averaged price of a single item being listed
-        const averageSingleItemPrice = (offerRequest.sellInOnePiece)
-            ? averageOfferPrice / rootItem.upd.StackObjectsCount // Packs are a single offer made of many items
-            : averageOfferPrice / itemStackCount;
-
-        // Get averaged price of listing
-        const averagePlayerListedPriceInRub = (offerRequest.sellInOnePiece)
-            ? playerListedPriceInRub / rootItem.upd.StackObjectsCount
-            : playerListedPriceInRub;
+        // Multiply single item price by quality
+        averageOfferPriceSingleItem *= qualityMultiplier;
 
         // Packs are reduced to the average price of a single item in the pack vs the averaged single price of an item
         const sellChancePercent = this.ragfairSellHelper.calculateSellChance(
-            averageSingleItemPrice,
-            averagePlayerListedPriceInRub,
+            averageOfferPriceSingleItem,
+            playerListedPriceInRub,
             qualityMultiplier,
         );
-        offer.sellResult = this.ragfairSellHelper.rollForSale(sellChancePercent, itemStackCount);
+        offer.sellResult = this.ragfairSellHelper.rollForSale(sellChancePercent, stackCountTotal);
 
         // Subtract flea market fee from stash
-        if (this.ragfairConfig.sell.fees)
-        {
+        if (this.ragfairConfig.sell.fees) {
             const taxFeeChargeFailed = this.chargePlayerTaxFee(
                 sessionID,
                 rootItem,
                 pmcData,
                 playerListedPriceInRub,
-                itemStackCount,
+                stackCountTotal,
                 offerRequest,
                 output,
             );
-            if (taxFeeChargeFailed)
-            {
+            if (taxFeeChargeFailed) {
                 return output;
             }
         }
@@ -499,12 +479,239 @@ export class RagfairController
         output.profileChanges[sessionID].ragFairOffers.push(offer);
 
         // Remove items from inventory after creating offer
-        for (const itemToRemove of offerRequest.items)
-        {
+        for (const itemToRemove of offerRequest.items) {
             this.inventoryHelper.removeItem(pmcData, itemToRemove, sessionID, output);
         }
 
         return output;
+    }
+
+    /**
+     * Create a flea offer for multiples of the same item, can be single items or items with multiple in the stack
+     * e.g. 2 ammo stacks of 30 cartridges each
+     * Each item can be purchsed individually
+     * @param sessionID Session id
+     * @param offerRequest Offer request from client
+     * @param fullProfile Full profile of player
+     * @param output Response to send to client
+     * @returns IItemEventRouterResponse
+     */
+    protected createMultiOffer(
+        sessionID: string,
+        offerRequest: IAddOfferRequestData,
+        fullProfile: ISptProfile,
+        output: IItemEventRouterResponse,
+    ): IItemEventRouterResponse {
+        const pmcData = fullProfile.characters.pmc;
+        const itemsToListCount = offerRequest.items.length; // Does not count stack size, only items
+
+        // multi-offers are all the same item,
+        // Get first item and its children and use as template
+        const firstListingAndChidren = this.itemHelper.findAndReturnChildrenAsItems(
+            pmcData.Inventory.items,
+            offerRequest.items[0],
+        );
+
+        // Find items to be listed on flea (+ children) from player inventory
+        const { items: itemsAndChildrenInInventoryToList, errorMessage: itemsInInventoryError } =
+            this.getItemsToListOnFleaFromInventory(pmcData, offerRequest.items);
+        if (!itemsAndChildrenInInventoryToList || itemsInInventoryError) {
+            this.httpResponse.appendErrorToOutput(output, itemsInInventoryError);
+        }
+
+        // Total count of items summed using their stack counts
+        const stackCountTotal = this.ragfairOfferHelper.getTotalStackCountSize(itemsAndChildrenInInventoryToList);
+
+        // When listing identical items on flea, condense separate items into one stack with a merged stack count
+        // e.g. 2 ammo items, stackObjectCount = 3 for each, will result in 1 stack of 6
+        if (!firstListingAndChidren[0].upd) {
+            firstListingAndChidren[0].upd = {};
+        }
+        firstListingAndChidren[0].upd.StackObjectsCount = stackCountTotal;
+
+        // Create flea object
+        const offer = this.createPlayerOffer(sessionID, offerRequest.requirements, firstListingAndChidren, false);
+
+        // This is the item that will be listed on flea, has merged stackObjectCount
+        const newRootOfferItem = offer.items[0];
+
+        // Average offer price for single item (or whole weapon)
+        let averageOfferPrice = this.ragfairPriceService.getFleaPriceForOfferItems(offer.items);
+
+        // Check for and apply item price modifer if it exists in config
+        const itemPriceModifer = this.ragfairConfig.dynamic.itemPriceMultiplier[newRootOfferItem._tpl];
+        if (itemPriceModifer) {
+            averageOfferPrice *= itemPriceModifer;
+        }
+
+        // Get average of item+children quality
+        const qualityMultiplier = this.itemHelper.getItemQualityModifierForItems(offer.items, true);
+
+        // Multiply single item price by quality
+        averageOfferPrice *= qualityMultiplier;
+
+        // Get price player listed items for in roubles
+        const playerListedPriceInRub = this.calculateRequirementsPriceInRub(offerRequest.requirements);
+
+        // Roll sale chance
+        const sellChancePercent = this.ragfairSellHelper.calculateSellChance(
+            averageOfferPrice,
+            playerListedPriceInRub,
+            qualityMultiplier,
+        );
+
+        // Create array of sell times for items listed
+        offer.sellResult = this.ragfairSellHelper.rollForSale(sellChancePercent, stackCountTotal);
+
+        // Subtract flea market fee from stash
+        if (this.ragfairConfig.sell.fees) {
+            const taxFeeChargeFailed = this.chargePlayerTaxFee(
+                sessionID,
+                newRootOfferItem,
+                pmcData,
+                playerListedPriceInRub,
+                stackCountTotal,
+                offerRequest,
+                output,
+            );
+            if (taxFeeChargeFailed) {
+                return output;
+            }
+        }
+
+        // Add offer to players profile + add to client response
+        fullProfile.characters.pmc.RagfairInfo.offers.push(offer);
+        output.profileChanges[sessionID].ragFairOffers.push(offer);
+
+        // Remove items from inventory after creating offer
+        for (const itemToRemove of offerRequest.items) {
+            this.inventoryHelper.removeItem(pmcData, itemToRemove, sessionID, output);
+        }
+
+        return output;
+    }
+
+    /**
+     * Create a flea offer for multiple items, can be single items or items with multiple in the stack
+     * e.g. 2 ammo stacks of 30 cartridges each
+     * The entire package must be purchased in one go
+     * @param sessionID Session id
+     * @param offerRequest Offer request from client
+     * @param fullProfile Full profile of player
+     * @param output Response to send to client
+     * @returns IItemEventRouterResponse
+     */
+    protected createPackOffer(
+        sessionID: string,
+        offerRequest: IAddOfferRequestData,
+        fullProfile: ISptProfile,
+        output: IItemEventRouterResponse,
+    ): IItemEventRouterResponse {
+        const pmcData = fullProfile.characters.pmc;
+        const itemsToListCount = offerRequest.items.length; // Does not count stack size, only items
+
+        // multi-offers are all the same item,
+        // Get first item and its children and use as template
+        const firstListingAndChidren = this.itemHelper.findAndReturnChildrenAsItems(
+            pmcData.Inventory.items,
+            offerRequest.items[0],
+        );
+
+        // Find items to be listed on flea (+ children) from player inventory
+        const { items: itemsAndChildrenInInventoryToList, errorMessage: itemsInInventoryError } =
+            this.getItemsToListOnFleaFromInventory(pmcData, offerRequest.items);
+        if (!itemsAndChildrenInInventoryToList || itemsInInventoryError) {
+            this.httpResponse.appendErrorToOutput(output, itemsInInventoryError);
+        }
+
+        // Total count of items summed using their stack counts
+        const stackCountTotal = this.ragfairOfferHelper.getTotalStackCountSize(itemsAndChildrenInInventoryToList);
+
+        // When listing identical items on flea, condense separate items into one stack with a merged stack count
+        // e.g. 2 ammo items, stackObjectCount = 3 for each, will result in 1 stack of 6
+        if (!firstListingAndChidren[0].upd) {
+            firstListingAndChidren[0].upd = {};
+        }
+        firstListingAndChidren[0].upd.StackObjectsCount = stackCountTotal;
+
+        // Create flea object
+        const offer = this.createPlayerOffer(sessionID, offerRequest.requirements, firstListingAndChidren, true);
+
+        // This is the item that will be listed on flea, has merged stackObjectCount
+        const newRootOfferItem = offer.items[0];
+
+        // Single price for an item
+        let singleItemPrice = this.ragfairPriceService.getFleaPriceForItem(firstListingAndChidren[0]._tpl);
+
+        // Check for and apply item price modifer if it exists in config
+        const itemPriceModifer = this.ragfairConfig.dynamic.itemPriceMultiplier[newRootOfferItem._tpl];
+        if (itemPriceModifer) {
+            singleItemPrice *= itemPriceModifer;
+        }
+
+        // Get average of item+children quality
+        const qualityMultiplier = this.itemHelper.getItemQualityModifierForItems(offer.items, true);
+
+        // Multiply single item price by quality
+        singleItemPrice *= qualityMultiplier;
+
+        // Get price player listed items for in roubles
+        const playerListedPriceInRub = this.calculateRequirementsPriceInRub(offerRequest.requirements);
+
+        // Roll sale chance
+        const sellChancePercent = this.ragfairSellHelper.calculateSellChance(
+            singleItemPrice * stackCountTotal,
+            playerListedPriceInRub,
+            qualityMultiplier,
+        );
+
+        // Create array of sell times for items listed + sell all at once as its a pack
+        offer.sellResult = this.ragfairSellHelper.rollForSale(sellChancePercent, stackCountTotal, true);
+
+        // Subtract flea market fee from stash
+        if (this.ragfairConfig.sell.fees) {
+            const taxFeeChargeFailed = this.chargePlayerTaxFee(
+                sessionID,
+                newRootOfferItem,
+                pmcData,
+                playerListedPriceInRub,
+                stackCountTotal,
+                offerRequest,
+                output,
+            );
+            if (taxFeeChargeFailed) {
+                return output;
+            }
+        }
+
+        // Add offer to players profile + add to client response
+        fullProfile.characters.pmc.RagfairInfo.offers.push(offer);
+        output.profileChanges[sessionID].ragFairOffers.push(offer);
+
+        // Remove items from inventory after creating offer
+        for (const itemToRemove of offerRequest.items) {
+            this.inventoryHelper.removeItem(pmcData, itemToRemove, sessionID, output);
+        }
+
+        return output;
+    }
+
+    /**
+     * Given a client request, determine what type of offer is being created
+     * single/multi/pack
+     * @param offerRequest Client request
+     * @returns FleaOfferType
+     */
+    protected getOfferType(offerRequest: IAddOfferRequestData): FleaOfferType {
+        if (offerRequest.items.length == 1 && !offerRequest.sellInOnePiece) {
+            return FleaOfferType.SINGLE;
+        } else if (offerRequest.items.length > 1 && !offerRequest.sellInOnePiece) {
+            return FleaOfferType.MULTI;
+        } else if (offerRequest.sellInOnePiece) {
+            return FleaOfferType.PACK;
+        }
+
+        return FleaOfferType.UNKNOWN;
     }
 
     /**
@@ -513,7 +720,7 @@ export class RagfairController
      * @param rootItem Base item being listed (used when client tax cost not found and must be done on server)
      * @param pmcData Player profile
      * @param requirementsPriceInRub Rouble cost player chose for listing (used when client tax cost not found and must be done on server)
-     * @param itemStackCount How many items were listed in player (used when client tax cost not found and must be done on server)
+     * @param itemStackCount How many items were listed by player (used when client tax cost not found and must be done on server)
      * @param offerRequest Add offer request object from client
      * @param output IItemEventRouterResponse
      * @returns True if charging tax to player failed
@@ -526,29 +733,27 @@ export class RagfairController
         itemStackCount: number,
         offerRequest: IAddOfferRequestData,
         output: IItemEventRouterResponse,
-    ): boolean
-    {
+    ): boolean {
         // Get tax from cache hydrated earlier by client, if that's missing fall back to server calculation (inaccurate)
         const storedClientTaxValue = this.ragfairTaxService.getStoredClientOfferTaxValueById(offerRequest.items[0]);
         const tax = storedClientTaxValue
             ? storedClientTaxValue.fee
             : this.ragfairTaxService.calculateTax(
-                rootItem,
-                pmcData,
-                requirementsPriceInRub,
-                itemStackCount,
-                offerRequest.sellInOnePiece,
-            );
+                  rootItem,
+                  pmcData,
+                  requirementsPriceInRub,
+                  itemStackCount,
+                  offerRequest.sellInOnePiece,
+              );
 
-        this.logger.debug(`Offer tax to charge: ${tax}, pulled from client: ${(!!storedClientTaxValue)}`);
+        this.logger.debug(`Offer tax to charge: ${tax}, pulled from client: ${!!storedClientTaxValue}`);
 
         // cleanup of cache now we've used the tax value from it
         this.ragfairTaxService.clearStoredOfferTaxById(offerRequest.items[0]);
 
         const buyTradeRequest = this.createBuyTradeRequestObject("RUB", tax);
         this.paymentService.payMoney(pmcData, buyTradeRequest, sessionID, output);
-        if (output.warnings.length > 0)
-        {
+        if (output.warnings.length > 0) {
             this.httpResponse.appendErrorToOutput(
                 output,
                 this.localisationService.getText("ragfair-unable_to_pay_commission_fee", tax),
@@ -565,17 +770,14 @@ export class RagfairController
      * @param errorMessage message to show to player when offer is invalid
      * @returns Is offer valid
      */
-    protected isValidPlayerOfferRequest(offerRequest: IAddOfferRequestData, errorMessage: string): boolean
-    {
-        if (!offerRequest?.items || offerRequest.items.length === 0)
-        {
+    protected isValidPlayerOfferRequest(offerRequest: IAddOfferRequestData, errorMessage: string): boolean {
+        if (!offerRequest?.items || offerRequest.items.length === 0) {
             this.logger.error(this.localisationService.getText("ragfair-invalid_player_offer_request"));
 
             return false;
         }
 
-        if (!offerRequest.requirements)
-        {
+        if (!offerRequest.requirements) {
             this.logger.error(this.localisationService.getText("ragfair-unable_to_place_offer_with_no_requirements"));
 
             return false;
@@ -589,21 +791,16 @@ export class RagfairController
      * @param requirements
      * @returns Rouble price
      */
-    protected calculateRequirementsPriceInRub(requirements: Requirement[]): number
-    {
+    protected calculateRequirementsPriceInRub(requirements: Requirement[]): number {
         let requirementsPriceInRub = 0;
-        for (const item of requirements)
-        {
+        for (const item of requirements) {
             const requestedItemTpl = item._tpl;
 
-            if (this.paymentHelper.isMoneyTpl(requestedItemTpl))
-            {
+            if (this.paymentHelper.isMoneyTpl(requestedItemTpl)) {
                 requirementsPriceInRub += this.handbookHelper.inRUB(item.count, requestedItemTpl);
-            }
-            else
-            {
-                requirementsPriceInRub += this.ragfairPriceService.getDynamicPriceForItem(requestedItemTpl)
-                    * item.count;
+            } else {
+                requirementsPriceInRub +=
+                    this.ragfairPriceService.getDynamicPriceForItem(requestedItemTpl) * item.count;
             }
         }
 
@@ -619,35 +816,31 @@ export class RagfairController
     protected getItemsToListOnFleaFromInventory(
         pmcData: IPmcData,
         itemIdsFromFleaOfferRequest: string[],
-    ): { items: Item[] | null; errorMessage: string | null; }
-    {
-        const itemsToReturn = [];
-        let errorMessage: string | null = null;
+    ): { items: Item[][] | undefined; errorMessage: string | undefined } {
+        const itemsToReturn: Item[][] = [];
+        let errorMessage: string | undefined = undefined;
 
         // Count how many items are being sold and multiply the requested amount accordingly
-        for (const itemId of itemIdsFromFleaOfferRequest)
-        {
+        for (const itemId of itemIdsFromFleaOfferRequest) {
             let item = pmcData.Inventory.items.find((i) => i._id === itemId);
-            if (!item)
-            {
+            if (!item) {
                 errorMessage = this.localisationService.getText("ragfair-unable_to_find_item_in_inventory", {
                     id: itemId,
                 });
                 this.logger.error(errorMessage);
 
-                return { items: null, errorMessage };
+                return { items: undefined, errorMessage };
             }
 
             item = this.itemHelper.fixItemStackCount(item);
-            itemsToReturn.push(...this.itemHelper.findAndReturnChildrenAsItems(pmcData.Inventory.items, itemId));
+            itemsToReturn.push(this.itemHelper.findAndReturnChildrenAsItems(pmcData.Inventory.items, itemId));
         }
 
-        if (!itemsToReturn?.length)
-        {
+        if (!itemsToReturn?.length) {
             errorMessage = this.localisationService.getText("ragfair-unable_to_find_requested_items_in_inventory");
             this.logger.error(errorMessage);
 
-            return { items: null, errorMessage };
+            return { items: undefined, errorMessage };
         }
 
         return { items: itemsToReturn, errorMessage };
@@ -658,12 +851,10 @@ export class RagfairController
         requirements: Requirement[],
         items: Item[],
         sellInOnePiece: boolean,
-    ): IRagfairOffer
-    {
+    ): IRagfairOffer {
         const loyalLevel = 1;
-        const formattedItems: Item[] = items.map((item) =>
-        {
-            const isChild = items.find((it) => it._id === item.parentId);
+        const formattedItems: Item[] = items.map((item) => {
+            const isChild = items.some((subItem) => subItem._id === item.parentId);
 
             return {
                 _id: item._id,
@@ -674,12 +865,15 @@ export class RagfairController
             };
         });
 
-        const formattedRequirements: IBarterScheme[] = requirements.map((item) =>
-        {
-            return { _tpl: item._tpl, count: item.count, onlyFunctional: item.onlyFunctional };
+        const formattedRequirements: IBarterScheme[] = requirements.map((item) => {
+            return {
+                _tpl: item._tpl,
+                count: item.count,
+                onlyFunctional: item.onlyFunctional,
+            };
         });
 
-        return this.ragfairOfferGenerator.createFleaOffer(
+        return this.ragfairOfferGenerator.createAndAddFleaOffer(
             sessionId,
             this.timeUtil.getTimestamp(),
             formattedItems,
@@ -689,13 +883,11 @@ export class RagfairController
         );
     }
 
-    public getAllFleaPrices(): Record<string, number>
-    {
+    public getAllFleaPrices(): Record<string, number> {
         return this.ragfairPriceService.getAllFleaPrices();
     }
 
-    public getStaticPrices(): Record<string, number>
-    {
+    public getStaticPrices(): Record<string, number> {
         return this.ragfairPriceService.getAllStaticPrices();
     }
 
@@ -706,14 +898,12 @@ export class RagfairController
      * @param sessionId Players id
      * @returns IItemEventRouterResponse
      */
-    public removeOffer(removeRequest: IRemoveOfferRequestData, sessionId: string): IItemEventRouterResponse
-    {
+    public removeOffer(removeRequest: IRemoveOfferRequestData, sessionId: string): IItemEventRouterResponse {
         const output = this.eventOutputHolder.getOutput(sessionId);
 
         const pmcData = this.saveServer.getProfile(sessionId).characters.pmc;
         const playerProfileOffers = pmcData.RagfairInfo.offers;
-        if (!playerProfileOffers)
-        {
+        if (!playerProfileOffers) {
             this.logger.warning(
                 this.localisationService.getText("ragfair-unable_to_remove_offer_not_found_in_profile", {
                     profileId: sessionId,
@@ -725,8 +915,7 @@ export class RagfairController
         }
 
         const playerOfferIndex = playerProfileOffers.findIndex((offer) => offer._id === removeRequest.offerId);
-        if (playerOfferIndex === -1)
-        {
+        if (playerOfferIndex === -1) {
             this.logger.error(
                 this.localisationService.getText("ragfair-offer_not_found_in_profile", {
                     offerId: removeRequest.offerId,
@@ -739,8 +928,7 @@ export class RagfairController
         }
 
         const differenceInSeconds = playerProfileOffers[playerOfferIndex].endTime - this.timeUtil.getTimestamp();
-        if (differenceInSeconds > this.ragfairConfig.sell.expireSeconds)
-        {
+        if (differenceInSeconds > this.ragfairConfig.sell.expireSeconds) {
             // `expireSeconds` Default is 71 seconds
             const newEndTime = this.ragfairConfig.sell.expireSeconds + this.timeUtil.getTimestamp();
             playerProfileOffers[playerOfferIndex].endTime = Math.round(newEndTime);
@@ -755,8 +943,7 @@ export class RagfairController
      * @param sessionId Players id
      * @returns IItemEventRouterResponse
      */
-    public extendOffer(extendRequest: IExtendOfferRequestData, sessionId: string): IItemEventRouterResponse
-    {
+    public extendOffer(extendRequest: IExtendOfferRequestData, sessionId: string): IItemEventRouterResponse {
         const output = this.eventOutputHolder.getOutput(sessionId);
 
         const pmcData = this.saveServer.getProfile(sessionId).characters.pmc;
@@ -764,8 +951,7 @@ export class RagfairController
         const playerOfferIndex = playerOffers.findIndex((offer) => offer._id === extendRequest.offerId);
         const secondsToAdd = extendRequest.renewalTime * TimeUtil.ONE_HOUR_AS_SECONDS;
 
-        if (playerOfferIndex === -1)
-        {
+        if (playerOfferIndex === -1) {
             this.logger.warning(
                 this.localisationService.getText("ragfair-offer_not_found_in_profile", {
                     offerId: extendRequest.offerId,
@@ -778,14 +964,12 @@ export class RagfairController
         }
 
         // MOD: Pay flea market fee
-        if (this.ragfairConfig.sell.fees)
-        {
+        if (this.ragfairConfig.sell.fees) {
             const count = playerOffers[playerOfferIndex].sellInOnePiece
                 ? 1
-                : playerOffers[playerOfferIndex].items.reduce((sum, item) =>
-                {
-                    return sum + item.upd.StackObjectsCount;
-                }, 0);
+                : playerOffers[playerOfferIndex].items.reduce((sum, item) => {
+                      return sum + item.upd.StackObjectsCount;
+                  }, 0);
 
             const tax = this.ragfairTaxService.calculateTax(
                 playerOffers[playerOfferIndex].items[0],
@@ -797,8 +981,7 @@ export class RagfairController
 
             const request = this.createBuyTradeRequestObject("RUB", tax);
             this.paymentService.payMoney(pmcData, request, sessionId, output);
-            if (output.warnings.length > 0)
-            {
+            if (output.warnings.length > 0) {
                 return this.httpResponse.appendErrorToOutput(
                     output,
                     this.localisationService.getText("ragfair-unable_to_pay_commission_fee"),
@@ -818,8 +1001,7 @@ export class RagfairController
      * @param value Amount of currency
      * @returns IProcessBuyTradeRequestData
      */
-    protected createBuyTradeRequestObject(currency: string, value: number): IProcessBuyTradeRequestData
-    {
+    protected createBuyTradeRequestObject(currency: string, value: number): IProcessBuyTradeRequestData {
         return {
             tid: "ragfair",
             Action: "TradingConfirm",

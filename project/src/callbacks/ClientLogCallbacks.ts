@@ -1,32 +1,29 @@
-import { ClientLogController } from "@spt-aki/controllers/ClientLogController";
-import { ModLoadOrder } from "@spt-aki/loaders/ModLoadOrder";
-import { INullResponseData } from "@spt-aki/models/eft/httpResponse/INullResponseData";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { IBsgLogging, ICoreConfig, IRelease } from "@spt-aki/models/spt/config/ICoreConfig";
-import { IClientLogRequest } from "@spt-aki/models/spt/logging/IClientLogRequest";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { LocalisationService } from "@spt-aki/services/LocalisationService";
-import { HttpResponseUtil } from "@spt-aki/utils/HttpResponseUtil";
+import { ClientLogController } from "@spt/controllers/ClientLogController";
+import { ModLoadOrder } from "@spt/loaders/ModLoadOrder";
+import { INullResponseData } from "@spt/models/eft/httpResponse/INullResponseData";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { IBsgLogging, ICoreConfig, IRelease } from "@spt/models/spt/config/ICoreConfig";
+import { IClientLogRequest } from "@spt/models/spt/logging/IClientLogRequest";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { HttpResponseUtil } from "@spt/utils/HttpResponseUtil";
 import { inject, injectable } from "tsyringe";
 
 /** Handle client logging related events */
 @injectable()
-export class ClientLogCallbacks
-{
+export class ClientLogCallbacks {
     constructor(
         @inject("HttpResponseUtil") protected httpResponse: HttpResponseUtil,
         @inject("ClientLogController") protected clientLogController: ClientLogController,
         @inject("ConfigServer") protected configServer: ConfigServer,
         @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("ModLoadOrder") protected modLoadOrder: ModLoadOrder,
-    )
-    {}
+    ) {}
 
     /**
      * Handle /singleplayer/log
      */
-    public clientLog(url: string, info: IClientLogRequest, sessionID: string): INullResponseData
-    {
+    public clientLog(url: string, info: IClientLogRequest, sessionID: string): INullResponseData {
         this.clientLogController.clientLog(info);
         return this.httpResponse.nullResponse();
     }
@@ -34,8 +31,7 @@ export class ClientLogCallbacks
     /**
      * Handle /singleplayer/release
      */
-    public releaseNotes(): string
-    {
+    public releaseNotes(): string {
         const data: IRelease = this.configServer.getConfig<ICoreConfig>(ConfigTypes.CORE).release;
 
         data.betaDisclaimerText = globalThis.G_MODS_ENABLED
@@ -62,8 +58,7 @@ export class ClientLogCallbacks
      * Handle /singleplayer/enableBSGlogging
      */
 
-    public bsgLogging(): string
-    {
+    public bsgLogging(): string {
         const data: IBsgLogging = this.configServer.getConfig<ICoreConfig>(ConfigTypes.CORE).bsgLogging;
         return this.httpResponse.noBody(data);
     }

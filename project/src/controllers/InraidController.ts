@@ -1,53 +1,53 @@
+import { ApplicationContext } from "@spt/context/ApplicationContext";
+import { ContextVariableType } from "@spt/context/ContextVariableType";
+import { PlayerScavGenerator } from "@spt/generators/PlayerScavGenerator";
+import { HealthHelper } from "@spt/helpers/HealthHelper";
+import { InRaidHelper } from "@spt/helpers/InRaidHelper";
+import { ItemHelper } from "@spt/helpers/ItemHelper";
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
+import { QuestHelper } from "@spt/helpers/QuestHelper";
+import { TraderHelper } from "@spt/helpers/TraderHelper";
+import { ILocationBase } from "@spt/models/eft/common/ILocationBase";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { BodyPartHealth } from "@spt/models/eft/common/tables/IBotBase";
+import { Item } from "@spt/models/eft/common/tables/IItem";
+import { IRegisterPlayerRequestData } from "@spt/models/eft/inRaid/IRegisterPlayerRequestData";
+import { ISaveProgressRequestData } from "@spt/models/eft/inRaid/ISaveProgressRequestData";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { ItemTpl } from "@spt/models/enums/ItemTpl";
+import { MessageType } from "@spt/models/enums/MessageType";
+import { PlayerRaidEndState } from "@spt/models/enums/PlayerRaidEndState";
+import { QuestStatus } from "@spt/models/enums/QuestStatus";
+import { SkillTypes } from "@spt/models/enums/SkillTypes";
+import { Traders } from "@spt/models/enums/Traders";
+import { IAirdropConfig } from "@spt/models/spt/config/IAirdropConfig";
+import { IBTRConfig } from "@spt/models/spt/config/IBTRConfig";
+import { IBotConfig } from "@spt/models/spt/config/IBotConfig";
+import { IHideoutConfig } from "@spt/models/spt/config/IHideoutConfig";
+import { IInRaidConfig } from "@spt/models/spt/config/IInRaidConfig";
+import { ILocationConfig } from "@spt/models/spt/config/ILocationConfig";
+import { IRagfairConfig } from "@spt/models/spt/config/IRagfairConfig";
+import { ITraderConfig } from "@spt/models/spt/config/ITraderConfig";
+import { ITraderServiceModel } from "@spt/models/spt/services/ITraderServiceModel";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { SaveServer } from "@spt/servers/SaveServer";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { InsuranceService } from "@spt/services/InsuranceService";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { MailSendService } from "@spt/services/MailSendService";
+import { MatchBotDetailsCacheService } from "@spt/services/MatchBotDetailsCacheService";
+import { PmcChatResponseService } from "@spt/services/PmcChatResponseService";
+import { TraderServicesService } from "@spt/services/TraderServicesService";
+import { RandomUtil } from "@spt/utils/RandomUtil";
+import { TimeUtil } from "@spt/utils/TimeUtil";
 import { inject, injectable } from "tsyringe";
-
-import { ApplicationContext } from "@spt-aki/context/ApplicationContext";
-import { ContextVariableType } from "@spt-aki/context/ContextVariableType";
-import { PlayerScavGenerator } from "@spt-aki/generators/PlayerScavGenerator";
-import { HealthHelper } from "@spt-aki/helpers/HealthHelper";
-import { InRaidHelper } from "@spt-aki/helpers/InRaidHelper";
-import { ItemHelper } from "@spt-aki/helpers/ItemHelper";
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
-import { QuestHelper } from "@spt-aki/helpers/QuestHelper";
-import { TraderHelper } from "@spt-aki/helpers/TraderHelper";
-import { ILocationBase } from "@spt-aki/models/eft/common/ILocationBase";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import { BodyPartHealth } from "@spt-aki/models/eft/common/tables/IBotBase";
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
-import { IRegisterPlayerRequestData } from "@spt-aki/models/eft/inRaid/IRegisterPlayerRequestData";
-import { ISaveProgressRequestData } from "@spt-aki/models/eft/inRaid/ISaveProgressRequestData";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { MessageType } from "@spt-aki/models/enums/MessageType";
-import { PlayerRaidEndState } from "@spt-aki/models/enums/PlayerRaidEndState";
-import { QuestStatus } from "@spt-aki/models/enums/QuestStatus";
-import { SkillTypes } from "@spt-aki/models/enums/SkillTypes";
-import { Traders } from "@spt-aki/models/enums/Traders";
-import { IAirdropConfig } from "@spt-aki/models/spt/config/IAirdropConfig";
-import { IBTRConfig } from "@spt-aki/models/spt/config/IBTRConfig";
-import { IHideoutConfig } from "@spt-aki/models/spt/config/IHideoutConfig";
-import { IInRaidConfig } from "@spt-aki/models/spt/config/IInRaidConfig";
-import { ILocationConfig } from "@spt-aki/models/spt/config/ILocationConfig";
-import { IRagfairConfig } from "@spt-aki/models/spt/config/IRagfairConfig";
-import { ITraderConfig } from "@spt-aki/models/spt/config/ITraderConfig";
-import { ITraderServiceModel } from "@spt-aki/models/spt/services/ITraderServiceModel";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { SaveServer } from "@spt-aki/servers/SaveServer";
-import { InsuranceService } from "@spt-aki/services/InsuranceService";
-import { MailSendService } from "@spt-aki/services/MailSendService";
-import { MatchBotDetailsCacheService } from "@spt-aki/services/MatchBotDetailsCacheService";
-import { PmcChatResponseService } from "@spt-aki/services/PmcChatResponseService";
-import { TraderServicesService } from "@spt-aki/services/TraderServicesService";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { RandomUtil } from "@spt-aki/utils/RandomUtil";
-import { TimeUtil } from "@spt-aki/utils/TimeUtil";
 
 /**
  * Logic for handling In Raid callbacks
  */
 @injectable()
-export class InraidController
-{
+export class InraidController {
     protected airdropConfig: IAirdropConfig;
     protected btrConfig: IBTRConfig;
     protected inRaidConfig: IInRaidConfig;
@@ -55,13 +55,13 @@ export class InraidController
     protected locationConfig: ILocationConfig;
     protected ragfairConfig: IRagfairConfig;
     protected hideoutConfig: IHideoutConfig;
+    protected botConfig: IBotConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("SaveServer") protected saveServer: SaveServer,
-        @inject("JsonUtil") protected jsonUtil: JsonUtil,
         @inject("TimeUtil") protected timeUtil: TimeUtil,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("PmcChatResponseService") protected pmcChatResponseService: PmcChatResponseService,
         @inject("MatchBotDetailsCacheService") protected matchBotDetailsCacheService: MatchBotDetailsCacheService,
         @inject("QuestHelper") protected questHelper: QuestHelper,
@@ -71,14 +71,14 @@ export class InraidController
         @inject("HealthHelper") protected healthHelper: HealthHelper,
         @inject("TraderHelper") protected traderHelper: TraderHelper,
         @inject("TraderServicesService") protected traderServicesService: TraderServicesService,
+        @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("InsuranceService") protected insuranceService: InsuranceService,
         @inject("InRaidHelper") protected inRaidHelper: InRaidHelper,
         @inject("ApplicationContext") protected applicationContext: ApplicationContext,
         @inject("ConfigServer") protected configServer: ConfigServer,
         @inject("MailSendService") protected mailSendService: MailSendService,
         @inject("RandomUtil") protected randomUtil: RandomUtil,
-    )
-    {
+    ) {
         this.airdropConfig = this.configServer.getConfig(ConfigTypes.AIRDROP);
         this.btrConfig = this.configServer.getConfig(ConfigTypes.BTR);
         this.inRaidConfig = this.configServer.getConfig(ConfigTypes.IN_RAID);
@@ -86,6 +86,7 @@ export class InraidController
         this.locationConfig = this.configServer.getConfig(ConfigTypes.LOCATION);
         this.ragfairConfig = this.configServer.getConfig(ConfigTypes.RAGFAIR);
         this.hideoutConfig = this.configServer.getConfig(ConfigTypes.HIDEOUT);
+        this.botConfig = this.configServer.getConfig(ConfigTypes.BOT);
     }
 
     /**
@@ -93,18 +94,15 @@ export class InraidController
      * @param sessionID Session id
      * @param info Register player request
      */
-    public addPlayer(sessionID: string, info: IRegisterPlayerRequestData): void
-    {
+    public addPlayer(sessionID: string, info: IRegisterPlayerRequestData): void {
         this.applicationContext.addValue(ContextVariableType.REGISTER_PLAYER_REQUEST, info);
         const profile = this.saveServer.getProfile(sessionID);
-        if (!profile)
-        {
-            this.logger.error(`No profile found with Id of: ${sessionID}`);
+        if (!profile) {
+            this.logger.error(this.localisationService.getText("inraid-no_profile_found", sessionID));
 
             return;
         }
-        if (!profile.inraid)
-        {
+        if (!profile.inraid) {
             profile.inraid = { character: sessionID, location: info.locationId };
 
             return;
@@ -120,21 +118,16 @@ export class InraidController
      * @param offraidData post-raid request data
      * @param sessionID Session id
      */
-    public savePostRaidProgress(offraidData: ISaveProgressRequestData, sessionID: string): void
-    {
+    public savePostRaidProgress(offraidData: ISaveProgressRequestData, sessionID: string): void {
         this.logger.debug(`Raid outcome: ${offraidData.exit}`);
 
-        if (!this.inRaidConfig.save.loot)
-        {
+        if (!this.inRaidConfig.save.loot) {
             return;
         }
 
-        if (offraidData.isPlayerScav)
-        {
+        if (offraidData.isPlayerScav) {
             this.savePlayerScavProgress(sessionID, offraidData);
-        }
-        else
-        {
+        } else {
             this.savePmcProgress(sessionID, offraidData);
         }
 
@@ -148,14 +141,12 @@ export class InraidController
      * @param sessionID Session id
      * @param postRaidRequest Post-raid data
      */
-    protected savePmcProgress(sessionID: string, postRaidRequest: ISaveProgressRequestData): void
-    {
+    protected savePmcProgress(sessionID: string, postRaidRequest: ISaveProgressRequestData): void {
         const serverProfile = this.saveServer.getProfile(sessionID);
 
         const locationName = serverProfile.inraid.location.toLowerCase();
 
-        const map: ILocationBase = this.databaseServer.getTables().locations[locationName].base;
-        const mapHasInsuranceEnabled = map.Insurance;
+        const map: ILocationBase = this.databaseService.getLocation(locationName).base;
 
         const serverPmcProfile = serverProfile.characters.pmc;
         const serverScavProfile = serverProfile.characters.scav;
@@ -179,7 +170,7 @@ export class InraidController
             serverPmcProfile.InsuredItems,
             postRaidRequest.profile.Inventory.fastPanel,
         );
-        this.inRaidHelper.addUpdToMoneyFromRaid(postRaidRequest.profile.Inventory.items);
+        this.inRaidHelper.addStackCountToMoneyFromRaid(postRaidRequest.profile.Inventory.items);
 
         // Purge profile of equipment/container items
         this.inRaidHelper.setInventory(sessionID, serverPmcProfile, postRaidRequest.profile);
@@ -195,26 +186,22 @@ export class InraidController
             isDead,
         );
 
-        if (gearToStore.length > 0)
-        {
+        if (gearToStore.length > 0) {
             this.insuranceService.storeGearLostInRaidToSendLater(sessionID, gearToStore);
         }
 
         // Edge case - Handle usec players leaving lighthouse with Rogues angry at them
-        if (locationName === "lighthouse" && postRaidRequest.profile.Info.Side.toLowerCase() === "usec")
-        {
+        if (locationName === "lighthouse" && postRaidRequest.profile.Info.Side.toLowerCase() === "usec") {
             // Decrement counter if it exists, don't go below 0
             const remainingCounter = serverPmcProfile?.Stats.Eft.OverallCounters.Items.find((x) =>
-                x.Key.includes("UsecRaidRemainKills")
+                x.Key.includes("UsecRaidRemainKills"),
             );
-            if (remainingCounter?.Value > 0)
-            {
+            if (remainingCounter?.Value > 0) {
                 remainingCounter.Value--;
             }
         }
 
-        if (isDead)
-        {
+        if (isDead) {
             this.pmcChatResponseService.sendKillerResponse(
                 sessionID,
                 serverPmcProfile,
@@ -223,38 +210,30 @@ export class InraidController
             this.matchBotDetailsCacheService.clearCache();
 
             this.performPostRaidActionsWhenDead(postRaidRequest, serverPmcProfile, sessionID);
-        }
-        else
-        {
+        } else {
             // Not dead
 
             // Check for cultist amulets in special slot (only slot it can fit)
-            const amuletOnPlayer = serverPmcProfile.Inventory.items.filter((item) =>
-                item.slotId?.startsWith("SpecialSlot")
-            ).find((item) => item._tpl === "64d0b40fbe2eed70e254e2d4");
-            if (amuletOnPlayer)
-            {
+            const sacredAmulet = this.itemHelper.getItemFromPoolByTpl(
+                serverPmcProfile.Inventory.items,
+                ItemTpl.CULTISTAMULET_SACRED_AMULET,
+                "SpecialSlot",
+            );
+            if (sacredAmulet) {
                 // No charges left, delete it
-                if (amuletOnPlayer.upd.CultistAmulet.NumberOfUsages <= 0)
-                {
-                    serverPmcProfile.Inventory.items.splice(
-                        serverPmcProfile.Inventory.items.indexOf(amuletOnPlayer),
-                        1,
-                    );
-                }
-                else if (amuletOnPlayer.upd.CultistAmulet.NumberOfUsages > 0)
-                {
+                if (sacredAmulet.upd.CultistAmulet.NumberOfUsages <= 0) {
+                    serverPmcProfile.Inventory.items.splice(serverPmcProfile.Inventory.items.indexOf(sacredAmulet), 1);
+                } else if (sacredAmulet.upd.CultistAmulet.NumberOfUsages > 0) {
                     // Charges left, reduce by 1
-                    amuletOnPlayer.upd.CultistAmulet.NumberOfUsages--;
+                    sacredAmulet.upd.CultistAmulet.NumberOfUsages--;
                 }
             }
         }
 
-        const victims = postRaidRequest.profile.Stats.Eft.Victims.filter((x) =>
-            ["sptbear", "sptusec"].includes(x.Role.toLowerCase())
+        const victims = postRaidRequest.profile.Stats.Eft.Victims.filter((victim) =>
+            ["pmcbear", "pmcusec"].includes(victim.Role.toLowerCase()),
         );
-        if (victims?.length > 0)
-        {
+        if (victims?.length > 0) {
             this.pmcChatResponseService.sendVictimResponse(sessionID, victims, serverPmcProfile);
         }
 
@@ -273,29 +252,28 @@ export class InraidController
         postRaidSaveRequest: ISaveProgressRequestData,
         pmcData: IPmcData,
         sessionID: string,
-    ): IPmcData
-    {
+    ): IPmcData {
         this.updatePmcHealthPostRaid(postRaidSaveRequest, pmcData);
         this.inRaidHelper.deleteInventory(pmcData, sessionID);
 
-        if (this.inRaidHelper.removeQuestItemsOnDeath())
-        {
+        if (this.inRaidHelper.shouldQuestItemsBeRemovedOnDeath()) {
             // Find and remove the completed condition from profile if player died, otherwise quest is stuck in limbo
             // and quest items cannot be picked up again
             const allQuests = this.questHelper.getQuestsFromDb();
-            const activeQuestIdsInProfile = pmcData.Quests.filter((profileQuest) =>
-                ![QuestStatus.AvailableForStart, QuestStatus.Success, QuestStatus.Expired].includes(profileQuest.status)
+            const activeQuestIdsInProfile = pmcData.Quests.filter(
+                (profileQuest) =>
+                    ![QuestStatus.AvailableForStart, QuestStatus.Success, QuestStatus.Expired].includes(
+                        profileQuest.status,
+                    ),
             ).map((x) => x.qid);
-            for (const questItem of postRaidSaveRequest.profile.Stats.Eft.CarriedQuestItems)
-            {
+            for (const questItem of postRaidSaveRequest.profile.Stats.Eft.CarriedQuestItems) {
                 // Get quest/find condition for carried quest item
                 const questAndFindItemConditionId = this.questHelper.getFindItemConditionByQuestItem(
                     questItem,
                     activeQuestIdsInProfile,
                     allQuests,
                 );
-                if (Object.keys(questAndFindItemConditionId)?.length > 0)
-                {
+                if (Object.keys(questAndFindItemConditionId)?.length > 0) {
                     this.profileHelper.removeQuestConditionFromProfile(pmcData, questAndFindItemConditionId);
                 }
             }
@@ -312,10 +290,8 @@ export class InraidController
      * @param postRaidSaveRequest post raid data
      * @param pmcData player profile
      */
-    protected updatePmcHealthPostRaid(postRaidSaveRequest: ISaveProgressRequestData, pmcData: IPmcData): void
-    {
-        switch (postRaidSaveRequest.exit)
-        {
+    protected updatePmcHealthPostRaid(postRaidSaveRequest: ISaveProgressRequestData, pmcData: IPmcData): void {
+        switch (postRaidSaveRequest.exit) {
             case PlayerRaidEndState.LEFT.toString():
                 // Naughty pmc left the raid early!
                 this.reducePmcHealthToPercent(pmcData, 0.01); // 1%
@@ -335,10 +311,8 @@ export class InraidController
      * @param pmcData profile to edit
      * @param multiplier multiplier to apply to max health
      */
-    protected reducePmcHealthToPercent(pmcData: IPmcData, multiplier: number): void
-    {
-        for (const bodyPart of Object.values(pmcData.Health.BodyParts))
-        {
+    protected reducePmcHealthToPercent(pmcData: IPmcData, multiplier: number): void {
+        for (const bodyPart of Object.values(pmcData.Health.BodyParts)) {
             (<BodyPartHealth>bodyPart).Health.Current = (<BodyPartHealth>bodyPart).Health.Maximum * multiplier;
         }
     }
@@ -348,8 +322,7 @@ export class InraidController
      * @param sessionID Session id
      * @param postRaidRequest Post-raid data of raid
      */
-    protected savePlayerScavProgress(sessionID: string, postRaidRequest: ISaveProgressRequestData): void
-    {
+    protected savePlayerScavProgress(sessionID: string, postRaidRequest: ISaveProgressRequestData): void {
         const serverPmcProfile = this.profileHelper.getPmcProfile(sessionID);
         const serverScavProfile = this.profileHelper.getScavProfile(sessionID);
         const isDead = this.isPlayerDead(postRaidRequest.exit);
@@ -368,8 +341,7 @@ export class InraidController
         this.updatePmcCharismaSkillPostScavRaid(serverScavProfile, serverPmcProfile, preRaidScavCharismaProgress);
 
         // Completing scav quests create ConditionCounters, these values need to be transported to the PMC profile
-        if (this.profileHasConditionCounters(serverScavProfile))
-        {
+        if (this.profileHasConditionCounters(serverScavProfile)) {
             // Scav quest progress needs to be moved to pmc so player can see it in menu / hand them in
             this.migrateScavQuestProgressToPmcProfile(serverScavProfile, serverPmcProfile);
         }
@@ -385,7 +357,7 @@ export class InraidController
         );
 
         // Some items from client profile don't have upd objects when they're single stack items
-        this.inRaidHelper.addUpdToMoneyFromRaid(postRaidRequest.profile.Inventory.items);
+        this.inRaidHelper.addStackCountToMoneyFromRaid(postRaidRequest.profile.Inventory.items);
 
         // Reset hp/regenerate loot
         this.handlePostRaidPlayerScavProcess(serverScavProfile, sessionID, postRaidRequest, serverPmcProfile, isDead);
@@ -397,14 +369,10 @@ export class InraidController
      * @param primary main dictionary
      * @param secondary Secondary dictionary
      */
-    protected mergePmcAndScavEncyclopedias(primary: IPmcData, secondary: IPmcData): void
-    {
-        function extend(target: { [key: string]: boolean; }, source: Record<string, boolean>)
-        {
-            for (const key in source)
-            {
-                if (Object.hasOwn(source, key))
-                {
+    protected mergePmcAndScavEncyclopedias(primary: IPmcData, secondary: IPmcData): void {
+        function extend(target: { [key: string]: boolean }, source: Record<string, boolean>) {
+            for (const key in source) {
+                if (Object.hasOwn(source, key)) {
                     target[key] = source[key];
                 }
             }
@@ -426,8 +394,7 @@ export class InraidController
         postRaidServerScavProfile: IPmcData,
         postRaidServerPmcProfile: IPmcData,
         preRaidScavCharismaProgress: number,
-    ): void
-    {
+    ): void {
         const postRaidScavCharismaSkill = this.profileHelper.getSkillFromProfile(
             postRaidServerScavProfile,
             SkillTypes.CHARISMA,
@@ -436,8 +403,7 @@ export class InraidController
         const postRaidScavCharismaGain = postRaidScavCharismaSkill?.Progress - preRaidScavCharismaProgress ?? 0;
 
         // Scav gained charisma, add to pmc
-        if (postRaidScavCharismaGain > 0)
-        {
+        if (postRaidScavCharismaGain > 0) {
             this.logger.debug(`Applying ${postRaidScavCharismaGain} Charisma skill gained in scav raid to PMC profile`);
             pmcCharismaSkill.Progress += postRaidScavCharismaGain;
         }
@@ -448,10 +414,8 @@ export class InraidController
      * @param profile Profile to check for condition counters
      * @returns Profile has condition counters
      */
-    protected profileHasConditionCounters(profile: IPmcData): boolean
-    {
-        if (!profile.TaskConditionCounters)
-        {
+    protected profileHasConditionCounters(profile: IPmcData): boolean {
+        if (!profile.TaskConditionCounters) {
             return false;
         }
 
@@ -463,25 +427,26 @@ export class InraidController
      * @param scavProfile Scav profile with quest progress post-raid
      * @param pmcProfile Server pmc profile to copy scav quest progress into
      */
-    protected migrateScavQuestProgressToPmcProfile(scavProfile: IPmcData, pmcProfile: IPmcData): void
-    {
-        const achievements = this.databaseServer.getTables().templates.achievements;
+    protected migrateScavQuestProgressToPmcProfile(scavProfile: IPmcData, pmcProfile: IPmcData): void {
+        const achievements = this.databaseService.getAchievements();
 
-        for (const quest of scavProfile.Quests)
-        {
+        for (const quest of scavProfile.Quests) {
             const pmcQuest = pmcProfile.Quests.find((x) => x.qid === quest.qid);
-            if (!pmcQuest)
-            {
-                this.logger.warning(`No PMC quest found for ID: ${quest.qid}`);
+            if (!pmcQuest) {
+                this.logger.warning(
+                    this.localisationService.getText(
+                        "inraid-unable_to_migrate_pmc_quest_not_found_in_profile",
+                        quest.qid,
+                    ),
+                );
                 continue;
             }
 
             // Status values mismatch or statusTimers counts mismatch
             if (
-                quest.status !== pmcQuest.status
-                || Object.keys(quest.statusTimers).length !== Object.keys(pmcQuest.statusTimers).length
-            )
-            {
+                quest.status !== pmcQuest.status ||
+                Object.keys(quest.statusTimers).length !== Object.keys(pmcQuest.statusTimers).length
+            ) {
                 this.logger.debug(
                     `Quest: ${quest.qid} found in PMC profile has different status/statustimer. Scav: ${quest.status} vs PMC: ${pmcQuest.status}`,
                 );
@@ -489,10 +454,8 @@ export class InraidController
 
                 // Copy status timers over + fix bad enum key for each
                 pmcQuest.statusTimers = quest.statusTimers;
-                for (const statusTimerKey in quest.statusTimers)
-                {
-                    if (Number.isNaN(Number.parseInt(statusTimerKey)))
-                    {
+                for (const statusTimerKey in quest.statusTimers) {
+                    if (Number.isNaN(Number.parseInt(statusTimerKey))) {
                         quest.statusTimers[QuestStatus[statusTimerKey]] = quest.statusTimers[statusTimerKey];
                         delete quest.statusTimers[statusTimerKey];
                     }
@@ -501,12 +464,10 @@ export class InraidController
         }
 
         // Loop over all scav counters and add into pmc profile
-        for (const scavCounter of Object.values(scavProfile.TaskConditionCounters))
-        {
+        for (const scavCounter of Object.values(scavProfile.TaskConditionCounters)) {
             // If this is an achievement that isn't for the scav, don't process it
             const achievement = achievements.find((achievement) => achievement.id === scavCounter.sourceId);
-            if (achievement && achievement.side !== "Savage")
-            {
+            if (achievement && achievement.side !== "Savage") {
                 continue;
             }
 
@@ -514,8 +475,7 @@ export class InraidController
                 `Processing counter: ${scavCounter.id} value: ${scavCounter.value} quest: ${scavCounter.sourceId}`,
             );
             const counterInPmcProfile = pmcProfile.TaskConditionCounters[scavCounter.id];
-            if (!counterInPmcProfile)
-            {
+            if (!counterInPmcProfile) {
                 // Doesn't exist yet, push it straight in
                 pmcProfile.TaskConditionCounters[scavCounter.id] = scavCounter;
                 continue;
@@ -526,8 +486,7 @@ export class InraidController
             );
 
             // Only adjust counter value if its changed
-            if (counterInPmcProfile.value !== scavCounter.value)
-            {
+            if (counterInPmcProfile.value !== scavCounter.value) {
                 this.logger.debug(`OVERWRITING with values: ${scavCounter.value} quest: ${scavCounter.sourceId}`);
                 counterInPmcProfile.value = scavCounter.value;
             }
@@ -539,19 +498,16 @@ export class InraidController
      * @param statusOnExit exit value from offraidData object
      * @returns true if dead
      */
-    protected isPlayerDead(statusOnExit: PlayerRaidEndState): boolean
-    {
-        return (statusOnExit !== PlayerRaidEndState.SURVIVED && statusOnExit !== PlayerRaidEndState.RUNNER);
+    protected isPlayerDead(statusOnExit: PlayerRaidEndState): boolean {
+        return statusOnExit !== PlayerRaidEndState.SURVIVED && statusOnExit !== PlayerRaidEndState.RUNNER;
     }
 
     /**
      * Mark inventory items as FiR if player survived raid, otherwise remove FiR from them
      * @param offraidData Save Progress Request
      */
-    protected markOrRemoveFoundInRaidItems(offraidData: ISaveProgressRequestData): void
-    {
-        if (offraidData.exit !== PlayerRaidEndState.SURVIVED)
-        {
+    protected markOrRemoveFoundInRaidItems(offraidData: ISaveProgressRequestData): void {
+        if (offraidData.exit !== PlayerRaidEndState.SURVIVED) {
             // Remove FIR status if the player hasn't survived
             offraidData.profile = this.inRaidHelper.removeSpawnedInSessionPropertyFromItems(offraidData.profile);
         }
@@ -571,8 +527,7 @@ export class InraidController
         offraidData: ISaveProgressRequestData,
         pmcData: IPmcData,
         isDead: boolean,
-    ): void
-    {
+    ): void {
         // Update scav profile inventory
         this.inRaidHelper.setInventory(sessionID, scavData, offraidData.profile);
 
@@ -584,8 +539,7 @@ export class InraidController
         this.handlePostRaidPlayerScavKarmaChanges(pmcData, offraidData, scavData);
 
         // Scav died, regen scav loadout and set timer
-        if (isDead)
-        {
+        if (isDead) {
             this.playerScavGenerator.generate(sessionID);
         }
 
@@ -605,16 +559,14 @@ export class InraidController
         pmcData: IPmcData,
         offraidData: ISaveProgressRequestData,
         scavData: IPmcData,
-    ): void
-    {
+    ): void {
         const fenceId = Traders.FENCE;
 
         let fenceStanding = Number(offraidData.profile.TradersInfo[fenceId].standing);
 
         // Client doesn't calcualte car extract rep changes, must be done manually
         // Successful extracts give rep
-        if (offraidData.exit === PlayerRaidEndState.SURVIVED)
-        {
+        if (offraidData.exit === PlayerRaidEndState.SURVIVED) {
             fenceStanding += this.inRaidConfig.scavExtractGain;
         }
 
@@ -634,8 +586,7 @@ export class InraidController
      * Get the inraid config from configs/inraid.json
      * @returns InRaid Config
      */
-    public getInraidConfig(): IInRaidConfig
-    {
+    public getInraidConfig(): IInRaidConfig {
         return this.inRaidConfig;
     }
 
@@ -643,8 +594,7 @@ export class InraidController
      * Get airdrop config from configs/airdrop.json
      * @returns Airdrop config
      */
-    public getAirdropConfig(): IAirdropConfig
-    {
+    public getAirdropConfig(): IAirdropConfig {
         return this.airdropConfig;
     }
 
@@ -652,8 +602,7 @@ export class InraidController
      * Get BTR config from configs/btr.json
      * @returns Airdrop config
      */
-    public getBTRConfig(): IBTRConfig
-    {
+    public getBTRConfig(): IBTRConfig {
         return this.btrConfig;
     }
 
@@ -661,23 +610,22 @@ export class InraidController
      * Handle singleplayer/traderServices/getTraderServices
      * @returns Trader services data
      */
-    public getTraderServices(sessionId: string, traderId: string): ITraderServiceModel[]
-    {
+    public getTraderServices(sessionId: string, traderId: string): ITraderServiceModel[] {
         return this.traderServicesService.getTraderServices(sessionId, traderId);
     }
 
     /**
      * Handle singleplayer/traderServices/itemDelivery
      */
-    public itemDelivery(sessionId: string, traderId: string, items: Item[]): void
-    {
+    public itemDelivery(sessionId: string, traderId: string, items: Item[]): void {
         const serverProfile = this.saveServer.getProfile(sessionId);
         const pmcData = serverProfile.characters.pmc;
 
-        const dialogueTemplates = this.databaseServer.getTables().traders[traderId].dialogue;
-        if (!dialogueTemplates)
-        {
-            this.logger.error(`Unable to deliver items as trader ${traderId} has no "dialogue" data`);
+        const dialogueTemplates = this.databaseService.getTrader(traderId).dialogue;
+        if (!dialogueTemplates) {
+            this.logger.error(
+                this.localisationService.getText("inraid-unable_to_deliver_item_no_trader_found", traderId),
+            );
 
             return;
         }
@@ -700,13 +648,15 @@ export class InraidController
         );
     }
 
-    public getTraitorScavHostileChance(url: string, sessionID: string): number
-    {
+    public getTraitorScavHostileChance(url: string, sessionID: string): number {
         return this.inRaidConfig.playerScavHostileChancePercent;
     }
 
-    public getSandboxMaxPatrolValue(url: string, sessionID: string): number
-    {
+    public getSandboxMaxPatrolValue(url: string, sessionID: string): number {
         return this.locationConfig.sandboxMaxPatrolvalue;
+    }
+
+    public getBossConvertSettings(url: string, sessionId: string): string[] {
+        return Object.keys(this.botConfig.assaultToBossConversion.bossesToConvertToWeights);
     }
 }

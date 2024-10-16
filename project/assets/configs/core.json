@@ -1,7 +1,7 @@
 {
-    "akiVersion": "3.8.3",
-    "projectName": "SPT-AKI",
-    "compatibleTarkovVersion": "0.14.1.29197",
+    "sptVersion": "3.9.8",
+    "projectName": "SPT",
+    "compatibleTarkovVersion": "0.14.9.30626",
     "serverName": "SPT Server",
     "profileSaveIntervalSeconds": 15,
     "sptFriendNickname": "SPT",
@@ -26,9 +26,12 @@
             "commandoEnabled": true,
             "commandoFeatures": {
                 "giveCommandEnabled": true
+            },
+            "commandUseLimits": {
+                "StashRows": 15
             }
-        }
+        },
+        "createNewProfileTypesBlacklist": []
     },
-    "commit": "d3ac83e63b10aae1ced66e40f28b4c7774c8ec9c",
-    "buildTime": 1714849547565
+    "customWatermarkLocaleKeys": []
 }

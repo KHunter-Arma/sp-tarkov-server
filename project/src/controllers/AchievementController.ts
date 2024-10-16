@@ -1,29 +1,25 @@
+import { ICompletedAchievementsResponse } from "@spt/models/eft/profile/ICompletedAchievementsResponse";
+import { IGetAchievementsResponse } from "@spt/models/eft/profile/IGetAchievementsResponse";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { DatabaseService } from "@spt/services/DatabaseService";
 import { inject, injectable } from "tsyringe";
-
-import { ICompletedAchievementsResponse } from "@spt-aki/models/eft/profile/ICompletedAchievementsResponse";
-import { IGetAchievementsResponse } from "@spt-aki/models/eft/profile/IGetAchievementsResponse";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 
 /**
  * Logic for handling In Raid callbacks
  */
 @injectable()
-export class AchievementController
-{
+export class AchievementController {
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
-    )
-    {}
+        @inject("PrimaryLogger") protected logger: ILogger,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
+    ) {}
 
     /**
      * Get base achievements
      * @param sessionID Session id
      */
-    public getAchievements(sessionID: string): IGetAchievementsResponse
-    {
-        return { elements: this.databaseServer.getTables().templates.achievements };
+    public getAchievements(sessionID: string): IGetAchievementsResponse {
+        return { elements: this.databaseService.getAchievements() };
     }
 
     /**
@@ -31,13 +27,11 @@ export class AchievementController
      * @param sessionId Session id
      * @returns ICompletedAchievementsResponse
      */
-    public getAchievementStatistics(sessionId: string): ICompletedAchievementsResponse
-    {
-        const achievements = this.databaseServer.getTables().templates.achievements;
+    public getAchievementStatistics(sessionId: string): ICompletedAchievementsResponse {
+        const achievements = this.databaseService.getAchievements();
         const stats = {};
 
-        for (const achievement of achievements)
-        {
+        for (const achievement of achievements) {
             stats[achievement.id] = 0;
         }
 

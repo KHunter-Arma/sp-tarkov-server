@@ -1,7 +1,6 @@
-import { Skills } from "@spt-aki/models/eft/common/tables/IBotBase";
+import { Skills } from "@spt/models/eft/common/tables/IBotBase";
 
-export interface IPlayerIncrementSkillLevelRequestData
-{
+export interface IPlayerIncrementSkillLevelRequestData {
     _id: string;
     experience: number;
     quests: any[];
@@ -13,15 +12,12 @@ export interface IPlayerIncrementSkillLevelRequestData
     traderRelations: TraderRelations;
 }
 
-export interface Items
-{
+export interface Items {
     new: any[];
     change: any[];
     del: any[];
 }
 
-export interface Production
-{}
+export type Production = {};
 
-export interface TraderRelations
-{}
+export type TraderRelations = {};

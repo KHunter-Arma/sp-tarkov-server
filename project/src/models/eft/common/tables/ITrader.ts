@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
-import { ITraderServiceModel } from "@spt-aki/models/spt/services/ITraderServiceModel";
+import { Item } from "@spt/models/eft/common/tables/IItem";
+import { DogtagExchangeSide } from "@spt/models/enums/DogtagExchangeSide";
+import { ITraderServiceModel } from "@spt/models/spt/services/ITraderServiceModel";
 
-export interface ITrader
-{
+export interface ITrader {
     assort?: ITraderAssort;
     base: ITraderBase;
     dialogue?: Record<string, string[]>;
@@ -12,8 +11,7 @@ export interface ITrader
     services?: ITraderServiceModel[];
 }
 
-export interface ITraderBase
-{
+export interface ITraderBase {
     refreshTraderRagfairOffers: boolean;
     _id: string;
     availableInRaid: boolean;
@@ -42,14 +40,12 @@ export interface ITraderBase
     unlockedByDefault: boolean;
 }
 
-export interface IItemBuyData
-{
+export interface IItemBuyData {
     category: string[];
     id_list: string[];
 }
 
-export interface Insurance
-{
+export interface Insurance {
     availability: boolean;
     excluded_category: string[];
     max_return_hour: number;
@@ -58,8 +54,7 @@ export interface Insurance
     min_return_hour: number;
 }
 
-export interface LoyaltyLevel
-{
+export interface LoyaltyLevel {
     buy_price_coef: number;
     exchange_price_coef: number;
     heal_price_coef: number;
@@ -70,8 +65,7 @@ export interface LoyaltyLevel
     repair_price_coef: number;
 }
 
-export interface Repair
-{
+export interface Repair {
     availability: boolean;
     currency: string;
     currency_coefficient: number;
@@ -81,24 +75,23 @@ export interface Repair
     quality: number;
 }
 
-export interface ITraderAssort
-{
+export interface ITraderAssort {
     nextResupply: number;
     items: Item[];
     barter_scheme: Record<string, IBarterScheme[][]>;
     loyal_level_items: Record<string, number>;
 }
 
-export interface IBarterScheme
-{
+export interface IBarterScheme {
     count: number;
     _tpl: string;
     onlyFunctional?: boolean;
     sptQuestLocked?: boolean;
+    level?: number;
+    side?: DogtagExchangeSide;
 }
 
-export interface ISuit
-{
+export interface ISuit {
     _id: string;
     tid: string;
     suiteId: string;
@@ -106,8 +99,7 @@ export interface ISuit
     requirements: ISuitRequirements;
 }
 
-export interface ISuitRequirements
-{
+export interface ISuitRequirements {
     loyaltyLevel: number;
     profileLevel: number;
     standing: number;
@@ -116,8 +108,7 @@ export interface ISuitRequirements
     itemRequirements: ItemRequirement[];
 }
 
-export interface ItemRequirement
-{
+export interface ItemRequirement {
     count: number;
     _tpl: string;
     onlyFunctional: boolean;

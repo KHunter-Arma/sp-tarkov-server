@@ -1,53 +1,49 @@
+import { GameController } from "@spt/controllers/GameController";
+import { OnLoad } from "@spt/di/OnLoad";
+import { IEmptyRequestData } from "@spt/models/eft/common/IEmptyRequestData";
+import { IUIDRequestData } from "@spt/models/eft/common/request/IUIDRequestData";
+import { ICheckVersionResponse } from "@spt/models/eft/game/ICheckVersionResponse";
+import { ICurrentGroupResponse } from "@spt/models/eft/game/ICurrentGroupResponse";
+import { IGameConfigResponse } from "@spt/models/eft/game/IGameConfigResponse";
+import { IGameEmptyCrcRequestData } from "@spt/models/eft/game/IGameEmptyCrcRequestData";
+import { IGameKeepAliveResponse } from "@spt/models/eft/game/IGameKeepAliveResponse";
+import { IGameLogoutResponseData } from "@spt/models/eft/game/IGameLogoutResponseData";
+import { IGameModeRequestData } from "@spt/models/eft/game/IGameModeRequestData";
+import { IGameModeResponse } from "@spt/models/eft/game/IGameModeResponse";
+import { IGameStartResponse } from "@spt/models/eft/game/IGameStartResponse";
+import { IGetRaidTimeRequest } from "@spt/models/eft/game/IGetRaidTimeRequest";
+import { IGetRaidTimeResponse } from "@spt/models/eft/game/IGetRaidTimeResponse";
+import { IServerDetails } from "@spt/models/eft/game/IServerDetails";
+import { IVersionValidateRequestData } from "@spt/models/eft/game/IVersionValidateRequestData";
+import { IGetBodyResponseData } from "@spt/models/eft/httpResponse/IGetBodyResponseData";
+import { INullResponseData } from "@spt/models/eft/httpResponse/INullResponseData";
+import { SaveServer } from "@spt/servers/SaveServer";
+import { HttpResponseUtil } from "@spt/utils/HttpResponseUtil";
+import { Watermark } from "@spt/utils/Watermark";
 import { inject, injectable } from "tsyringe";
 
-import { GameController } from "@spt-aki/controllers/GameController";
-import { OnLoad } from "@spt-aki/di/OnLoad";
-import { IEmptyRequestData } from "@spt-aki/models/eft/common/IEmptyRequestData";
-import { ICheckVersionResponse } from "@spt-aki/models/eft/game/ICheckVersionResponse";
-import { ICurrentGroupResponse } from "@spt-aki/models/eft/game/ICurrentGroupResponse";
-import { IGameConfigResponse } from "@spt-aki/models/eft/game/IGameConfigResponse";
-import { IGameEmptyCrcRequestData } from "@spt-aki/models/eft/game/IGameEmptyCrcRequestData";
-import { IGameKeepAliveResponse } from "@spt-aki/models/eft/game/IGameKeepAliveResponse";
-import { IGameLogoutResponseData } from "@spt-aki/models/eft/game/IGameLogoutResponseData";
-import { IGameStartResponse } from "@spt-aki/models/eft/game/IGameStartResponse";
-import { IGetRaidTimeRequest } from "@spt-aki/models/eft/game/IGetRaidTimeRequest";
-import { IGetRaidTimeResponse } from "@spt-aki/models/eft/game/IGetRaidTimeResponse";
-import { IReportNicknameRequestData } from "@spt-aki/models/eft/game/IReportNicknameRequestData";
-import { IServerDetails } from "@spt-aki/models/eft/game/IServerDetails";
-import { IVersionValidateRequestData } from "@spt-aki/models/eft/game/IVersionValidateRequestData";
-import { IGetBodyResponseData } from "@spt-aki/models/eft/httpResponse/IGetBodyResponseData";
-import { INullResponseData } from "@spt-aki/models/eft/httpResponse/INullResponseData";
-import { SaveServer } from "@spt-aki/servers/SaveServer";
-import { HttpResponseUtil } from "@spt-aki/utils/HttpResponseUtil";
-import { Watermark } from "@spt-aki/utils/Watermark";
-
 @injectable()
-export class GameCallbacks implements OnLoad
-{
+export class GameCallbacks implements OnLoad {
     constructor(
         @inject("HttpResponseUtil") protected httpResponse: HttpResponseUtil,
         @inject("Watermark") protected watermark: Watermark,
         @inject("SaveServer") protected saveServer: SaveServer,
         @inject("GameController") protected gameController: GameController,
-    )
-    {}
+    ) {}
 
-    public async onLoad(): Promise<void>
-    {
+    public async onLoad(): Promise<void> {
         this.gameController.load();
     }
 
-    public getRoute(): string
-    {
-        return "aki-game";
+    public getRoute(): string {
+        return "spt-game";
     }
 
     /**
      * Handle client/game/version/validate
      * @returns INullResponseData
      */
-    public versionValidate(url: string, info: IVersionValidateRequestData, sessionID: string): INullResponseData
-    {
+    public versionValidate(url: string, info: IVersionValidateRequestData, sessionID: string): INullResponseData {
         return this.httpResponse.nullResponse();
     }
 
@@ -55,8 +51,11 @@ export class GameCallbacks implements OnLoad
      * Handle client/game/start
      * @returns IGameStartResponse
      */
-    public gameStart(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<IGameStartResponse>
-    {
+    public gameStart(
+        url: string,
+        info: IEmptyRequestData,
+        sessionID: string,
+    ): IGetBodyResponseData<IGameStartResponse> {
         const today = new Date().toUTCString();
         const startTimeStampMS = Date.parse(today);
         this.gameController.gameStart(url, info, sessionID, startTimeStampMS);
@@ -72,8 +71,7 @@ export class GameCallbacks implements OnLoad
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IGameLogoutResponseData>
-    {
+    ): IGetBodyResponseData<IGameLogoutResponseData> {
         this.saveServer.save();
         return this.httpResponse.getBody({ status: "ok" });
     }
@@ -86,16 +84,26 @@ export class GameCallbacks implements OnLoad
         url: string,
         info: IGameEmptyCrcRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IGameConfigResponse>
-    {
+    ): IGetBodyResponseData<IGameConfigResponse> {
         return this.httpResponse.getBody(this.gameController.getGameConfig(sessionID));
+    }
+
+    /**
+     * Handle client/game/mode
+     * @returns IGameModeResponse
+     */
+    public getGameMode(
+        url: string,
+        info: IGameModeRequestData,
+        sessionID: string,
+    ): IGetBodyResponseData<IGameModeResponse> {
+        return this.httpResponse.getBody(this.gameController.getGameMode(sessionID, info));
     }
 
     /**
      * Handle client/server/list
      */
-    public getServer(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<IServerDetails[]>
-    {
+    public getServer(url: string, info: IEmptyRequestData, sessionID: string): IGetBodyResponseData<IServerDetails[]> {
         return this.httpResponse.getBody(this.gameController.getServer(sessionID));
     }
 
@@ -106,8 +114,7 @@ export class GameCallbacks implements OnLoad
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<ICurrentGroupResponse>
-    {
+    ): IGetBodyResponseData<ICurrentGroupResponse> {
         return this.httpResponse.getBody(this.gameController.getCurrentGroup(sessionID));
     }
 
@@ -118,8 +125,7 @@ export class GameCallbacks implements OnLoad
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<ICheckVersionResponse>
-    {
+    ): IGetBodyResponseData<ICheckVersionResponse> {
         return this.httpResponse.getBody(this.gameController.getValidGameVersion(sessionID));
     }
 
@@ -131,8 +137,7 @@ export class GameCallbacks implements OnLoad
         url: string,
         info: IEmptyRequestData,
         sessionID: string,
-    ): IGetBodyResponseData<IGameKeepAliveResponse>
-    {
+    ): IGetBodyResponseData<IGameKeepAliveResponse> {
         return this.httpResponse.getBody(this.gameController.getKeepAlive(sessionID));
     }
 
@@ -140,13 +145,11 @@ export class GameCallbacks implements OnLoad
      * Handle singleplayer/settings/version
      * @returns string
      */
-    public getVersion(url: string, info: IEmptyRequestData, sessionID: string): string
-    {
+    public getVersion(url: string, info: IEmptyRequestData, sessionID: string): string {
         return this.httpResponse.noBody({ Version: this.watermark.getInGameVersionLabel() });
     }
 
-    public reportNickname(url: string, info: IReportNicknameRequestData, sessionID: string): INullResponseData
-    {
+    public reportNickname(url: string, info: IUIDRequestData, sessionID: string): INullResponseData {
         return this.httpResponse.nullResponse();
     }
 
@@ -154,9 +157,7 @@ export class GameCallbacks implements OnLoad
      * Handle singleplayer/settings/getRaidTime
      * @returns string
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public getRaidTime(url: string, request: IGetRaidTimeRequest, sessionID: string): IGetRaidTimeResponse
-    {
+    public getRaidTime(url: string, request: IGetRaidTimeRequest, sessionID: string): IGetRaidTimeResponse {
         return this.httpResponse.noBody(this.gameController.getRaidTime(sessionID, request));
     }
 }

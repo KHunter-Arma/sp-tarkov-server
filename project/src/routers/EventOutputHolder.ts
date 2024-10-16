@@ -1,37 +1,33 @@
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { IHideoutImprovement, Productive, TraderInfo } from "@spt/models/eft/common/tables/IBotBase";
+import { ProfileChange, TraderData } from "@spt/models/eft/itemEvent/IItemEventRouterBase";
+import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
+import { TimeUtil } from "@spt/utils/TimeUtil";
+import { ICloner } from "@spt/utils/cloners/ICloner";
 import { inject, injectable } from "tsyringe";
 
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import { IHideoutImprovement, Productive, TraderInfo } from "@spt-aki/models/eft/common/tables/IBotBase";
-import { ProfileChange, TraderData } from "@spt-aki/models/eft/itemEvent/IItemEventRouterBase";
-import { IItemEventRouterResponse } from "@spt-aki/models/eft/itemEvent/IItemEventRouterResponse";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { TimeUtil } from "@spt-aki/utils/TimeUtil";
-
 @injectable()
-export class EventOutputHolder
-{
-    /** What has client been informed of this game session */
-    protected clientActiveSessionStorage: Record<string, { clientInformed: boolean; }> = {};
+export class EventOutputHolder {
+    /**
+     * What has client been informed of this game session
+     * Key = sessionId, then second key is prod id
+     */
+    protected clientActiveSessionStorage: Record<string, Record<string, { clientInformed: boolean }>> = {};
+    protected outputStore: Record<string, IItemEventRouterResponse> = {};
 
     constructor(
-        @inject("JsonUtil") protected jsonUtil: JsonUtil,
         @inject("ProfileHelper") protected profileHelper: ProfileHelper,
         @inject("TimeUtil") protected timeUtil: TimeUtil,
-    )
-    {}
+        @inject("PrimaryCloner") protected cloner: ICloner,
+    ) {}
 
-    // TODO REMEMBER TO CHANGE OUTPUT
-    protected output: IItemEventRouterResponse = { warnings: [], profileChanges: {} };
-
-    public getOutput(sessionID: string): IItemEventRouterResponse
-    {
-        if (!this.output.profileChanges[sessionID])
-        {
+    public getOutput(sessionID: string): IItemEventRouterResponse {
+        if (!this.outputStore[sessionID]?.profileChanges[sessionID]) {
             this.resetOutput(sessionID);
         }
 
-        return this.output;
+        return this.outputStore[sessionID];
     }
 
     /**
@@ -39,12 +35,11 @@ export class EventOutputHolder
      * Occurs prior to event being handled by server
      * @param sessionID Players id
      */
-    public resetOutput(sessionID: string): void
-    {
+    public resetOutput(sessionID: string): void {
         const pmcData: IPmcData = this.profileHelper.getPmcProfile(sessionID);
 
-        this.output.warnings = [];
-        this.output.profileChanges[sessionID] = {
+        this.outputStore[sessionID] = { warnings: [], profileChanges: {} };
+        this.outputStore[sessionID].profileChanges[sessionID] = {
             _id: sessionID,
             experience: pmcData.Info.Experience,
             quests: [],
@@ -55,7 +50,7 @@ export class EventOutputHolder
             production: {},
             improvements: {},
             skills: { Common: [], Mastering: [], Points: 0 },
-            health: this.jsonUtil.clone(pmcData.Health),
+            health: this.cloner.clone(pmcData.Health),
             traderRelations: {},
             // changedHideoutStashes: {},
             recipeUnlocked: {},
@@ -67,21 +62,21 @@ export class EventOutputHolder
      * Update output object with most recent values from player profile
      * @param sessionId Session id
      */
-    public updateOutputProperties(sessionId: string): void
-    {
+    public updateOutputProperties(sessionId: string): void {
         const pmcData: IPmcData = this.profileHelper.getPmcProfile(sessionId);
-        const profileChanges: ProfileChange = this.output.profileChanges[sessionId];
+        const profileChanges: ProfileChange = this.outputStore[sessionId].profileChanges[sessionId];
 
         profileChanges.experience = pmcData.Info.Experience;
-        profileChanges.health = this.jsonUtil.clone(pmcData.Health);
-        profileChanges.skills.Common = this.jsonUtil.clone(pmcData.Skills.Common); // Always send skills for Item event route response
-        profileChanges.skills.Mastering = this.jsonUtil.clone(pmcData.Skills.Mastering);
+        profileChanges.health = this.cloner.clone(pmcData.Health);
+        profileChanges.skills.Common = this.cloner.clone(pmcData.Skills.Common); // Always send skills for Item event route response
+        profileChanges.skills.Mastering = this.cloner.clone(pmcData.Skills.Mastering);
 
         // Clone productions to ensure we preseve the profile jsons data
         profileChanges.production = this.getProductionsFromProfileAndFlagComplete(
-            this.jsonUtil.clone(pmcData.Hideout.Production),
+            this.cloner.clone(pmcData.Hideout.Production),
+            sessionId,
         );
-        profileChanges.improvements = this.jsonUtil.clone(this.getImprovementsFromProfileAndFlagComplete(pmcData));
+        profileChanges.improvements = this.cloner.clone(this.getImprovementsFromProfileAndFlagComplete(pmcData));
         profileChanges.traderRelations = this.constructTraderRelations(pmcData.TradersInfo);
 
         // Fixes container craft from water collector not resetting after collection + removed completed normal crafts
@@ -93,12 +88,10 @@ export class EventOutputHolder
      * @param traderData server data for traders
      * @returns dict of trader id + TraderData
      */
-    protected constructTraderRelations(traderData: Record<string, TraderInfo>): Record<string, TraderData>
-    {
+    protected constructTraderRelations(traderData: Record<string, TraderInfo>): Record<string, TraderData> {
         const result: Record<string, TraderData> = {};
 
-        for (const traderId in traderData)
-        {
+        for (const traderId in traderData) {
             const baseData = traderData[traderId];
             result[traderId] = {
                 salesSum: baseData.salesSum,
@@ -117,20 +110,16 @@ export class EventOutputHolder
      * @param pmcData Player profile
      * @returns dictionary of hideout improvements
      */
-    protected getImprovementsFromProfileAndFlagComplete(pmcData: IPmcData): Record<string, IHideoutImprovement>
-    {
-        for (const improvementKey in pmcData.Hideout.Improvement)
-        {
+    protected getImprovementsFromProfileAndFlagComplete(pmcData: IPmcData): Record<string, IHideoutImprovement> {
+        for (const improvementKey in pmcData.Hideout.Improvement) {
             const improvement = pmcData.Hideout.Improvement[improvementKey];
 
             // Skip completed
-            if (improvement.completed)
-            {
+            if (improvement.completed) {
                 continue;
             }
 
-            if (improvement.improveCompleteTimestamp < this.timeUtil.getTimestamp())
-            {
+            if (improvement.improveCompleteTimestamp < this.timeUtil.getTimestamp()) {
                 improvement.completed = true;
             }
         }
@@ -145,66 +134,62 @@ export class EventOutputHolder
      */
     protected getProductionsFromProfileAndFlagComplete(
         productions: Record<string, Productive>,
-    ): Record<string, Productive>
-    {
-        for (const productionKey in productions)
-        {
+        sessionId: string,
+    ): Record<string, Productive> | undefined {
+        for (const productionKey in productions) {
             const production = productions[productionKey];
-            if (!production)
-            {
+            if (!production) {
                 // Could be cancelled production, skip item to save processing
                 continue;
             }
 
             // Complete and is Continuous e.g. water collector
-            if (production.sptIsComplete && production.sptIsContinuous)
-            {
+            if (production.sptIsComplete && production.sptIsContinuous) {
                 continue;
             }
 
             // Skip completed
-            if (!production.inProgress)
-            {
+            if (!production.inProgress) {
                 continue;
             }
 
             // Client informed of craft, remove from data returned
-            if (this.clientActiveSessionStorage[productionKey]?.clientInformed)
-            {
+            let storageForSessionId = this.clientActiveSessionStorage[sessionId];
+            if (typeof storageForSessionId === "undefined") {
+                this.clientActiveSessionStorage[sessionId] = {};
+                storageForSessionId = this.clientActiveSessionStorage[sessionId];
+            }
+
+            // Ensure we don't inform client of production again
+            if (storageForSessionId[productionKey]?.clientInformed) {
                 delete productions[productionKey];
 
                 continue;
             }
 
-            // Flag started craft as having been seen by client
-            if (production.Progress > 0 && !this.clientActiveSessionStorage[productionKey]?.clientInformed)
-            {
-                this.clientActiveSessionStorage[productionKey] = { clientInformed: true };
+            // Flag started craft as having been seen by client so it won't happen subsequent times
+            if (production.Progress > 0 && !storageForSessionId[productionKey]?.clientInformed) {
+                storageForSessionId[productionKey] = { clientInformed: true };
             }
         }
 
-        // Return null if there's no crafts to send to client to match live behaviour
-        return (Object.keys(productions).length > 0) ? productions : null;
+        // Return undefined if there's no crafts to send to client to match live behaviour
+        return Object.keys(productions).length > 0 ? productions : undefined;
     }
 
     /**
      * Required as continuous productions don't reset and stay at 100% completion but client thinks it hasn't started
      * @param productions Productions in a profile
      */
-    protected cleanUpCompleteCraftsInProfile(productions: Record<string, Productive>): void
-    {
-        for (const productionKey in productions)
-        {
+    protected cleanUpCompleteCraftsInProfile(productions: Record<string, Productive>): void {
+        for (const productionKey in productions) {
             const production = productions[productionKey];
-            if (production?.sptIsComplete && production?.sptIsContinuous)
-            {
+            if (production?.sptIsComplete && production?.sptIsContinuous) {
                 // Water collector / Bitcoin etc
                 production.sptIsComplete = false;
                 production.Progress = 0;
                 production.StartTimestamp = this.timeUtil.getTimestamp();
-            }
-            else if (!production?.inProgress)
-            {
+            } else if (!production?.inProgress) {
                 // Normal completed craft, delete
                 delete productions[productionKey];
             }

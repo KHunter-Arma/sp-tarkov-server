@@ -1,26 +1,21 @@
 import readline from "node:readline";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { AsyncQueue } from "@spt/utils/AsyncQueue";
+import { WinstonMainLogger } from "@spt/utils/logging/WinstonMainLogger";
 
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { AsyncQueue } from "@spt-aki/utils/AsyncQueue";
-import { WinstonMainLogger } from "@spt-aki/utils/logging/WinstonMainLogger";
-
-export class ErrorHandler
-{
+export class ErrorHandler {
     private logger: ILogger;
     private readLine: readline.Interface;
 
-    constructor()
-    {
+    constructor() {
         this.logger = new WinstonMainLogger(new AsyncQueue());
         this.readLine = readline.createInterface({ input: process.stdin, output: process.stdout });
     }
 
-    public handleCriticalError(err: Error): void
-    {
+    public handleCriticalError(err: Error): void {
         this.logger.error("The application had a critical error and failed to run");
         this.logger.error(`Exception produced: ${err.name}`);
-        if (err.stack)
-        {
+        if (err.stack) {
             this.logger.error(`\nStacktrace:\n${err.stack}`);
         }
 

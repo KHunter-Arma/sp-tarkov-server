@@ -1,5 +1,4 @@
-export interface IRandomisedBotLevelResult
-{
+export interface IRandomisedBotLevelResult {
     level: number;
     exp: number;
 }

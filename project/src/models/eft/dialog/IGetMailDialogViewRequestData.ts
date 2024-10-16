@@ -1,7 +1,6 @@
-import { MessageType } from "@spt-aki/models/enums/MessageType";
+import { MessageType } from "@spt/models/enums/MessageType";
 
-export interface IGetMailDialogViewRequestData
-{
+export interface IGetMailDialogViewRequestData {
     type: MessageType;
     dialogId: string;
     limit: number;

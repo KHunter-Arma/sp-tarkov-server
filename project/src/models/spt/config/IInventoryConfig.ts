@@ -1,9 +1,8 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { IBaseConfig } from "@spt-aki/models/spt/config/IBaseConfig";
+import { MinMax } from "@spt/models/common/MinMax";
+import { IBaseConfig } from "@spt/models/spt/config/IBaseConfig";
 
-export interface IInventoryConfig extends IBaseConfig
-{
-    kind: "aki-inventory";
+export interface IInventoryConfig extends IBaseConfig {
+    kind: "spt-inventory";
     /** Should new items purchased by flagged as found in raid */
     newItemsMarkedFound: boolean;
     randomLootContainers: Record<string, RewardDetails>;
@@ -14,16 +13,14 @@ export interface IInventoryConfig extends IBaseConfig
     skillGainMultiplers: Record<string, number>;
 }
 
-export interface RewardDetails
-{
+export interface RewardDetails {
     rewardCount: number;
     foundInRaid: boolean;
     rewardTplPool?: Record<string, number>;
     rewardTypePool?: Record<string, number>;
 }
 
-export interface ISealedAirdropContainerSettings
-{
+export interface ISealedAirdropContainerSettings {
     weaponRewardWeight: Record<string, number>;
     defaultPresetsOnly: boolean;
     /** Should contents be flagged as found in raid when opened */

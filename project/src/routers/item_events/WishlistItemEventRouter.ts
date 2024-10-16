@@ -1,32 +1,26 @@
+import { WishlistCallbacks } from "@spt/callbacks/WishlistCallbacks";
+import { HandledRoute, ItemEventRouterDefinition } from "@spt/di/Router";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
 import { inject, injectable } from "tsyringe";
 
-import { WishlistCallbacks } from "@spt-aki/callbacks/WishlistCallbacks";
-import { HandledRoute, ItemEventRouterDefinition } from "@spt-aki/di/Router";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import { IItemEventRouterResponse } from "@spt-aki/models/eft/itemEvent/IItemEventRouterResponse";
-
 @injectable()
-export class WishlistItemEventRouter extends ItemEventRouterDefinition
-{
-    constructor(@inject("WishlistCallbacks") protected wishlistCallbacks: WishlistCallbacks)
-    {
+export class WishlistItemEventRouter extends ItemEventRouterDefinition {
+    constructor(@inject("WishlistCallbacks") protected wishlistCallbacks: WishlistCallbacks) {
         super();
     }
 
-    public override getHandledRoutes(): HandledRoute[]
-    {
+    public override getHandledRoutes(): HandledRoute[] {
         return [new HandledRoute("AddToWishList", false), new HandledRoute("RemoveFromWishList", false)];
     }
 
-    public override handleItemEvent(
+    public override async handleItemEvent(
         url: string,
         pmcData: IPmcData,
         body: any,
         sessionID: string,
-    ): IItemEventRouterResponse
-    {
-        switch (url)
-        {
+    ): Promise<IItemEventRouterResponse> {
+        switch (url) {
             case "AddToWishList":
                 return this.wishlistCallbacks.addToWishlist(pmcData, body, sessionID);
             case "RemoveFromWishList":

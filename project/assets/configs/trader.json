@@ -73,6 +73,14 @@
             }
         },
         {
+            "_name": "Ref",
+            "traderId": "6617beeaa9cfa777ca915b7c",
+            "seconds": {
+                "min": 3000,
+                "max": 7500
+            }
+        },
+        {
             "traderId": "ragfair",
             "seconds": {
                 "min": 3600,
@@ -200,7 +208,12 @@
                 "max": 92
             }
         },
-        "chancePlateExistsInArmorPercent": 25,
+        "chancePlateExistsInArmorPercent": {
+            "3": 25,
+            "4": 8,
+            "5": 2,
+            "6": 2
+        },
         "armorMaxDurabilityPercentMinMax": {
             "current": {
                 "min": 5,
@@ -349,8 +362,12 @@
             "5447bedf4bdc2d87278b4568",
             "6275303a9f372d6ea97f9ec7",
             "62e9103049c018f425059f38",
-            "59f32bb586f774757e1e8442",
             "59f32c3b86f77472a31742f0",
+            "6662e9f37fa79a6d83730fa0",
+            "6662ea05f6259762c56f3189",
+            "59f32bb586f774757e1e8442",
+            "6662e9aca7e0b43baa3d5f74",
+            "6662e9cda7e0b43baa3d5f76",
             "627bce33f21bc425b06ab967",
             "62f109593b54472778797866",
             "5d52cc5ba4b9367408500062",
@@ -363,14 +380,12 @@
             "64d0b40fbe2eed70e254e2d4",
             "5fc22d7c187fea44d52eda44",
             "646372518610c40fc20204e8",
-			"65649eb40bf0ed77b8044453"
+            "65ddcc9cfa85b9f17d0dfb07",
+            "660312cc4d6cdfa6f500c703"
         ],
         "coopExtractGift": {
             "sendGift": false,
-            "messageLocaleIds": [
-                "5da89b1886f77439d7741002 0",
-                "5da89b3a86f7742f9026cb83 0"
-            ],
+            "messageLocaleIds": ["5da89b1886f77439d7741002 0", "5da89b3a86f7742f9026cb83 0"],
             "giftExpiryHours": 168,
             "weaponPresetCount": {
                 "min": 0,

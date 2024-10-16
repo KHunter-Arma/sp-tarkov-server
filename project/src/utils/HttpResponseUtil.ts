@@ -1,27 +1,25 @@
+import { IGetBodyResponseData } from "@spt/models/eft/httpResponse/IGetBodyResponseData";
+import { INullResponseData } from "@spt/models/eft/httpResponse/INullResponseData";
+import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
+import { BackendErrorCodes } from "@spt/models/enums/BackendErrorCodes";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { JsonUtil } from "@spt/utils/JsonUtil";
 import { inject, injectable } from "tsyringe";
 
-import { IGetBodyResponseData } from "@spt-aki/models/eft/httpResponse/IGetBodyResponseData";
-import { INullResponseData } from "@spt-aki/models/eft/httpResponse/INullResponseData";
-import { IItemEventRouterResponse } from "@spt-aki/models/eft/itemEvent/IItemEventRouterResponse";
-import { BackendErrorCodes } from "@spt-aki/models/enums/BackendErrorCodes";
-import { LocalisationService } from "@spt-aki/services/LocalisationService";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-
 @injectable()
-export class HttpResponseUtil
-{
+export class HttpResponseUtil {
     constructor(
         @inject("JsonUtil") protected jsonUtil: JsonUtil,
         @inject("LocalisationService") protected localisationService: LocalisationService,
-    )
-    {}
+    ) {}
 
-    protected clearString(s: string): any
-    {
-        return s.replace(/[\b]/g, "").replace(/[\f]/g, "").replace(/[\n]/g, "").replace(/[\r]/g, "").replace(
-            /[\t]/g,
-            "",
-        );
+    protected clearString(s: string): any {
+        return s
+            .replace(/[\b]/g, "")
+            .replace(/[\f]/g, "")
+            .replace(/[\n]/g, "")
+            .replace(/[\r]/g, "")
+            .replace(/[\t]/g, "");
     }
 
     /**
@@ -29,8 +27,7 @@ export class HttpResponseUtil
      * @param data
      * @returns
      */
-    public noBody(data: any): any
-    {
+    public noBody(data: any): any {
         return this.clearString(this.jsonUtil.serialize(data));
     }
 
@@ -41,30 +38,25 @@ export class HttpResponseUtil
      * @param errmsg
      * @returns
      */
-    public getBody<T>(data: T, err = 0, errmsg = null, sanitize = true): IGetBodyResponseData<T>
-    {
+    public getBody<T>(data: T, err = 0, errmsg?: string, sanitize = true): IGetBodyResponseData<T> {
         return sanitize
             ? this.clearString(this.getUnclearedBody(data, err, errmsg))
             : (this.getUnclearedBody(data, err, errmsg) as any);
     }
 
-    public getUnclearedBody(data: any, err = 0, errmsg = null): string
-    {
+    public getUnclearedBody(data: any, err = 0, errmsg?: string): string {
         return this.jsonUtil.serialize({ err: err, errmsg: errmsg, data: data });
     }
 
-    public emptyResponse(): IGetBodyResponseData<string>
-    {
+    public emptyResponse(): IGetBodyResponseData<string> {
         return this.getBody("", 0, "");
     }
 
-    public nullResponse(): INullResponseData
-    {
-        return this.clearString(this.getUnclearedBody(null, 0, null));
+    public nullResponse(): INullResponseData {
+        return this.clearString(this.getUnclearedBody(undefined, 0, undefined));
     }
 
-    public emptyArrayResponse(): IGetBodyResponseData<any[]>
-    {
+    public emptyArrayResponse(): IGetBodyResponseData<any[]> {
         return this.getBody([]);
     }
 
@@ -79,14 +71,10 @@ export class HttpResponseUtil
         output: IItemEventRouterResponse,
         message = this.localisationService.getText("http-unknown_error"),
         errorCode = BackendErrorCodes.NONE,
-    ): IItemEventRouterResponse
-    {
-        if (output.warnings?.length > 0)
-        {
+    ): IItemEventRouterResponse {
+        if (output.warnings?.length > 0) {
             output.warnings.push({ index: output.warnings?.length - 1, errmsg: message, code: errorCode.toString() });
-        }
-        else
-        {
+        } else {
             output.warnings = [{ index: 0, errmsg: message, code: errorCode.toString() }];
         }
 

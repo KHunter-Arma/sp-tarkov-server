@@ -1,4 +1,3 @@
-export interface ISendRagfairReportRequestData
-{
+export interface ISendRagfairReportRequestData {
     offerId: number;
 }

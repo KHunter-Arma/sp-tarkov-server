@@ -1,5 +1,4 @@
-export interface IPackageJsonData
-{
+export interface IPackageJsonData {
     incompatibilities?: string[];
     loadBefore?: string[];
     loadAfter?: string[];
@@ -9,7 +8,7 @@ export interface IPackageJsonData
     url: string;
     author: string;
     version: string;
-    akiVersion: string;
+    sptVersion: string;
     /** We deliberately purge this data */
     scripts: Record<string, string>;
     devDependencies: Record<string, string>;

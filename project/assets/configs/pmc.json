@@ -1,9 +1,10 @@
 {
     "gameVersionWeight": {
-        "standard": 6,
+        "standard": 2,
         "left_behind": 1,
         "prepare_for_escape": 1,
-        "edge_of_darkness": 4
+        "edge_of_darkness": 4,
+        "unheard_edition": 2
     },
     "accountTypeWeight": {
         "0": 75,
@@ -51,7 +52,11 @@
             "543be5dd4bdc2deb348b4569",
             "5fca13ca637ee0341a484f46",
             "59f32c3b86f77472a31742f0",
+            "6662e9f37fa79a6d83730fa0",
+            "6662ea05f6259762c56f3189",
             "59f32bb586f774757e1e8442",
+            "6662e9aca7e0b43baa3d5f74",
+            "6662e9cda7e0b43baa3d5f76",
             "617aa4dd8166f034d57de9c5",
             "5a2a57cfc4a2826c6e06d44a",
             "619256e5f8af2c1a4e1f5d92",
@@ -60,7 +65,8 @@
             "6087e570b998180e9f76dc24",
             "6391fcf5744e45201147080f",
             "614451b71e5874611e2c7ae5",
-            "6540d2162ae6d96b540afcaf"
+            "6540d2162ae6d96b540afcaf",
+            "65ca457b4aafb5d7fc0dcb5d"
         ]
     },
     "pocketLoot": {
@@ -102,14 +108,20 @@
             "543be5cb4bdc2deb348b4568",
             "5fca13ca637ee0341a484f46",
             "59f32c3b86f77472a31742f0",
+            "6662e9f37fa79a6d83730fa0",
+            "6662ea05f6259762c56f3189",
             "59f32bb586f774757e1e8442",
+            "6662e9aca7e0b43baa3d5f74",
+            "6662e9cda7e0b43baa3d5f76",
             "617aa4dd8166f034d57de9c5",
             "5a2a57cfc4a2826c6e06d44a",
             "619256e5f8af2c1a4e1f5d92",
             "5a0c27731526d80618476ac4",
             "57864c8c245977548867e7f1",
             "6087e570b998180e9f76dc24",
-            "6391fcf5744e45201147080f"
+            "6391fcf5744e45201147080f",
+            "65ca457b4aafb5d7fc0dcb5d",
+            "660bbc98c38b837877075e4a"
         ]
     },
     "backpackLoot": {
@@ -153,7 +165,11 @@
             "5e99711486f7744bfc4af328",
             "5fca13ca637ee0341a484f46",
             "59f32c3b86f77472a31742f0",
+            "6662e9f37fa79a6d83730fa0",
+            "6662ea05f6259762c56f3189",
             "59f32bb586f774757e1e8442",
+            "6662e9aca7e0b43baa3d5f74",
+            "6662e9cda7e0b43baa3d5f76",
             "617aa4dd8166f034d57de9c5",
             "5a2a57cfc4a2826c6e06d44a",
             "619256e5f8af2c1a4e1f5d92",
@@ -162,7 +178,9 @@
             "63495c500c297e20065a08b1",
             "6391fcf5744e45201147080f",
             "614451b71e5874611e2c7ae5",
-            "6540d2162ae6d96b540afcaf"
+            "6540d2162ae6d96b540afcaf",
+            "65ca457b4aafb5d7fc0dcb5d",
+            "660bbc98c38b837877075e4a"
         ]
     },
     "useDifficultyOverride": false,
@@ -174,7 +192,7 @@
     "chanceSameSideIsHostilePercent": 100,
     "_pmcType": "Controls what bot brain can be chosen for each PMC bot type, the number is the weighting to be picked",
     "pmcType": {
-        "sptbear": {
+        "pmcbear": {
             "factory4_day": {
                 "bossKilla": 2,
                 "bossKnight": 2,
@@ -193,7 +211,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "factory4_night": {
                 "bossKilla": 2,
@@ -213,7 +232,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "bigmap": {
                 "bossKilla": 2,
@@ -233,7 +253,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "laboratory": {
                 "bossKilla": 2,
@@ -253,7 +274,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "woods": {
                 "bossKilla": 2,
@@ -274,7 +296,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "interchange": {
                 "bossKilla": 2,
@@ -294,7 +317,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "lighthouse": {
                 "bossKilla": 2,
@@ -314,7 +338,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "rezervbase": {
                 "bossKilla": 2,
@@ -334,7 +359,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 1,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "shoreline": {
                 "bossKilla": 2,
@@ -354,7 +380,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "tarkovstreets": {
                 "bossKilla": 2,
@@ -374,7 +401,8 @@
                 "arenaFighter": 2,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcBEAR": 2
             },
             "sandbox": {
                 "bossKilla": 2,
@@ -396,10 +424,34 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 1,
                 "crazyAssaultEvent": 1,
-                "pmcBot": 7
+                "pmcBot": 7,
+                "pmcBEAR": 2
+            },
+            "sandbox_high": {
+                "bossKilla": 2,
+                "bossKnight": 0,
+                "bossGluhar": 0,
+                "bossSanitar": 1,
+                "bossTagilla": 0,
+                "bossZryachiy": 0,
+                "bossBoar": 0,
+                "followerGluharAssault": 0,
+                "followerBully": 2,
+                "followerBigPipe": 0,
+                "followerSanitar": 0,
+                "followerKolontayAssault": 0,
+                "followerKolontaySecurity": 0,
+                "assault": 3,
+                "cursedAssault": 0,
+                "exUsec": 0,
+                "arenaFighter": 0,
+                "arenaFighterEvent": 1,
+                "crazyAssaultEvent": 1,
+                "pmcBot": 7,
+                "pmcBEAR": 2
             }
         },
-        "sptusec": {
+        "pmcusec": {
             "factory4_day": {
                 "bossKilla": 2,
                 "bossKnight": 2,
@@ -418,7 +470,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "factory4_night": {
                 "bossKilla": 2,
@@ -438,7 +491,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "bigmap": {
                 "bossKilla": 0,
@@ -458,7 +512,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 2,
-                "pmcBot": 6
+                "pmcBot": 6,
+                "pmcUSEC": 2
             },
             "laboratory": {
                 "bossKilla": 2,
@@ -478,7 +533,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "woods": {
                 "bossKilla": 2,
@@ -499,7 +555,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "interchange": {
                 "bossKilla": 2,
@@ -519,7 +576,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "lighthouse": {
                 "bossKilla": 2,
@@ -539,7 +597,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "rezervbase": {
                 "bossKilla": 2,
@@ -559,7 +618,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 1,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "shoreline": {
                 "bossKilla": 2,
@@ -579,7 +639,8 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "tarkovstreets": {
                 "bossKilla": 2,
@@ -599,7 +660,8 @@
                 "arenaFighter": 2,
                 "arenaFighterEvent": 0,
                 "crazyAssaultEvent": 3,
-                "pmcBot": 5
+                "pmcBot": 5,
+                "pmcUSEC": 2
             },
             "sandbox": {
                 "bossKilla": 2,
@@ -621,12 +683,36 @@
                 "arenaFighter": 0,
                 "arenaFighterEvent": 1,
                 "crazyAssaultEvent": 1,
-                "pmcBot": 7
+                "pmcBot": 7,
+                "pmcUSEC": 2
+            },
+            "sandbox_high": {
+                "bossKilla": 2,
+                "bossKnight": 0,
+                "bossGluhar": 0,
+                "bossSanitar": 1,
+                "bossTagilla": 0,
+                "bossZryachiy": 0,
+                "bossBoar": 0,
+                "followerGluharAssault": 0,
+                "followerBully": 2,
+                "followerBigPipe": 0,
+                "followerSanitar": 0,
+                "followerKolontayAssault": 0,
+                "followerKolontaySecurity": 0,
+                "assault": 3,
+                "cursedAssault": 0,
+                "exUsec": 0,
+                "arenaFighter": 0,
+                "arenaFighterEvent": 1,
+                "crazyAssaultEvent": 1,
+                "pmcBot": 7,
+                "pmcUSEC": 2
             }
         }
     },
-    "usecType": "sptUsec",
-    "bearType": "sptBear",
+    "usecType": "pmcUSEC",
+    "bearType": "pmcBEAR",
     "looseWeaponInBackpackChancePercent": 15,
     "weaponHasEnhancementChancePercent": 5,
     "looseWeaponInBackpackLootMinMax": {
@@ -705,5 +791,15 @@
     "forceHealingItemsIntoSecure": true,
     "addPrefixToSameNamePMCAsPlayerChance": 40,
     "allPMCsHavePlayerNameWithRandomPrefixChance": 1,
-	"addSecureContainerLootFromBotConfig": false
+    "locationSpecificPmcLevelOverride": {
+        "sandbox": {
+            "min": 1,
+            "max": 20
+        },
+        "sandbox_high": {
+            "min": 21,
+            "max": 100
+        }
+    },
+    "addSecureContainerLootFromBotConfig": false
 }

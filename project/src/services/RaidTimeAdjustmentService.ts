@@ -1,37 +1,30 @@
+import { ApplicationContext } from "@spt/context/ApplicationContext";
+import { ContextVariableType } from "@spt/context/ContextVariableType";
+import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
+import { ILocationBase } from "@spt/models/eft/common/ILocationBase";
+import { IGetRaidTimeRequest } from "@spt/models/eft/game/IGetRaidTimeRequest";
+import { ExtractChange, IGetRaidTimeResponse } from "@spt/models/eft/game/IGetRaidTimeResponse";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { ILocationConfig, IScavRaidTimeLocationSettings, LootMultiplier } from "@spt/models/spt/config/ILocationConfig";
+import { IRaidChanges } from "@spt/models/spt/location/IRaidChanges";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { RandomUtil } from "@spt/utils/RandomUtil";
 import { inject, injectable } from "tsyringe";
 
-import { ApplicationContext } from "@spt-aki/context/ApplicationContext";
-import { ContextVariableType } from "@spt-aki/context/ContextVariableType";
-import { WeightedRandomHelper } from "@spt-aki/helpers/WeightedRandomHelper";
-import { ILocationBase } from "@spt-aki/models/eft/common/ILocationBase";
-import { IGetRaidTimeRequest } from "@spt-aki/models/eft/game/IGetRaidTimeRequest";
-import { ExtractChange, IGetRaidTimeResponse } from "@spt-aki/models/eft/game/IGetRaidTimeResponse";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import {
-    ILocationConfig,
-    IScavRaidTimeLocationSettings,
-    LootMultiplier,
-} from "@spt-aki/models/spt/config/ILocationConfig";
-import { IRaidChanges } from "@spt-aki/models/spt/location/IRaidChanges";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { RandomUtil } from "@spt-aki/utils/RandomUtil";
-
 @injectable()
-export class RaidTimeAdjustmentService
-{
+export class RaidTimeAdjustmentService {
     protected locationConfig: ILocationConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("PrimaryLogger") protected logger: ILogger,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("RandomUtil") protected randomUtil: RandomUtil,
         @inject("WeightedRandomHelper") protected weightedRandomHelper: WeightedRandomHelper,
         @inject("ApplicationContext") protected applicationContext: ApplicationContext,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+    ) {
         this.locationConfig = this.configServer.getConfig(ConfigTypes.LOCATION);
     }
 
@@ -41,8 +34,7 @@ export class RaidTimeAdjustmentService
      * @param raidAdjustments Changes to process on map
      * @param mapBase Map to adjust
      */
-    public makeAdjustmentsToMap(raidAdjustments: IRaidChanges, mapBase: ILocationBase): void
-    {
+    public makeAdjustmentsToMap(raidAdjustments: IRaidChanges, mapBase: ILocationBase): void {
         this.logger.debug(
             `Adjusting dynamic loot multipliers to ${raidAdjustments.dynamicLootPercent}% and static loot multipliers to ${raidAdjustments.staticLootPercent}% of original`,
         );
@@ -52,8 +44,7 @@ export class RaidTimeAdjustmentService
         this.adjustLootMultipliers(this.locationConfig.staticLootMultiplier, raidAdjustments.staticLootPercent);
 
         const mapSettings = this.getMapSettings(mapBase.Id);
-        if (mapSettings.adjustWaves)
-        {
+        if (mapSettings.adjustWaves) {
             // Make alterations to bot spawn waves now player is simulated spawning later
             this.adjustWaves(mapBase, raidAdjustments);
         }
@@ -64,10 +55,8 @@ export class RaidTimeAdjustmentService
      * @param mapLootMultiplers Multiplers to adjust
      * @param loosePercent Percent to change values to
      */
-    protected adjustLootMultipliers(mapLootMultiplers: LootMultiplier, loosePercent: number): void
-    {
-        for (const key in mapLootMultiplers)
-        {
+    protected adjustLootMultipliers(mapLootMultiplers: LootMultiplier, loosePercent: number): void {
+        for (const key in mapLootMultiplers) {
             mapLootMultiplers[key] = this.randomUtil.getPercentOfValue(mapLootMultiplers[key], loosePercent);
         }
     }
@@ -77,15 +66,13 @@ export class RaidTimeAdjustmentService
      * @param mapBase map to adjust
      * @param raidAdjustments Map adjustments
      */
-    protected adjustWaves(mapBase: ILocationBase, raidAdjustments: IRaidChanges): void
-    {
+    protected adjustWaves(mapBase: ILocationBase, raidAdjustments: IRaidChanges): void {
         // Remove waves that spawned before the player joined
         const originalWaveCount = mapBase.waves.length;
         mapBase.waves = mapBase.waves.filter((x) => x.time_max > raidAdjustments.simulatedRaidStartSeconds);
 
         // Adjust wave min/max times to match new simulated start
-        for (const wave of mapBase.waves)
-        {
+        for (const wave of mapBase.waves) {
             // Dont let time fall below 0
             wave.time_min -= Math.max(raidAdjustments.simulatedRaidStartSeconds, 0);
             wave.time_max -= Math.max(raidAdjustments.simulatedRaidStartSeconds, 0);
@@ -104,24 +91,21 @@ export class RaidTimeAdjustmentService
      * @param request Raid adjustment request
      * @returns Response to send to client
      */
-    public getRaidAdjustments(sessionId: string, request: IGetRaidTimeRequest): IGetRaidTimeResponse
-    {
-        const db = this.databaseServer.getTables();
-
-        const mapBase: ILocationBase = db.locations[request.Location.toLowerCase()].base;
+    public getRaidAdjustments(sessionId: string, request: IGetRaidTimeRequest): IGetRaidTimeResponse {
+        const globals = this.databaseService.getGlobals();
+        const mapBase: ILocationBase = this.databaseService.getLocation(request.Location.toLowerCase()).base;
         const baseEscapeTimeMinutes = mapBase.EscapeTimeLimit;
 
         // Prep result object to return
         const result: IGetRaidTimeResponse = {
             RaidTimeMinutes: baseEscapeTimeMinutes,
             ExitChanges: [],
-            NewSurviveTimeSeconds: null,
-            OriginalSurvivalTimeSeconds: db.globals.config.exp.match_end.survived_seconds_requirement,
+            NewSurviveTimeSeconds: undefined,
+            OriginalSurvivalTimeSeconds: globals.config.exp.match_end.survived_seconds_requirement,
         };
 
         // Pmc raid, send default
-        if (request.Side.toLowerCase() === "pmc")
-        {
+        if (request.Side.toLowerCase() === "pmc") {
             return result;
         }
 
@@ -129,8 +113,7 @@ export class RaidTimeAdjustmentService
         const mapSettings = this.getMapSettings(request.Location);
 
         // Chance of reducing raid time for scav, not guaranteed
-        if (!this.randomUtil.getChance100(mapSettings.reducedChancePercent))
-        {
+        if (!this.randomUtil.getChance100(mapSettings.reducedChancePercent)) {
             // Send default
             return result;
         }
@@ -149,8 +132,7 @@ export class RaidTimeAdjustmentService
         // Time player spawns into the raid if it was online
         const simulatedRaidStartTimeMinutes = baseEscapeTimeMinutes - newRaidTimeMinutes;
 
-        if (mapSettings.reduceLootByPercent)
-        {
+        if (mapSettings.reduceLootByPercent) {
             // Store time reduction percent in app context so loot gen can pick it up later
             this.applicationContext.addValue(ContextVariableType.RAID_ADJUSTMENTS, {
                 dynamicLootPercent: Math.max(raidTimeRemainingPercent, mapSettings.minDynamicLootPercent),
@@ -168,13 +150,12 @@ export class RaidTimeAdjustmentService
 
         // Calculate how long player needs to be in raid to get a `survived` extract status
         result.NewSurviveTimeSeconds = Math.max(
-            result.OriginalSurvivalTimeSeconds - ((baseEscapeTimeMinutes - newRaidTimeMinutes) * 60),
+            result.OriginalSurvivalTimeSeconds - (baseEscapeTimeMinutes - newRaidTimeMinutes) * 60,
             0,
         );
 
         const exitAdjustments = this.getExitAdjustments(mapBase, newRaidTimeMinutes);
-        if (exitAdjustments)
-        {
+        if (exitAdjustments) {
             result.ExitChanges.push(...exitAdjustments);
         }
 
@@ -186,11 +167,9 @@ export class RaidTimeAdjustmentService
      * @param location Map Location e.g. bigmap
      * @returns IScavRaidTimeLocationSettings
      */
-    protected getMapSettings(location: string): IScavRaidTimeLocationSettings
-    {
+    protected getMapSettings(location: string): IScavRaidTimeLocationSettings {
         const mapSettings = this.locationConfig.scavRaidTimeSettings.maps[location.toLowerCase()];
-        if (!mapSettings)
-        {
+        if (!mapSettings) {
             this.logger.warning(`Unable to find scav raid time settings for map: ${location}, using defaults`);
             return this.locationConfig.scavRaidTimeSettings.maps.default;
         }
@@ -204,19 +183,21 @@ export class RaidTimeAdjustmentService
      * @param newRaidTimeMinutes How long raid is in minutes
      * @returns List of  exit changes to send to client
      */
-    protected getExitAdjustments(mapBase: ILocationBase, newRaidTimeMinutes: number): ExtractChange[]
-    {
-        const result = [];
+    protected getExitAdjustments(mapBase: ILocationBase, newRaidTimeMinutes: number): ExtractChange[] | undefined {
+        const result: ExtractChange[] = [];
         // Adjust train exits only
-        for (const exit of mapBase.exits)
-        {
-            if (exit.PassageRequirement !== "Train")
-            {
+        for (const exit of mapBase.exits) {
+            if (exit.PassageRequirement !== "Train") {
                 continue;
             }
 
             // Prepare train adjustment object
-            const exitChange: ExtractChange = { Name: exit.Name, MinTime: null, MaxTime: null, Chance: null };
+            const exitChange: ExtractChange = {
+                Name: exit.Name,
+                MinTime: undefined,
+                MaxTime: undefined,
+                Chance: undefined,
+            };
 
             // At what minute we simulate the player joining the raid
             const simulatedRaidEntryTimeMinutes = mapBase.EscapeTimeLimit - newRaidTimeMinutes;
@@ -247,8 +228,7 @@ export class RaidTimeAdjustmentService
 
             // If raid is after last moment train can leave, assume train has already left, disable extract
             const mostPossibleTimeRemainingAfterDeparture = mapBase.EscapeTimeLimit - earliestPossibleDepartureMinutes;
-            if (newRaidTimeMinutes < mostPossibleTimeRemainingAfterDeparture)
-            {
+            if (newRaidTimeMinutes < mostPossibleTimeRemainingAfterDeparture) {
                 exitChange.Chance = 0;
 
                 this.logger.debug(
@@ -271,6 +251,6 @@ export class RaidTimeAdjustmentService
             result.push(exitChange);
         }
 
-        return result.length > 0 ? result : null;
+        return result.length > 0 ? result : undefined;
     }
 }

@@ -1,8 +1,7 @@
-import { Inventory as PmcInventory } from "@spt-aki/models/eft/common/tables/IBotBase";
-import { Chances, Generation, Inventory } from "@spt-aki/models/eft/common/tables/IBotType";
+import { Inventory as PmcInventory } from "@spt/models/eft/common/tables/IBotBase";
+import { Chances, Generation, Inventory } from "@spt/models/eft/common/tables/IBotType";
 
-export interface IBotGenerator
-{
+export interface IBotGenerator {
     generateInventory(
         templateInventory: Inventory,
         equipmentChances: Chances,

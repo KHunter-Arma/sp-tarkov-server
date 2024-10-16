@@ -1,10 +1,8 @@
-export interface IBaseConfig
-{
+export interface IBaseConfig {
     kind: string;
 }
 
-export interface IRunIntervalValues
-{
+export interface IRunIntervalValues {
     inRaid: number;
     outOfRaid: number;
 }

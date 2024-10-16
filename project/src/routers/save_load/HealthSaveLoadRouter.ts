@@ -1,21 +1,17 @@
+import { HandledRoute, SaveLoadRouter } from "@spt/di/Router";
+import { ISptProfile } from "@spt/models/eft/profile/ISptProfile";
 import { injectable } from "tsyringe";
 
-import { HandledRoute, SaveLoadRouter } from "@spt-aki/di/Router";
-import { IAkiProfile } from "@spt-aki/models/eft/profile/IAkiProfile";
-
 @injectable()
-export class HealthSaveLoadRouter extends SaveLoadRouter
-{
-    public override getHandledRoutes(): HandledRoute[]
-    {
-        return [new HandledRoute("aki-health", false)];
+export class HealthSaveLoadRouter extends SaveLoadRouter {
+    public override getHandledRoutes(): HandledRoute[] {
+        return [new HandledRoute("spt-health", false)];
     }
 
-    public override handleLoad(profile: IAkiProfile): IAkiProfile
-    {
-        if (!profile.vitality)
-        { // Occurs on newly created profiles
-            profile.vitality = { health: null, effects: null };
+    public override handleLoad(profile: ISptProfile): ISptProfile {
+        if (!profile.vitality) {
+            // Occurs on newly created profiles
+            profile.vitality = { health: undefined!, effects: undefined! };
         }
         profile.vitality.health = {
             Hydration: 0,

@@ -1,8 +1,7 @@
-import { BonusSkillType } from "@spt-aki/models/enums/BonusSkillType";
-import { BonusType } from "@spt-aki/models/enums/BonusType";
+import { BonusSkillType } from "@spt/models/enums/BonusSkillType";
+import { BonusType } from "@spt/models/enums/BonusType";
 
-export interface IHideoutArea
-{
+export interface IHideoutArea {
     _id: string;
     type: number;
     enabled: boolean;
@@ -16,15 +15,13 @@ export interface IHideoutArea
     stages: Record<string, Stage>;
 }
 
-export interface IAreaRequirement
-{
+export interface IAreaRequirement {
     areaType: number;
     requiredlevel: number;
     type: string;
 }
 
-export interface Stage
-{
+export interface Stage {
     autoUpgrade: boolean;
     bonuses: StageBonus[];
     constructionTime: number;
@@ -37,16 +34,14 @@ export interface Stage
     slots: number;
 }
 
-export interface IStageImprovement
-{
+export interface IStageImprovement {
     id: string;
     bonuses: IStageImprovementBonus[];
     improvementTime: number;
     requirements: IStageImprovementRequirement[];
 }
 
-export interface IStageImprovementBonus
-{
+export interface IStageImprovementBonus {
     passive: boolean;
     production: boolean;
     type: string;
@@ -54,8 +49,7 @@ export interface IStageImprovementBonus
     visible: boolean;
 }
 
-export interface IStageImprovementRequirement
-{
+export interface IStageImprovementRequirement {
     count: number;
     isEncoded: boolean;
     isFunctional: boolean;
@@ -63,8 +57,7 @@ export interface IStageImprovementRequirement
     type: string;
 }
 
-export interface IStageRequirement
-{
+export interface IStageRequirement {
     areaType?: number;
     requiredLevel?: number;
     type: string;
@@ -78,8 +71,7 @@ export interface IStageRequirement
     skillLevel?: number;
 }
 
-export interface StageBonus
-{
+export interface StageBonus {
     value: number;
     passive: boolean;
     production: boolean;

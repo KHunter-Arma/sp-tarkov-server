@@ -1,5 +1,4 @@
-export interface IHandleQTEEventRequestData
-{
+export interface IHandleQTEEventRequestData {
     Action: string;
     /** true if QTE was successful, otherwise false */
     results: boolean[];

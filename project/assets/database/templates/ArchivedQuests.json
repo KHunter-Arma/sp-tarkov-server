@@ -1462,5 +1462,489 @@
       "Fail": []
     },
     "side": "Pmc"
+  },
+  "65e85198e32da31f2b30978e": {
+    "QuestName": "Evil Spirits - Event",
+    "_id": "65e85198e32da31f2b30978e",
+    "canShowNotificationsInGame": true,
+    "acceptPlayerMessage": "65e85198e32da31f2b30978e acceptPlayerMessage",
+    "changeQuestMessageText": "65e85198e32da31f2b30978e changeQuestMessageText",
+    "completePlayerMessage": "65e85198e32da31f2b30978e completePlayerMessage",
+    "conditions": {
+      "AvailableForFinish": [
+        {
+          "completeInSeconds": 0,
+          "conditionType": "CounterCreator",
+          "counter": {
+            "id": "65e869e9304b9f90aa352d01",
+            "conditions": [
+              {
+                "id": "65e869f95f1f315678e8e70f",
+                "dynamicLocale": false,
+                "target": [
+                  "Buffs_Frostbite"
+                ],
+                "conditionType": "HealthBuff"
+              },
+              {
+                "id": "65e9dbb88415a57420051568",
+                "dynamicLocale": false,
+                "bodyPartsWithEffects": [
+                  {
+                    "bodyParts": [
+                      "Head"
+                    ],
+                    "effects": [
+                      "Existence"
+                    ]
+                  },
+                  {
+                    "bodyParts": [
+                      "Chest"
+                    ],
+                    "effects": [
+                      "Existence"
+                    ]
+                  }
+                ],
+                "energy": {
+                  "value": 0,
+                  "compareMethod": ">="
+                },
+                "hydration": {
+                  "value": 0,
+                  "compareMethod": ">="
+                },
+                "time": {
+                  "value": 1,
+                  "compareMethod": ">="
+                },
+                "conditionType": "HealthEffect"
+              }
+            ]
+          },
+          "id": "65e869e9e52beab502ad8566",
+          "index": 0,
+          "parentId": "",
+          "oneSessionOnly": false,
+          "dynamicLocale": false,
+          "type": "Exploration",
+          "doNotResetIfCounterCompleted": false,
+          "globalQuestCounterId": "",
+          "value": 1,
+          "visibilityConditions": []
+        },
+        {
+          "completeInSeconds": 0,
+          "conditionType": "CounterCreator",
+          "counter": {
+            "id": "65e86c10d3df102e89a28c28",
+            "conditions": [
+              {
+                "id": "65e86c1f32edbb1241cdc6e7",
+                "dynamicLocale": false,
+                "target": "Savage",
+                "compareMethod": ">=",
+                "value": 0,
+                "weapon": [],
+                "distance": {
+                  "value": 0,
+                  "compareMethod": ">="
+                },
+                "weaponModsInclusive": [],
+                "weaponModsExclusive": [],
+                "enemyEquipmentInclusive": [],
+                "enemyEquipmentExclusive": [],
+                "weaponCaliber": [],
+                "savageRole": [
+                  "spiritSpring",
+                  "spiritWinter"
+                ],
+                "bodyPart": [],
+                "daytime": {
+                  "from": 0,
+                  "to": 0
+                },
+                "enemyHealthEffects": [],
+                "resetOnSessionEnd": false,
+                "conditionType": "Kills"
+              }
+            ]
+          },
+          "id": "65e86c10d9b24dcaf94f834c",
+          "index": 1,
+          "parentId": "",
+          "oneSessionOnly": false,
+          "dynamicLocale": false,
+          "type": "Elimination",
+          "doNotResetIfCounterCompleted": false,
+          "globalQuestCounterId": "",
+          "value": 1,
+          "visibilityConditions": []
+        }
+      ],
+      "AvailableForStart": [
+        {
+          "conditionType": "Quest",
+          "id": "65f185470ec6e18937637e89",
+          "index": 0,
+          "parentId": "",
+          "dynamicLocale": false,
+          "target": "657315df034d76585f032e01",
+          "status": [
+            2,
+            4,
+            5
+          ],
+          "globalQuestCounterId": "",
+          "availableAfter": 0,
+          "dispersion": 0,
+          "visibilityConditions": []
+        }
+      ],
+      "Fail": []
+    },
+    "description": "65e85198e32da31f2b30978e description",
+    "failMessageText": "65e85198e32da31f2b30978e failMessageText",
+    "declinePlayerMessage": "65e85198e32da31f2b30978e declinePlayerMessage",
+    "name": "65e85198e32da31f2b30978e name",
+    "note": "65e85198e32da31f2b30978e note",
+    "traderId": "54cb50c76803fa8b248b4571",
+    "location": "any",
+    "image": "/files/quest/icon/65f773082e9cf257e2717145.jpg",
+    "type": "Exploration",
+    "isKey": false,
+    "restartable": false,
+    "instantComplete": false,
+    "secretQuest": false,
+    "startedMessageText": "65e85198e32da31f2b30978e startedMessageText",
+    "successMessageText": "65e85198e32da31f2b30978e successMessageText",
+    "rewards": {
+      "Started": [],
+      "Success": [
+        {
+          "value": "2400",
+          "id": "65e85cd01ff5961ee517c085",
+          "type": "Experience",
+          "index": 0
+        },
+        {
+          "value": "0.01",
+          "id": "65e9c074f44fc40f623cc50e",
+          "type": "TraderStanding",
+          "index": 1,
+          "target": "54cb50c76803fa8b248b4571"
+        },
+        {
+          "value": "16500",
+          "id": "65e9c0a00bf3353cb40a8d4f",
+          "type": "Item",
+          "index": 2,
+          "target": "6605abbd77680dbd040b1300",
+          "findInRaid": true,
+          "items": [
+            {
+              "_id": "6605abbd77680dbd040b1300",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 16500
+              }
+            }
+          ]
+        },
+        {
+          "value": "2",
+          "id": "65e9c0b8f7a2123f32100b98",
+          "type": "Item",
+          "index": 3,
+          "target": "6605abbd77680dbd040b1301",
+          "findInRaid": true,
+          "items": [
+            {
+              "_id": "6605abbd77680dbd040b1301",
+              "_tpl": "5d40407c86f774318526545a",
+              "upd": {
+                "StackObjectsCount": 2
+              }
+            }
+          ]
+        },
+        {
+          "value": "2",
+          "id": "65e9c0c3f249652c730756eb",
+          "type": "Item",
+          "index": 4,
+          "target": "6605abbd77680dbd040b1302",
+          "findInRaid": true,
+          "items": [
+            {
+              "_id": "6605abbd77680dbd040b1302",
+              "_tpl": "635a758bfefc88a93f021b8a",
+              "upd": {
+                "StackObjectsCount": 2
+              }
+            }
+          ]
+        }
+      ],
+      "Fail": []
+    },
+    "side": "Pmc"
+  },
+  "65e851a98f0b5f70ff393d90": {
+    "QuestName": "Unknown quest",
+    "_id": "65e851a98f0b5f70ff393d90",
+    "acceptPlayerMessage": "65e851a98f0b5f70ff393d90 acceptPlayerMessage",
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "65e851a98f0b5f70ff393d90 changeQuestMessageText",
+    "completePlayerMessage": "65e851a98f0b5f70ff393d90 completePlayerMessage",
+    "conditions": {
+      "AvailableForFinish": [
+        {
+          "completeInSeconds": 0,
+          "conditionType": "CounterCreator",
+          "counter": {
+            "conditions": [
+              {
+                "bodyPart": [],
+                "compareMethod": ">=",
+                "conditionType": "Kills",
+                "daytime": {
+                  "from": 0,
+                  "to": 0
+                },
+                "distance": {
+                  "compareMethod": ">=",
+                  "value": 0
+                },
+                "dynamicLocale": false,
+                "enemyEquipmentExclusive": [],
+                "enemyEquipmentInclusive": [],
+                "enemyHealthEffects": [],
+                "id": "65e86c8d6f37b61f9188f850",
+                "resetOnSessionEnd": false,
+                "savageRole": [
+                  "spiritSpring",
+                  "spiritWinter"
+                ],
+                "target": "Savage",
+                "value": 0,
+                "weapon": [],
+                "weaponCaliber": [],
+                "weaponModsExclusive": [],
+                "weaponModsInclusive": []
+              }
+            ],
+            "id": "65e86c7f3816f5eb6c616b28"
+          },
+          "doNotResetIfCounterCompleted": false,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "65e86c7f40eb7a553a55e805",
+          "index": 0,
+          "oneSessionOnly": false,
+          "parentId": "",
+          "type": "Elimination",
+          "value": 50,
+          "visibilityConditions": []
+        }
+      ],
+      "AvailableForStart": [
+        {
+          "availableAfter": 0,
+          "conditionType": "Quest",
+          "dispersion": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "65e9c2174341a11df600bdf7",
+          "index": 0,
+          "parentId": "",
+          "status": [
+            4
+          ],
+          "target": "65e85198e32da31f2b30978e",
+          "visibilityConditions": []
+        }
+      ],
+      "Fail": []
+    },
+    "declinePlayerMessage": "65e851a98f0b5f70ff393d90 declinePlayerMessage",
+    "description": "65e851a98f0b5f70ff393d90 description",
+    "failMessageText": "65e851a98f0b5f70ff393d90 failMessageText",
+    "image": "/files/quest/icon/65f77467dc590c28aa443875.jpg",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "any",
+    "name": "65e851a98f0b5f70ff393d90 name",
+    "note": "65e851a98f0b5f70ff393d90 note",
+    "restartable": false,
+    "rewards": {
+      "Fail": [],
+      "Started": [],
+      "Success": [
+        {
+          "id": "65e85cc875ea99590e6fc9a1",
+          "index": 0,
+          "type": "Experience",
+          "value": "22000"
+        },
+        {
+          "id": "65e9c6f7f44fc40f623cd796",
+          "index": 1,
+          "target": "54cb50c76803fa8b248b4571",
+          "type": "TraderStanding",
+          "value": "0.05"
+        },
+        {
+          "findInRaid": true,
+          "id": "65e9c71a109d5440b03a3f19",
+          "index": 2,
+          "items": [
+            {
+              "_id": "6607343337202496420e44fc",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 165000
+              }
+            }
+          ],
+          "target": "6607343337202496420e44fc",
+          "type": "Item",
+          "value": "165000"
+        },
+        {
+          "findInRaid": true,
+          "id": "65e9c758f7a2123f32101392",
+          "index": 3,
+          "items": [
+            {
+              "_id": "6607343337202496420e44fd",
+              "_tpl": "657023b1cfc010a0f50069e5",
+              "upd": {
+                "StackObjectsCount": 3
+              }
+            }
+          ],
+          "target": "6607343337202496420e44fd",
+          "type": "Item",
+          "value": "3"
+        },
+        {
+          "findInRaid": true,
+          "id": "65e9c76e3e1cb842de6227ac",
+          "index": 4,
+          "items": [
+            {
+              "_id": "6607343337202496420e44fe",
+              "_tpl": "55d4887d4bdc2d962f8b4570",
+              "upd": {
+                "StackObjectsCount": 3
+              }
+            }
+          ],
+          "target": "6607343337202496420e44fe",
+          "type": "Item",
+          "value": "3"
+        },
+        {
+          "findInRaid": true,
+          "id": "65e9c8237cd8ac481c662724",
+          "index": 5,
+          "items": [
+            {
+              "_id": "6607343337202496420e44ff",
+              "_tpl": "5fbcc1d9016cce60e8341ab3",
+              "upd": {
+                "FireMode": {
+                  "FireMode": "single"
+                },
+                "StackObjectsCount": 2
+              }
+            },
+            {
+              "_id": "6607343337202496420e4500",
+              "_tpl": "5fbcbd6c187fea44d52eda14",
+              "parentId": "6607343337202496420e44ff",
+              "slotId": "mod_pistol_grip"
+            },
+            {
+              "_id": "6607343337202496420e4501",
+              "_tpl": "55d4887d4bdc2d962f8b4570",
+              "parentId": "6607343337202496420e44ff",
+              "slotId": "mod_magazine"
+            },
+            {
+              "_id": "6607343337202496420e4502",
+              "_tpl": "5fbcc3e4d6fa9c00c571bb58",
+              "parentId": "6607343337202496420e44ff",
+              "slotId": "mod_reciever"
+            },
+            {
+              "_id": "6607343337202496420e4503",
+              "_tpl": "5fbbfacda56d053a3543f799",
+              "parentId": "6607343337202496420e4502",
+              "slotId": "mod_barrel"
+            },
+            {
+              "_id": "6607343337202496420e4504",
+              "_tpl": "5fbc22ccf24b94483f726483",
+              "parentId": "6607343337202496420e4503",
+              "slotId": "mod_muzzle"
+            },
+            {
+              "_id": "6607343337202496420e4505",
+              "_tpl": "5fbcbd10ab884124df0cd563",
+              "parentId": "6607343337202496420e4504",
+              "slotId": "mod_muzzle_000"
+            },
+            {
+              "_id": "6607343337202496420e4506",
+              "_tpl": "5fbc210bf24b94483f726481",
+              "parentId": "6607343337202496420e4503",
+              "slotId": "mod_gas_block"
+            },
+            {
+              "_id": "6607343337202496420e4507",
+              "_tpl": "5fbc226eca32ed67276c155d",
+              "parentId": "6607343337202496420e4502",
+              "slotId": "mod_handguard"
+            },
+            {
+              "_id": "6607343337202496420e4508",
+              "_tpl": "5fc0fa362770a0045c59c677",
+              "parentId": "6607343337202496420e4507",
+              "slotId": "mod_sight_front"
+            },
+            {
+              "_id": "6607343337202496420e4509",
+              "_tpl": "5fc0fa957283c4046c58147e",
+              "parentId": "6607343337202496420e4502",
+              "slotId": "mod_sight_rear"
+            },
+            {
+              "_id": "6607343337202496420e450a",
+              "_tpl": "5fbcc437d724d907e2077d5c",
+              "parentId": "6607343337202496420e44ff",
+              "slotId": "mod_stock"
+            },
+            {
+              "_id": "6607343337202496420e450b",
+              "_tpl": "5fbcc640016cce60e8341acc",
+              "parentId": "6607343337202496420e44ff",
+              "slotId": "mod_charge"
+            }
+          ],
+          "target": "6607343337202496420e44ff",
+          "type": "Item",
+          "value": "2"
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "65e851a98f0b5f70ff393d90 startedMessageText",
+    "successMessageText": "65e851a98f0b5f70ff393d90 successMessageText",
+    "traderId": "54cb50c76803fa8b248b4571",
+    "type": "Elimination"
   }
 }

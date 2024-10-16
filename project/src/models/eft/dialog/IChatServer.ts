@@ -1,5 +1,4 @@
-export interface IChatServer
-{
+export interface IChatServer {
     _id: string;
     RegistrationId: number;
     VersionId: string;
@@ -12,8 +11,7 @@ export interface IChatServer
     IsDeveloper?: boolean;
 }
 
-export interface IChat
-{
+export interface IChat {
     _id: string;
     Members: number;
 }

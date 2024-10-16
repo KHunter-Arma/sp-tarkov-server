@@ -1,43 +1,40 @@
+import { FenceBaseAssortGenerator } from "@spt/generators/FenceBaseAssortGenerator";
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
+import { TraderAssortHelper } from "@spt/helpers/TraderAssortHelper";
+import { TraderHelper } from "@spt/helpers/TraderHelper";
+import { ITraderAssort, ITraderBase } from "@spt/models/eft/common/tables/ITrader";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { Traders } from "@spt/models/enums/Traders";
+import { ITraderConfig } from "@spt/models/spt/config/ITraderConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { FenceService } from "@spt/services/FenceService";
+import { TraderAssortService } from "@spt/services/TraderAssortService";
+import { TraderPurchasePersisterService } from "@spt/services/TraderPurchasePersisterService";
+import { TimeUtil } from "@spt/utils/TimeUtil";
+import { ICloner } from "@spt/utils/cloners/ICloner";
 import { inject, injectable } from "tsyringe";
 
-import { FenceBaseAssortGenerator } from "@spt-aki/generators/FenceBaseAssortGenerator";
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
-import { TraderAssortHelper } from "@spt-aki/helpers/TraderAssortHelper";
-import { TraderHelper } from "@spt-aki/helpers/TraderHelper";
-import { ITraderAssort, ITraderBase } from "@spt-aki/models/eft/common/tables/ITrader";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { Traders } from "@spt-aki/models/enums/Traders";
-import { ITraderConfig } from "@spt-aki/models/spt/config/ITraderConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { FenceService } from "@spt-aki/services/FenceService";
-import { TraderAssortService } from "@spt-aki/services/TraderAssortService";
-import { TraderPurchasePersisterService } from "@spt-aki/services/TraderPurchasePersisterService";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { TimeUtil } from "@spt-aki/utils/TimeUtil";
-
 @injectable()
-export class TraderController
-{
+export class TraderController {
     protected traderConfig: ITraderConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("TimeUtil") protected timeUtil: TimeUtil,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("TraderAssortHelper") protected traderAssortHelper: TraderAssortHelper,
         @inject("ProfileHelper") protected profileHelper: ProfileHelper,
         @inject("TraderHelper") protected traderHelper: TraderHelper,
         @inject("TraderAssortService") protected traderAssortService: TraderAssortService,
-        @inject("TraderPurchasePersisterService") protected traderPurchasePersisterService:
-            TraderPurchasePersisterService,
+        @inject("TraderPurchasePersisterService")
+        protected traderPurchasePersisterService: TraderPurchasePersisterService,
         @inject("FenceService") protected fenceService: FenceService,
         @inject("FenceBaseAssortGenerator") protected fenceBaseAssortGenerator: FenceBaseAssortGenerator,
-        @inject("JsonUtil") protected jsonUtil: JsonUtil,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+        @inject("PrimaryCloner") protected cloner: ICloner,
+    ) {
         this.traderConfig = this.configServer.getConfig(ConfigTypes.TRADER);
     }
 
@@ -46,30 +43,27 @@ export class TraderController
      * Iterate over traders, ensure a pristine copy of their assorts is stored in traderAssortService
      * Store timestamp of next assort refresh in nextResupply property of traders .base object
      */
-    public load(): void
-    {
+    public load(): void {
         const nextHourTimestamp = this.timeUtil.getTimestampOfNextHour();
         const traderResetStartsWithServer = this.traderConfig.tradersResetFromServerStart;
-        for (const traderId in this.databaseServer.getTables().traders)
-        {
-            if (traderId === "ragfair" || traderId === Traders.LIGHTHOUSEKEEPER)
-            {
+
+        const traders = this.databaseService.getTraders();
+        for (const traderId in traders) {
+            if (traderId === "ragfair" || traderId === Traders.LIGHTHOUSEKEEPER) {
                 continue;
             }
 
-            if (traderId === Traders.FENCE)
-            {
+            if (traderId === Traders.FENCE) {
                 this.fenceBaseAssortGenerator.generateFenceBaseAssorts();
                 this.fenceService.generateFenceAssorts();
                 continue;
             }
 
-            const trader = this.databaseServer.getTables().traders[traderId];
+            const trader = traders[traderId];
 
             // Create dict of trader assorts on server start
-            if (!this.traderAssortService.getPristineTraderAssort(traderId))
-            {
-                const assortsClone = this.jsonUtil.clone(trader.assort);
+            if (!this.traderAssortService.getPristineTraderAssort(traderId)) {
+                const assortsClone = this.cloner.clone(trader.assort);
                 this.traderAssortService.setPristineTraderAssort(traderId, assortsClone);
             }
 
@@ -79,7 +73,7 @@ export class TraderController
             trader.base.nextResupply = traderResetStartsWithServer
                 ? this.traderHelper.getNextUpdateTimestamp(trader.base._id)
                 : nextHourTimestamp;
-            this.databaseServer.getTables().traders[trader.base._id].base = trader.base;
+            traders[trader.base._id].base = trader.base;
         }
     }
 
@@ -89,30 +83,23 @@ export class TraderController
      * Fence is handled slightly differently
      * @returns has run
      */
-    public update(): boolean
-    {
-        for (const traderId in this.databaseServer.getTables().traders)
-        {
-            if (traderId === "ragfair" || traderId === Traders.LIGHTHOUSEKEEPER)
-            {
+    public update(): boolean {
+        for (const traderId in this.databaseService.getTables().traders) {
+            if (traderId === "ragfair" || traderId === Traders.LIGHTHOUSEKEEPER) {
                 continue;
             }
 
-            if (traderId === Traders.FENCE)
-            {
-                if (this.fenceService.needsPartialRefresh())
-                {
+            if (traderId === Traders.FENCE) {
+                if (this.fenceService.needsPartialRefresh()) {
                     this.fenceService.performPartialRefresh();
                 }
 
                 continue;
             }
 
-            const trader = this.databaseServer.getTables().traders[traderId];
-
-            // trader needs to be refreshed
-            if (this.traderAssortHelper.traderAssortsHaveExpired(traderId))
-            {
+            // Trader needs to be refreshed
+            const trader = this.databaseService.getTrader(traderId);
+            if (this.traderAssortHelper.traderAssortsHaveExpired(traderId)) {
                 this.traderAssortHelper.resetExpiredTrader(trader);
 
                 // Reset purchase data per trader as they have independent reset times
@@ -129,21 +116,17 @@ export class TraderController
      * @param sessionID Session id
      * @returns array if ITraderBase objects
      */
-    public getAllTraders(sessionID: string): ITraderBase[]
-    {
+    public getAllTraders(sessionID: string): ITraderBase[] {
         const traders: ITraderBase[] = [];
         const pmcData = this.profileHelper.getPmcProfile(sessionID);
-        for (const traderID in this.databaseServer.getTables().traders)
-        {
-            if (this.databaseServer.getTables().traders[traderID].base._id === "ragfair")
-            {
+        for (const traderID in this.databaseService.getTables().traders) {
+            if (this.databaseService.getTables().traders[traderID].base._id === "ragfair") {
                 continue;
             }
 
             traders.push(this.traderHelper.getTrader(traderID, sessionID));
 
-            if (pmcData.Info)
-            {
+            if (pmcData.Info) {
                 this.traderHelper.lvlUp(traderID, pmcData);
             }
         }
@@ -157,15 +140,12 @@ export class TraderController
      * @param traderB Second trader to compare
      * @returns 1,-1 or 0
      */
-    protected sortByTraderId(traderA: ITraderBase, traderB: ITraderBase): number
-    {
-        if (traderA._id > traderB._id)
-        {
+    protected sortByTraderId(traderA: ITraderBase, traderB: ITraderBase): number {
+        if (traderA._id > traderB._id) {
             return 1;
         }
 
-        if (traderA._id < traderB._id)
-        {
+        if (traderA._id < traderB._id) {
             return -1;
         }
 
@@ -173,14 +153,12 @@ export class TraderController
     }
 
     /** Handle client/trading/api/getTrader */
-    public getTrader(sessionID: string, traderID: string): ITraderBase
-    {
+    public getTrader(sessionID: string, traderID: string): ITraderBase {
         return this.traderHelper.getTrader(sessionID, traderID);
     }
 
     /** Handle client/trading/api/getTraderAssort */
-    public getAssort(sessionId: string, traderId: string): ITraderAssort
-    {
+    public getAssort(sessionId: string, traderId: string): ITraderAssort {
         return this.traderAssortHelper.getAssort(sessionId, traderId);
     }
 }

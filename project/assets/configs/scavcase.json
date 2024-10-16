@@ -66,15 +66,27 @@
                 "min": 900,
                 "max": 2000
             }
+        },
+        "gpCount": {
+            "common": {
+                "min": 1,
+                "max": 2
+            },
+            "rare": {
+                "min": 2,
+                "max": 5
+            },
+            "superrare": {
+                "min": 5,
+                "max": 15
+            }
         }
     },
     "ammoRewards": {
         "ammoRewardChancePercent": 10,
         "minStackSize": 10,
         "ammoRewardBlacklist": {
-            "common": [
-                "59e690b686f7746c9f75e848"
-            ],
+            "common": ["59e690b686f7746c9f75e848"],
             "rare": [],
             "superrare": []
         },

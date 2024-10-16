@@ -1,5 +1,4 @@
-export interface IChooseRandomCompatibleModResult
-{
+export interface IChooseRandomCompatibleModResult {
     incompatible: boolean;
     found?: boolean;
     chosenTpl?: string;

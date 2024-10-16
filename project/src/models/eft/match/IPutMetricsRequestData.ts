@@ -1,5 +1,4 @@
-export interface IPutMetricsRequestData
-{
+export interface IPutMetricsRequestData {
     sid: string;
     settings: any;
     SharedSettings: any;

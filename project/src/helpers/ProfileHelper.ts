@@ -1,45 +1,43 @@
+import { ItemHelper } from "@spt/helpers/ItemHelper";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { BanType, Common, CounterKeyValue, Stats } from "@spt/models/eft/common/tables/IBotBase";
+import { ISptProfile } from "@spt/models/eft/profile/ISptProfile";
+import { IValidateNicknameRequestData } from "@spt/models/eft/profile/IValidateNicknameRequestData";
+import { AccountTypes } from "@spt/models/enums/AccountTypes";
+import { BonusType } from "@spt/models/enums/BonusType";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { GameEditions } from "@spt/models/enums/GameEditions";
+import { SkillTypes } from "@spt/models/enums/SkillTypes";
+import { IInventoryConfig } from "@spt/models/spt/config/IInventoryConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { SaveServer } from "@spt/servers/SaveServer";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { ProfileSnapshotService } from "@spt/services/ProfileSnapshotService";
+import { HashUtil } from "@spt/utils/HashUtil";
+import { TimeUtil } from "@spt/utils/TimeUtil";
+import { Watermark } from "@spt/utils/Watermark";
+import { ICloner } from "@spt/utils/cloners/ICloner";
 import { inject, injectable } from "tsyringe";
 
-import { ItemHelper } from "@spt-aki/helpers/ItemHelper";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import { Common, CounterKeyValue, Stats } from "@spt-aki/models/eft/common/tables/IBotBase";
-import { IAkiProfile } from "@spt-aki/models/eft/profile/IAkiProfile";
-import { IValidateNicknameRequestData } from "@spt-aki/models/eft/profile/IValidateNicknameRequestData";
-import { AccountTypes } from "@spt-aki/models/enums/AccountTypes";
-import { BonusType } from "@spt-aki/models/enums/BonusType";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { SkillTypes } from "@spt-aki/models/enums/SkillTypes";
-import { IInventoryConfig } from "@spt-aki/models/spt/config/IInventoryConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { SaveServer } from "@spt-aki/servers/SaveServer";
-import { LocalisationService } from "@spt-aki/services/LocalisationService";
-import { ProfileSnapshotService } from "@spt-aki/services/ProfileSnapshotService";
-import { HashUtil } from "@spt-aki/utils/HashUtil";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { TimeUtil } from "@spt-aki/utils/TimeUtil";
-import { Watermark } from "@spt-aki/utils/Watermark";
-
 @injectable()
-export class ProfileHelper
-{
+export class ProfileHelper {
     protected inventoryConfig: IInventoryConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
-        @inject("JsonUtil") protected jsonUtil: JsonUtil,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("HashUtil") protected hashUtil: HashUtil,
         @inject("Watermark") protected watermark: Watermark,
         @inject("TimeUtil") protected timeUtil: TimeUtil,
         @inject("SaveServer") protected saveServer: SaveServer,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("ItemHelper") protected itemHelper: ItemHelper,
         @inject("ProfileSnapshotService") protected profileSnapshotService: ProfileSnapshotService,
         @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+        @inject("PrimaryCloner") protected cloner: ICloner,
+    ) {
         this.inventoryConfig = this.configServer.getConfig(ConfigTypes.INVENTORY);
     }
 
@@ -48,17 +46,14 @@ export class ProfileHelper
      * @param sessionID Session id
      * @param questConditionId Quest with condition to remove
      */
-    public removeQuestConditionFromProfile(pmcData: IPmcData, questConditionId: Record<string, string>): void
-    {
-        for (const questId in questConditionId)
-        {
+    public removeQuestConditionFromProfile(pmcData: IPmcData, questConditionId: Record<string, string>): void {
+        for (const questId in questConditionId) {
             const conditionId = questConditionId[questId];
             const profileQuest = pmcData.Quests.find((x) => x.qid === questId);
 
             // Find index of condition in array
             const index = profileQuest.completedConditions.indexOf(conditionId);
-            if (index > -1)
-            {
+            if (index > -1) {
                 // Remove condition
                 profileQuest.completedConditions.splice(index, 1);
             }
@@ -69,35 +64,37 @@ export class ProfileHelper
      * Get all profiles from server
      * @returns Dictionary of profiles
      */
-    public getProfiles(): Record<string, IAkiProfile>
-    {
+    public getProfiles(): Record<string, ISptProfile> {
         return this.saveServer.getProfiles();
     }
 
     /**
      * Get the pmc and scav profiles as an array by profile id
-     * @param sessionID
+     * @param sessionId
      * @returns Array of IPmcData objects
      */
-    public getCompleteProfile(sessionID: string): IPmcData[]
-    {
+    public getCompleteProfile(sessionId: string): IPmcData[] {
         const output: IPmcData[] = [];
 
-        if (this.isWiped(sessionID))
-        {
+        if (this.isWiped(sessionId)) {
             return output;
         }
 
-        const pmcProfile = this.getPmcProfile(sessionID);
-        const scavProfile = this.getScavProfile(sessionID);
+        const fullProfile = this.getFullProfile(sessionId);
 
-        if (this.profileSnapshotService.hasProfileSnapshot(sessionID))
-        {
-            return this.postRaidXpWorkaroundFix(sessionID, output, pmcProfile, scavProfile);
+        // Edge-case, true post raid
+        if (this.profileSnapshotService.hasProfileSnapshot(sessionId)) {
+            return this.postRaidXpWorkaroundFix(
+                sessionId,
+                fullProfile.characters.pmc,
+                fullProfile.characters.scav,
+                output,
+            );
         }
 
-        output.push(pmcProfile);
-        output.push(scavProfile);
+        // PMC must be at array index 0, scav at 1
+        output.push(fullProfile.characters.pmc);
+        output.push(fullProfile.characters.scav);
 
         return output;
     }
@@ -116,13 +113,12 @@ export class ProfileHelper
      */
     protected postRaidXpWorkaroundFix(
         sessionId: string,
-        output: IPmcData[],
         pmcProfile: IPmcData,
         scavProfile: IPmcData,
-    ): IPmcData[]
-    {
-        const clonedPmc = this.jsonUtil.clone(pmcProfile);
-        const clonedScav = this.jsonUtil.clone(scavProfile);
+        output: IPmcData[],
+    ): IPmcData[] {
+        const clonedPmc = this.cloner.clone(pmcProfile);
+        const clonedScav = this.cloner.clone(scavProfile);
 
         const profileSnapshot = this.profileSnapshotService.getProfileSnapshot(sessionId);
         clonedPmc.Info.Level = profileSnapshot.characters.pmc.Info.Level;
@@ -143,41 +139,29 @@ export class ProfileHelper
      * Check if a nickname is used by another profile loaded by the server
      * @param nicknameRequest nickname request object
      * @param sessionID Session id
-     * @returns True if already used
+     * @returns True if already in use
      */
-    public isNicknameTaken(nicknameRequest: IValidateNicknameRequestData, sessionID: string): boolean
-    {
-        for (const id in this.saveServer.getProfiles())
-        {
-            const profile = this.saveServer.getProfile(id);
-            if (!this.profileHasInfoProperty(profile))
-            {
-                continue;
-            }
+    public isNicknameTaken(nicknameRequest: IValidateNicknameRequestData, sessionID: string): boolean {
+        const allProfiles = Object.values(this.saveServer.getProfiles());
 
-            // SessionIds dont match + nicknames do
-            if (
-                !this.stringsMatch(profile.info.id, sessionID)
-                && this.stringsMatch(
+        // Find a profile that doesn't have same session id but has same name
+        return allProfiles.some(
+            (profile) =>
+                this.profileHasInfoProperty(profile) &&
+                !this.stringsMatch(profile.info.id, sessionID) && // SessionIds dont match
+                this.stringsMatch(
+                    // Nicknames do
                     profile.characters.pmc.Info.LowerNickname.toLowerCase(),
                     nicknameRequest.nickname.toLowerCase(),
-                )
-            )
-            {
-                return true;
-            }
-        }
-
-        return false;
+                ),
+        );
     }
 
-    protected profileHasInfoProperty(profile: IAkiProfile): boolean
-    {
-        return !!(profile?.characters?.pmc?.Info);
+    protected profileHasInfoProperty(profile: ISptProfile): boolean {
+        return !!profile?.characters?.pmc?.Info;
     }
 
-    protected stringsMatch(stringA: string, stringB: string): boolean
-    {
+    protected stringsMatch(stringA: string, stringB: string): boolean {
         return stringA === stringB;
     }
 
@@ -186,8 +170,7 @@ export class ProfileHelper
      * @param sessionID Session id
      * @param experienceToAdd Experience to add to PMC character
      */
-    public addExperienceToPmc(sessionID: string, experienceToAdd: number): void
-    {
+    public addExperienceToPmc(sessionID: string, experienceToAdd: number): void {
         const pmcData = this.getPmcProfile(sessionID);
         pmcData.Info.Experience += experienceToAdd;
     }
@@ -197,39 +180,27 @@ export class ProfileHelper
      * @param pmcId Profile id to find
      * @returns IPmcData
      */
-    public getProfileByPmcId(pmcId: string): IPmcData
-    {
-        for (const sessionID in this.saveServer.getProfiles())
-        {
-            const profile = this.saveServer.getProfile(sessionID);
-            if (profile.characters.pmc._id === pmcId)
-            {
-                return profile.characters.pmc;
-            }
-        }
-
-        return undefined;
+    public getProfileByPmcId(pmcId: string): IPmcData | undefined {
+        return Object.values(this.saveServer.getProfiles()).find((profile) => profile.characters.pmc?._id === pmcId)
+            ?.characters.pmc;
     }
 
     /**
-     * Get the experiecne for the given level
-     * @param level level to get xp for
+     * Get experience value for given level
+     * @param level Level to get xp for
      * @returns Number of xp points for level
      */
-    public getExperience(level: number): number
-    {
+    public getExperience(level: number): number {
         let playerLevel = level;
-        const expTable = this.databaseServer.getTables().globals.config.exp.level.exp_table;
+        const expTable = this.databaseService.getGlobals().config.exp.level.exp_table;
         let exp = 0;
 
-        if (playerLevel >= expTable.length)
-        {
+        if (playerLevel >= expTable.length) {
             // make sure to not go out of bounds
             playerLevel = expTable.length - 1;
         }
 
-        for (let i = 0; i < level; i++)
-        {
+        for (let i = 0; i < playerLevel; i++) {
             exp += expTable[i].exp;
         }
 
@@ -240,29 +211,21 @@ export class ProfileHelper
      * Get the max level a player can be
      * @returns Max level
      */
-    public getMaxLevel(): number
-    {
-        return this.databaseServer.getTables().globals.config.exp.level.exp_table.length - 1;
+    public getMaxLevel(): number {
+        return this.databaseService.getGlobals().config.exp.level.exp_table.length - 1;
     }
 
-    public getDefaultAkiDataObject(): any
-    {
-        return { version: this.getServerVersion() };
+    public getDefaultSptDataObject(): any {
+        return { version: this.watermark.getVersionTag(true) };
     }
 
     /**
      * Get full representation of a players profile json
      * @param sessionID Profile id to get
-     * @returns IAkiProfile object
+     * @returns ISptProfile object
      */
-    public getFullProfile(sessionID: string): IAkiProfile
-    {
-        if (this.saveServer.getProfile(sessionID) === undefined)
-        {
-            return undefined;
-        }
-
-        return this.saveServer.getProfile(sessionID);
+    public getFullProfile(sessionID: string): ISptProfile | undefined {
+        return this.saveServer.profileExists(sessionID) ? this.saveServer.getProfile(sessionID) : undefined;
     }
 
     /**
@@ -270,11 +233,9 @@ export class ProfileHelper
      * @param sessionID Profile id to return
      * @returns IPmcData object
      */
-    public getPmcProfile(sessionID: string): IPmcData
-    {
+    public getPmcProfile(sessionID: string): IPmcData | undefined {
         const fullProfile = this.getFullProfile(sessionID);
-        if (fullProfile === undefined || fullProfile.characters.pmc === undefined)
-        {
+        if (!fullProfile?.characters?.pmc) {
             return undefined;
         }
 
@@ -282,12 +243,20 @@ export class ProfileHelper
     }
 
     /**
+     * Is given user id a player
+     * @param userId Id to validate
+     * @returns True is a player
+     */
+    public isPlayer(userId: string): boolean {
+        return this.saveServer.profileExists(userId);
+    }
+
+    /**
      * Get a full profiles scav-specific sub-profile
      * @param sessionID Profiles id
      * @returns IPmcData object
      */
-    public getScavProfile(sessionID: string): IPmcData
-    {
+    public getScavProfile(sessionID: string): IPmcData {
         return this.saveServer.getProfile(sessionID).characters.scav;
     }
 
@@ -295,12 +264,11 @@ export class ProfileHelper
      * Get baseline counter values for a fresh profile
      * @returns Default profile Stats object
      */
-    public getDefaultCounters(): Stats
-    {
+    public getDefaultCounters(): Stats {
         return {
             Eft: {
                 CarriedQuestItems: [],
-                DamageHistory: { LethalDamagePart: "Head", LethalDamage: undefined, BodyParts: <any>[] },
+                DamageHistory: { LethalDamagePart: "Head", LethalDamage: undefined!, BodyParts: <any>[] },
                 DroppedItems: [],
                 ExperienceBonusMult: 0,
                 FoundInRaidItems: [],
@@ -322,14 +290,8 @@ export class ProfileHelper
      * @param sessionID Profile id
      * @returns True if profile is to be wiped of data/progress
      */
-    protected isWiped(sessionID: string): boolean
-    {
+    protected isWiped(sessionID: string): boolean {
         return this.saveServer.getProfile(sessionID).info.wipe;
-    }
-
-    protected getServerVersion(): string
-    {
-        return this.watermark.getVersionTag(true);
     }
 
     /**
@@ -337,12 +299,10 @@ export class ProfileHelper
      * @param profile Profile to remove secure container from
      * @returns profile without secure container
      */
-    public removeSecureContainer(profile: IPmcData): IPmcData
-    {
+    public removeSecureContainer(profile: IPmcData): IPmcData {
         const items = profile.Inventory.items;
         const secureContainer = items.find((x) => x.slotId === "SecuredContainer");
-        if (secureContainer)
-        {
+        if (secureContainer) {
             // Find and remove container + children
             const childItemsInSecureContainer = this.itemHelper.findAndReturnChildrenByItems(
                 items,
@@ -358,43 +318,57 @@ export class ProfileHelper
 
     /**
      *  Flag a profile as having received a gift
-     * Store giftid in profile aki object
+     * Store giftid in profile spt object
      * @param playerId Player to add gift flag to
      * @param giftId Gift player received
+     * @param maxCount Limit of how many of this gift a player can have
      */
-    public addGiftReceivedFlagToProfile(playerId: string, giftId: string): void
-    {
+    public flagGiftReceivedInProfile(playerId: string, giftId: string, maxCount: number): void {
         const profileToUpdate = this.getFullProfile(playerId);
-        const giftHistory = profileToUpdate.aki.receivedGifts;
-        if (!giftHistory)
-        {
-            profileToUpdate.aki.receivedGifts = [];
+
+        // nullguard receivedGifts
+        profileToUpdate.spt.receivedGifts ||= [];
+
+        const giftData = profileToUpdate.spt.receivedGifts.find((gift) => gift.giftId === giftId);
+        if (giftData) {
+            // Increment counter
+            giftData.current++;
+
+            return;
         }
 
-        profileToUpdate.aki.receivedGifts.push({ giftId: giftId, timestampAccepted: this.timeUtil.getTimestamp() });
+        // Player has never received gift, make a new object
+        profileToUpdate.spt.receivedGifts.push({
+            giftId: giftId,
+            timestampLastAccepted: this.timeUtil.getTimestamp(),
+            current: 1,
+        });
     }
 
     /**
      * Check if profile has recieved a gift by id
      * @param playerId Player profile to check for gift
      * @param giftId Gift to check for
+     * @param maxGiftCount Max times gift can be given to player
      * @returns True if player has recieved gift previously
      */
-    public playerHasRecievedGift(playerId: string, giftId: string): boolean
-    {
+    public playerHasRecievedMaxNumberOfGift(playerId: string, giftId: string, maxGiftCount: number): boolean {
         const profile = this.getFullProfile(playerId);
-        if (!profile)
-        {
+        if (!profile) {
             this.logger.debug(`Unable to gift ${giftId}, profile: ${playerId} does not exist`);
             return false;
         }
 
-        if (!profile.aki.receivedGifts)
-        {
+        if (!profile.spt?.receivedGifts) {
             return false;
         }
 
-        return !!profile.aki.receivedGifts.find((x) => x.giftId === giftId);
+        const giftDataFromProfile = profile.spt?.receivedGifts?.find((gift) => gift.giftId === giftId);
+        if (!giftDataFromProfile) {
+            return false;
+        }
+
+        return giftDataFromProfile.current >= maxGiftCount;
     }
 
     /**
@@ -402,11 +376,9 @@ export class ProfileHelper
      * @param counters Counters to search for key
      * @param keyToIncrement Key
      */
-    public incrementStatCounter(counters: CounterKeyValue[], keyToIncrement: string): void
-    {
+    public incrementStatCounter(counters: CounterKeyValue[], keyToIncrement: string): void {
         const stat = counters.find((x) => x.Key.includes(keyToIncrement));
-        if (stat)
-        {
+        if (stat) {
             stat.Value++;
         }
     }
@@ -417,17 +389,14 @@ export class ProfileHelper
      * @param pmcProfile Profile to find skill in
      * @returns True if player has skill at elite level
      */
-    public hasEliteSkillLevel(skillType: SkillTypes, pmcProfile: IPmcData): boolean
-    {
+    public hasEliteSkillLevel(skillType: SkillTypes, pmcProfile: IPmcData): boolean {
         const profileSkills = pmcProfile?.Skills?.Common;
-        if (!profileSkills)
-        {
+        if (!profileSkills) {
             return false;
         }
 
         const profileSkill = profileSkills.find((x) => x.Id === skillType);
-        if (!profileSkill)
-        {
+        if (!profileSkill) {
             this.logger.warning(`Unable to check for elite skill ${skillType}, not found in profile`);
 
             return false;
@@ -448,12 +417,10 @@ export class ProfileHelper
         skill: SkillTypes,
         pointsToAdd: number,
         useSkillProgressRateMultipler = false,
-    ): void
-    {
+    ): void {
         let pointsToAddToSkill = pointsToAdd;
 
-        if (!pointsToAddToSkill || pointsToAddToSkill < 0)
-        {
+        if (!pointsToAddToSkill || pointsToAddToSkill < 0) {
             this.logger.warning(
                 this.localisationService.getText("player-attempt_to_increment_skill_with_negative_value", skill),
             );
@@ -461,29 +428,24 @@ export class ProfileHelper
         }
 
         const profileSkills = pmcProfile?.Skills?.Common;
-        if (!profileSkills)
-        {
+        if (!profileSkills) {
             this.logger.warning(`Unable to add ${pointsToAddToSkill} points to ${skill}, profile has no skills`);
             return;
         }
 
         const profileSkill = profileSkills.find((profileSkill) => profileSkill.Id === skill);
-        if (!profileSkill)
-        {
+        if (!profileSkill) {
             this.logger.error(this.localisationService.getText("quest-no_skill_found", skill));
             return;
         }
 
-        if (useSkillProgressRateMultipler)
-        {
-            const globals = this.databaseServer.getTables().globals;
-            const skillProgressRate = globals.config.SkillsSettings.SkillProgressRate;
+        if (useSkillProgressRateMultipler) {
+            const skillProgressRate = this.databaseService.getGlobals().config.SkillsSettings.SkillProgressRate;
             pointsToAddToSkill *= skillProgressRate;
         }
 
         // Apply custom multipler to skill amount gained, if exists
-        if (this.inventoryConfig.skillGainMultiplers[skill])
-        {
+        if (this.inventoryConfig.skillGainMultiplers[skill]) {
             pointsToAddToSkill *= this.inventoryConfig.skillGainMultiplers[skill];
         }
 
@@ -498,11 +460,9 @@ export class ProfileHelper
      * @param skill Skill to look up and return value from
      * @returns Common skill object from desired profile
      */
-    public getSkillFromProfile(pmcData: IPmcData, skill: SkillTypes): Common
-    {
+    public getSkillFromProfile(pmcData: IPmcData, skill: SkillTypes): Common {
         const skillToReturn = pmcData.Skills.Common.find((commonSkill) => commonSkill.Id === skill);
-        if (!skillToReturn)
-        {
+        if (!skillToReturn) {
             this.logger.warning(`Profile ${pmcData.sessionId} does not have a skill named: ${skill}`);
             return undefined;
         }
@@ -515,8 +475,7 @@ export class ProfileHelper
      * @param sessionID Profile id ot check
      * @returns True if account is developer
      */
-    public isDeveloperAccount(sessionID: string): boolean
-    {
+    public isDeveloperAccount(sessionID: string): boolean {
         return this.getFullProfile(sessionID).info.edition.toLowerCase().startsWith(AccountTypes.SPT_DEVELOPER);
     }
 
@@ -525,12 +484,10 @@ export class ProfileHelper
      * @param sessionId Profile id to give rows to
      * @param rowsToAdd How many rows to give profile
      */
-    public addStashRowsBonusToProfile(sessionId: string, rowsToAdd: number): void
-    {
+    public addStashRowsBonusToProfile(sessionId: string, rowsToAdd: number): void {
         const profile = this.getPmcProfile(sessionId);
         const existingBonus = profile.Bonuses.find((bonus) => bonus.type === BonusType.STASH_ROWS);
-        if (!existingBonus)
-        {
+        if (!existingBonus) {
             profile.Bonuses.push({
                 id: this.hashUtil.generate(),
                 value: rowsToAdd,
@@ -539,10 +496,42 @@ export class ProfileHelper
                 visible: true,
                 production: false,
             });
-        }
-        else
-        {
+        } else {
             existingBonus.value += rowsToAdd;
         }
+    }
+
+    /**
+     * Iterate over all bonuses and sum up all bonuses of desired type in provided profile
+     * @param pmcProfile Player profile
+     * @param desiredBonus Bonus to sum up
+     * @returns Summed bonus value or 0 if no bonus found
+     */
+    public getBonusValueFromProfile(pmcProfile: IPmcData, desiredBonus: BonusType): number {
+        const bonuses = pmcProfile.Bonuses.filter((bonus) => bonus.type === desiredBonus);
+        if (bonuses.length === 0) {
+            return 0;
+        }
+
+        // Sum all bonuses found above
+        return bonuses.reduce((sum, curr) => sum + (curr.value ?? 0), 0);
+    }
+
+    public playerIsFleaBanned(pmcProfile: IPmcData): boolean {
+        const currentTimestamp = this.timeUtil.getTimestamp();
+        return pmcProfile.Info.Bans.some((ban) => ban.banType === BanType.RAGFAIR && currentTimestamp < ban.dateTime);
+    }
+
+    /**
+     * Add an achievement to player profile
+     * @param pmcProfile Profile to add achievement to
+     * @param achievementId Id of achievement to add
+     */
+    public addAchievementToProfile(pmcProfile: IPmcData, achievementId: string): void {
+        pmcProfile.Achievements[achievementId] = this.timeUtil.getTimestamp();
+    }
+
+    public hasAccessToRepeatableFreeRefreshSystem(pmcProfile: IPmcData): boolean {
+        return [GameEditions.EDGE_OF_DARKNESS, GameEditions.UNHEARD].includes(<any>pmcProfile.Info?.GameVersion);
     }
 }

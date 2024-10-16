@@ -1,14 +1,12 @@
-import { Upd } from "@spt-aki/models/eft/common/tables/IItem";
-import { IInventoryBaseActionRequestData } from "@spt-aki/models/eft/inventory/IInventoryBaseActionRequestData";
+import { Upd } from "@spt/models/eft/common/tables/IItem";
+import { IInventoryBaseActionRequestData } from "@spt/models/eft/inventory/IInventoryBaseActionRequestData";
 
-export interface IInventorySortRequestData extends IInventoryBaseActionRequestData
-{
+export interface IInventorySortRequestData extends IInventoryBaseActionRequestData {
     Action: "ApplyInventoryChanges";
     changedItems: ChangedItem[];
 }
 
-export interface ChangedItem
-{
+export interface ChangedItem {
     _id: string;
     _tpl: string;
     parentId: string;
@@ -17,8 +15,7 @@ export interface ChangedItem
     upd: Upd;
 }
 
-export interface Location
-{
+export interface Location {
     x: number;
     y: number;
     r: string;

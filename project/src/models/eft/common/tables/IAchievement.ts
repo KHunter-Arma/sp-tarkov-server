@@ -1,7 +1,6 @@
-import { IQuestConditionTypes, IQuestRewards } from "./IQuest";
+import { IQuestConditionTypes, IQuestRewards } from "@spt/models/eft/common/tables/IQuest";
 
-export interface IAchievement
-{
+export interface IAchievement {
     id: string;
     imageUrl: string;
     assetPath: string;

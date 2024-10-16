@@ -1,81 +1,72 @@
-import { IQuest, IQuestConditionTypes, IQuestRewards } from "./IQuest";
+import { IQuest, IQuestConditionTypes, IQuestRewards } from "@spt/models/eft/common/tables/IQuest";
 
-export interface IRepeatableQuest extends IQuest
-{
+export interface IRepeatableQuest extends IQuest {
     changeCost: IChangeCost[];
     changeStandingCost: number;
     sptRepatableGroupName: string;
 }
 
-export interface IRepeatableQuestDatabase
-{
+export interface IRepeatableQuestDatabase {
     templates: IRepeatableTemplates;
     rewards: IRewardOptions;
     data: IOptions;
     samples: ISampleQuests[];
 }
 
-export interface IRepeatableTemplates
-{
+export interface IRepeatableTemplates {
     Elimination: IQuest;
     Completion: IQuest;
     Exploration: IQuest;
 }
 
-export interface IPmcDataRepeatableQuest
-{
+export interface IPmcDataRepeatableQuest {
     id?: string;
     name: string;
+    unavailableTime?: string;
     activeQuests: IRepeatableQuest[];
     inactiveQuests: IRepeatableQuest[];
     endTime: number;
     changeRequirement: Record<string, IChangeRequirement>; // What it costs to reset <QuestId, ChangeRequirement> redundant to change requirements within IRepeatableQuest
+    freeChanges: number;
+    freeChangesAvailable: number;
 }
 
-export interface IChangeRequirement
-{
+export interface IChangeRequirement {
     changeCost: IChangeCost[];
     changeStandingCost: number;
 }
 
-export interface IChangeCost
-{
+export interface IChangeCost {
     templateId: string; // what item it will take to reset daily
     count: number; // amount of item needed to reset
 }
 
 // Config Options
 
-export interface IRewardOptions
-{
+export interface IRewardOptions {
     itemsBlacklist: string[];
 }
 
-export interface IOptions
-{
+export interface IOptions {
     Completion: ICompletionFilter;
 }
 
-export interface ICompletionFilter
-{
+export interface ICompletionFilter {
     itemsBlacklist: ItemsBlacklist[];
     itemsWhitelist: ItemsWhitelist[];
 }
 
-export interface ItemsBlacklist
-{
+export interface ItemsBlacklist {
     minPlayerLevel: number;
     itemIds: string[];
 }
 
-export interface ItemsWhitelist
-{
+export interface ItemsWhitelist {
     minPlayerLevel: number;
     itemIds: string[];
 }
 
-export interface ISampleQuests
-{
+export interface ISampleQuests {
     _id: string;
     traderId: string;
     location: string;

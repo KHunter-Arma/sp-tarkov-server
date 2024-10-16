@@ -1,5 +1,4 @@
-export interface ICompleteQuestRequestData
-{
+export interface ICompleteQuestRequestData {
     Action: string;
 
     /** Quest Id */

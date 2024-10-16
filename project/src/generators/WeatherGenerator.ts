@@ -1,20 +1,18 @@
+import { ApplicationContext } from "@spt/context/ApplicationContext";
+import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
+import { IWeather, IWeatherData } from "@spt/models/eft/weather/IWeatherData";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { WindDirection } from "@spt/models/enums/WindDirection";
+import { IWeatherConfig } from "@spt/models/spt/config/IWeatherConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { SeasonalEventService } from "@spt/services/SeasonalEventService";
+import { RandomUtil } from "@spt/utils/RandomUtil";
+import { TimeUtil } from "@spt/utils/TimeUtil";
 import { inject, injectable } from "tsyringe";
 
-import { ApplicationContext } from "@spt-aki/context/ApplicationContext";
-import { ContextVariableType } from "@spt-aki/context/ContextVariableType";
-import { WeightedRandomHelper } from "@spt-aki/helpers/WeightedRandomHelper";
-import { IWeather, IWeatherData } from "@spt-aki/models/eft/weather/IWeatherData";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { WindDirection } from "@spt-aki/models/enums/WindDirection";
-import { IWeatherConfig } from "@spt-aki/models/spt/config/IWeatherConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { RandomUtil } from "@spt-aki/utils/RandomUtil";
-import { TimeUtil } from "@spt-aki/utils/TimeUtil";
-
 @injectable()
-export class WeatherGenerator
-{
+export class WeatherGenerator {
     protected weatherConfig: IWeatherConfig;
 
     // Note: If this value gets save/load support, raid time could be tracked across server restarts
@@ -23,13 +21,13 @@ export class WeatherGenerator
 
     constructor(
         @inject("WeightedRandomHelper") protected weightedRandomHelper: WeightedRandomHelper,
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("RandomUtil") protected randomUtil: RandomUtil,
         @inject("TimeUtil") protected timeUtil: TimeUtil,
+        @inject("SeasonalEventService") protected seasonalEventService: SeasonalEventService,
         @inject("ApplicationContext") protected applicationContext: ApplicationContext,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+    ) {
         this.weatherConfig = this.configServer.getConfig(ConfigTypes.WEATHER);
     }
 
@@ -38,15 +36,17 @@ export class WeatherGenerator
      * @param data Weather data
      * @returns IWeatherData
      */
-    public calculateGameTime(data: IWeatherData): IWeatherData
-    {
+    public calculateGameTime(data: IWeatherData): IWeatherData {
         const computedDate = new Date();
         const formattedDate = this.timeUtil.formatDate(computedDate);
 
         data.date = formattedDate;
         data.time = this.getBsgFormattedInRaidTime();
         data.acceleration = this.weatherConfig.acceleration;
-        data.winterEventEnabled = this.weatherConfig.forceWinterEvent;
+
+        data.season = this.weatherConfig.overrideSeason
+            ? this.weatherConfig.overrideSeason
+            : this.seasonalEventService.getActiveWeatherSeason();
 
         return data;
     }
@@ -57,8 +57,7 @@ export class WeatherGenerator
      * @param currentDate current date
      * @returns formatted time
      */
-    protected getBsgFormattedInRaidTime(): string
-    {
+    protected getBsgFormattedInRaidTime(): string {
         const clientAcceleratedDate = this.getInRaidTime();
 
         return this.getBSGFormattedTime(clientAcceleratedDate);
@@ -69,13 +68,12 @@ export class WeatherGenerator
      * @param currentDate (new Date())
      * @returns Date object of current in-raid time
      */
-    public getInRaidTime(): Date
-    {
+    public getInRaidTime(): Date {
         // tarkov time = (real time * 7 % 24 hr) + 3 hour
-        const russiaOffset = (this.timeUtil.getHoursAsSeconds(3)) * 1000;
+        const russiaOffset = this.timeUtil.getHoursAsSeconds(3) * 1000;
         return new Date(
-            (russiaOffset + (new Date().getTime() * this.weatherConfig.acceleration))
-                % (this.timeUtil.getHoursAsSeconds(24) * 1000),
+            (russiaOffset + new Date().getTime() * this.weatherConfig.acceleration) %
+                (this.timeUtil.getHoursAsSeconds(24) * 1000),
         );
     }
 
@@ -84,8 +82,7 @@ export class WeatherGenerator
      * @param date date to format into bsg style
      * @returns Time formatted in BSG format
      */
-    protected getBSGFormattedTime(date: Date): string
-    {
+    protected getBSGFormattedTime(date: Date): string {
         return this.timeUtil.formatTime(date).replace("-", ":").replace("-", ":");
     }
 
@@ -93,8 +90,7 @@ export class WeatherGenerator
      * Return randomised Weather data with help of config/weather.json
      * @returns Randomised weather data
      */
-    public generateWeather(): IWeather
-    {
+    public generateWeather(): IWeather {
         const rain = this.getWeightedRain();
 
         const result: IWeather = {
@@ -103,7 +99,7 @@ export class WeatherGenerator
             wind_direction: this.getWeightedWindDirection(),
             wind_gustiness: this.getRandomFloat("windGustiness"),
             rain: rain,
-            rain_intensity: (rain > 1) ? this.getRandomFloat("rainIntensity") : 0,
+            rain_intensity: rain > 1 ? this.getRandomFloat("rainIntensity") : 0,
             fog: this.getWeightedFog(),
             temp: this.getRandomFloat("temp"),
             pressure: this.getRandomFloat("pressure"),
@@ -121,8 +117,7 @@ export class WeatherGenerator
      * Set IWeather date/time/timestamp values to now
      * @param weather Object to update
      */
-    protected setCurrentDateTime(weather: IWeather): void
-    {
+    protected setCurrentDateTime(weather: IWeather): void {
         const currentDate = this.getInRaidTime();
         const normalTime = this.getBSGFormattedTime(currentDate);
         const formattedDate = this.timeUtil.formatDate(currentDate);
@@ -133,50 +128,45 @@ export class WeatherGenerator
         weather.time = datetime; // matches weather.timestamp
     }
 
-    protected getWeightedWindDirection(): WindDirection
-    {
+    protected getWeightedWindDirection(): WindDirection {
         return this.weightedRandomHelper.weightedRandom(
             this.weatherConfig.weather.windDirection.values,
             this.weatherConfig.weather.windDirection.weights,
         ).item;
     }
 
-    protected getWeightedClouds(): number
-    {
+    protected getWeightedClouds(): number {
         return this.weightedRandomHelper.weightedRandom(
             this.weatherConfig.weather.clouds.values,
             this.weatherConfig.weather.clouds.weights,
         ).item;
     }
 
-    protected getWeightedWindSpeed(): number
-    {
+    protected getWeightedWindSpeed(): number {
         return this.weightedRandomHelper.weightedRandom(
             this.weatherConfig.weather.windSpeed.values,
             this.weatherConfig.weather.windSpeed.weights,
         ).item;
     }
 
-    protected getWeightedFog(): number
-    {
+    protected getWeightedFog(): number {
         return this.weightedRandomHelper.weightedRandom(
             this.weatherConfig.weather.fog.values,
             this.weatherConfig.weather.fog.weights,
         ).item;
     }
 
-    protected getWeightedRain(): number
-    {
+    protected getWeightedRain(): number {
         return this.weightedRandomHelper.weightedRandom(
             this.weatherConfig.weather.rain.values,
             this.weatherConfig.weather.rain.weights,
         ).item;
     }
 
-    protected getRandomFloat(node: string): number
-    {
+    protected getRandomFloat(node: string): number {
         return Number.parseFloat(
-            this.randomUtil.getFloat(this.weatherConfig.weather[node].min, this.weatherConfig.weather[node].max)
+            this.randomUtil
+                .getFloat(this.weatherConfig.weather[node].min, this.weatherConfig.weather[node].max)
                 .toPrecision(3),
         );
     }

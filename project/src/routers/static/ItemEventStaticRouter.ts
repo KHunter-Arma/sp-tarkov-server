@@ -1,18 +1,21 @@
+import { ItemEventCallbacks } from "@spt/callbacks/ItemEventCallbacks";
+import { RouteAction, StaticRouter } from "@spt/di/Router";
+import { IGetBodyResponseData } from "@spt/models/eft/httpResponse/IGetBodyResponseData";
+import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
 import { inject, injectable } from "tsyringe";
 
-import { ItemEventCallbacks } from "@spt-aki/callbacks/ItemEventCallbacks";
-import { RouteAction, StaticRouter } from "@spt-aki/di/Router";
-
 @injectable()
-export class ItemEventStaticRouter extends StaticRouter
-{
-    constructor(@inject("ItemEventCallbacks") protected itemEventCallbacks: ItemEventCallbacks)
-    {
+export class ItemEventStaticRouter extends StaticRouter {
+    constructor(@inject("ItemEventCallbacks") protected itemEventCallbacks: ItemEventCallbacks) {
         super([
             new RouteAction(
                 "/client/game/profile/items/moving",
-                (url: string, info: any, sessionID: string, output: string): any =>
-                {
+                async (
+                    url: string,
+                    info: any,
+                    sessionID: string,
+                    output: string,
+                ): Promise<IGetBodyResponseData<IItemEventRouterResponse>> => {
                     return this.itemEventCallbacks.handleEvents(url, info, sessionID);
                 },
             ),

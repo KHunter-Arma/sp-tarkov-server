@@ -1,12 +1,10 @@
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { IHttpConfig } from "@spt/models/spt/config/IHttpConfig";
+import { ConfigServer } from "@spt/servers/ConfigServer";
 import { inject, injectable } from "tsyringe";
 
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { IHttpConfig } from "@spt-aki/models/spt/config/IHttpConfig";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-
 @injectable()
-export class HttpServerHelper
-{
+export class HttpServerHelper {
     protected httpConfig: IHttpConfig;
 
     protected mime = {
@@ -21,13 +19,11 @@ export class HttpServerHelper
         txt: "text/plain",
     };
 
-    constructor(@inject("ConfigServer") protected configServer: ConfigServer)
-    {
+    constructor(@inject("ConfigServer") protected configServer: ConfigServer) {
         this.httpConfig = this.configServer.getConfig(ConfigTypes.HTTP);
     }
 
-    public getMimeText(key: string): string
-    {
+    public getMimeText(key: string): string {
         return this.mime[key];
     }
 
@@ -35,8 +31,7 @@ export class HttpServerHelper
      * Combine ip and port into address
      * @returns url
      */
-    public buildUrl(): string
-    {
+    public buildUrl(): string {
         return `${this.httpConfig.backendIp}:${this.httpConfig.backendPort}`;
     }
 
@@ -44,20 +39,16 @@ export class HttpServerHelper
      * Prepend http to the url:port
      * @returns URI
      */
-    public getBackendUrl(): string
-    {
+    public getBackendUrl(): string {
         return `http://${this.buildUrl()}`;
     }
 
     /** Get websocket url + port */
-    public getWebsocketUrl(): string
-    {
+    public getWebsocketUrl(): string {
         return `ws://${this.buildUrl()}`;
     }
 
-    public sendTextJson(resp: any, output: any): void
-    {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
+    public sendTextJson(resp: any, output: any): void {
         resp.writeHead(200, "OK", { "Content-Type": this.mime.json });
         resp.end(output);
     }

@@ -1,14 +1,13 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { GenerationData } from "@spt-aki/models/eft/common/tables/IBotType";
-import { IBaseConfig } from "@spt-aki/models/spt/config/IBaseConfig";
-import { IBotDurability } from "@spt-aki/models/spt/config/IBotDurability";
+import { MinMax } from "@spt/models/common/MinMax";
+import { GenerationData } from "@spt/models/eft/common/tables/IBotType";
+import { IBaseConfig } from "@spt/models/spt/config/IBaseConfig";
+import { IBotDurability } from "@spt/models/spt/config/IBotDurability";
 
-export interface IBotConfig extends IBaseConfig
-{
-    kind: "aki-bot";
+export interface IBotConfig extends IBaseConfig {
+    kind: "spt-bot";
     /** How many variants of each bot should be generated on raid start */
     presetBatch: PresetBatch;
-    /** Bot roles that should not have PMC types (sptBear/sptUsec) added as enemies to */
+    /** Bot roles that should not have PMC types (pmcBEAR/pmcUSEC) added as enemies to */
     botsToNotAddPMCsAsEnemiesTo: string[];
     /** What bot types should be classified as bosses */
     bosses: string[];
@@ -41,11 +40,21 @@ export interface IBotConfig extends IBaseConfig
     walletLoot: IWalletLootSettings;
     /** Currency weights, Keyed by botrole / currency */
     currencyStackSize: Record<string, Record<string, Record<string, number>>>;
+    /** Tpls for low profile gas blocks */
+    lowProfileGasBlockTpls: string[];
+    /** What bottypes should be excluded from having loot generated on them (backpack/pocket/vest) does not disable food/drink/special/ */
+    disableLootOnBotTypes: string[];
+    assaultToBossConversion: IAssaultToBossConversion;
+}
+
+export interface IAssaultToBossConversion {
+    bossConvertEnabled: boolean;
+    bossesToConvertToWeights: Record<string, number>;
+    bossConvertMinMax: Record<string, MinMax>;
 }
 
 /** Number of bots to generate and store in cache on raid start per bot type */
-export interface PresetBatch
-{
+export interface PresetBatch {
     assault: number;
     bossBully: number;
     bossGluhar: number;
@@ -80,12 +89,11 @@ export interface PresetBatch
     crazyAssaultEvent: number;
     bossBoar: number;
     bossBoarSniper: number;
-    sptUsec: number;
-    sptBear: number;
+    pmcUSEC: number;
+    pmcBEAR: number;
 }
 
-export interface IWalletLootSettings
-{
+export interface IWalletLootSettings {
     /** Chance wallets have loot in them */
     chancePercent: number;
     itemCount: MinMax;
@@ -95,8 +103,7 @@ export interface IWalletLootSettings
     walletTplPool: string[];
 }
 
-export interface EquipmentFilters
-{
+export interface EquipmentFilters {
     /** Limits for mod types per weapon .e.g. scopes */
     weaponModLimits: ModLimits;
     /** Whitelist for weapon sight types allowed per gun */
@@ -133,16 +140,14 @@ export interface EquipmentFilters
     armorPlateWeighting?: IArmorPlateWeights[];
 }
 
-export interface ModLimits
-{
+export interface ModLimits {
     /** How many scopes are allowed on a weapon - hard coded to work with OPTIC_SCOPE, ASSAULT_SCOPE, COLLIMATOR, COMPACT_COLLIMATOR */
     scopeLimit?: number;
     /** How many lasers or lights are allowed on a weapon - hard coded to work with TACTICAL_COMBO, and FLASHLIGHT */
     lightLaserLimit?: number;
 }
 
-export interface RandomisationDetails
-{
+export interface RandomisationDetails {
     /** Between what levels do these randomisation setting apply to */
     levelRange: MinMax;
     generation?: Record<string, GenerationData>;
@@ -158,8 +163,7 @@ export interface RandomisationDetails
     equipmentMods?: Record<string, number>;
 }
 
-export interface EquipmentFilterDetails
-{
+export interface EquipmentFilterDetails {
     /** Between what levels do these equipment filter setting apply to */
     levelRange: MinMax;
     /** Key: mod slot name e.g. mod_magazine, value: item tpls */
@@ -168,8 +172,7 @@ export interface EquipmentFilterDetails
     cartridge: Record<string, string[]>;
 }
 
-export interface WeightingAdjustmentDetails
-{
+export interface WeightingAdjustmentDetails {
     /** Between what levels do these weight settings apply to */
     levelRange: MinMax;
     /** Key: ammo type e.g. Caliber556x45NATO, value: item tpl + weight */
@@ -180,25 +183,21 @@ export interface WeightingAdjustmentDetails
     clothing?: IAdjustmentDetails;
 }
 
-export interface IAdjustmentDetails
-{
+export interface IAdjustmentDetails {
     add: Record<string, Record<string, number>>;
     edit: Record<string, Record<string, number>>;
 }
 
-export interface IArmorPlateWeights extends Record<string, any>
-{
+export interface IArmorPlateWeights extends Record<string, any> {
     levelRange: MinMax;
 }
 
-export interface IRandomisedResourceDetails
-{
+export interface IRandomisedResourceDetails {
     food: IRandomisedResourceValues;
     meds: IRandomisedResourceValues;
 }
-export interface IRandomisedResourceValues
-{
-    /** Minimum percent of item to randomized between min and max resource*/
+export interface IRandomisedResourceValues {
+    /** Minimum percent of item to randomized between min and max resource */
     resourcePercent: number;
     /** Chance for randomization to not occur */
     chanceMaxResourcePercent: number;

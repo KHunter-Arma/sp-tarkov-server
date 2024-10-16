@@ -1,22 +1,19 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
+import { MinMax } from "@spt/models/common/MinMax";
 
-export interface IHideoutScavCase
-{
+export interface IHideoutScavCase {
     _id: string;
     ProductionTime: number;
     Requirements: Requirement[];
     EndProducts: EndProducts;
 }
-export interface Requirement
-{
+export interface Requirement {
     templateId: string;
     count: number;
     isFunctional: boolean;
     type: string;
 }
 
-export interface EndProducts
-{
+export interface EndProducts {
     Common: MinMax;
     Rare: MinMax;
     Superrare: MinMax;

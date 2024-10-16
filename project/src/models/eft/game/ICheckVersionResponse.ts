@@ -1,5 +1,4 @@
-export interface ICheckVersionResponse
-{
+export interface ICheckVersionResponse {
     isvalid: boolean;
     latestVersion: string;
 }

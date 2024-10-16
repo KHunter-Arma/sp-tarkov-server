@@ -1,5 +1,4 @@
-export interface IConnectResponse
-{
+export interface IConnectResponse {
     backendUrl: string;
     name: string;
     editions: string[];

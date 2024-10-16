@@ -1,30 +1,25 @@
-import { ELocationName } from "@spt-aki/models/enums/ELocationName";
+import { ELocationName } from "@spt/models/enums/ELocationName";
 
-export interface IQuestTypePool
-{
+export interface IQuestTypePool {
     types: string[];
     pool: IQuestPool;
 }
 
-export interface IQuestPool
-{
+export interface IQuestPool {
     Exploration: IExplorationPool;
     Elimination: IEliminationPool;
     Pickup: IExplorationPool;
 }
 
-export interface IExplorationPool
-{
+export interface IExplorationPool {
     locations: Partial<Record<ELocationName, string[]>>;
 }
 
-export interface IEliminationPool
-{
+export interface IEliminationPool {
     targets: IEliminationTargetPool;
 }
 
-export interface IEliminationTargetPool
-{
+export interface IEliminationTargetPool {
     Savage?: ITargetLocation;
     AnyPmc?: ITargetLocation;
     bossBully?: ITargetLocation;
@@ -38,7 +33,6 @@ export interface IEliminationTargetPool
     bossBoarSniper?: ITargetLocation;
 }
 
-export interface ITargetLocation
-{
+export interface ITargetLocation {
     locations: string[];
 }

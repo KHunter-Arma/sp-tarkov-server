@@ -1,4 +1,3 @@
-export interface IRemoveMailMessageRequest
-{
+export interface IRemoveMailMessageRequest {
     dialogId: string;
 }

@@ -1,5 +1,4 @@
-export enum MemberCategory // player type
-{
+export enum MemberCategory { // player type
     DEFAULT = 0,
     DEVELOPER = 1,
     UNIQUE_ID = 2,
@@ -11,4 +10,5 @@ export enum MemberCategory // player type
     UNIT_TEST = 128,
     SHERPA = 256,
     EMISSARY = 512,
+    UNHEARD = 1024,
 }

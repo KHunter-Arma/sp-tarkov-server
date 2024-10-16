@@ -27,6 +27,7 @@
         "5a7c2eca46aef81a7ca2145d": true,
         "5ac3b934156ae10c4430e83c": true,
         "5c0647fdd443bc2504c2d371": true,
+        "6617beeaa9cfa777ca915b7c": true,
         "ragfair": false
     },
     "dynamic": {
@@ -47,9 +48,9 @@
             ]
         },
         "pack": {
-            "chancePercent": 20,
+            "chancePercent": 6,
             "itemCountMin": 4,
-            "itemCountMax": 12,
+            "itemCountMax": 17,
             "itemTypeWhitelist": [
                 "5448eb774bdc2d0a728b4567",
                 "5448e8d64bdc2dce718b4568",
@@ -277,6 +278,8 @@
             "removeRemovablePlateChance": 60,
             "plateSlotIdToRemovePool": [
                 "front_plate",
+                "left_side_plate",
+                "right_side_plate",
                 "back_plate"
             ]
         },
@@ -301,7 +304,8 @@
             "5448f39d4bdc2d0a728b4568",
             "62e910aaf957f2915e0a5e36",
             "5447e1d04bdc2dff2f8b4567",
-            "57bef4c42459772e8d35a53b"
+            "57bef4c42459772e8d35a53b",
+            "55802f4a4bdc2ddb688b4569"
         ],
         "removeSeasonalItemsWhenNotInEvent": true,
         "blacklist": {
@@ -312,10 +316,7 @@
             "traderItems": false,
             "armorPlate": {
                 "maxProtectionLevel": 4,
-                "ignoreSlots": [
-                    "right_side_plate",
-                    "left_side_plate"
-                ]
+                "ignoreSlots": ["right_side_plate", "left_side_plate"]
             },
             "enableCustomItemCategoryList": false,
             "customItemCategoryList": []

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-export interface IBotCore
-{
+export interface IBotCore {
     SAVAGE_KILL_DIST: number;
     SOUND_DOOR_BREACH_METERS: number;
     SOUND_DOOR_OPEN_METERS: number;

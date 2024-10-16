@@ -1,12 +1,10 @@
-import { MemberCategory } from "@spt-aki/models/enums/MemberCategory";
+import { MemberCategory } from "@spt/models/enums/MemberCategory";
 
-export interface ICurrentGroupResponse
-{
+export interface ICurrentGroupResponse {
     squad: ICurrentGroupSquadMember[];
 }
 
-export interface ICurrentGroupSquadMember
-{
+export interface ICurrentGroupSquadMember {
     _id: string;
     aid: string;
     info: ICurrentGroupMemberInfo;
@@ -14,8 +12,7 @@ export interface ICurrentGroupSquadMember
     isReady: boolean;
 }
 
-export interface ICurrentGroupMemberInfo
-{
+export interface ICurrentGroupMemberInfo {
     Nickname: string;
     Side: string;
     Level: string;

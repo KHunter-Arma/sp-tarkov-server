@@ -1,4 +1,3 @@
-export interface ICompletedAchievementsResponse
-{
+export interface ICompletedAchievementsResponse {
     elements: Record<string, number>;
 }

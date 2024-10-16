@@ -1,4 +1,3 @@
-export interface IClearMailMessageRequest
-{
+export interface IClearMailMessageRequest {
     dialogId: string;
 }

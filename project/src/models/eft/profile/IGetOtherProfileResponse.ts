@@ -1,8 +1,7 @@
-import { OverallCounters, Skills } from "@spt-aki/models/eft/common/tables/IBotBase";
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
+import { OverallCounters, Skills } from "@spt/models/eft/common/tables/IBotBase";
+import { Item } from "@spt/models/eft/common/tables/IItem";
 
-export interface IGetOtherProfileResponse
-{
+export interface IGetOtherProfileResponse {
     id: string;
     aid: number;
     info: IOtherProfileInfo;
@@ -15,8 +14,7 @@ export interface IGetOtherProfileResponse
     scavStats: IOtherProfileStats;
 }
 
-export interface IOtherProfileInfo
-{
+export interface IOtherProfileInfo {
     nickname: string;
     side: string;
     experience: number;
@@ -26,27 +24,23 @@ export interface IOtherProfileInfo
     registrationDate: number;
 }
 
-export interface IOtherProfileCustomization
-{
+export interface IOtherProfileCustomization {
     head: string;
     body: string;
     feet: string;
     hands: string;
 }
 
-export interface IOtherProfileEquipment
-{
+export interface IOtherProfileEquipment {
     Id: string;
     Items: Item[];
 }
 
-export interface IOtherProfileStats
-{
+export interface IOtherProfileStats {
     eft: IOtherProfileSubStats;
 }
 
-export interface IOtherProfileSubStats
-{
+export interface IOtherProfileSubStats {
     totalInGameTime: number;
     overAllCounters: OverallCounters;
 }

@@ -1,55 +1,52 @@
+import { BotGenerator } from "@spt/generators/BotGenerator";
+import { BotGeneratorHelper } from "@spt/helpers/BotGeneratorHelper";
+import { BotHelper } from "@spt/helpers/BotHelper";
+import { ItemHelper } from "@spt/helpers/ItemHelper";
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
+import { IBotBase, Settings, Skills, Stats } from "@spt/models/eft/common/tables/IBotBase";
+import { IBotType } from "@spt/models/eft/common/tables/IBotType";
+import { Item } from "@spt/models/eft/common/tables/IItem";
+import { AccountTypes } from "@spt/models/enums/AccountTypes";
+import { BonusType } from "@spt/models/enums/BonusType";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { ItemAddedResult } from "@spt/models/enums/ItemAddedResult";
+import { MemberCategory } from "@spt/models/enums/MemberCategory";
+import { Traders } from "@spt/models/enums/Traders";
+import { IPlayerScavConfig, KarmaLevel } from "@spt/models/spt/config/IPlayerScavConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { SaveServer } from "@spt/servers/SaveServer";
+import { BotLootCacheService } from "@spt/services/BotLootCacheService";
+import { DatabaseService } from "@spt/services/DatabaseService";
+import { FenceService } from "@spt/services/FenceService";
+import { LocalisationService } from "@spt/services/LocalisationService";
+import { HashUtil } from "@spt/utils/HashUtil";
+import { RandomUtil } from "@spt/utils/RandomUtil";
+import { ICloner } from "@spt/utils/cloners/ICloner";
 import { inject, injectable } from "tsyringe";
 
-import { BotGenerator } from "@spt-aki/generators/BotGenerator";
-import { BotGeneratorHelper } from "@spt-aki/helpers/BotGeneratorHelper";
-import { BotHelper } from "@spt-aki/helpers/BotHelper";
-import { ItemHelper } from "@spt-aki/helpers/ItemHelper";
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
-import { IPmcData } from "@spt-aki/models/eft/common/IPmcData";
-import { IBotBase, Settings, Skills, Stats } from "@spt-aki/models/eft/common/tables/IBotBase";
-import { IBotType } from "@spt-aki/models/eft/common/tables/IBotType";
-import { Item } from "@spt-aki/models/eft/common/tables/IItem";
-import { AccountTypes } from "@spt-aki/models/enums/AccountTypes";
-import { BonusType } from "@spt-aki/models/enums/BonusType";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { ItemAddedResult } from "@spt-aki/models/enums/ItemAddedResult";
-import { MemberCategory } from "@spt-aki/models/enums/MemberCategory";
-import { Traders } from "@spt-aki/models/enums/Traders";
-import { IPlayerScavConfig, KarmaLevel } from "@spt-aki/models/spt/config/IPlayerScavConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { SaveServer } from "@spt-aki/servers/SaveServer";
-import { BotLootCacheService } from "@spt-aki/services/BotLootCacheService";
-import { FenceService } from "@spt-aki/services/FenceService";
-import { LocalisationService } from "@spt-aki/services/LocalisationService";
-import { HashUtil } from "@spt-aki/utils/HashUtil";
-import { JsonUtil } from "@spt-aki/utils/JsonUtil";
-import { RandomUtil } from "@spt-aki/utils/RandomUtil";
-
 @injectable()
-export class PlayerScavGenerator
-{
+export class PlayerScavGenerator {
     protected playerScavConfig: IPlayerScavConfig;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("RandomUtil") protected randomUtil: RandomUtil,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
+        @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("HashUtil") protected hashUtil: HashUtil,
         @inject("ItemHelper") protected itemHelper: ItemHelper,
         @inject("BotGeneratorHelper") protected botGeneratorHelper: BotGeneratorHelper,
         @inject("SaveServer") protected saveServer: SaveServer,
         @inject("ProfileHelper") protected profileHelper: ProfileHelper,
         @inject("BotHelper") protected botHelper: BotHelper,
-        @inject("JsonUtil") protected jsonUtil: JsonUtil,
         @inject("FenceService") protected fenceService: FenceService,
         @inject("BotLootCacheService") protected botLootCacheService: BotLootCacheService,
         @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("BotGenerator") protected botGenerator: BotGenerator,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+        @inject("PrimaryCloner") protected cloner: ICloner,
+    ) {
         this.playerScavConfig = this.configServer.getConfig(ConfigTypes.PLAYERSCAV);
     }
 
@@ -58,19 +55,17 @@ export class PlayerScavGenerator
      * @param sessionID session id to specify what profile is updated
      * @returns profile object
      */
-    public generate(sessionID: string): IPmcData
-    {
+    public generate(sessionID: string): IPmcData {
         // get karma level from profile
         const profile = this.saveServer.getProfile(sessionID);
-        const pmcDataClone = this.jsonUtil.clone(profile.characters.pmc);
-        const existingScavDataClone = this.jsonUtil.clone(profile.characters.scav);
+        const pmcDataClone = this.cloner.clone(profile.characters.pmc);
+        const existingScavDataClone = this.cloner.clone(profile.characters.scav);
 
         const scavKarmaLevel = this.getScavKarmaLevel(pmcDataClone);
 
         // use karma level to get correct karmaSettings
         const playerScavKarmaSettings = this.playerScavConfig.karmaLevel[scavKarmaLevel];
-        if (!playerScavKarmaSettings)
-        {
+        if (!playerScavKarmaSettings) {
             this.logger.error(this.localisationService.getText("scav-missing_karma_settings", scavKarmaLevel));
         }
 
@@ -91,7 +86,7 @@ export class PlayerScavGenerator
         this.botLootCacheService.clearCache();
 
         // Add scav metadata
-        scavData.savage = null;
+        scavData.savage = undefined;
         scavData.aid = pmcDataClone.aid;
         scavData.TradersInfo = pmcDataClone.TradersInfo;
         scavData.Info.Settings = {} as Settings;
@@ -145,29 +140,28 @@ export class PlayerScavGenerator
         possibleItemsToAdd: Record<string, number>,
         scavData: IBotBase,
         containersToAddTo: string[],
-    ): void
-    {
-        for (const tpl in possibleItemsToAdd)
-        {
+    ): void {
+        for (const tpl in possibleItemsToAdd) {
             const shouldAdd = this.randomUtil.getChance100(possibleItemsToAdd[tpl]);
-            if (!shouldAdd)
-            {
+            if (!shouldAdd) {
                 continue;
             }
 
             const itemResult = this.itemHelper.getItem(tpl);
-            if (!itemResult[0])
-            {
-                this.logger.warning(`Unable to add ${tpl} to player scav, not an item`);
+            if (!itemResult[0]) {
+                this.logger.warning(this.localisationService.getText("scav-unable_to_add_item_to_player_scav", tpl));
+
                 continue;
             }
 
             const itemTemplate = itemResult[1];
-            const itemsToAdd: Item[] = [{
-                _id: this.hashUtil.generate(),
-                _tpl: itemTemplate._id,
-                ...this.botGeneratorHelper.generateExtraPropertiesForItem(itemTemplate),
-            }];
+            const itemsToAdd: Item[] = [
+                {
+                    _id: this.hashUtil.generate(),
+                    _tpl: itemTemplate._id,
+                    ...this.botGeneratorHelper.generateExtraPropertiesForItem(itemTemplate),
+                },
+            ];
 
             const result = this.botGeneratorHelper.addItemWithChildrenToEquipmentSlot(
                 containersToAddTo,
@@ -177,8 +171,7 @@ export class PlayerScavGenerator
                 scavData.Inventory,
             );
 
-            if (result !== ItemAddedResult.SUCCESS)
-            {
+            if (result !== ItemAddedResult.SUCCESS) {
                 this.logger.debug(`Unable to add keycard to bot. Reason: ${ItemAddedResult[result]}`);
             }
         }
@@ -190,20 +183,17 @@ export class PlayerScavGenerator
      * @param pmcData pmc profile
      * @returns karma level
      */
-    protected getScavKarmaLevel(pmcData: IPmcData): number
-    {
+    protected getScavKarmaLevel(pmcData: IPmcData): number {
         const fenceInfo = pmcData.TradersInfo[Traders.FENCE];
 
         // Can be empty during profile creation
-        if (!fenceInfo)
-        {
+        if (!fenceInfo) {
             this.logger.warning(this.localisationService.getText("scav-missing_karma_level_getting_default"));
 
             return 0;
         }
 
-        if (fenceInfo.standing > 6)
-        {
+        if (fenceInfo.standing > 6) {
             return 6;
         }
 
@@ -217,18 +207,16 @@ export class PlayerScavGenerator
      * @param botTypeForLoot bot type to use for inventory/chances
      * @returns IBotType object
      */
-    protected constructBotBaseTemplate(botTypeForLoot: string): IBotType
-    {
+    protected constructBotBaseTemplate(botTypeForLoot: string): IBotType {
         const baseScavType = "assault";
-        const assaultBase = this.jsonUtil.clone(this.botHelper.getBotTemplate(baseScavType));
+        const assaultBase = this.cloner.clone(this.botHelper.getBotTemplate(baseScavType));
 
         // Loot bot is same as base bot, return base with no modification
-        if (botTypeForLoot === baseScavType)
-        {
+        if (botTypeForLoot === baseScavType) {
             return assaultBase;
         }
 
-        const lootBase = this.jsonUtil.clone(this.botHelper.getBotTemplate(botTypeForLoot));
+        const lootBase = this.cloner.clone(this.botHelper.getBotTemplate(botTypeForLoot));
         assaultBase.inventory = lootBase.inventory;
         assaultBase.chances = lootBase.chances;
         assaultBase.generation = lootBase.generation;
@@ -241,13 +229,10 @@ export class PlayerScavGenerator
      * @param karmaSettings Values to modify the bot template with
      * @param baseBotNode bot template to modify according to karama level settings
      */
-    protected adjustBotTemplateWithKarmaSpecificSettings(karmaSettings: KarmaLevel, baseBotNode: IBotType): void
-    {
+    protected adjustBotTemplateWithKarmaSpecificSettings(karmaSettings: KarmaLevel, baseBotNode: IBotType): void {
         // Adjust equipment chance values
-        for (const equipmentKey in karmaSettings.modifiers.equipment)
-        {
-            if (karmaSettings.modifiers.equipment[equipmentKey] === 0)
-            {
+        for (const equipmentKey in karmaSettings.modifiers.equipment) {
+            if (karmaSettings.modifiers.equipment[equipmentKey] === 0) {
                 continue;
             }
 
@@ -255,10 +240,8 @@ export class PlayerScavGenerator
         }
 
         // Adjust mod chance values
-        for (const modKey in karmaSettings.modifiers.mod)
-        {
-            if (karmaSettings.modifiers.mod[modKey] === 0)
-            {
+        for (const modKey in karmaSettings.modifiers.mod) {
+            if (karmaSettings.modifiers.mod[modKey] === 0) {
                 continue;
             }
 
@@ -266,63 +249,51 @@ export class PlayerScavGenerator
         }
 
         // Adjust item spawn quantity values
-        for (const itemLimitkey in karmaSettings.itemLimits)
-        {
+        for (const itemLimitkey in karmaSettings.itemLimits) {
             baseBotNode.generation.items[itemLimitkey] = karmaSettings.itemLimits[itemLimitkey];
         }
 
         // Blacklist equipment
-        for (const equipmentKey in karmaSettings.equipmentBlacklist)
-        {
+        for (const equipmentKey in karmaSettings.equipmentBlacklist) {
             const blacklistedItemTpls = karmaSettings.equipmentBlacklist[equipmentKey];
-            for (const itemToRemove of blacklistedItemTpls)
-            {
+            for (const itemToRemove of blacklistedItemTpls) {
                 delete baseBotNode.inventory.equipment[equipmentKey][itemToRemove];
             }
         }
     }
 
-    protected getScavSkills(scavProfile: IPmcData): Skills
-    {
-        if (scavProfile.Skills)
-        {
+    protected getScavSkills(scavProfile: IPmcData): Skills {
+        if (scavProfile.Skills) {
             return scavProfile.Skills;
         }
 
         return this.getDefaultScavSkills();
     }
 
-    protected getDefaultScavSkills(): Skills
-    {
+    protected getDefaultScavSkills(): Skills {
         return { Common: [], Mastering: [], Points: 0 };
     }
 
-    protected getScavStats(scavProfile: IPmcData): Stats
-    {
-        if (scavProfile.Stats)
-        {
+    protected getScavStats(scavProfile: IPmcData): Stats {
+        if (scavProfile.Stats) {
             return scavProfile.Stats;
         }
 
         return this.profileHelper.getDefaultCounters();
     }
 
-    protected getScavLevel(scavProfile: IPmcData): number
-    {
-        // Info can be null on initial account creation
-        if (!(scavProfile.Info?.Level))
-        {
+    protected getScavLevel(scavProfile: IPmcData): number {
+        // Info can be undefined on initial account creation
+        if (!scavProfile.Info?.Level) {
             return 1;
         }
 
         return scavProfile.Info.Level;
     }
 
-    protected getScavExperience(scavProfile: IPmcData): number
-    {
-        // Info can be null on initial account creation
-        if (!(scavProfile.Info?.Experience))
-        {
+    protected getScavExperience(scavProfile: IPmcData): number {
+        // Info can be undefined on initial account creation
+        if (!scavProfile.Info?.Experience) {
             return 0;
         }
 
@@ -336,17 +307,14 @@ export class PlayerScavGenerator
      * @param pmcData pmc profile
      * @returns
      */
-    protected setScavCooldownTimer(scavData: IPmcData, pmcData: IPmcData): IPmcData
-    {
+    protected setScavCooldownTimer(scavData: IPmcData, pmcData: IPmcData): IPmcData {
         // Set cooldown time.
         // Make sure to apply ScavCooldownTimer bonus from Hideout if the player has it.
-        let scavLockDuration = this.databaseServer.getTables().globals.config.SavagePlayCooldown;
+        let scavLockDuration = this.databaseService.getGlobals().config.SavagePlayCooldown;
         let modifier = 1;
 
-        for (const bonus of pmcData.Bonuses)
-        {
-            if (bonus.type === BonusType.SCAV_COOLDOWN_TIMER)
-            {
+        for (const bonus of pmcData.Bonuses) {
+            if (bonus.type === BonusType.SCAV_COOLDOWN_TIMER) {
                 // Value is negative, so add.
                 // Also note that for scav cooldown, multiple bonuses stack additively.
                 modifier += bonus.value / 100;
@@ -358,13 +326,12 @@ export class PlayerScavGenerator
         scavLockDuration *= modifier;
 
         const fullProfile = this.profileHelper.getFullProfile(pmcData?.sessionId);
-        if (fullProfile?.info?.edition?.toLowerCase?.().startsWith?.(AccountTypes.SPT_DEVELOPER))
-        {
+        if (fullProfile?.info?.edition?.toLowerCase?.().startsWith?.(AccountTypes.SPT_DEVELOPER)) {
             // Set scav cooldown timer to 10 seconds for spt developer account
             scavLockDuration = 10;
         }
 
-        scavData.Info.SavageLockTime = (Date.now() / 1000) + scavLockDuration;
+        scavData.Info.SavageLockTime = Date.now() / 1000 + scavLockDuration;
 
         return scavData;
     }

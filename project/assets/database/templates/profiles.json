@@ -310,6 +310,8 @@
                     "Level": 1,
                     "LowerNickname": "__REPLACEME__",
                     "MemberCategory": 0,
+					"isMigratedSkills": false,
+					"SelectedMemberCategory": 0,
                     "Nickname": "__REPLACEME__",
                     "NicknameChangeDate": 0,
                     "RegistrationDate": "__REPLACEME__",
@@ -321,7 +323,7 @@
                     },
                     "Side": "Bear",
                     "SquadInviteRestriction": false,
-					"HasCoopExtension": false,
+                    "HasCoopExtension": false,
                     "Voice": "__REPLACEME__",
                     "lockedMoveCommands": true
                 },
@@ -719,6 +721,12 @@
                 "UnlockedInfo": {
                     "unlockedProductionRecipe": []
                 },
+				"moneyTransferLimitData": {
+					"nextResetTime": 1717779074,
+					"remainingLimit": 1000000,
+					"totalLimit": 1000000,
+					"resetInterval": 86400
+				},
                 "WishList": [],
                 "_id": "__REPLACEME__",
                 "aid": "__REPLACEME__",
@@ -732,19 +740,24 @@
             ],
             "trader": {
                 "initialLoyaltyLevel": {
-					"54cb50c76803fa8b248b4571": 1,
-					"54cb57776803fa99248b456e": 1,
-					"579dc571d53a0658a154fbec": 1,
-					"58330581ace78e27b8b10cee": 1,
-					"5935c25fb3acc3127c3d8cd9": 1,
-					"5a7c2eca46aef81a7ca2145d": 1,
-					"5ac3b934156ae10c4430e83c": 1,
-					"5c0647fdd443bc2504c2d371": 1,
-					"638f541a29ffd1183d187f57": 1
+                    "54cb50c76803fa8b248b4571": 1,
+                    "54cb57776803fa99248b456e": 1,
+                    "579dc571d53a0658a154fbec": 1,
+                    "58330581ace78e27b8b10cee": 1,
+                    "5935c25fb3acc3127c3d8cd9": 1,
+                    "5a7c2eca46aef81a7ca2145d": 1,
+                    "5ac3b934156ae10c4430e83c": 1,
+                    "5c0647fdd443bc2504c2d371": 1,
+                    "638f541a29ffd1183d187f57": 1
+                },
+				"initialStanding": {
+					"default": 0
 				},
                 "initialSalesSum": 0,
-                "initialStanding": 0,
-                "jaegerUnlocked": false
+                "jaegerUnlocked": false,
+                "lockedByDefaultOverride": [
+					"579dc571d53a0658a154fbec"
+				]
             },
             "weaponbuilds": {}
         },
@@ -1057,6 +1070,8 @@
                     "Level": 1,
                     "LowerNickname": "__REPLACEME__",
                     "MemberCategory": 0,
+					"isMigratedSkills": false,
+					"SelectedMemberCategory": 0,
                     "Nickname": "__REPLACEME__",
                     "NicknameChangeDate": 0,
                     "RegistrationDate": "__REPLACEME__",
@@ -1068,7 +1083,7 @@
                     },
                     "Side": "Usec",
                     "SquadInviteRestriction": false,
-					"HasCoopExtension": false,
+                    "HasCoopExtension": false,
                     "Voice": "__REPLACEME__",
                     "lockedMoveCommands": true
                 },
@@ -1468,6 +1483,12 @@
                 "UnlockedInfo": {
                     "unlockedProductionRecipe": []
                 },
+				"moneyTransferLimitData": {
+					"nextResetTime": 1717779074,
+					"remainingLimit": 1000000,
+					"totalLimit": 1000000,
+					"resetInterval": 86400
+				},
                 "WishList": [],
                 "_id": "__REPLACEME__",
                 "aid": "__REPLACEME__",
@@ -1481,19 +1502,24 @@
             ],
             "trader": {
                 "initialLoyaltyLevel": {
-					"54cb50c76803fa8b248b4571": 1,
-					"54cb57776803fa99248b456e": 1,
-					"579dc571d53a0658a154fbec": 1,
-					"58330581ace78e27b8b10cee": 1,
-					"5935c25fb3acc3127c3d8cd9": 1,
-					"5a7c2eca46aef81a7ca2145d": 1,
-					"5ac3b934156ae10c4430e83c": 1,
-					"5c0647fdd443bc2504c2d371": 1,
-					"638f541a29ffd1183d187f57": 1
+                    "54cb50c76803fa8b248b4571": 1,
+                    "54cb57776803fa99248b456e": 1,
+                    "579dc571d53a0658a154fbec": 1,
+                    "58330581ace78e27b8b10cee": 1,
+                    "5935c25fb3acc3127c3d8cd9": 1,
+                    "5a7c2eca46aef81a7ca2145d": 1,
+                    "5ac3b934156ae10c4430e83c": 1,
+                    "5c0647fdd443bc2504c2d371": 1,
+                    "638f541a29ffd1183d187f57": 1
+                },
+				"initialStanding": {
+					"default": 0
 				},
                 "initialSalesSum": 0,
-                "initialStanding": 0,
-                "jaegerUnlocked": false
+                "jaegerUnlocked": false,
+                "lockedByDefaultOverride": [
+					"579dc571d53a0658a154fbec"
+				]
             },
             "weaponbuilds": {}
         }

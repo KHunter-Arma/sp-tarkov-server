@@ -1,39 +1,36 @@
-import { inject, injectable } from "tsyringe";
-
-import { BotHelper } from "@spt-aki/helpers/BotHelper";
-import { ProfileHelper } from "@spt-aki/helpers/ProfileHelper";
+import { BotHelper } from "@spt/helpers/BotHelper";
+import { ProfileHelper } from "@spt/helpers/ProfileHelper";
 import {
     EquipmentChances,
     Generation,
     GenerationData,
     IBotType,
     ModsChances,
-} from "@spt-aki/models/eft/common/tables/IBotType";
-import { ConfigTypes } from "@spt-aki/models/enums/ConfigTypes";
-import { BotGenerationDetails } from "@spt-aki/models/spt/bots/BotGenerationDetails";
+} from "@spt/models/eft/common/tables/IBotType";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { BotGenerationDetails } from "@spt/models/spt/bots/BotGenerationDetails";
 import {
     EquipmentFilterDetails,
     EquipmentFilters,
     IAdjustmentDetails,
     IBotConfig,
     WeightingAdjustmentDetails,
-} from "@spt-aki/models/spt/config/IBotConfig";
-import { ILogger } from "@spt-aki/models/spt/utils/ILogger";
-import { ConfigServer } from "@spt-aki/servers/ConfigServer";
+} from "@spt/models/spt/config/IBotConfig";
+import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
+import { inject, injectable } from "tsyringe";
 
 @injectable()
-export class BotEquipmentFilterService
-{
+export class BotEquipmentFilterService {
     protected botConfig: IBotConfig;
     protected botEquipmentConfig: Record<string, EquipmentFilters>;
 
     constructor(
-        @inject("WinstonLogger") protected logger: ILogger,
+        @inject("PrimaryLogger") protected logger: ILogger,
         @inject("BotHelper") protected botHelper: BotHelper,
         @inject("ProfileHelper") protected profileHelper: ProfileHelper,
         @inject("ConfigServer") protected configServer: ConfigServer,
-    )
-    {
+    ) {
         this.botConfig = this.configServer.getConfig(ConfigTypes.BOT);
         this.botEquipmentConfig = this.botConfig.equipment;
     }
@@ -50,11 +47,10 @@ export class BotEquipmentFilterService
         baseBotNode: IBotType,
         botLevel: number,
         botGenerationDetails: BotGenerationDetails,
-    ): void
-    {
+    ): void {
         const pmcProfile = this.profileHelper.getPmcProfile(sessionId);
 
-        const botRole = (botGenerationDetails.isPmc) ? "pmc" : botGenerationDetails.role;
+        const botRole = botGenerationDetails.isPmc ? "pmc" : botGenerationDetails.role;
         const botEquipmentBlacklist = this.getBotEquipmentBlacklist(botRole, botLevel);
         const botEquipmentWhitelist = this.getBotEquipmentWhitelist(botRole, botLevel);
         const botWeightingAdjustments = this.getBotWeightingAdjustments(botRole, botLevel);
@@ -66,28 +62,24 @@ export class BotEquipmentFilterService
         const botEquipConfig = this.botConfig.equipment[botRole];
         const randomisationDetails = this.botHelper.getBotRandomizationDetails(botLevel, botEquipConfig);
 
-        if (botEquipmentBlacklist || botEquipmentWhitelist)
-        {
+        if (botEquipmentBlacklist || botEquipmentWhitelist) {
             this.filterEquipment(baseBotNode, botEquipmentBlacklist, botEquipmentWhitelist);
             this.filterCartridges(baseBotNode, botEquipmentBlacklist, botEquipmentWhitelist);
         }
 
-        if (botWeightingAdjustments)
-        {
+        if (botWeightingAdjustments) {
             this.adjustWeighting(botWeightingAdjustments?.equipment, baseBotNode.inventory.equipment);
             this.adjustWeighting(botWeightingAdjustments?.ammo, baseBotNode.inventory.Ammo);
             // Dont warn when edited item not found, we're editing usec/bear clothing and they dont have each others clothing
             this.adjustWeighting(botWeightingAdjustments?.clothing, baseBotNode.appearance, false);
         }
 
-        if (botWeightingAdjustmentsByPlayerLevel)
-        {
+        if (botWeightingAdjustmentsByPlayerLevel) {
             this.adjustWeighting(botWeightingAdjustmentsByPlayerLevel?.equipment, baseBotNode.inventory.equipment);
             this.adjustWeighting(botWeightingAdjustmentsByPlayerLevel?.ammo, baseBotNode.inventory.Ammo);
         }
 
-        if (randomisationDetails)
-        {
+        if (randomisationDetails) {
             this.adjustChances(randomisationDetails?.equipment, baseBotNode.chances.equipment);
             this.adjustChances(randomisationDetails?.weaponMods, baseBotNode.chances.weaponMods);
             this.adjustChances(randomisationDetails?.equipmentMods, baseBotNode.chances.equipmentMods);
@@ -100,15 +92,15 @@ export class BotEquipmentFilterService
      * @param equipmentChanges Changes to apply
      * @param baseValues data to update
      */
-    protected adjustChances(equipmentChanges: Record<string, number>, baseValues: EquipmentChances | ModsChances): void
-    {
-        if (!equipmentChanges)
-        {
+    protected adjustChances(
+        equipmentChanges: Record<string, number>,
+        baseValues: EquipmentChances | ModsChances,
+    ): void {
+        if (!equipmentChanges) {
             return;
         }
 
-        for (const itemKey in equipmentChanges)
-        {
+        for (const itemKey in equipmentChanges) {
             baseValues[itemKey] = equipmentChanges[itemKey];
         }
     }
@@ -121,15 +113,12 @@ export class BotEquipmentFilterService
     protected adjustGenerationChances(
         generationChanges: Record<string, GenerationData>,
         baseBotGeneration: Generation,
-    ): void
-    {
-        if (!generationChanges)
-        {
+    ): void {
+        if (!generationChanges) {
             return;
         }
 
-        for (const itemKey in generationChanges)
-        {
+        for (const itemKey in generationChanges) {
             baseBotGeneration.items[itemKey].weights = generationChanges[itemKey].weights;
             baseBotGeneration.items[itemKey].whitelist = generationChanges[itemKey].whitelist;
         }
@@ -140,8 +129,7 @@ export class BotEquipmentFilterService
      * @param botEquipmentRole equipment role to return
      * @returns EquipmentFilters object
      */
-    public getBotEquipmentSettings(botEquipmentRole: string): EquipmentFilters
-    {
+    public getBotEquipmentSettings(botEquipmentRole: string): EquipmentFilters {
         return this.botEquipmentConfig[botEquipmentRole];
     }
 
@@ -150,13 +138,11 @@ export class BotEquipmentFilterService
      * @param botEquipmentRole equipment role of bot to look up
      * @returns Dictionary of weapon type and their whitelisted scope types
      */
-    public getBotWeaponSightWhitelist(botEquipmentRole: string): Record<string, string[]>
-    {
+    public getBotWeaponSightWhitelist(botEquipmentRole: string): Record<string, string[]> | undefined {
         const botEquipmentSettings = this.botEquipmentConfig[botEquipmentRole];
 
-        if (!botEquipmentSettings)
-        {
-            return null;
+        if (!botEquipmentSettings) {
+            return undefined;
         }
 
         return botEquipmentSettings.weaponSightWhitelist;
@@ -168,21 +154,20 @@ export class BotEquipmentFilterService
      * @param playerLevel Level of the player
      * @returns EquipmentBlacklistDetails object
      */
-    public getBotEquipmentBlacklist(botRole: string, playerLevel: number): EquipmentFilterDetails
-    {
+    public getBotEquipmentBlacklist(botRole: string, playerLevel: number): EquipmentFilterDetails | undefined {
         const blacklistDetailsForBot = this.botEquipmentConfig[botRole];
 
         // No equipment blacklist found, skip
         if (
-            !blacklistDetailsForBot || Object.keys(blacklistDetailsForBot).length === 0
-            || !blacklistDetailsForBot.blacklist
-        )
-        {
-            return null;
+            !blacklistDetailsForBot ||
+            Object.keys(blacklistDetailsForBot).length === 0 ||
+            !blacklistDetailsForBot.blacklist
+        ) {
+            return undefined;
         }
 
-        return blacklistDetailsForBot.blacklist.find((x) =>
-            playerLevel >= x.levelRange.min && playerLevel <= x.levelRange.max
+        return blacklistDetailsForBot.blacklist.find(
+            (x) => playerLevel >= x.levelRange.min && playerLevel <= x.levelRange.max,
         );
     }
 
@@ -192,18 +177,16 @@ export class BotEquipmentFilterService
      * @param playerLevel Players level
      * @returns EquipmentFilterDetails object
      */
-    protected getBotEquipmentWhitelist(botRole: string, playerLevel: number): EquipmentFilterDetails
-    {
+    protected getBotEquipmentWhitelist(botRole: string, playerLevel: number): EquipmentFilterDetails | undefined {
         const botEquipmentConfig = this.botEquipmentConfig[botRole];
 
         // No equipment blacklist found, skip
-        if (!botEquipmentConfig || Object.keys(botEquipmentConfig).length === 0 || !botEquipmentConfig.whitelist)
-        {
-            return null;
+        if (!botEquipmentConfig || Object.keys(botEquipmentConfig).length === 0 || !botEquipmentConfig.whitelist) {
+            return undefined;
         }
 
-        return botEquipmentConfig.whitelist.find((x) =>
-            playerLevel >= x.levelRange.min && playerLevel <= x.levelRange.max
+        return botEquipmentConfig.whitelist.find(
+            (x) => playerLevel >= x.levelRange.min && playerLevel <= x.levelRange.max,
         );
     }
 
@@ -213,21 +196,20 @@ export class BotEquipmentFilterService
      * @param botLevel Level of bot
      * @returns Weighting adjustments for bot items
      */
-    protected getBotWeightingAdjustments(botRole: string, botLevel: number): WeightingAdjustmentDetails
-    {
+    protected getBotWeightingAdjustments(botRole: string, botLevel: number): WeightingAdjustmentDetails | undefined {
         const botEquipmentConfig = this.botEquipmentConfig[botRole];
 
         // No config found, skip
         if (
-            !botEquipmentConfig || Object.keys(botEquipmentConfig).length === 0
-            || !botEquipmentConfig.weightingAdjustmentsByBotLevel
-        )
-        {
-            return null;
+            !botEquipmentConfig ||
+            Object.keys(botEquipmentConfig).length === 0 ||
+            !botEquipmentConfig.weightingAdjustmentsByBotLevel
+        ) {
+            return undefined;
         }
 
-        return botEquipmentConfig.weightingAdjustmentsByBotLevel.find((x) =>
-            botLevel >= x.levelRange.min && botLevel <= x.levelRange.max
+        return botEquipmentConfig.weightingAdjustmentsByBotLevel.find(
+            (x) => botLevel >= x.levelRange.min && botLevel <= x.levelRange.max,
         );
     }
 
@@ -237,21 +219,23 @@ export class BotEquipmentFilterService
      * @param playerlevel Level of bot
      * @returns Weighting adjustments for bot items
      */
-    protected getBotWeightingAdjustmentsByPlayerLevel(botRole: string, playerlevel: number): WeightingAdjustmentDetails
-    {
+    protected getBotWeightingAdjustmentsByPlayerLevel(
+        botRole: string,
+        playerlevel: number,
+    ): WeightingAdjustmentDetails | undefined {
         const botEquipmentConfig = this.botEquipmentConfig[botRole];
 
         // No config found, skip
         if (
-            !botEquipmentConfig || Object.keys(botEquipmentConfig).length === 0
-            || !botEquipmentConfig.weightingAdjustmentsByPlayerLevel
-        )
-        {
-            return null;
+            !botEquipmentConfig ||
+            Object.keys(botEquipmentConfig).length === 0 ||
+            !botEquipmentConfig.weightingAdjustmentsByPlayerLevel
+        ) {
+            return undefined;
         }
 
-        return botEquipmentConfig.weightingAdjustmentsByPlayerLevel.find((x) =>
-            playerlevel >= x.levelRange.min && playerlevel <= x.levelRange.max
+        return botEquipmentConfig.weightingAdjustmentsByPlayerLevel.find(
+            (x) => playerlevel >= x.levelRange.min && playerlevel <= x.levelRange.max,
         );
     }
 
@@ -266,27 +250,21 @@ export class BotEquipmentFilterService
         baseBotNode: IBotType,
         blacklist: EquipmentFilterDetails,
         whitelist: EquipmentFilterDetails,
-    ): void
-    {
-        if (whitelist)
-        {
-            for (const equipmentSlotKey in baseBotNode.inventory.equipment)
-            {
+    ): void {
+        if (whitelist) {
+            for (const equipmentSlotKey in baseBotNode.inventory.equipment) {
                 const botEquipment = baseBotNode.inventory.equipment[equipmentSlotKey];
 
                 // Skip equipment slot if whitelist doesn't exist / is empty
                 const whitelistEquipmentForSlot = whitelist.equipment[equipmentSlotKey];
-                if (!whitelistEquipmentForSlot || Object.keys(whitelistEquipmentForSlot).length === 0)
-                {
+                if (!whitelistEquipmentForSlot || Object.keys(whitelistEquipmentForSlot).length === 0) {
                     continue;
                 }
 
                 // Filter equipment slot items to just items in whitelist
                 baseBotNode.inventory.equipment[equipmentSlotKey] = {};
-                for (const key of Object.keys(botEquipment))
-                {
-                    if (whitelistEquipmentForSlot.includes(key))
-                    {
+                for (const key of Object.keys(botEquipment)) {
+                    if (whitelistEquipmentForSlot.includes(key)) {
                         baseBotNode.inventory.equipment[equipmentSlotKey][key] = botEquipment[key];
                     }
                 }
@@ -295,25 +273,20 @@ export class BotEquipmentFilterService
             return;
         }
 
-        if (blacklist)
-        {
-            for (const equipmentSlotKey in baseBotNode.inventory.equipment)
-            {
+        if (blacklist) {
+            for (const equipmentSlotKey in baseBotNode.inventory.equipment) {
                 const botEquipment = baseBotNode.inventory.equipment[equipmentSlotKey];
 
                 // Skip equipment slot if blacklist doesn't exist / is empty
                 const equipmentSlotBlacklist = blacklist.equipment[equipmentSlotKey];
-                if (!equipmentSlotBlacklist || Object.keys(equipmentSlotBlacklist).length === 0)
-                {
+                if (!equipmentSlotBlacklist || Object.keys(equipmentSlotBlacklist).length === 0) {
                     continue;
                 }
 
                 // Filter equipment slot items to just items not in blacklist
                 baseBotNode.inventory.equipment[equipmentSlotKey] = {};
-                for (const key of Object.keys(botEquipment))
-                {
-                    if (!equipmentSlotBlacklist.includes(key))
-                    {
+                for (const key of Object.keys(botEquipment)) {
+                    if (!equipmentSlotBlacklist.includes(key)) {
                         baseBotNode.inventory.equipment[equipmentSlotKey][key] = botEquipment[key];
                     }
                 }
@@ -333,27 +306,21 @@ export class BotEquipmentFilterService
         baseBotNode: IBotType,
         blacklist: EquipmentFilterDetails,
         whitelist: EquipmentFilterDetails,
-    ): void
-    {
-        if (whitelist)
-        {
-            for (const ammoCaliberKey in baseBotNode.inventory.Ammo)
-            {
+    ): void {
+        if (whitelist) {
+            for (const ammoCaliberKey in baseBotNode.inventory.Ammo) {
                 const botAmmo = baseBotNode.inventory.Ammo[ammoCaliberKey];
 
                 // Skip cartridge slot if whitelist doesn't exist / is empty
                 const whiteListedCartridgesForCaliber = whitelist.cartridge[ammoCaliberKey];
-                if (!whiteListedCartridgesForCaliber || Object.keys(whiteListedCartridgesForCaliber).length === 0)
-                {
+                if (!whiteListedCartridgesForCaliber || Object.keys(whiteListedCartridgesForCaliber).length === 0) {
                     continue;
                 }
 
                 // Filter calibre slot items to just items in whitelist
                 baseBotNode.inventory.Ammo[ammoCaliberKey] = {};
-                for (const key of Object.keys(botAmmo))
-                {
-                    if (whitelist.cartridge[ammoCaliberKey].includes(key))
-                    {
+                for (const key of Object.keys(botAmmo)) {
+                    if (whitelist.cartridge[ammoCaliberKey].includes(key)) {
                         baseBotNode.inventory.Ammo[ammoCaliberKey][key] = botAmmo[key];
                     }
                 }
@@ -362,25 +329,20 @@ export class BotEquipmentFilterService
             return;
         }
 
-        if (blacklist)
-        {
-            for (const ammoCaliberKey in baseBotNode.inventory.Ammo)
-            {
+        if (blacklist) {
+            for (const ammoCaliberKey in baseBotNode.inventory.Ammo) {
                 const botAmmo = baseBotNode.inventory.Ammo[ammoCaliberKey];
 
                 // Skip cartridge slot if blacklist doesn't exist / is empty
                 const cartridgeCaliberBlacklist = blacklist.cartridge[ammoCaliberKey];
-                if (!cartridgeCaliberBlacklist || Object.keys(cartridgeCaliberBlacklist).length === 0)
-                {
+                if (!cartridgeCaliberBlacklist || Object.keys(cartridgeCaliberBlacklist).length === 0) {
                     continue;
                 }
 
                 // Filter cartridge slot items to just items not in blacklist
                 baseBotNode.inventory.Ammo[ammoCaliberKey] = {};
-                for (const key of Object.keys(botAmmo))
-                {
-                    if (!cartridgeCaliberBlacklist.includes(key))
-                    {
+                for (const key of Object.keys(botAmmo)) {
+                    if (!cartridgeCaliberBlacklist.includes(key)) {
                         baseBotNode.inventory.Ammo[ammoCaliberKey][key] = botAmmo[key];
                     }
                 }
@@ -397,41 +359,29 @@ export class BotEquipmentFilterService
         weightingAdjustments: IAdjustmentDetails,
         botItemPool: Record<string, any>,
         showEditWarnings = true,
-    ): void
-    {
-        if (!weightingAdjustments)
-        {
+    ): void {
+        if (!weightingAdjustments) {
             return;
         }
 
-        if (weightingAdjustments.add && Object.keys(weightingAdjustments.add).length > 0)
-        {
-            for (const poolAdjustmentKey in weightingAdjustments.add)
-            {
+        if (weightingAdjustments.add && Object.keys(weightingAdjustments.add).length > 0) {
+            for (const poolAdjustmentKey in weightingAdjustments.add) {
                 const locationToUpdate = botItemPool[poolAdjustmentKey];
-                for (const itemToAddKey in weightingAdjustments.add[poolAdjustmentKey])
-                {
+                for (const itemToAddKey in weightingAdjustments.add[poolAdjustmentKey]) {
                     locationToUpdate[itemToAddKey] = weightingAdjustments.add[poolAdjustmentKey][itemToAddKey];
                 }
             }
         }
 
-        if (weightingAdjustments.edit && Object.keys(weightingAdjustments.edit).length > 0)
-        {
-            for (const poolAdjustmentKey in weightingAdjustments.edit)
-            {
+        if (weightingAdjustments.edit && Object.keys(weightingAdjustments.edit).length > 0) {
+            for (const poolAdjustmentKey in weightingAdjustments.edit) {
                 const locationToUpdate = botItemPool[poolAdjustmentKey];
-                for (const itemToEditKey in weightingAdjustments.edit[poolAdjustmentKey])
-                {
+                for (const itemToEditKey in weightingAdjustments.edit[poolAdjustmentKey]) {
                     // Only make change if item exists as we're editing, not adding
-                    if (locationToUpdate[itemToEditKey] || locationToUpdate[itemToEditKey] === 0)
-                    {
+                    if (locationToUpdate[itemToEditKey] || locationToUpdate[itemToEditKey] === 0) {
                         locationToUpdate[itemToEditKey] = weightingAdjustments.edit[poolAdjustmentKey][itemToEditKey];
-                    }
-                    else
-                    {
-                        if (showEditWarnings)
-                        {
+                    } else {
+                        if (showEditWarnings) {
                             this.logger.debug(
                                 `Tried to edit a non-existent item for slot: ${poolAdjustmentKey} ${itemToEditKey}`,
                             );

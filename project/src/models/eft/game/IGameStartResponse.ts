@@ -1,4 +1,3 @@
-export interface IGameStartResponse
-{
+export interface IGameStartResponse {
     utc_time: number;
 }

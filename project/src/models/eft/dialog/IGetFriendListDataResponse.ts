@@ -1,7 +1,6 @@
-import { IUserDialogInfo } from "@spt-aki/models/eft/profile/IAkiProfile";
+import { IUserDialogInfo } from "@spt/models/eft/profile/ISptProfile";
 
-export interface IGetFriendListDataResponse
-{
+export interface IGetFriendListDataResponse {
     Friends: IUserDialogInfo[];
     Ignore: string[];
     InIgnoreList: string[];

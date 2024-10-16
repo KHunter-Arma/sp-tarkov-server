@@ -1,10 +1,9 @@
-import { MinMax } from "@spt-aki/models/common/MinMax";
-import { MemberCategory } from "@spt-aki/models/enums/MemberCategory";
-import { IBaseConfig } from "@spt-aki/models/spt/config/IBaseConfig";
+import { MinMax } from "@spt/models/common/MinMax";
+import { MemberCategory } from "@spt/models/enums/MemberCategory";
+import { IBaseConfig } from "@spt/models/spt/config/IBaseConfig";
 
-export interface IPmcConfig extends IBaseConfig
-{
-    kind: "aki-pmc";
+export interface IPmcConfig extends IBaseConfig {
+    kind: "spt-pmc";
     /** What game version should the PMC have */
     gameVersionWeight: Record<string, number>;
     /** What account type should the PMC have */
@@ -48,18 +47,17 @@ export interface IPmcConfig extends IBaseConfig
     /** Force a number of healing items into PMCs secure container to ensure they can heal */
     forceHealingItemsIntoSecure: boolean;
     allPMCsHavePlayerNameWithRandomPrefixChance: number;
+    locationSpecificPmcLevelOverride: Record<string, MinMax>;
     /** Should secure container loot from usec.json/bear.json be added to pmc bots secure */
     addSecureContainerLootFromBotConfig: boolean;
 }
 
-export interface PmcTypes
-{
+export interface PmcTypes {
     usec: string;
     bear: string;
 }
 
-export interface SlotLootSettings
-{
+export interface SlotLootSettings {
     whitelist: string[];
     blacklist: string[];
 }

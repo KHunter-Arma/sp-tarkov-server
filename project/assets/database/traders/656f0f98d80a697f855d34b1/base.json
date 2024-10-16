@@ -19,6 +19,7 @@
     "min_payment": 0,
     "min_return_hour": 0
   },
+  "isCanTransferItems": false,
   "items_buy": {
     "category": [],
     "id_list": []
@@ -28,7 +29,13 @@
       null
     ],
     "id_list": [
-      "64d0b40fbe2eed70e254e2d4"
+      "64d0b40fbe2eed70e254e2d4",
+      "65ddcc9cfa85b9f17d0dfb07",
+      "65ca457b4aafb5d7fc0dcb5d",
+      "660312cc4d6cdfa6f500c703",
+      "660bbc98c38b837877075e4a",
+      "660bc341c38b837877075e4c",
+      "6638a5474e92f038531e210e"
     ]
   },
   "location": "БТР",
@@ -45,9 +52,13 @@
     }
   ],
   "medic": false,
-  "name": "БТР",
+  "name": "APC",
   "nextResupply": 1703691958,
   "nickname": "БТР",
+  "prohibitedTransferableItems": {
+    "category": [],
+    "id_list": []
+  },
   "repair": {
     "availability": false,
     "currency": "5449016a4bdc2d6f028b456f",
@@ -59,5 +70,9 @@
   "sell_category": [],
   "sell_modifier_for_prohibited_items": 0,
   "surname": "БТР",
+  "transferableItems": {
+    "category": [],
+    "id_list": []
+  },
   "unlockedByDefault": false
 }
