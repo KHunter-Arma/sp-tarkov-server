@@ -4,13 +4,16 @@ import { ItemHelper } from "@spt/helpers/ItemHelper";
 import { PaymentHelper } from "@spt/helpers/PaymentHelper";
 import { TraderHelper } from "@spt/helpers/TraderHelper";
 import { IPmcData } from "@spt/models/eft/common/IPmcData";
-import { Item } from "@spt/models/eft/common/tables/IItem";
+import { IItem } from "@spt/models/eft/common/tables/IItem";
 import { IAddItemsDirectRequest } from "@spt/models/eft/inventory/IAddItemsDirectRequest";
 import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
 import { IProcessBuyTradeRequestData } from "@spt/models/eft/trade/IProcessBuyTradeRequestData";
 import { IProcessSellTradeRequestData } from "@spt/models/eft/trade/IProcessSellTradeRequestData";
 import { BackendErrorCodes } from "@spt/models/enums/BackendErrorCodes";
+import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
+import { IInventoryConfig } from "@spt/models/spt/config/IInventoryConfig";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ConfigServer } from "@spt/servers/ConfigServer";
 import { DatabaseService } from "@spt/services/DatabaseService";
 import { LocalisationService } from "@spt/services/LocalisationService";
 import { HashUtil } from "@spt/utils/HashUtil";
@@ -19,6 +22,8 @@ import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class PaymentService {
+    protected inventoryConfig: IInventoryConfig;
+
     constructor(
         @inject("PrimaryLogger") protected logger: ILogger,
         @inject("HashUtil") protected hashUtil: HashUtil,
@@ -30,7 +35,10 @@ export class PaymentService {
         @inject("InventoryHelper") protected inventoryHelper: InventoryHelper,
         @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("PaymentHelper") protected paymentHelper: PaymentHelper,
-    ) {}
+        @inject("ConfigServer") protected configServer: ConfigServer,
+    ) {
+        this.inventoryConfig = this.configServer.getConfig(ConfigTypes.INVENTORY);
+    }
 
     /**
      * Take money and insert items into return to server request
@@ -47,6 +55,7 @@ export class PaymentService {
     ): void {
         // May need to convert to trader currency
         const trader = this.traderHelper.getTrader(request.tid, sessionID);
+        const payToTrader = this.traderHelper.traderEnumHasValue(request.tid);
 
         // Track the amounts of each type of currency involved in the trade.
         const currencyAmounts: { [key: string]: number } = {};
@@ -95,17 +104,21 @@ export class PaymentService {
                     return;
                 }
 
-                // Convert the amount to the trader's currency and update the sales sum.
-                const costOfPurchaseInCurrency = this.handbookHelper.fromRUB(
-                    this.handbookHelper.inRUB(currencyAmount, currencyTpl),
-                    this.paymentHelper.getCurrency(trader.currency),
-                );
-                pmcData.TradersInfo[request.tid].salesSum += costOfPurchaseInCurrency;
+                if (payToTrader) {
+                    // Convert the amount to the trader's currency and update the sales sum.
+                    const costOfPurchaseInCurrency = this.handbookHelper.fromRUB(
+                        this.handbookHelper.inRUB(currencyAmount, currencyTpl),
+                        this.paymentHelper.getCurrency(trader.currency),
+                    );
+
+                    // Only update traders
+                    pmcData.TradersInfo[request.tid].salesSum += costOfPurchaseInCurrency;
+                }
             }
         }
 
         // If no currency-based payment is involved, handle it separately
-        if (totalCurrencyAmount === 0) {
+        if (totalCurrencyAmount === 0 && payToTrader) {
             this.logger.debug(this.localisationService.getText("payment-zero_price_no_payment"));
 
             // Convert the handbook price to the trader's currency and update the sales sum.
@@ -113,10 +126,13 @@ export class PaymentService {
                 this.getTraderItemHandbookPriceRouble(request.item_id, request.tid),
                 this.paymentHelper.getCurrency(trader.currency),
             );
+
             pmcData.TradersInfo[request.tid].salesSum += costOfPurchaseInCurrency;
         }
 
-        this.traderHelper.lvlUp(request.tid, pmcData);
+        if (payToTrader) {
+            this.traderHelper.lvlUp(request.tid, pmcData);
+        }
 
         this.logger.debug("Item(s) taken. Status OK.");
     }
@@ -190,14 +206,14 @@ export class PaymentService {
             }
 
             // Found currency item
-            if (item.upd!.StackObjectsCount! < currencyMaxStackSize) {
-                if (item.upd!.StackObjectsCount! + calcAmount > currencyMaxStackSize) {
+            if (item.upd.StackObjectsCount < currencyMaxStackSize) {
+                if (item.upd.StackObjectsCount + calcAmount > currencyMaxStackSize) {
                     // calculate difference
-                    calcAmount -= currencyMaxStackSize - item.upd!.StackObjectsCount!;
-                    item.upd!.StackObjectsCount! = currencyMaxStackSize;
+                    calcAmount -= currencyMaxStackSize - item.upd.StackObjectsCount;
+                    item.upd.StackObjectsCount = currencyMaxStackSize;
                 } else {
                     skipSendingMoneyToStash = true;
-                    item.upd!.StackObjectsCount! = item.upd!.StackObjectsCount! + calcAmount;
+                    item.upd.StackObjectsCount = item.upd.StackObjectsCount + calcAmount;
                 }
 
                 // Inform client of change to items StackObjectsCount
@@ -256,8 +272,14 @@ export class PaymentService {
             currencyTpl,
             pmcData.Inventory.stash,
         );
+
+        //Ensure all money items found have a upd
+        for (const moneyStack of moneyItemsInInventory) {
+            moneyStack.upd ??= { StackObjectsCount: 1 };
+        }
+
         const amountAvailable = moneyItemsInInventory.reduce(
-            (accumulator, item) => accumulator + item.upd!.StackObjectsCount!,
+            (accumulator, item) => accumulator + item.upd.StackObjectsCount,
             0,
         );
 
@@ -280,12 +302,12 @@ export class PaymentService {
 
         let leftToPay = amountToPay;
         for (const profileMoneyItem of moneyItemsInInventory) {
-            const itemAmount = profileMoneyItem.upd!.StackObjectsCount!;
+            const itemAmount = profileMoneyItem.upd.StackObjectsCount;
             if (leftToPay >= itemAmount) {
                 leftToPay -= itemAmount;
                 this.inventoryHelper.removeItem(pmcData, profileMoneyItem._id, sessionID, output);
             } else {
-                profileMoneyItem.upd!.StackObjectsCount! -= leftToPay;
+                profileMoneyItem.upd.StackObjectsCount -= leftToPay;
                 leftToPay = 0;
                 output.profileChanges[sessionID].items.change.push(profileMoneyItem);
             }
@@ -297,13 +319,14 @@ export class PaymentService {
     }
 
     /**
+     * TODO - ensure money in containers inside secure container are LAST
      * Get all money stacks in inventory and prioritise items in stash
-     * @param pmcData
+     * @param pmcData Player profile
      * @param currencyTpl
      * @param playerStashId Players stash id
      * @returns Sorting money items
      */
-    protected getSortedMoneyItemsInInventory(pmcData: IPmcData, currencyTpl: string, playerStashId: string): Item[] {
+    protected getSortedMoneyItemsInInventory(pmcData: IPmcData, currencyTpl: string, playerStashId: string): IItem[] {
         const moneyItemsInInventory = this.itemHelper.findBarterItems("tpl", pmcData.Inventory.items, currencyTpl);
         if (moneyItemsInInventory?.length === 0) {
             this.logger.debug(`No ${currencyTpl} money items found in inventory`);
@@ -324,31 +347,55 @@ export class PaymentService {
      * @param playerStashId Players stash id
      * @returns sort order
      */
-    protected prioritiseStashSort(a: Item, b: Item, inventoryItems: Item[], playerStashId: string): number {
-        // a in stash, prioritise
-        if (a.slotId === "hideout" && b.slotId !== "hideout") {
+    protected prioritiseStashSort(a: IItem, b: IItem, inventoryItems: IItem[], playerStashId: string): number {
+        // a in root of stash, prioritise
+        if (a.parentId === playerStashId && b.parentId !== playerStashId) {
             return -1;
         }
 
-        // b in stash, prioritise
-        if (a.slotId !== "hideout" && b.slotId === "hideout") {
+        // b in root stash, prioritise
+        if (a.parentId !== playerStashId && b.parentId === playerStashId) {
             return 1;
         }
 
         // both in containers
         if (a.slotId === "main" && b.slotId === "main") {
-            // Item is in inventory, not stash, deprioritise
+            // Both items are in containers
             const aInStash = this.isInStash(a.parentId, inventoryItems, playerStashId);
             const bInStash = this.isInStash(b.parentId, inventoryItems, playerStashId);
 
-            // a in stash, prioritise
+            // a in stash in container, prioritise
             if (aInStash && !bInStash) {
                 return -1;
             }
 
-            // b in stash, prioritise
+            // b in stash in container, prioritise
             if (!aInStash && bInStash) {
                 return 1;
+            }
+
+            // Both in stash in containers
+            if (aInStash && bInStash) {
+                // Containers where taking money from would inconvinence player
+                const deprioritisedContainers = this.inventoryConfig.deprioritisedMoneyContainers;
+                const aImmediateParent = inventoryItems.find((item) => item._id === a.parentId);
+                const bImmediateParent = inventoryItems.find((item) => item._id === b.parentId);
+
+                // A is not a deprioritised container, B is
+                if (
+                    !deprioritisedContainers.includes(aImmediateParent._tpl) &&
+                    deprioritisedContainers.includes(bImmediateParent._tpl)
+                ) {
+                    return -1;
+                }
+
+                // B is not a deprioritised container, A is
+                if (
+                    deprioritisedContainers.includes(aImmediateParent._tpl) &&
+                    !deprioritisedContainers.includes(bImmediateParent._tpl)
+                ) {
+                    return 1;
+                }
             }
         }
 
@@ -363,8 +410,8 @@ export class PaymentService {
      * @param playerStashId Players stash id
      * @returns true if its in inventory
      */
-    protected isInStash(itemId: string | undefined, inventoryItems: Item[], playerStashId: string): boolean {
-        const itemParent = inventoryItems.find((x) => x._id === itemId);
+    protected isInStash(itemId: string | undefined, inventoryItems: IItem[], playerStashId: string): boolean {
+        const itemParent = inventoryItems.find((item) => item._id === itemId);
 
         if (itemParent) {
             if (itemParent.slotId === "hideout") {

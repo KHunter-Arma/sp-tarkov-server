@@ -1,35 +1,37 @@
 import { BotInventoryGenerator } from "@spt/generators/BotInventoryGenerator";
 import { BotLevelGenerator } from "@spt/generators/BotLevelGenerator";
-import { BotDifficultyHelper } from "@spt/helpers/BotDifficultyHelper";
+import { BotGeneratorHelper } from "@spt/helpers/BotGeneratorHelper";
 import { BotHelper } from "@spt/helpers/BotHelper";
 import { ProfileHelper } from "@spt/helpers/ProfileHelper";
 import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
+import { MinMax } from "@spt/models/common/MinMax";
 import { IWildBody } from "@spt/models/eft/common/IGlobals";
+import { IPmcData } from "@spt/models/eft/common/IPmcData";
 import {
     Common,
     IBaseJsonSkills,
     IBaseSkill,
     IBotBase,
-    Info,
-    Health as PmcHealth,
-    Skills as botSkills,
+    IInfo,
+    IHealth as PmcHealth,
+    ISkills as botSkills,
 } from "@spt/models/eft/common/tables/IBotBase";
-import { Appearance, Health, IBotType, Inventory } from "@spt/models/eft/common/tables/IBotType";
-import { Item, Upd } from "@spt/models/eft/common/tables/IItem";
+import { IAppearance, IBodyPart, IBotType, IHealth, IInventory } from "@spt/models/eft/common/tables/IBotType";
+import { IItem, IUpd } from "@spt/models/eft/common/tables/IItem";
 import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
 import { GameEditions } from "@spt/models/enums/GameEditions";
 import { ItemTpl } from "@spt/models/enums/ItemTpl";
 import { MemberCategory } from "@spt/models/enums/MemberCategory";
 import { SideType } from "@spt/models/enums/SideType";
-import { BotGenerationDetails } from "@spt/models/spt/bots/BotGenerationDetails";
+import { IBotGenerationDetails } from "@spt/models/spt/bots/BotGenerationDetails";
 import { IBotConfig } from "@spt/models/spt/config/IBotConfig";
 import { IPmcConfig } from "@spt/models/spt/config/IPmcConfig";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
 import { ConfigServer } from "@spt/servers/ConfigServer";
 import { BotEquipmentFilterService } from "@spt/services/BotEquipmentFilterService";
+import { BotNameService } from "@spt/services/BotNameService";
 import { DatabaseService } from "@spt/services/DatabaseService";
 import { ItemFilterService } from "@spt/services/ItemFilterService";
-import { LocalisationService } from "@spt/services/LocalisationService";
 import { SeasonalEventService } from "@spt/services/SeasonalEventService";
 import { HashUtil } from "@spt/utils/HashUtil";
 import { RandomUtil } from "@spt/utils/RandomUtil";
@@ -54,10 +56,10 @@ export class BotGenerator {
         @inject("BotEquipmentFilterService") protected botEquipmentFilterService: BotEquipmentFilterService,
         @inject("WeightedRandomHelper") protected weightedRandomHelper: WeightedRandomHelper,
         @inject("BotHelper") protected botHelper: BotHelper,
-        @inject("BotDifficultyHelper") protected botDifficultyHelper: BotDifficultyHelper,
+        @inject("BotGeneratorHelper") protected botGeneratorHelper: BotGeneratorHelper,
         @inject("SeasonalEventService") protected seasonalEventService: SeasonalEventService,
-        @inject("LocalisationService") protected localisationService: LocalisationService,
         @inject("ItemFilterService") protected itemFilterService: ItemFilterService,
+        @inject("BotNameService") protected botNameService: BotNameService,
         @inject("ConfigServer") protected configServer: ConfigServer,
         @inject("PrimaryCloner") protected cloner: ICloner,
     ) {
@@ -70,15 +72,22 @@ export class BotGenerator {
      * @param role e.g. assault / pmcbot
      * @param difficulty easy/normal/hard/impossible
      * @param botTemplate base bot template to use  (e.g. assault/pmcbot)
-     * @returns
+     * profile PMC profile of player generating pscav
+     * @returns IBotBase
      */
-    public generatePlayerScav(sessionId: string, role: string, difficulty: string, botTemplate: IBotType): IBotBase {
+    public generatePlayerScav(
+        sessionId: string,
+        role: string,
+        difficulty: string,
+        botTemplate: IBotType,
+        profile: IPmcData,
+    ): IBotBase {
         let bot = this.getCloneOfBotBase();
         bot.Info.Settings.BotDifficulty = difficulty;
         bot.Info.Settings.Role = role;
         bot.Info.Side = SideType.SAVAGE;
 
-        const botGenDetails: BotGenerationDetails = {
+        const botGenDetails: IBotGenerationDetails = {
             isPmc: false,
             side: SideType.SAVAGE,
             role: role,
@@ -91,16 +100,19 @@ export class BotGenerator {
 
         bot = this.generateBot(sessionId, bot, botTemplate, botGenDetails);
 
+        // Sets the name after scav name shown in parenthesis
+        bot.Info.MainProfileNickname = profile.Info.Nickname;
+
         return bot;
     }
 
     /**
-     * Create 1  bots of the type/side/difficulty defined in botGenerationDetails
+     * Create 1 bot of the type/side/difficulty defined in botGenerationDetails
      * @param sessionId Session id
      * @param botGenerationDetails details on how to generate bots
      * @returns constructed bot
      */
-    public prepareAndGenerateBot(sessionId: string, botGenerationDetails: BotGenerationDetails): IBotBase {
+    public prepareAndGenerateBot(sessionId: string, botGenerationDetails: IBotGenerationDetails): IBotBase {
         const preparedBotBase = this.getPreparedBotBase(
             botGenerationDetails.eventRole ?? botGenerationDetails.role, // Use eventRole if provided,
             botGenerationDetails.side,
@@ -112,6 +124,9 @@ export class BotGenerator {
             ? preparedBotBase.Info.Side // Use side to get usec.json or bear.json when bot will be PMC
             : botGenerationDetails.role;
         const botJsonTemplateClone = this.cloner.clone(this.botHelper.getBotTemplate(botRole));
+        if (!botJsonTemplateClone) {
+            this.logger.error(`Unable to retrieve: ${botRole} bot template, cannot generate bot of this type`);
+        }
 
         return this.generateBot(sessionId, preparedBotBase, botJsonTemplateClone, botGenerationDetails);
     }
@@ -152,15 +167,16 @@ export class BotGenerator {
         sessionId: string,
         bot: IBotBase,
         botJsonTemplate: IBotType,
-        botGenerationDetails: BotGenerationDetails,
+        botGenerationDetails: IBotGenerationDetails,
     ): IBotBase {
-        const botRole = botGenerationDetails.role.toLowerCase();
+        const botRoleLowercase = botGenerationDetails.role.toLowerCase();
         const botLevel = this.botLevelGenerator.generateBotLevel(
             botJsonTemplate.experience.level,
             botGenerationDetails,
             bot,
         );
 
+        // Only filter bot equipment, never players
         if (!botGenerationDetails.isPlayerScav) {
             this.botEquipmentFilterService.filterBotEquipment(
                 sessionId,
@@ -170,7 +186,18 @@ export class BotGenerator {
             );
         }
 
-        bot.Info.Nickname = this.generateBotNickname(botJsonTemplate, botGenerationDetails, botRole, sessionId);
+        bot.Info.Nickname = this.botNameService.generateUniqueBotNickname(
+            botJsonTemplate,
+            botGenerationDetails,
+            botRoleLowercase,
+            this.botConfig.botRolesThatMustHaveUniqueName,
+        );
+
+        // Only run when generating a 'fake' playerscav, not actual player scav
+        if (!botGenerationDetails.isPlayerScav && this.shouldSimulatePlayerScav(botRoleLowercase)) {
+            this.botNameService.addRandomPmcNameToBotMainProfileNicknameProperty(bot);
+            this.setRandomisedGameVersionAndCategory(bot.Info);
+        }
 
         if (!this.seasonalEventService.christmasEventEnabled()) {
             // Process all bots EXCEPT gifter, he needs christmas items
@@ -191,13 +218,24 @@ export class BotGenerator {
 
         bot.Info.Experience = botLevel.exp;
         bot.Info.Level = botLevel.level;
-        bot.Info.Settings.Experience = this.randomUtil.getInt(
-            botJsonTemplate.experience.reward.min,
-            botJsonTemplate.experience.reward.max,
+        bot.Info.Settings.Experience = this.getExperienceRewardForKillByDifficulty(
+            botJsonTemplate.experience.reward,
+            botGenerationDetails.botDifficulty,
+            botGenerationDetails.role,
         );
-        bot.Info.Settings.StandingForKill = botJsonTemplate.experience.standingForKill;
+        bot.Info.Settings.StandingForKill = this.getStandingChangeForKillByDifficulty(
+            botJsonTemplate.experience.standingForKill,
+            botGenerationDetails.botDifficulty,
+            botGenerationDetails.role,
+        );
+        bot.Info.Settings.AggressorBonus = this.getAgressorBonusByDifficulty(
+            botJsonTemplate.experience.standingForKill,
+            botGenerationDetails.botDifficulty,
+            botGenerationDetails.role,
+        );
+        bot.Info.Settings.UseSimpleAnimator = botJsonTemplate.experience.useSimpleAnimator ?? false;
         bot.Info.Voice = this.weightedRandomHelper.getWeightedValue<string>(botJsonTemplate.appearance.voice);
-        bot.Health = this.generateHealth(botJsonTemplate.health, bot.Info.Side === SideType.SAVAGE);
+        bot.Health = this.generateHealth(botJsonTemplate.health, botGenerationDetails.isPlayerScav);
         bot.Skills = this.generateSkills(<any>botJsonTemplate.skills); // TODO: fix bad type, bot jsons store skills in dict, output needs to be array
 
         if (botGenerationDetails.isPmc) {
@@ -208,18 +246,22 @@ export class BotGenerator {
             }
         }
 
+        // Add drip
         this.setBotAppearance(bot, botJsonTemplate.appearance, botGenerationDetails);
+
+        // Filter out blacklisted gear from the base template
+        this.filterBlacklistedGear(botJsonTemplate, botGenerationDetails);
 
         bot.Inventory = this.botInventoryGenerator.generateInventory(
             sessionId,
             botJsonTemplate,
-            botRole,
+            botRoleLowercase,
             botGenerationDetails.isPmc,
             botLevel.level,
             bot.Info.GameVersion,
         );
 
-        if (this.botConfig.botRolesWithDogTags.includes(botRole)) {
+        if (this.botConfig.botRolesWithDogTags.includes(botRoleLowercase)) {
             this.addDogtagToBot(bot);
         }
 
@@ -237,6 +279,114 @@ export class BotGenerator {
         return bot;
     }
 
+    /**
+     * Should this bot have a name like "name (Pmc Name)" and be alterd by client patch to be hostile to player
+     * @param botRole Role bot has
+     * @returns True if name should be simulated pscav
+     */
+    protected shouldSimulatePlayerScav(botRole: string): boolean {
+        return botRole === "assault" && this.randomUtil.getChance100(this.botConfig.chanceAssaultScavHasPlayerScavName);
+    }
+
+    /**
+     * Get exp for kill by bot difficulty
+     * @param experience Dict of difficulties and experience
+     * @param botDifficulty the killed bots difficulty
+     * @param role Role of bot (optional, used for error logging)
+     * @returns Experience for kill
+     */
+    protected getExperienceRewardForKillByDifficulty(
+        experience: Record<string, MinMax>,
+        botDifficulty: string,
+        role: string,
+    ): number {
+        const result = experience[botDifficulty.toLowerCase()];
+        if (typeof result === "undefined") {
+            this.logger.debug(
+                `Unable to find experience for kill value for: ${role} ${botDifficulty}, falling back to "normal"`,
+            );
+
+            return this.randomUtil.getInt(experience.normal.min, experience.normal.max);
+        }
+
+        return this.randomUtil.getInt(result.min, result.max);
+    }
+
+    /**
+     * Get the standing value change when player kills a bot
+     * @param standingForKill Dictionary of standing values keyed by bot difficulty
+     * @param botDifficulty Difficulty of bot to look up
+     * @param role Role of bot (optional, used for error logging)
+     * @returns Standing change value
+     */
+    protected getStandingChangeForKillByDifficulty(
+        standingForKill: Record<string, number>,
+        botDifficulty: string,
+        role: string,
+    ): number {
+        const result = standingForKill[botDifficulty.toLowerCase()];
+        if (typeof result === "undefined") {
+            this.logger.warning(
+                `Unable to find standing for kill value for: ${role} ${botDifficulty}, falling back to "normal"`,
+            );
+
+            return standingForKill.normal;
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the agressor bonus value when player kills a bot
+     * @param standingForKill Dictionary of standing values keyed by bot difficulty
+     * @param botDifficulty Difficulty of bot to look up
+     * @param role Role of bot (optional, used for error logging)
+     * @returns Standing change value
+     */
+    protected getAgressorBonusByDifficulty(
+        aggressorBonus: Record<string, number>,
+        botDifficulty: string,
+        role: string,
+    ): number {
+        const result = aggressorBonus[botDifficulty.toLowerCase()];
+        if (typeof result === "undefined") {
+            this.logger.warning(
+                `Unable to find aggressor bonus for kill value for: ${role} ${botDifficulty}, falling back to "normal"`,
+            );
+
+            return aggressorBonus.normal;
+        }
+
+        return result;
+    }
+
+    /**
+     * Set weighting of flagged equipment to 0
+     * @param botJsonTemplate Bot data to adjust
+     * @param botGenerationDetails Generation details of bot
+     */
+    protected filterBlacklistedGear(botJsonTemplate: IBotType, botGenerationDetails: IBotGenerationDetails): void {
+        const blacklist = this.botEquipmentFilterService.getBotEquipmentBlacklist(
+            this.botGeneratorHelper.getBotEquipmentRole(botGenerationDetails.role),
+            botGenerationDetails.playerLevel,
+        );
+
+        if (!blacklist?.gear) {
+            // Nothing to filter by
+            return;
+        }
+
+        for (const equipmentKey of Object.keys(blacklist?.gear)) {
+            const equipmentTpls: Record<string, number> = botJsonTemplate.inventory.equipment[equipmentKey];
+
+            const blacklistedTpls = blacklist?.gear[equipmentKey];
+            for (const tpl of blacklistedTpls) {
+                // Set weighting to 0, will never be picked
+                equipmentTpls[tpl] = 0;
+            }
+        }
+    }
+
     protected addAdditionalPocketLootWeightsForUnheardBot(botJsonTemplate: IBotType): void {
         // Adjust pocket loot weights to allow for 5 or 6 items
         const pocketWeights = botJsonTemplate.generation.items.pocketLoot.weights;
@@ -248,7 +398,7 @@ export class BotGenerator {
      * Remove items from item.json/lootableItemBlacklist from bots inventory
      * @param botInventory Bot to filter
      */
-    protected removeBlacklistedLootFromBotTemplate(botInventory: Inventory): void {
+    protected removeBlacklistedLootFromBotTemplate(botInventory: IInventory): void {
         const lootContainersToFilter = ["Backpack", "Pockets", "TacticalVest"];
 
         // Remove blacklisted loot from loot containers
@@ -280,8 +430,8 @@ export class BotGenerator {
      */
     protected setBotAppearance(
         bot: IBotBase,
-        appearance: Appearance,
-        botGenerationDetails: BotGenerationDetails,
+        appearance: IAppearance,
+        botGenerationDetails: IBotGenerationDetails,
     ): void {
         bot.Customization.Head = this.weightedRandomHelper.getWeightedValue<string>(appearance.head);
         bot.Customization.Body = this.weightedRandomHelper.getWeightedValue<string>(appearance.body);
@@ -297,62 +447,6 @@ export class BotGenerator {
             // Has fixed hands for this body, set them
             bot.Customization.Hands = matchingBody.hands;
         }
-    }
-
-    /**
-     * Create a bot nickname
-     * @param botJsonTemplate x.json from database
-     * @param botGenerationDetails
-     * @param botRole role of bot e.g. assault
-     * @param sessionId OPTIONAL: profile session id
-     * @returns Nickname for bot
-     */
-    protected generateBotNickname(
-        botJsonTemplate: IBotType,
-        botGenerationDetails: BotGenerationDetails,
-        botRole: string,
-        sessionId?: string,
-    ): string {
-        const isPlayerScav = botGenerationDetails.isPlayerScav;
-
-        let name = `${this.randomUtil.getArrayValue(botJsonTemplate.firstName)} ${
-            this.randomUtil.getArrayValue(botJsonTemplate.lastName) || ""
-        }`;
-        name = name.trim();
-
-        // Simulate bot looking like a player scav with the PMC name in brackets.
-        // E.g. "ScavName (PMCName)"
-        if (this.shouldSimulatePlayerScavName(botRole, isPlayerScav)) {
-            return this.addPlayerScavNameSimulationSuffix(name);
-        }
-
-        if (this.botConfig.showTypeInNickname && !isPlayerScav) {
-            name += ` ${botRole}`;
-        }
-
-        // We want to replace pmc bot names with player name + prefix
-        if (botGenerationDetails.isPmc && botGenerationDetails.allPmcsHaveSameNameAsPlayer) {
-            const prefix = this.localisationService.getRandomTextThatMatchesPartialKey("pmc-name_prefix_");
-            name = `${prefix} ${name}`;
-        }
-
-        return name;
-    }
-
-    protected shouldSimulatePlayerScavName(botRole: string, isPlayerScav: boolean): boolean {
-        return (
-            botRole === "assault" &&
-            this.randomUtil.getChance100(this.botConfig.chanceAssaultScavHasPlayerScavName) &&
-            !isPlayerScav
-        );
-    }
-
-    protected addPlayerScavNameSimulationSuffix(nickname: string): string {
-        const pmcNames = [
-            ...this.databaseService.getBots().types.usec.firstName,
-            ...this.databaseService.getBots().types.bear.firstName,
-        ];
-        return `${nickname} (${this.randomUtil.getArrayValue(pmcNames)})`;
     }
 
     /**
@@ -372,8 +466,10 @@ export class BotGenerator {
      * @param playerScav Is a pscav bot being generated
      * @returns PmcHealth object
      */
-    protected generateHealth(healthObj: Health, playerScav = false): PmcHealth {
-        const bodyParts = playerScav ? healthObj.BodyParts[0] : this.randomUtil.getArrayValue(healthObj.BodyParts);
+    protected generateHealth(healthObj: IHealth, playerScav = false): PmcHealth {
+        const bodyParts = playerScav
+            ? this.getLowestHpBody(healthObj.BodyParts)
+            : this.randomUtil.getArrayValue(healthObj.BodyParts);
 
         const newHealth: PmcHealth = {
             Hydration: {
@@ -436,6 +532,31 @@ export class BotGenerator {
         };
 
         return newHealth;
+    }
+
+    /**
+     * Sum up body parts max hp values, return the bodypart collection with lowest value
+     * @param bodies Body parts to sum up
+     * @returns Lowest hp collection
+     */
+    protected getLowestHpBody(bodies: IBodyPart[]): IBodyPart | undefined {
+        if (bodies.length === 0) {
+            // Handle empty input
+            return undefined;
+        }
+
+        let result: IBodyPart;
+        let currentHighest = Number.POSITIVE_INFINITY;
+        for (const bodyParts of bodies) {
+            const hpTotal = Object.values(bodyParts).reduce((acc, curr) => acc + curr.max, 0);
+            if (hpTotal < currentHighest) {
+                // Found collection with lower value that previous, use it
+                currentHighest = hpTotal;
+                result = bodyParts;
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -540,9 +661,9 @@ export class BotGenerator {
      * @param botInfo bot info object to update
      * @returns Chosen game version
      */
-    protected setRandomisedGameVersionAndCategory(botInfo: Info): string {
+    protected setRandomisedGameVersionAndCategory(botInfo: IInfo): string {
         // Special case
-        if (botInfo.Nickname.toLowerCase() === "nikita") {
+        if (botInfo.Nickname?.toLowerCase() === "nikita") {
             botInfo.GameVersion = GameEditions.UNHEARD;
             botInfo.MemberCategory = MemberCategory.DEVELOPER;
 
@@ -580,7 +701,7 @@ export class BotGenerator {
      * @returns Bot with dogtag added
      */
     protected addDogtagToBot(bot: IBotBase): void {
-        const dogtagUpd: Upd = {
+        const dogtagUpd: IUpd = {
             SpawnedInSession: true,
             Dogtag: {
                 AccountId: bot.sessionId,
@@ -597,7 +718,7 @@ export class BotGenerator {
             },
         };
 
-        const inventoryItem: Item = {
+        const inventoryItem: IItem = {
             _id: this.hashUtil.generate(),
             _tpl: this.getDogtagTplByGameVersionAndSide(bot.Info.Side, bot.Info.GameVersion),
             parentId: bot.Inventory.equipment,
@@ -616,7 +737,7 @@ export class BotGenerator {
      * @returns item tpl
      */
     protected getDogtagTplByGameVersionAndSide(side: string, gameVersion: string): string {
-        if (side.toLowerCase() == "usec") {
+        if (side.toLowerCase() === "usec") {
             switch (gameVersion) {
                 case GameEditions.EDGE_OF_DARKNESS:
                     return ItemTpl.BARTER_DOGTAG_USEC_EOD;

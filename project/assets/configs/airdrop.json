@@ -1,35 +1,14 @@
 {
-    "airdropChancePercent": {
-        "bigmap": 3,
-        "woods": 3,
-        "lighthouse": 2,
-        "shoreline": 2,
-        "interchange": 2,
-        "reserve": 2,
-        "tarkovStreets": 2,
-        "sandbox": 2
-    },
     "airdropTypeWeightings": {
         "mixed": 5,
-        "weaponArmor": 2,
+        "weaponArmor": 4,
         "foodMedical": 1,
-        "barter": 1
-    },
-    "airdropMinStartTimeSeconds": 60,
-    "airdropMaxStartTimeSeconds": 300,
-    "planeMinFlyHeight": 400,
-    "planeMaxFlyHeight": 500,
-    "planeVolume": 0.5,
-    "planeSpeed": 65,
-    "crateFallSpeed": 3,
-    "containerIds": {
-        "mixed": "6223349b3136504a544d1608",
-        "weaponArmor": "6223349b3136504a544d1608",
-        "foodMedical": "6223349b3136504a544d1608",
-        "barter": "6223349b3136504a544d1608"
+        "barter": 1,
+        "radar": 0
     },
     "loot": {
         "mixed": {
+            "icon": "Common",
             "weaponPresetCount": {
                 "min": 3,
                 "max": 5
@@ -131,6 +110,7 @@
             "allowBossItems": false
         },
         "weaponArmor": {
+            "icon": "Weapon",
             "weaponPresetCount": {
                 "min": 6,
                 "max": 8
@@ -203,6 +183,7 @@
             "allowBossItems": false
         },
         "foodMedical": {
+            "icon": "Medical",
             "weaponPresetCount": {
                 "min": 0,
                 "max": 0
@@ -212,8 +193,8 @@
                 "max": 0
             },
             "itemCount": {
-                "min": 17,
-                "max": 28
+                "min": 25,
+                "max": 45
             },
             "weaponCrateCount": {
                 "min": 0,
@@ -283,6 +264,7 @@
             "allowBossItems": false
         },
         "barter": {
+            "icon": "Supply",
             "weaponPresetCount": {
                 "min": 0,
                 "max": 0
@@ -362,6 +344,39 @@
             },
             "armorLevelWhitelist": [0],
             "allowBossItems": false
+        },
+        "radar": {
+            "icon": "Supply",
+            "weaponPresetCount": {
+                "min": 0,
+                "max": 0
+            },
+            "armorPresetCount": {
+                "min": 0,
+                "max": 0
+            },
+            "itemCount": {
+                "min": 0,
+                "max": 0
+            },
+            "weaponCrateCount": {
+                "min": 0,
+                "max": 0
+            },
+            "itemBlacklist": [],
+            "itemTypeWhitelist": [],
+            "itemLimits": {},
+            "itemStackLimits": {},
+            "armorLevelWhitelist": [],
+            "allowBossItems": false,
+            "useForcedLoot": true,
+            "forcedLoot": {
+                "66d9f7256916142b3b02276e": { "min": 2, "max": 4 }
+            }
         }
+    },
+    "customAirdropMapping": {
+        "66da1b49099cf6adcc07a36b": "radar",
+        "66da1b546916142b3b022777": "radar"
     }
 }

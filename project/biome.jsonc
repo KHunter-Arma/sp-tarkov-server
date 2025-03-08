@@ -18,6 +18,7 @@
             "tests/__coverage__/*",
             "types/*",
             "user/mods/*",
+            "user/profiles/*",
             "assets/database/*"
         ]
     },
@@ -68,5 +69,17 @@
         "formatter": {
             "trailingCommas": "none"
         }
-    }
+    },
+    "overrides": [
+        {
+            "include": ["tests/*"],
+            "linter": {
+                "rules": {
+                    "suspicious": {
+                        "noExplicitAny": "off"
+                    }
+                }
+            }
+        }
+    ]
 }

@@ -7,14 +7,24 @@
         "6179b5eabca27a099552e052",
         "5e383a6386f77465910ce1f3",
         "5e4d515e86f77438b2195244",
-        "639282134ed9512be67647ed"
+        "639282134ed9512be67647ed",
+        "6613f3007f6666d56807c929",
+        "6613f307fca4f2f386029409"
     ],
     "bearOnlyQuests": [
         "6179b5b06e9dd54ac275e409",
         "5e381b0286f77420e3417a74",
         "5e4d4ac186f774264f758336",
-        "639136d68ba6894d155e77cf"
+        "639136d68ba6894d155e77cf",
+        "66151401efb0539ae10875ae",
+        "6615141bfda04449120269a7"
     ],
+    "profileBlacklist": {
+        "unheard_edition": ["666314a50aa5c7436c00908a"]
+    },
+    "profileWhitelist": {
+        "666314b4d7f171c4c20226c3": ["edge_of_darkness"]
+    },
     "questTemplateIds": {
         "pmc": {
             "elimination": "616052ea3054fc0e2c24ce6e",
@@ -176,6 +186,48 @@
             "startTimestamp": 1341615600000,
             "endTimestamp": "",
             "yearly": false
+        },
+        "668bcccc167d507eb01a268b": {
+            "name": "Import control",
+            "season": "None",
+            "startTimestamp": 1341615600000,
+            "endTimestamp": "",
+            "yearly": false
+        },
+        "66a74c628410476dd65543be": {
+            "name": "Gunsmith: special order",
+            "season": "None",
+            "startTimestamp": 1341615600000,
+            "endTimestamp": "",
+            "yearly": false
+        },
+        "66e01aca214f88109006a4b5": {
+            "name": "Into the Inferno",
+            "season": "None",
+            "startTimestamp": 1341615600000,
+            "endTimestamp": "",
+            "yearly": false
+        },
+        "66e3e2ee2136472d220bcb36": {
+            "name": "Night of The Cult",
+            "season": "None",
+            "startTimestamp": 1341615600000,
+            "endTimestamp": "",
+            "yearly": false
+        },
+        "670404a2ea1caa8f2e0be106": {
+            "name": "Don’t Believe Your Eyes",
+            "season": "halloween",
+            "startTimestamp": 1341615600000,
+            "endTimestamp": "",
+            "yearly": true
+        },
+        "67190f6c1b3f4964d90d71e9": {
+            "name": "Global Threat",
+            "season": "halloween",
+            "startTimestamp": 1341615600000,
+            "endTimestamp": "",
+            "yearly": true
         }
     },
     "repeatableQuests": [
@@ -186,7 +238,7 @@
             "types": ["Elimination", "Completion", "Exploration"],
             "resetTime": 86400,
             "numQuests": 3,
-            "minPlayerLevel": 20,
+            "minPlayerLevel": 5,
             "rewardScaling": {
                 "levels": [1, 10, 20, 30, 40, 50, 60],
                 "experience": [1000, 2000, 8000, 13000, 19000, 24000, 30000],
@@ -361,7 +413,7 @@
             ],
             "questConfig": {
                 "Exploration": {
-                    "maxExtracts": 5,
+                    "maxExtracts": 4,
                     "maxExtractsWithSpecificExit": 2,
                     "possibleSkillRewards": ["Endurance", "Strength", "Vitality"],
                     "specificExits": {
@@ -599,7 +651,7 @@
                                     "isBoss": true
                                 }
                             },
-							{
+                            {
                                 "key": "bossKolontay",
                                 "relativeProbability": 0.4,
                                 "data": {
@@ -827,7 +879,7 @@
                                     "isBoss": true
                                 }
                             },
-							{
+                            {
                                 "key": "bossKolontay",
                                 "relativeProbability": 0.4,
                                 "data": {
@@ -980,7 +1032,8 @@
             "rewardBlacklist": ["627bce33f21bc425b06ab967", "59f32c3b86f77472a31742f0", "59f32bb586f774757e1e8442"],
             "rewardAmmoStackMinSize": 5,
             "freeChangesAvailable": 2,
-            "freeChanges": 2
+            "freeChanges": 2,
+            "keepDailyQuestTypeOnReplacement": false
         },
         {
             "id": "618035d38012292db3081bf0",
@@ -1150,8 +1203,8 @@
             ],
             "questConfig": {
                 "Exploration": {
-                    "maxExtracts": 25,
-                    "maxExtractsWithSpecificExit": 8,
+                    "maxExtracts": 15,
+                    "maxExtractsWithSpecificExit": 4,
                     "possibleSkillRewards": ["Endurance", "Strength", "Vitality"],
                     "specificExits": {
                         "probability": 0.1,
@@ -1468,7 +1521,7 @@
                                     "isBoss": true
                                 }
                             },
-							{
+                            {
                                 "key": "bossKolontay",
                                 "relativeProbability": 0.4,
                                 "data": {
@@ -1696,7 +1749,7 @@
                                     "isBoss": true
                                 }
                             },
-							{
+                            {
                                 "key": "bossKolontay",
                                 "relativeProbability": 0.4,
                                 "data": {
@@ -1893,8 +1946,8 @@
             "questConfig": {
                 "Exploration": {
                     "possibleSkillRewards": ["Endurance", "Strength", "Vitality"],
-                    "maxExtracts": 4,
-                    "maxExtractsWithSpecificExit": 2,
+                    "maxExtracts": 3,
+                    "maxExtractsWithSpecificExit": 1,
                     "specificExits": {
                         "probability": 0.2,
                         "passageRequirementWhitelist": ["None", "WorldEvent", "Train", "Reference", "Empty"]

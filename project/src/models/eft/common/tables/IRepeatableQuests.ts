@@ -4,6 +4,12 @@ export interface IRepeatableQuest extends IQuest {
     changeCost: IChangeCost[];
     changeStandingCost: number;
     sptRepatableGroupName: string;
+    acceptanceAndFinishingSource: string;
+    progressSource: string;
+    rankingModes: string[];
+    gameModes: string[];
+    arenaLocations: string[];
+    questStatus: IRepeatableQuestStatus;
 }
 
 export interface IRepeatableQuestDatabase {
@@ -11,6 +17,15 @@ export interface IRepeatableQuestDatabase {
     rewards: IRewardOptions;
     data: IOptions;
     samples: ISampleQuests[];
+}
+
+export interface IRepeatableQuestStatus {
+    id: string;
+    uid: string;
+    qid: string;
+    startTime: number;
+    status: number;
+    statusTimers: any;
 }
 
 export interface IRepeatableTemplates {
@@ -52,16 +67,16 @@ export interface IOptions {
 }
 
 export interface ICompletionFilter {
-    itemsBlacklist: ItemsBlacklist[];
-    itemsWhitelist: ItemsWhitelist[];
+    itemsBlacklist: IItemsBlacklist[];
+    itemsWhitelist: IItemsWhitelist[];
 }
 
-export interface ItemsBlacklist {
+export interface IItemsBlacklist {
     minPlayerLevel: number;
     itemIds: string[];
 }
 
-export interface ItemsWhitelist {
+export interface IItemsWhitelist {
     minPlayerLevel: number;
     itemIds: string[];
 }

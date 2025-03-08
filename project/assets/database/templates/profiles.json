@@ -293,10 +293,47 @@
                             "passiveBonusesEnabled": true,
                             "slots": [],
                             "type": 23
+                        }, {
+                            "active": true,
+                            "completeTime": 0,
+                            "constructing": false,
+                            "lastRecipe": "",
+                            "level": 0,
+                            "passiveBonusesEnabled": true,
+                            "slots": [],
+                            "type": 24
+                        }, {
+                            "active": true,
+                            "completeTime": 0,
+                            "constructing": false,
+                            "lastRecipe": "",
+                            "level": 0,
+                            "passiveBonusesEnabled": true,
+                            "slots": [],
+                            "type": 25
+                        }, {
+                            "active": true,
+                            "completeTime": 0,
+                            "constructing": false,
+                            "lastRecipe": "",
+                            "level": 0,
+                            "passiveBonusesEnabled": true,
+                            "slots": [],
+                            "type": 26
+                        }, {
+                            "active": true,
+                            "completeTime": 0,
+                            "constructing": false,
+                            "lastRecipe": "",
+                            "level": 0,
+                            "passiveBonusesEnabled": true,
+                            "slots": [],
+                            "type": 27
                         }
                     ],
-                    "Improvement": {},
-                    "Production": {}
+                    "Improvements": {},
+                    "Production": {},
+					"HideoutCounters": null
                 },
                 "Info": {
                     "AccountType": 0,
@@ -324,6 +361,7 @@
                     "Side": "Bear",
                     "SquadInviteRestriction": false,
                     "HasCoopExtension": false,
+					"HasPveGame": true,
                     "Voice": "__REPLACEME__",
                     "lockedMoveCommands": true
                 },
@@ -331,6 +369,7 @@
                 "Inventory": {
                     "equipment": "5fe49444ae6628187a2e77b8",
                     "fastPanel": {},
+					"favoriteItems": [],
                     "hideoutAreaStashes": {},
                     "items": [{
                             "_id": "5fe49444ae6628187a2e77b8",
@@ -728,6 +767,7 @@
 					"resetInterval": 86400
 				},
                 "WishList": [],
+				"karmaValue": 0.2,
                 "_id": "__REPLACEME__",
                 "aid": "__REPLACEME__",
                 "savage": "__REPLACEME__"
@@ -1053,10 +1093,47 @@
                             "passiveBonusesEnabled": true,
                             "slots": [],
                             "type": 23
+                        }, {
+                            "active": true,
+                            "completeTime": 0,
+                            "constructing": false,
+                            "lastRecipe": "",
+                            "level": 0,
+                            "passiveBonusesEnabled": true,
+                            "slots": [],
+                            "type": 24
+                        }, {
+                            "active": true,
+                            "completeTime": 0,
+                            "constructing": false,
+                            "lastRecipe": "",
+                            "level": 0,
+                            "passiveBonusesEnabled": true,
+                            "slots": [],
+                            "type": 25
+                        }, {
+                            "active": true,
+                            "completeTime": 0,
+                            "constructing": false,
+                            "lastRecipe": "",
+                            "level": 0,
+                            "passiveBonusesEnabled": true,
+                            "slots": [],
+                            "type": 26
+                        }, {
+                            "active": true,
+                            "completeTime": 0,
+                            "constructing": false,
+                            "lastRecipe": "",
+                            "level": 0,
+                            "passiveBonusesEnabled": true,
+                            "slots": [],
+                            "type": 27
                         }
                     ],
-                    "Improvement": {},
-                    "Production": {}
+                    "Improvements": {},
+                    "Production": {},
+					"HideoutCounters": null
                 },
                 "Info": {
                     "AccountType": 0,
@@ -1084,6 +1161,7 @@
                     "Side": "Usec",
                     "SquadInviteRestriction": false,
                     "HasCoopExtension": false,
+					"HasPveGame": true,
                     "Voice": "__REPLACEME__",
                     "lockedMoveCommands": true
                 },
@@ -1091,6 +1169,7 @@
                 "Inventory": {
                     "equipment": "5fe49444ae6628187a2e77b8",
                     "fastPanel": {},
+					"favoriteItems": [],
                     "hideoutAreaStashes": {},
                     "items": [{
                             "_id": "5fe49444ae6628187a2e77b8",
@@ -1490,6 +1569,7 @@
 					"resetInterval": 86400
 				},
                 "WishList": [],
+				"karmaValue": 0.2,
                 "_id": "__REPLACEME__",
                 "aid": "__REPLACEME__",
                 "savage": "__REPLACEME__"

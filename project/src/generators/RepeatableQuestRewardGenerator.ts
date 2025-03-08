@@ -1,7 +1,7 @@
 import { HandbookHelper } from "@spt/helpers/HandbookHelper";
 import { ItemHelper } from "@spt/helpers/ItemHelper";
 import { PresetHelper } from "@spt/helpers/PresetHelper";
-import { Item } from "@spt/models/eft/common/tables/IItem";
+import { IItem } from "@spt/models/eft/common/tables/IItem";
 import { IQuestReward, IQuestRewards } from "@spt/models/eft/common/tables/IQuest";
 import { ITemplateItem } from "@spt/models/eft/common/tables/ITemplateItem";
 import { BaseClasses } from "@spt/models/enums/BaseClasses";
@@ -23,6 +23,7 @@ import { DatabaseService } from "@spt/services/DatabaseService";
 import { ItemFilterService } from "@spt/services/ItemFilterService";
 import { LocalisationService } from "@spt/services/LocalisationService";
 import { SeasonalEventService } from "@spt/services/SeasonalEventService";
+import { HashUtil } from "@spt/utils/HashUtil";
 import { MathUtil } from "@spt/utils/MathUtil";
 import { ObjectId } from "@spt/utils/ObjectId";
 import { RandomUtil } from "@spt/utils/RandomUtil";
@@ -36,6 +37,7 @@ export class RepeatableQuestRewardGenerator {
     constructor(
         @inject("PrimaryLogger") protected logger: ILogger,
         @inject("RandomUtil") protected randomUtil: RandomUtil,
+        @inject("HashUtil") protected hashUtil: HashUtil,
         @inject("MathUtil") protected mathUtil: MathUtil,
         @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("ItemHelper") protected itemHelper: ItemHelper,
@@ -52,24 +54,28 @@ export class RepeatableQuestRewardGenerator {
     }
 
     /**
-     * Generate the reward for a mission. A reward can consist of
+     * Generate the reward for a mission. A reward can consist of:
      * - Experience
      * - Money
+     * - GP coins
+     * - Weapon preset
      * - Items
      * - Trader Reputation
+     * - Skill level experience
      *
      * The reward is dependent on the player level as given by the wiki. The exact mapping of pmcLevel to
      * experience / money / items / trader reputation can be defined in QuestConfig.js
      *
-     * There's also a random variation of the reward the spread of which can be also defined in the config.
+     * There's also a random variation of the reward the spread of which can be also defined in the config
      *
      * Additionally, a scaling factor w.r.t. quest difficulty going from 0.2...1 can be used
-     *
-     * @param   {integer}   pmcLevel            player's level
-     * @param   {number}    difficulty          a reward scaling factor from 0.2 to 1
-     * @param   {string}    traderId            the trader for reputation gain (and possible in the future filtering of reward item type based on trader)
-     * @param   {object}    repeatableConfig    The configuration for the repeatable kind (daily, weekly) as configured in QuestConfig for the requested quest
-     * @returns {object}                        object of "Reward"-type that can be given for a repeatable mission
+     * @param pmcLevel Level of player reward is being generated for
+     * @param difficulty Reward scaling factor from 0.2 to 1
+     * @param traderId Trader reward will be given by
+     * @param repeatableConfig Config for quest type (daily, weekly)
+     * @param questConfig
+     * @param rewardTplBlacklist OPTIONAL: list of tpls to NOT use when picking a reward
+     * @returns IQuestRewards
      */
     public generateReward(
         pmcLevel: number,
@@ -77,6 +83,7 @@ export class RepeatableQuestRewardGenerator {
         traderId: string,
         repeatableConfig: IRepeatableQuestConfig,
         questConfig: IBaseQuestConfig,
+        rewardTplBlacklist?: string[],
     ): IQuestRewards {
         // Get vars to configure rewards with
         const rewardParams = this.getQuestRewardValues(repeatableConfig.rewardScaling, difficulty, pmcLevel);
@@ -88,14 +95,18 @@ export class RepeatableQuestRewardGenerator {
         const rewards: IQuestRewards = { Started: [], Success: [], Fail: [] };
 
         // Start reward index to keep track
-        let rewardIndex = 0;
+        let rewardIndex = -1;
 
         // Add xp reward
         if (rewardParams.rewardXP > 0) {
             rewards.Success.push({
+                id: this.hashUtil.generate(),
+                unknown: false,
+                gameMode: [],
+                availableInGameEditions: [],
+                index: rewardIndex,
                 value: rewardParams.rewardXP,
                 type: QuestRewardType.EXPERIENCE,
-                index: rewardIndex,
             });
             rewardIndex++;
         }
@@ -126,9 +137,19 @@ export class RepeatableQuestRewardGenerator {
             }
         }
 
-        const inBudgetRewardItemPool = this.chooseRewardItemsWithinBudget(repeatableConfig, itemRewardBudget, traderId);
+        let inBudgetRewardItemPool = this.chooseRewardItemsWithinBudget(repeatableConfig, itemRewardBudget, traderId);
+        if (rewardTplBlacklist) {
+            // Filter reward pool of items from blacklist, only use if there's at least 1 item remaining
+            const filteredRewardItemPool = inBudgetRewardItemPool.filter(
+                (item) => !rewardTplBlacklist.includes(item._id),
+            );
+            if (filteredRewardItemPool.length > 0) {
+                inBudgetRewardItemPool = filteredRewardItemPool;
+            }
+        }
+
         this.logger.debug(
-            `Generating daily quest for: ${traderId} with budget: ${itemRewardBudget} totalling: ${rewardParams.rewardNumItems} items`,
+            `Generating: ${repeatableConfig.name} quest for: ${traderId} with budget: ${itemRewardBudget} totalling: ${rewardParams.rewardNumItems} items`,
         );
         if (inBudgetRewardItemPool.length > 0) {
             const itemsToReward = this.getRewardableItemsFromPoolWithinBudget(
@@ -148,6 +169,10 @@ export class RepeatableQuestRewardGenerator {
         // Add rep reward to rewards array
         if (rewardParams.rewardReputation > 0) {
             const reward: IQuestReward = {
+                id: this.hashUtil.generate(),
+                unknown: false,
+                gameMode: [],
+                availableInGameEditions: [],
                 target: traderId,
                 value: rewardParams.rewardReputation,
                 type: QuestRewardType.TRADER_STANDING,
@@ -156,13 +181,17 @@ export class RepeatableQuestRewardGenerator {
             rewards.Success.push(reward);
             rewardIndex++;
 
-            this.logger.debug(`  Adding ${rewardParams.rewardReputation} trader reputation reward`);
+            this.logger.debug(`Adding: ${rewardParams.rewardReputation} ${traderId} trader reputation reward`);
         }
 
         // Chance of adding skill reward
         if (this.randomUtil.getChance100(rewardParams.skillRewardChance * 100)) {
             const targetSkill = this.randomUtil.getArrayValue(questConfig.possibleSkillRewards);
             const reward: IQuestReward = {
+                id: this.hashUtil.generate(),
+                unknown: false,
+                gameMode: [],
+                availableInGameEditions: [],
                 target: targetSkill,
                 value: rewardParams.skillPointReward,
                 type: QuestRewardType.SKILL,
@@ -488,17 +517,23 @@ export class RepeatableQuestRewardGenerator {
      * @param preset Optional array of preset items
      * @returns {object}                    Object of "Reward"-item-type
      */
-    protected generateItemReward(tpl: string, count: number, index: number): IQuestReward {
+    protected generateItemReward(tpl: string, count: number, index: number, foundInRaid = true): IQuestReward {
         const id = this.objectId.generate();
         const questRewardItem: IQuestReward = {
+            id: this.hashUtil.generate(),
+            unknown: false,
+            gameMode: [],
+            availableInGameEditions: [],
+            index: index,
             target: id,
             value: count,
+            isEncoded: false,
+            findInRaid: foundInRaid,
             type: QuestRewardType.ITEM,
-            index: index,
             items: [],
         };
 
-        const rootItem = { _id: id, _tpl: tpl, upd: { StackObjectsCount: count, SpawnedInSession: true } };
+        const rootItem = { _id: id, _tpl: tpl, upd: { StackObjectsCount: count, SpawnedInSession: foundInRaid } };
         questRewardItem.items = [rootItem];
 
         return questRewardItem;
@@ -513,13 +548,25 @@ export class RepeatableQuestRewardGenerator {
      * @param preset Optional array of preset items
      * @returns {object}                    Object of "Reward"-item-type
      */
-    protected generatePresetReward(tpl: string, count: number, index: number, preset?: Item[]): IQuestReward {
+    protected generatePresetReward(
+        tpl: string,
+        count: number,
+        index: number,
+        preset?: IItem[],
+        foundInRaid = true,
+    ): IQuestReward {
         const id = this.objectId.generate();
         const questRewardItem: IQuestReward = {
+            id: this.hashUtil.generate(),
+            unknown: false,
+            gameMode: [],
+            availableInGameEditions: [],
+            index: index,
             target: id,
             value: count,
+            isEncoded: false,
+            findInRaid: foundInRaid,
             type: QuestRewardType.ITEM,
-            index: index,
             items: [],
         };
 
@@ -527,6 +574,10 @@ export class RepeatableQuestRewardGenerator {
         const rootItem = preset.find((item) => item._tpl === tpl);
         if (!rootItem) {
             this.logger.warning(`Root item of preset: ${tpl} not found`);
+        }
+
+        if (rootItem.upd) {
+            rootItem.upd.SpawnedInSession = foundInRaid;
         }
 
         questRewardItem.items = this.itemHelper.reparentItemAndChildren(rootItem, preset);
@@ -626,6 +677,6 @@ export class RepeatableQuestRewardGenerator {
             currency === Money.EUROS ? this.handbookHelper.fromRUB(rewardRoubles, Money.EUROS) : rewardRoubles;
 
         // Get chosen currency + amount and return
-        return this.generateItemReward(currency, rewardAmountToGivePlayer, rewardIndex);
+        return this.generateItemReward(currency, rewardAmountToGivePlayer, rewardIndex, false);
     }
 }

@@ -1,5 +1,4 @@
 {
-    "MIAOnRaidEnd": true,
     "raidMenuSettings": {
         "aiAmount": "AsOnline",
         "aiDifficulty": "AsOnline",
@@ -7,7 +6,7 @@
         "scavWars": false,
         "taggedAndCursed": false,
         "enablePve": true,
-        "randomWeather": false,
+        "randomWeather": true,
         "randomTime": false
     },
     "save": {
@@ -28,5 +27,6 @@
     "scavExtractGain": 0.01,
     "pmcKillProbabilityForScavGain": 1,
     "keepFiRSecureContainerOnDeath": false,
+		"alwaysKeepFoundInRaidonRaidEnd": false,
     "playerScavHostileChancePercent": 1
 }

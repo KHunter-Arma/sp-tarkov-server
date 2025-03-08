@@ -4,7 +4,7 @@ import { RagfairOfferHelper } from "@spt/helpers/RagfairOfferHelper";
 import { TradeHelper } from "@spt/helpers/TradeHelper";
 import { TraderHelper } from "@spt/helpers/TraderHelper";
 import { IPmcData } from "@spt/models/eft/common/IPmcData";
-import { Item } from "@spt/models/eft/common/tables/IItem";
+import { IItem } from "@spt/models/eft/common/tables/IItem";
 import { ITraderBase } from "@spt/models/eft/common/tables/ITrader";
 import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
 import { IRagfairOffer } from "@spt/models/eft/ragfair/IRagfairOffer";
@@ -120,8 +120,7 @@ export class TradeController {
                 return this.httpResponse.appendErrorToOutput(output, errorMessage, BackendErrorCodes.OFFEROUTOFSTOCK);
             }
 
-            const sellerIsTrader = fleaOffer.user.memberType === MemberCategory.TRADER;
-            if (sellerIsTrader) {
+            if (this.ragfairOfferHelper.offerIsFromTrader(fleaOffer)) {
                 this.buyTraderItemFromRagfair(sessionID, pmcData, fleaOffer, offer, output);
             } else {
                 this.buyPmcItemFromRagfair(sessionID, pmcData, fleaOffer, offer, output);
@@ -246,7 +245,7 @@ export class TradeController {
         }
 
         // Does offer id exist in profile
-        return offerCreatorProfile.RagfairInfo.offers.some((offer) => offer._id == offerId);
+        return offerCreatorProfile.RagfairInfo.offers.some((offer) => offer._id === offerId);
     }
 
     /**
@@ -313,7 +312,7 @@ export class TradeController {
      */
     protected getPriceOfItemAndChildren(
         parentItemId: string,
-        items: Item[],
+        items: IItem[],
         handbookPrices: Record<string, number>,
         traderDetails: ITraderBase,
     ): number {

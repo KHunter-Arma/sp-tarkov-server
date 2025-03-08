@@ -6,7 +6,6 @@ import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
 import { IHttpConfig } from "@spt/models/spt/config/IHttpConfig";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
 import { ConfigServer } from "@spt/servers/ConfigServer";
-import { DatabaseServer } from "@spt/servers/DatabaseServer";
 import { WebSocketServer } from "@spt/servers/WebSocketServer";
 import { IHttpListener } from "@spt/servers/http/IHttpListener";
 import { LocalisationService } from "@spt/services/LocalisationService";
@@ -19,7 +18,6 @@ export class HttpServer {
 
     constructor(
         @inject("PrimaryLogger") protected logger: ILogger,
-        @inject("DatabaseServer") protected databaseServer: DatabaseServer,
         @inject("HttpServerHelper") protected httpServerHelper: HttpServerHelper,
         @inject("LocalisationService") protected localisationService: LocalisationService,
         @injectAll("HttpListener") protected httpListeners: IHttpListener[],

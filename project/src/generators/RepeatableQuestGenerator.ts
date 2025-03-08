@@ -1,8 +1,8 @@
 import { RepeatableQuestRewardGenerator } from "@spt/generators/RepeatableQuestRewardGenerator";
 import { ItemHelper } from "@spt/helpers/ItemHelper";
 import { RepeatableQuestHelper } from "@spt/helpers/RepeatableQuestHelper";
-import { Exit } from "@spt/models/eft/common/ILocationBase";
-import { TraderInfo } from "@spt/models/eft/common/tables/IBotBase";
+import { IExit } from "@spt/models/eft/common/ILocationBase";
+import { ITraderInfo } from "@spt/models/eft/common/tables/IBotBase";
 import { IQuestCondition, IQuestConditionCounterCondition } from "@spt/models/eft/common/tables/IQuest";
 import { IRepeatableQuest } from "@spt/models/eft/common/tables/IRepeatableQuests";
 import { BaseClasses } from "@spt/models/enums/BaseClasses";
@@ -50,6 +50,7 @@ export class RepeatableQuestGenerator {
     /**
      * This method is called by /GetClientRepeatableQuests/ and creates one element of quest type format (see assets/database/templates/repeatableQuests.json).
      * It randomly draws a quest type (currently Elimination, Completion or Exploration) as well as a trader who is providing the quest
+     * @param sessionId Session id
      * @param pmcLevel Player's level for requested items and reward generation
      * @param pmcTraderInfo Players traper standing/rep levels
      * @param questTypePool Possible quest types pool
@@ -57,14 +58,15 @@ export class RepeatableQuestGenerator {
      * @returns IRepeatableQuest
      */
     public generateRepeatableQuest(
+        sessionId: string,
         pmcLevel: number,
-        pmcTraderInfo: Record<string, TraderInfo>,
+        pmcTraderInfo: Record<string, ITraderInfo>,
         questTypePool: IQuestTypePool,
         repeatableConfig: IRepeatableQuestConfig,
     ): IRepeatableQuest {
         const questType = this.randomUtil.drawRandomFromList<string>(questTypePool.types)[0];
 
-        // get traders from whitelist and filter by quest type availability
+        // Get traders from whitelist and filter by quest type availability
         let traders = repeatableConfig.traderWhitelist
             .filter((x) => x.questTypes.includes(questType))
             .map((x) => x.traderId);
@@ -74,13 +76,13 @@ export class RepeatableQuestGenerator {
 
         switch (questType) {
             case "Elimination":
-                return this.generateEliminationQuest(pmcLevel, traderId, questTypePool, repeatableConfig);
+                return this.generateEliminationQuest(sessionId, pmcLevel, traderId, questTypePool, repeatableConfig);
             case "Completion":
-                return this.generateCompletionQuest(pmcLevel, traderId, repeatableConfig);
+                return this.generateCompletionQuest(sessionId, pmcLevel, traderId, repeatableConfig);
             case "Exploration":
-                return this.generateExplorationQuest(pmcLevel, traderId, questTypePool, repeatableConfig);
+                return this.generateExplorationQuest(sessionId, pmcLevel, traderId, questTypePool, repeatableConfig);
             case "Pickup":
-                return this.generatePickupQuest(pmcLevel, traderId, questTypePool, repeatableConfig);
+                return this.generatePickupQuest(sessionId, pmcLevel, traderId, questTypePool, repeatableConfig);
             default:
                 throw new Error(`Unknown mission type ${questType}. Should never be here!`);
         }
@@ -95,6 +97,7 @@ export class RepeatableQuestGenerator {
      * @returns Object of quest type format for "Elimination" (see assets/database/templates/repeatableQuests.json)
      */
     protected generateEliminationQuest(
+        sessionid: string,
         pmcLevel: number,
         traderId: string,
         questTypePool: IQuestTypePool,
@@ -297,7 +300,7 @@ export class RepeatableQuestGenerator {
         // crazy maximum difficulty will lead to a higher difficulty reward gain factor than 1
         const difficulty = this.mathUtil.mapToRange(curDifficulty, minDifficulty, maxDifficulty, 0.5, 2);
 
-        const quest = this.generateRepeatableTemplate("Elimination", traderId, repeatableConfig.side);
+        const quest = this.generateRepeatableTemplate("Elimination", traderId, repeatableConfig.side, sessionid);
 
         // ASSUMPTION: All fence quests are for scavs
         if (traderId === Traders.FENCE) {
@@ -396,10 +399,13 @@ export class RepeatableQuestGenerator {
         allowedWeaponCategory: string,
     ): IQuestConditionCounterCondition {
         const killConditionProps: IQuestConditionCounterCondition = {
-            target: target,
-            value: 1,
             id: this.objectId.generate(),
             dynamicLocale: true,
+            target: target, // e,g, "AnyPmc"
+            value: 1,
+            resetOnSessionEnd: false,
+            enemyHealthEffects: [],
+            daytime: { from: 0, to: 0 },
             conditionType: "Kills",
         };
 
@@ -441,6 +447,7 @@ export class RepeatableQuestGenerator {
      * @returns {object}                        object of quest type format for "Completion" (see assets/database/templates/repeatableQuests.json)
      */
     protected generateCompletionQuest(
+        sessionId: string,
         pmcLevel: number,
         traderId: string,
         repeatableConfig: IRepeatableQuestConfig,
@@ -449,9 +456,7 @@ export class RepeatableQuestGenerator {
         const levelsConfig = repeatableConfig.rewardScaling.levels;
         const roublesConfig = repeatableConfig.rewardScaling.roubles;
 
-        const distinctItemsToRetrieveCount = this.randomUtil.getInt(1, completionConfig.uniqueItemCount);
-
-        const quest = this.generateRepeatableTemplate("Completion", traderId, repeatableConfig.side);
+        const quest = this.generateRepeatableTemplate("Completion", traderId, repeatableConfig.side, sessionId);
 
         // Filter the items.json items to items the player must retrieve to complete quest: shouldn't be a quest item or "non-existant"
         const possibleItemsToRetrievePool = this.repeatableQuestRewardGenerator.getRewardableItems(
@@ -519,6 +524,8 @@ export class RepeatableQuestGenerator {
         let isAmmo = 0;
 
         // Store the indexes of items we are asking player to provide
+        const distinctItemsToRetrieveCount = this.randomUtil.getInt(1, completionConfig.uniqueItemCount);
+        const chosenRequirementItemsTpls = [];
         const usedItemIndexes = new Set();
         for (let i = 0; i < distinctItemsToRetrieveCount; i++) {
             let chosenItemIndex = this.randomUtil.randInt(itemSelection.length);
@@ -573,6 +580,7 @@ export class RepeatableQuestGenerator {
             roublesBudget -= value * itemUnitPrice;
 
             // Push a CompletionCondition with the item and the amount of the item
+            chosenRequirementItemsTpls.push(itemSelected[0]);
             quest.conditions.AvailableForFinish.push(this.generateCompletionAvailableForFinish(itemSelected[0], value));
 
             if (roublesBudget > 0) {
@@ -594,6 +602,7 @@ export class RepeatableQuestGenerator {
             traderId,
             repeatableConfig,
             completionConfig,
+            chosenRequirementItemsTpls,
         );
 
         return quest;
@@ -624,16 +633,18 @@ export class RepeatableQuestGenerator {
 
         return {
             id: this.objectId.generate(),
+            index: 0,
             parentId: "",
             dynamicLocale: true,
-            index: 0,
             visibilityConditions: [],
+            globalQuestCounterId: "",
             target: [itemTpl],
             value: value,
             minDurability: minDurability,
             maxDurability: 100,
             dogtagLevel: 0,
             onlyFoundInRaid: onlyFoundInRaid,
+            isEncoded: false,
             conditionType: "HandoverItem",
         };
     }
@@ -648,6 +659,7 @@ export class RepeatableQuestGenerator {
      * @returns {object}                        object of quest type format for "Exploration" (see assets/database/templates/repeatableQuests.json)
      */
     protected generateExplorationQuest(
+        sessionId: string,
         pmcLevel: number,
         traderId: string,
         questTypePool: IQuestTypePool,
@@ -677,19 +689,19 @@ export class RepeatableQuestGenerator {
             : explorationConfig.maxExtracts + 1;
         const numExtracts = this.randomUtil.randInt(1, exitTimesMax);
 
-        const quest = this.generateRepeatableTemplate("Exploration", traderId, repeatableConfig.side);
+        const quest = this.generateRepeatableTemplate("Exploration", traderId, repeatableConfig.side, sessionId);
 
         const exitStatusCondition: IQuestConditionCounterCondition = {
-            conditionType: "ExitStatus",
             id: this.objectId.generate(),
             dynamicLocale: true,
             status: ["Survived"],
+            conditionType: "ExitStatus",
         };
         const locationCondition: IQuestConditionCounterCondition = {
-            conditionType: "Location",
             id: this.objectId.generate(),
             dynamicLocale: true,
             target: locationTarget,
+            conditionType: "Location",
         };
 
         quest.conditions.AvailableForFinish[0].counter.id = this.objectId.generate();
@@ -748,13 +760,14 @@ export class RepeatableQuestGenerator {
      * @param playerSide Scav/Pmc
      * @returns Array of Exit objects
      */
-    protected getLocationExitsForSide(locationKey: string, playerSide: string): Exit[] {
+    protected getLocationExitsForSide(locationKey: string, playerSide: string): IExit[] {
         const mapExtracts = this.databaseService.getLocation(locationKey.toLocaleLowerCase()).allExtracts;
 
         return mapExtracts.filter((exit) => exit.Side === playerSide);
     }
 
     protected generatePickupQuest(
+        sessionId: string,
         pmcLevel: number,
         traderId: string,
         questTypePool: IQuestTypePool,
@@ -762,7 +775,7 @@ export class RepeatableQuestGenerator {
     ): IRepeatableQuest {
         const pickupConfig = repeatableConfig.questConfig.Pickup;
 
-        const quest = this.generateRepeatableTemplate("Pickup", traderId, repeatableConfig.side);
+        const quest = this.generateRepeatableTemplate("Pickup", traderId, repeatableConfig.side, sessionId);
 
         const itemTypeToFetchWithCount = this.randomUtil.getArrayValue(pickupConfig.ItemTypeToFetchWithMaxCount);
         const itemCountToFetch = this.randomUtil.randInt(
@@ -816,8 +829,13 @@ export class RepeatableQuestGenerator {
      * @param   {string}        exit                The exit name to generate the condition for
      * @returns {object}                            Exit condition
      */
-    protected generateExplorationExitCondition(exit: Exit): IQuestConditionCounterCondition {
-        return { conditionType: "ExitName", exitName: exit.Name, id: this.objectId.generate(), dynamicLocale: true };
+    protected generateExplorationExitCondition(exit: IExit): IQuestConditionCounterCondition {
+        return {
+            id: this.objectId.generate(),
+            dynamicLocale: true,
+            exitName: exit.Name,
+            conditionType: "ExitName",
+        };
     }
 
     /**
@@ -831,7 +849,12 @@ export class RepeatableQuestGenerator {
      *                                      (needs to be filled with reward and conditions by called to make a valid quest)
      */
     // @Incomplete: define Type for "type".
-    protected generateRepeatableTemplate(type: string, traderId: string, side: string): IRepeatableQuest {
+    protected generateRepeatableTemplate(
+        type: string,
+        traderId: string,
+        side: string,
+        sessionId: string,
+    ): IRepeatableQuest {
         const questClone = this.cloner.clone<IRepeatableQuest>(
             this.databaseService.getTemplates().repeatableQuests.templates[type],
         );
@@ -879,6 +902,10 @@ export class RepeatableQuestGenerator {
         questClone.completePlayerMessage = questClone.completePlayerMessage
             .replace("{traderId}", desiredTraderId)
             .replace("{templateId}", questClone.templateId);
+
+        questClone.questStatus.id = this.objectId.generate();
+        questClone.questStatus.uid = sessionId; // Needs to match user id
+        questClone.questStatus.qid = questClone._id; // Needs to match quest id
 
         return questClone;
     }

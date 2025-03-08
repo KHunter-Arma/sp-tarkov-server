@@ -1,5 +1,6 @@
 export enum ConfigTypes {
     AIRDROP = "spt-airdrop",
+    BACKUP = "spt-backup",
     BOT = "spt-bot",
     PMC = "spt-pmc",
     CORE = "spt-core",
@@ -25,5 +26,4 @@ export enum ConfigTypes {
     SEASONAL_EVENT = "spt-seasonalevents",
     LOST_ON_DEATH = "spt-lostondeath",
     GIFTS = "spt-gifts",
-    BTR = "spt-btr",
 }

@@ -8,7 +8,7 @@ import { IPmcData } from "@spt/models/eft/common/IPmcData";
 import { ITemplateSide } from "@spt/models/eft/common/tables/IProfileTemplate";
 import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
 import { IMiniProfile } from "@spt/models/eft/launcher/IMiniProfile";
-import { GetProfileStatusResponseData } from "@spt/models/eft/profile/GetProfileStatusResponseData";
+import { IGetProfileStatusResponseData } from "@spt/models/eft/profile/GetProfileStatusResponseData";
 import { IGetOtherProfileRequest } from "@spt/models/eft/profile/IGetOtherProfileRequest";
 import { IGetOtherProfileResponse } from "@spt/models/eft/profile/IGetOtherProfileResponse";
 import { IGetProfileSettingsRequest } from "@spt/models/eft/profile/IGetProfileSettingsRequest";
@@ -17,9 +17,8 @@ import { IProfileChangeVoiceRequestData } from "@spt/models/eft/profile/IProfile
 import { IProfileCreateRequestData } from "@spt/models/eft/profile/IProfileCreateRequestData";
 import { ISearchFriendRequestData } from "@spt/models/eft/profile/ISearchFriendRequestData";
 import { ISearchFriendResponse } from "@spt/models/eft/profile/ISearchFriendResponse";
-import { ISptProfile, Inraid, Vitality } from "@spt/models/eft/profile/ISptProfile";
+import { IInraid, ISptProfile, IVitality } from "@spt/models/eft/profile/ISptProfile";
 import { IValidateNicknameRequestData } from "@spt/models/eft/profile/IValidateNicknameRequestData";
-import { ItemTpl } from "@spt/models/enums/ItemTpl";
 import { MessageType } from "@spt/models/enums/MessageType";
 import { QuestStatus } from "@spt/models/enums/QuestStatus";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
@@ -81,7 +80,7 @@ export class ProfileController {
         // Player hasn't completed profile creation process, send defaults
         if (!pmc?.Info?.Level) {
             return {
-                username: profile.info.username,
+                username: profile.info?.username ?? "",
                 nickname: "unknown",
                 side: "unknown",
                 currlvl: 0,
@@ -89,6 +88,8 @@ export class ProfileController {
                 prevexp: 0,
                 nextlvl: 0,
                 maxlvl: maxlvl,
+                edition: profile.info?.edition ?? "",
+                profileId: profile.info?.id ?? "",
                 sptData: this.profileHelper.getDefaultSptDataObject(),
             };
         }
@@ -104,6 +105,8 @@ export class ProfileController {
             prevexp: currlvl === 0 ? 0 : this.profileHelper.getExperience(currlvl),
             nextlvl: nextlvl,
             maxlvl: maxlvl,
+            edition: profile.info?.edition ?? "",
+            profileId: profile.info?.id ?? "",
             sptData: profile.spt,
         };
     }
@@ -136,8 +139,8 @@ export class ProfileController {
         pmcData.aid = account.aid;
         pmcData.savage = account.scavId;
         pmcData.sessionId = sessionID;
-        pmcData.Info.Nickname = info.nickname;
-        pmcData.Info.LowerNickname = info.nickname.toLowerCase();
+        pmcData.Info.Nickname = account.username;
+        pmcData.Info.LowerNickname = account.username.toLowerCase();
         pmcData.Info.RegistrationDate = this.timeUtil.getTimestamp();
         pmcData.Info.Voice = this.databaseService.getCustomization()[info.voiceId]._name;
         pmcData.Stats = this.profileHelper.getDefaultCounters();
@@ -164,7 +167,6 @@ export class ProfileController {
             undefined,
             pmcData.Inventory.fastPanel,
         );
-        pmcData.Inventory.hideoutAreaStashes = {};
 
         // Create profile
         const profileDetails: ISptProfile = {
@@ -174,15 +176,15 @@ export class ProfileController {
             userbuilds: profileTemplate.userbuilds,
             dialogues: profileTemplate.dialogues,
             spt: this.profileHelper.getDefaultSptDataObject(),
-            vitality: {} as Vitality,
-            inraid: {} as Inraid,
+            vitality: {} as IVitality,
+            inraid: {} as IInraid,
             insurance: [],
             traderPurchases: {},
             achievements: {},
+            friends: [],
         };
 
         this.profileFixerService.checkForAndFixPmcProfileIssues(profileDetails.characters.pmc);
-        this.profileFixerService.addMissingHideoutBonusesToProfile(profileDetails.characters.pmc);
 
         this.saveServer.addProfile(profileDetails);
 
@@ -216,11 +218,6 @@ export class ProfileController {
         // Completed account creation
         this.saveServer.getProfile(sessionID).info.wipe = false;
         this.saveServer.saveProfile(sessionID);
-
-        // Requires to enable seasonal changes after creating fresh profile
-        if (this.seasonalEventService.isAutomaticEventDetectionEnabled()) {
-            this.seasonalEventService.enableSeasonalEvents(sessionID);
-        }
 
         return pmcData._id;
     }
@@ -364,29 +361,31 @@ export class ProfileController {
      * Handle client/game/profile/search
      */
     public getFriends(info: ISearchFriendRequestData, sessionID: string): ISearchFriendResponse[] {
-        const profile = this.saveServer.getProfile(sessionID);
+        // TODO: We should probably rename this method in the next client update
+        const result: ISearchFriendResponse[] = [];
 
-        // return some of the current player info for now
-        return [
-            {
-                _id: profile.characters.pmc._id,
-                aid: profile.characters.pmc.aid,
-                Info: {
-                    Nickname: info.nickname,
-                    Side: "Bear",
-                    Level: 1,
-                    MemberCategory: profile.characters.pmc.Info.MemberCategory,
-                },
-            },
-        ];
+        // Find any profiles with a nickname containing the entered name
+        const allProfiles = Object.values(this.saveServer.getProfiles());
+
+        for (const profile of allProfiles) {
+            const pmcProfile = profile?.characters?.pmc;
+
+            if (!pmcProfile?.Info?.LowerNickname?.includes(info.nickname.toLocaleLowerCase())) {
+                continue;
+            }
+
+            result.push(this.profileHelper.getChatRoomMemberFromPmcProfile(pmcProfile));
+        }
+
+        return result;
     }
 
     /**
      * Handle client/profile/status
      */
-    public getProfileStatus(sessionId: string): GetProfileStatusResponseData {
+    public getProfileStatus(sessionId: string): IGetProfileStatusResponseData {
         const account = this.saveServer.getProfile(sessionId).info;
-        const response: GetProfileStatusResponseData = {
+        const response: IGetProfileStatusResponseData = {
             maxPveCountExceeded: false,
             profiles: [
                 { profileid: account.scavId, profileToken: undefined, status: "Free", sid: "", ip: "", port: 0 },
@@ -404,12 +403,18 @@ export class ProfileController {
         return response;
     }
 
+    /**
+     * Handle client/profile/view
+     */
     public getOtherProfile(sessionId: string, request: IGetOtherProfileRequest): IGetOtherProfileResponse {
-        const player = this.profileHelper.getFullProfile(sessionId);
-        const playerPmc = player.characters.pmc;
-        const playerScav = player.characters.scav;
+        // Find the profile by the account ID, fall back to the current player if we can't find the account
+        let profile = this.profileHelper.getFullProfileByAccountId(request.accountId);
+        if (!profile?.characters?.pmc || !profile?.characters?.scav) {
+            profile = this.profileHelper.getFullProfile(sessionId);
+        }
+        const playerPmc = profile.characters.pmc;
+        const playerScav = profile.characters.scav;
 
-        // return player for now
         return {
             id: playerPmc._id,
             aid: playerPmc.aid,
@@ -430,12 +435,11 @@ export class ProfileController {
             },
             skills: playerPmc.Skills,
             equipment: {
-                // Default inventory tpl
-                Id: playerPmc.Inventory.items.find((item) => item._tpl === ItemTpl.INVENTORY_DEFAULT)._id,
+                Id: playerPmc.Inventory.equipment,
                 Items: playerPmc.Inventory.items,
             },
             achievements: playerPmc.Achievements,
-            favoriteItems: playerPmc.Inventory.favoriteItems ?? [],
+            favoriteItems: this.profileHelper.getOtherProfileFavorites(playerPmc),
             pmcStats: {
                 eft: {
                     totalInGameTime: playerPmc.Stats.Eft.TotalInGameTime,

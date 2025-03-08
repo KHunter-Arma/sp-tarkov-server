@@ -9,19 +9,21 @@ import { RagfairServerHelper } from "@spt/helpers/RagfairServerHelper";
 import { RagfairSortHelper } from "@spt/helpers/RagfairSortHelper";
 import { TraderHelper } from "@spt/helpers/TraderHelper";
 import { IPmcData } from "@spt/models/eft/common/IPmcData";
-import { Item } from "@spt/models/eft/common/tables/IItem";
+import { IItem } from "@spt/models/eft/common/tables/IItem";
 import { ITraderAssort } from "@spt/models/eft/common/tables/ITrader";
 import { IItemEventRouterResponse } from "@spt/models/eft/itemEvent/IItemEventRouterResponse";
 import { ISptProfile, ISystemData } from "@spt/models/eft/profile/ISptProfile";
 import { IRagfairOffer } from "@spt/models/eft/ragfair/IRagfairOffer";
 import { ISearchRequestData, OfferOwnerType } from "@spt/models/eft/ragfair/ISearchRequestData";
+import { BaseClasses } from "@spt/models/enums/BaseClasses";
 import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
 import { MemberCategory } from "@spt/models/enums/MemberCategory";
 import { MessageType } from "@spt/models/enums/MessageType";
 import { RagfairSort } from "@spt/models/enums/RagfairSort";
 import { Traders } from "@spt/models/enums/Traders";
+import { IBotConfig } from "@spt/models/spt/config/IBotConfig";
 import { IQuestConfig } from "@spt/models/spt/config/IQuestConfig";
-import { IRagfairConfig } from "@spt/models/spt/config/IRagfairConfig";
+import { IRagfairConfig, ITieredFlea } from "@spt/models/spt/config/IRagfairConfig";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
 import { EventOutputHolder } from "@spt/routers/EventOutputHolder";
 import { ConfigServer } from "@spt/servers/ConfigServer";
@@ -41,6 +43,7 @@ export class RagfairOfferHelper {
     protected static goodSoldTemplate = "5bdabfb886f7743e152e867e 0"; // Your {soldItem} {itemCount} items were bought by {buyerNickname}.
     protected ragfairConfig: IRagfairConfig;
     protected questConfig: IQuestConfig;
+    protected botConfig: IBotConfig;
 
     constructor(
         @inject("PrimaryLogger") protected logger: ILogger,
@@ -68,6 +71,7 @@ export class RagfairOfferHelper {
     ) {
         this.ragfairConfig = this.configServer.getConfig(ConfigTypes.RAGFAIR);
         this.questConfig = this.configServer.getConfig(ConfigTypes.QUEST);
+        this.botConfig = this.configServer.getConfig(ConfigTypes.BOT);
     }
 
     /**
@@ -85,12 +89,14 @@ export class RagfairOfferHelper {
         pmcData: IPmcData,
     ): IRagfairOffer[] {
         const playerIsFleaBanned = this.profileHelper.playerIsFleaBanned(pmcData);
+        const tieredFlea = this.ragfairConfig.tieredFlea;
+        const tieredFleaLimitTypes = Object.keys(tieredFlea.unlocksType);
         return this.ragfairOfferService.getOffers().filter((offer) => {
             if (!this.passesSearchFilterCriteria(searchRequest, offer, pmcData)) {
                 return false;
             }
 
-            return this.isDisplayableOffer(
+            const isDisplayable = this.isDisplayableOffer(
                 searchRequest,
                 itemsToAdd,
                 traderAssorts,
@@ -98,7 +104,68 @@ export class RagfairOfferHelper {
                 pmcData,
                 playerIsFleaBanned,
             );
+
+            if (!isDisplayable) {
+                return false;
+            }
+
+            // Not trader offer + tiered flea enabled
+            if (tieredFlea.enabled && !this.offerIsFromTrader(offer)) {
+                this.checkAndLockOfferFromPlayerTieredFlea(tieredFlea, offer, tieredFleaLimitTypes, pmcData.Info.Level);
+            }
+
+            return true;
         });
+    }
+
+    /**
+     * Disable offer if item is flagged by tiered flea config
+     * @param tieredFlea Tiered flea settings from ragfair config
+     * @param offer Ragfair offer to check
+     * @param tieredFleaLimitTypes Dict of item types with player level to be viewable
+     * @param playerLevel Level of player viewing offer
+     */
+    protected checkAndLockOfferFromPlayerTieredFlea(
+        tieredFlea: ITieredFlea,
+        offer: IRagfairOffer,
+        tieredFleaLimitTypes: string[],
+        playerLevel: number,
+    ): void {
+        const offerItemTpl = offer.items[0]._tpl;
+        if (tieredFlea.ammoTplUnlocks && this.itemHelper.isOfBaseclass(offerItemTpl, BaseClasses.AMMO)) {
+            const unlockLevel = tieredFlea.ammoTplUnlocks[offerItemTpl];
+            if (unlockLevel && playerLevel < unlockLevel) {
+                offer.locked = true;
+
+                return;
+            }
+        }
+
+        // Check for a direct level requirement for the offer item
+        const itemLevelRequirement = tieredFlea.unlocksTpl[offerItemTpl];
+        if (itemLevelRequirement) {
+            if (playerLevel < itemLevelRequirement) {
+                offer.locked = true;
+
+                return;
+            }
+        }
+
+        // Optimisation - Ensure the item has at least one of the limited base types
+        if (this.itemHelper.isOfBaseclasses(offerItemTpl, tieredFleaLimitTypes)) {
+            // Loop over all flea types to find the matching one
+            for (const tieredItemType of tieredFleaLimitTypes) {
+                if (this.itemHelper.isOfBaseclass(offerItemTpl, tieredItemType)) {
+                    if (playerLevel < tieredFlea.unlocksType[tieredItemType]) {
+                        offer.locked = true;
+
+                        return;
+                    }
+
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -110,9 +177,16 @@ export class RagfairOfferHelper {
     public getOffersThatRequireItem(searchRequest: ISearchRequestData, pmcData: IPmcData): IRagfairOffer[] {
         // Get all offers that requre the desired item and filter out offers from non traders if player below ragifar unlock
         const requiredOffers = this.ragfairRequiredItemsService.getRequiredItemsById(searchRequest.neededSearchId);
+        const tieredFlea = this.ragfairConfig.tieredFlea;
+        const tieredFleaLimitTypes = Object.keys(tieredFlea.unlocksType);
+
         return requiredOffers.filter((offer: IRagfairOffer) => {
             if (!this.passesSearchFilterCriteria(searchRequest, offer, pmcData)) {
                 return false;
+            }
+
+            if (tieredFlea.enabled && !this.offerIsFromTrader(offer)) {
+                this.checkAndLockOfferFromPlayerTieredFlea(tieredFlea, offer, tieredFleaLimitTypes, pmcData.Info.Level);
             }
 
             return true;
@@ -134,30 +208,62 @@ export class RagfairOfferHelper {
         pmcData: IPmcData,
     ): IRagfairOffer[] {
         const offersMap = new Map<string, IRagfairOffer[]>();
-        const offers: IRagfairOffer[] = [];
+        const offersToReturn: IRagfairOffer[] = [];
         const playerIsFleaBanned = this.profileHelper.playerIsFleaBanned(pmcData);
-        for (const offer of this.ragfairOfferService.getOffers()) {
-            if (!this.passesSearchFilterCriteria(searchRequest, offer, pmcData)) {
-                continue;
-            }
+        const tieredFlea = this.ragfairConfig.tieredFlea;
+        const tieredFleaLimitTypes = Object.keys(tieredFlea.unlocksType);
 
-            if (this.isDisplayableOffer(searchRequest, itemsToAdd, traderAssorts, offer, pmcData, playerIsFleaBanned)) {
-                const isTraderOffer = offer.user.memberType === MemberCategory.TRADER;
-
-                if (isTraderOffer && this.traderBuyRestrictionReached(offer)) {
+        for (const desiredItemTpl of Object.keys(searchRequest.buildItems)) {
+            const matchingOffers = this.ragfairOfferService.getOffersOfType(desiredItemTpl);
+            for (const offer of matchingOffers) {
+                // Dont show pack offers
+                if (offer.sellInOnePiece) {
                     continue;
                 }
 
-                if (isTraderOffer && this.traderOutOfStock(offer)) {
+                if (!this.passesSearchFilterCriteria(searchRequest, offer, pmcData)) {
                     continue;
                 }
 
-                if (isTraderOffer && this.traderOfferItemQuestLocked(offer, traderAssorts)) {
+                if (
+                    !this.isDisplayableOffer(
+                        searchRequest,
+                        itemsToAdd,
+                        traderAssorts,
+                        offer,
+                        pmcData,
+                        playerIsFleaBanned,
+                    )
+                ) {
                     continue;
                 }
 
-                if (isTraderOffer && this.traderOfferLockedBehindLoyaltyLevel(offer, pmcData)) {
-                    continue;
+                if (this.offerIsFromTrader(offer)) {
+                    if (this.traderBuyRestrictionReached(offer)) {
+                        continue;
+                    }
+
+                    if (this.traderOutOfStock(offer)) {
+                        continue;
+                    }
+
+                    if (this.traderOfferItemQuestLocked(offer, traderAssorts)) {
+                        continue;
+                    }
+
+                    if (this.traderOfferLockedBehindLoyaltyLevel(offer, pmcData)) {
+                        continue;
+                    }
+                }
+
+                // Tiered flea and not trader offer
+                if (tieredFlea.enabled && !this.offerIsFromTrader(offer)) {
+                    this.checkAndLockOfferFromPlayerTieredFlea(
+                        tieredFlea,
+                        offer,
+                        tieredFleaLimitTypes,
+                        pmcData.Info.Level,
+                    );
                 }
 
                 const key = offer.items[0]._tpl;
@@ -169,7 +275,7 @@ export class RagfairOfferHelper {
             }
         }
 
-        // get best offer for each item to show on screen
+        // Get best offer for each item to show on screen
         for (let possibleOffers of offersMap.values()) {
             // Remove offers with locked = true (quest locked) when > 1 possible offers
             // single trader item = shows greyed out
@@ -178,17 +284,41 @@ export class RagfairOfferHelper {
                 const lockedOffers = this.getLoyaltyLockedOffers(possibleOffers, pmcData);
 
                 // Exclude locked offers + above loyalty locked offers if at least 1 was found
-                const availableOffers = possibleOffers.filter((x) => !(x.locked || lockedOffers.includes(x._id)));
-                if (availableOffers.length > 0) {
-                    possibleOffers = availableOffers;
+                possibleOffers = possibleOffers.filter((offer) => !(offer.locked || lockedOffers.includes(offer._id)));
+
+                // Exclude trader offers over their buy restriction limit
+                possibleOffers = this.getOffersInsideBuyRestrictionLimits(possibleOffers);
+            }
+
+            // Sort offers by price and pick the best
+            const offer = this.ragfairSortHelper.sortOffers(possibleOffers, RagfairSort.PRICE, 0)[0];
+            offersToReturn.push(offer);
+        }
+
+        return offersToReturn;
+    }
+
+    /**
+     * Get offers that have not exceeded buy limits
+     * @param possibleOffers offers to process
+     * @returns Offers
+     */
+    protected getOffersInsideBuyRestrictionLimits(possibleOffers: IRagfairOffer[]) {
+        // Check offer has buy limit + is from trader + current buy count is at or over max
+        return possibleOffers.filter((offer) => {
+            if (
+                typeof offer.buyRestrictionMax !== "undefined" &&
+                this.offerIsFromTrader(offer) &&
+                offer.buyRestrictionCurrent >= offer.buyRestrictionMax
+            ) {
+                if (offer.buyRestrictionCurrent >= offer.buyRestrictionMax) {
+                    return false;
                 }
             }
 
-            const offer = this.ragfairSortHelper.sortOffers(possibleOffers, RagfairSort.PRICE, 0)[0];
-            offers.push(offer);
-        }
-
-        return offers;
+            // Doesnt have buy limits, retrun offer
+            return true;
+        });
     }
 
     /**
@@ -216,7 +346,7 @@ export class RagfairOfferHelper {
     }
 
     /**
-     * Has a traders offer ran out of stock to sell to player
+     * Has trader offer ran out of stock to sell to player
      * @param offer Offer to check stock of
      * @returns true if out of stock
      */
@@ -230,7 +360,7 @@ export class RagfairOfferHelper {
 
     /**
      * Check if trader offers' BuyRestrictionMax value has been reached
-     * @param offer offer to check restriction properties of
+     * @param offer Offer to check restriction properties of
      * @returns true if restriction reached, false if no restrictions/not reached
      */
     protected traderBuyRestrictionReached(offer: IRagfairOffer): boolean {
@@ -273,16 +403,14 @@ export class RagfairOfferHelper {
      * Get an array of flea offers that are inaccessible to player due to their inadequate loyalty level
      * @param offers Offers to check
      * @param pmcProfile Players profile with trader loyalty levels
-     * @returns array of offer ids player cannot see
+     * @returns Array of offer ids player cannot see
      */
     protected getLoyaltyLockedOffers(offers: IRagfairOffer[], pmcProfile: IPmcData): string[] {
         const loyaltyLockedOffers: string[] = [];
-        for (const offer of offers) {
-            if (offer.user.memberType === MemberCategory.TRADER) {
-                const traderDetails = pmcProfile.TradersInfo[offer.user.id];
-                if (traderDetails.loyaltyLevel < offer.loyaltyLevel) {
-                    loyaltyLockedOffers.push(offer._id);
-                }
+        for (const offer of offers.filter((offer) => this.offerIsFromTrader(offer))) {
+            const traderDetails = pmcProfile.TradersInfo[offer.user.id];
+            if (traderDetails.loyaltyLevel < offer.loyaltyLevel) {
+                loyaltyLockedOffers.push(offer._id);
             }
         }
 
@@ -316,10 +444,8 @@ export class RagfairOfferHelper {
                     boughtAmount = offer.sellResult[0].amount;
                 }
 
-                this.increaseProfileRagfairRating(
-                    this.saveServer.getProfile(sessionID),
-                    (offer.summaryCost / totalItemsCount) * boughtAmount,
-                );
+                const ratingToAdd = (offer.summaryCost / totalItemsCount) * boughtAmount;
+                this.increaseProfileRagfairRating(this.saveServer.getProfile(sessionID), ratingToAdd);
 
                 this.completeOffer(sessionID, offer, boughtAmount);
                 offer.sellResult.splice(0, 1); // Remove the sell result object now its been processed
@@ -332,9 +458,9 @@ export class RagfairOfferHelper {
     /**
      * Count up all rootitem StackObjectsCount properties of an array of items
      * @param itemsInInventoryToList items to sum up
-     * @returns Total count
+     * @returns Total stack count
      */
-    public getTotalStackCountSize(itemsInInventoryToList: Item[][]): number {
+    public getTotalStackCountSize(itemsInInventoryToList: IItem[][]): number {
         let total = 0;
         for (const itemAndChildren of itemsInInventoryToList) {
             // Only count the root items stack count in total
@@ -402,7 +528,7 @@ export class RagfairOfferHelper {
      */
     public completeOffer(sessionID: string, offer: IRagfairOffer, boughtAmount: number): IItemEventRouterResponse {
         const itemTpl = offer.items[0]._tpl;
-        let paymentItemsToSendToPlayer: Item[] = [];
+        let paymentItemsToSendToPlayer: IItem[] = [];
         const offerStackCount = offer.items[0].upd.StackObjectsCount;
 
         // Pack or ALL items of a multi-offer were bought - remove entire ofer
@@ -418,7 +544,7 @@ export class RagfairOfferHelper {
         // Assemble payment to send to seller now offer was purchased
         for (const requirement of offer.requirements) {
             // Create an item template item
-            const requestedItem: Item = {
+            const requestedItem: IItem = {
                 _id: this.hashUtil.generate(),
                 _tpl: requirement._tpl,
                 upd: { StackObjectsCount: requirement.count * boughtAmount },
@@ -484,7 +610,7 @@ export class RagfairOfferHelper {
         // Used to replace tokens in sold message sent to player
         const tplVars: ISystemData = {
             soldItem: globalLocales[`${itemTpl} Name`] || itemTpl,
-            buyerNickname: this.botHelper.getPmcNicknameOfMaxLength(this.hashUtil.generate(), 50),
+            buyerNickname: this.botHelper.getPmcNicknameOfMaxLength(this.botConfig.botNameLengthLimit),
             itemCount: boughtAmount,
         };
 
@@ -497,10 +623,10 @@ export class RagfairOfferHelper {
 
     /**
      * Check an offer passes the various search criteria the player requested
-     * @param searchRequest
-     * @param offer
-     * @param pmcData
-     * @returns True
+     * @param searchRequest Client search request
+     * @param offer Offer to check
+     * @param pmcData Player profile
+     * @returns True if offer passes criteria
      */
     protected passesSearchFilterCriteria(
         searchRequest: ISearchRequestData,
@@ -510,7 +636,7 @@ export class RagfairOfferHelper {
         const isDefaultUserOffer = offer.user.memberType === MemberCategory.DEFAULT;
         const offerRootItem = offer.items[0];
         const moneyTypeTpl = offer.requirements[0]._tpl;
-        const isTraderOffer = offer.user.memberType === MemberCategory.TRADER;
+        const isTraderOffer = this.offerIsFromTrader(offer);
 
         if (pmcData.Info.Level < this.databaseService.getGlobals().config.RagFair.minUserLevel && isDefaultUserOffer) {
             // Skip item if player is < global unlock level (default is 15) and item is from a dynamically generated source
@@ -531,7 +657,7 @@ export class RagfairOfferHelper {
             searchRequest.oneHourExpiration &&
             offer.endTime - this.timeUtil.getTimestamp() > TimeUtil.ONE_HOUR_AS_SECONDS
         ) {
-            // offer doesnt expire within an hour
+            // offer expires within an hour
             return false;
         }
 
@@ -595,11 +721,11 @@ export class RagfairOfferHelper {
     /**
      * Check that the passed in offer item is functional
      * @param offerRootItem The root item of the offer
-     * @param offer The flea offer
+     * @param offer Flea offer to check
      * @returns True if the given item is functional
      */
-    public isItemFunctional(offerRootItem: Item, offer: IRagfairOffer): boolean {
-        // Non-presets are always functional
+    public isItemFunctional(offerRootItem: IItem, offer: IRagfairOffer): boolean {
+        // Non-preset weapons/armor are always functional
         if (!this.presetHelper.hasPreset(offerRootItem._tpl)) {
             return true;
         }
@@ -620,7 +746,7 @@ export class RagfairOfferHelper {
      * Should a ragfair offer be visible to the player
      * @param searchRequest Search request
      * @param itemsToAdd ?
-     * @param traderAssorts Trader assort items
+     * @param traderAssorts Trader assort items - used for filtering out locked trader items
      * @param offer The flea offer
      * @param pmcProfile Player profile
      * @returns True = should be shown to player
@@ -668,17 +794,17 @@ export class RagfairOfferHelper {
         // commented out as required search "which is for checking offers that are barters"
         // has info.removeBartering as true, this if statement removed barter items.
         if (searchRequest.removeBartering && !this.paymentHelper.isMoneyTpl(moneyTypeTpl)) {
-            // don't include barter offers
+            // Don't include barter offers
             return false;
         }
 
         if (Number.isNaN(offer.requirementsCost)) {
-            // don't include offers with undefined or NaN in it
+            // Don't include offers with undefined or NaN in it
             return false;
         }
 
         // Handle trader items to remove items that are not available to the user right now
-        // required search for "lamp" shows 4 items, 3 of which are not available to a new player
+        // e.g. required search for "lamp" shows 4 items, 3 of which are not available to a new player
         // filter those out
         if (isTraderOffer) {
             if (!(offer.user.id in traderAssorts)) {
@@ -712,17 +838,17 @@ export class RagfairOfferHelper {
      * @param item Item to check
      * @returns True if has condition
      */
-    protected isConditionItem(item: Item): boolean {
+    protected isConditionItem(item: IItem): boolean {
         // thanks typescript, undefined assertion is not returnable since it
         // tries to return a multitype object
-        return item.upd.MedKit ||
+        return !!(
+            item.upd.MedKit ||
             item.upd.Repairable ||
             item.upd.Resource ||
             item.upd.FoodDrink ||
             item.upd.Key ||
             item.upd.RepairKit
-            ? true
-            : false;
+        );
     }
 
     /**
@@ -732,7 +858,7 @@ export class RagfairOfferHelper {
      * @param max Desired maximum quality
      * @returns True if in range
      */
-    protected itemQualityInRange(item: Item, min: number, max: number): boolean {
+    protected itemQualityInRange(item: IItem, min: number, max: number): boolean {
         const itemQualityPercentage = 100 * this.itemHelper.getItemQualityModifier(item);
         if (min > 0 && min > itemQualityPercentage) {
             // Item condition too low
@@ -745,5 +871,14 @@ export class RagfairOfferHelper {
         }
 
         return true;
+    }
+
+    /**
+     * Does this offer come from a trader
+     * @param offer Offer to check
+     * @returns True = from trader
+     */
+    public offerIsFromTrader(offer: IRagfairOffer) {
+        return offer.user.memberType === MemberCategory.TRADER;
     }
 }

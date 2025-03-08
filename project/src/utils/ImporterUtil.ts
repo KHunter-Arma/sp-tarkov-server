@@ -1,4 +1,5 @@
 import { JsonUtil } from "@spt/utils/JsonUtil";
+import { ProgressWriter } from "@spt/utils/ProgressWriter";
 import { VFS } from "@spt/utils/VFS";
 import { Queue } from "@spt/utils/collections/queue/Queue";
 import { inject, injectable } from "tsyringe";
@@ -46,7 +47,7 @@ export class ImporterUtil {
         }
 
         // set all loadRecursive to be executed asynchronously
-        const resEntries = Object.entries(result!);
+        const resEntries = Object.entries(result);
         const resResolved = await Promise.all(resEntries.map((ent) => ent[1]));
         for (let resIdx = 0; resIdx < resResolved.length; resIdx++) {
             resEntries[resIdx][1] = resResolved[resIdx];
@@ -119,9 +120,12 @@ export class ImporterUtil {
             directoriesToRead.enqueueAll(this.vfs.getDirs(directory).map((d) => `${directory}/${d}`));
         }
 
+        const progressWriter = new ProgressWriter(filesToProcess.length - 1);
+
         while (filesToProcess.length !== 0) {
             const fileNode = filesToProcess.dequeue();
             if (!fileNode) continue;
+
             if (this.vfs.getFileExtension(fileNode.fileName) === "json") {
                 const filePathAndName = `${fileNode.filePath}${fileNode.fileName}`;
                 promises.push(
@@ -135,7 +139,8 @@ export class ImporterUtil {
                             onObjectDeserialized(filePathAndName, fileDeserialized);
                             const strippedFilePath = this.vfs.stripExtension(filePathAndName).replace(filepath, "");
                             this.placeObject(fileDeserialized, strippedFilePath, result, strippablePath);
-                        }),
+                        })
+                        .then(() => progressWriter.increment()),
                 );
             }
         }
