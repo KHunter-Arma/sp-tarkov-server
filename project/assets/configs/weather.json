@@ -4,11 +4,11 @@
         "generateWeatherAmountHours": 24,
         "clouds": {
             "values": [-1, -0.8, -0.5, 0.1, 0, 0.15, 0.4, 1],
-            "weights": [80, 22, 22, 15, 15, 15, 5, 4]
+            "weights": [10, 10, 15, 10, 10, 10, 5, 5]
         },
         "windSpeed": {
             "values": [0, 1, 2, 3, 4],
-            "weights": [6, 3, 2, 1, 1]
+            "weights": [4, 3, 2, 1, 1]
         },
         "windDirection": {
             "values": [1, 2, 3, 4, 5, 6, 7, 8],
@@ -20,7 +20,7 @@
         },
         "rain": {
             "values": [1, 2, 3, 4, 5],
-            "weights": [20, 1, 1, 1, 1]
+            "weights": [15, 3, 1, 1, 1]
         },
         "rainIntensity": {
             "min": 0,
@@ -28,7 +28,7 @@
         },
         "fog": {
             "values": [0.0013, 0.0018, 0.002, 0.004, 0.006],
-            "weights": [35, 6, 4, 3, 1]
+            "weights": [15, 6, 3, 3, 3]
         },
         "temp": {
             "0": {

@@ -6,7 +6,7 @@
         "scavWars": false,
         "taggedAndCursed": false,
         "enablePve": true,
-        "randomWeather": false,
+        "randomWeather": true,
         "randomTime": false
     },
     "save": {
@@ -22,11 +22,11 @@
         "Smugglers_Trail_coop",
         "Scav_coop_exit"
     ],
-    "carExtractBaseStandingGain": 0.2,
+    "carExtractBaseStandingGain": 0.01,
     "coopExtractBaseStandingGain": 0.25,
-    "scavExtractStandingGain": 0.01,
-    "pmcKillProbabilityForScavGain": 0.2,
+    "scavExtractGain": 0.01,
+    "pmcKillProbabilityForScavGain": 1.0,
     "keepFiRSecureContainerOnDeath": false,
-    "alwaysKeepFoundInRaidonRaidEnd": false,
-    "playerScavHostileChancePercent": 15
+		"alwaysKeepFoundInRaidonRaidEnd": false,
+    "playerScavHostileChancePercent": 1
 }

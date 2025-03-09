@@ -31612,7 +31612,7 @@
         "z": 0
       },
       "SprintAccelerationLimits": {
-        "x": 1,
+        "x": 0.5,
         "y": 0,
         "z": 0
       },
@@ -31673,13 +31673,13 @@
       "CoefOfSendingMessageTime": 1,
       "EditionSendingMessageTime": {
         "edge_of_darkness": {
-          "multiplier": 0.7
+          "multiplier": 1.0
         },
         "eod_tue_edition": {
-          "multiplier": 0.7
+          "multiplier": 1.0
         }
       },
-      "MaxStorageTimeInHour": 72,
+      "MaxStorageTimeInHour": 336,
       "OnlyInDeathCase": false
     },
     "ItemsCommonSettings": {
@@ -31696,7 +31696,7 @@
     "LegsOverdamage": 1,
     "LoadTimeSpeedProgress": 1,
     "Malfunction": {
-      "AllowMalfForBots": false,
+      "AllowMalfForBots": true,
       "AmmoFeedWt": 0.2,
       "AmmoJamWt": 0.1,
       "AmmoMalfChanceMult": 1,
@@ -31707,7 +31707,7 @@
       "DurJamWt": 0.6,
       "DurMisfireWt": 0.1,
       "DurRangeToIgnoreMalfs": {
-        "x": 93,
+        "x": 89,
         "y": 100,
         "z": 0
       },
@@ -32886,7 +32886,7 @@
           "value": 999999
         }
       },
-      "minUserLevel": 15,
+      "minUserLevel": 30,
       "offerDurationTimeInHour": 12,
       "offerDurationTimeInHourAfterRemove": 0.02,
       "offerPriorityCost": 6,
@@ -32968,453 +32968,453 @@
     },
     "RestrictionsInRaid": [
       {
-        "MaxInLobby": 400000,
-        "MaxInRaid": 500000,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5449016a4bdc2d6f028b456f"
       },
       {
-        "MaxInLobby": 8000,
-        "MaxInRaid": 10000,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5696686a4bdc2da3298b456a"
       },
       {
-        "MaxInLobby": 8000,
-        "MaxInRaid": 10000,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "569668774bdc2da2298b4568"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "59faff1d86f7746c51718c9c"
       },
       {
-        "MaxInLobby": 10,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d235b4d86f7742e017bc88a"
       },
       {
-        "MaxInLobby": 3,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "619cbf9e0a7c3a1a2731940a"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c1d0c5f86f7744bb2683cf0"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c1d0d6d86f7744bb2683e1f"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c1e495a86f7743109743dfb"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5ad5d7d286f77450166e0a89"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5ad7247386f7747487619dc3"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5448ba0b4bdc2d02308b456c"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c1e2a1e86f77431ea0ea84c"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5e42c71586f7747f245e1343"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5a0dc95c86f77452440fc675"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5a0ee4b586f7743698200d22"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5a0ee76686f7743698200d5c"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5a13ef0686f7746e5a411744"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5a13f24186f77410e57c5626"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5a0eecf686f7740350630097"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5a0f08bc86f77478f33b84c2"
       },
       {
-        "MaxInLobby": 3,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5aafbde786f774389d0cbc0f"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5e2af55f86f7746d4159f07c"
       },
       {
-        "MaxInLobby": 3,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d235bb686f77443f4331278"
       },
       {
-        "MaxInLobby": 2,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c127c4486f7745625356c13"
       },
       {
-        "MaxInLobby": 2,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "59fb023c86f7746d0d4b423c"
       },
       {
-        "MaxInLobby": 4,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "59fafd4b86f7745ca07e1232"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c1267ee86f77416ec610f72"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "59faf7ca86f7740dbe19f6c2"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c0530ee86f774697952d952"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c052e6986f7746b207bc3c9"
       },
       {
-        "MaxInLobby": 3,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "590c60fc86f77412b13fddcf"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5bc9bdb8d4351e003562b8a1"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5bc9c377d4351e3bac12251b"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5e54f6af86f7742199090bf3"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5df8a4d786f77412672a1e3b"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5780cf942459777df90dcb72"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c0e774286f77468413cc5b2"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c0e805e86f774683f3dd637"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5b44c6ae86f7742d1627baea"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "59e763f286f7742ee57895da"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5ab8ebf186f7742d8b372e80"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "545cdae64bdc2d39198b4568"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d80c60f86f77440373c4ece"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d80c62a86f7744036212b3f"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5913915886f774123603c392"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d08d21286f774736e7c94c3"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5b43575a86f77424f443fe62"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5bc9b720d4351e450201234b"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d1b327086f7742525194449"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5e2aee0a86f774755a234b62"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c12620d86f7743f8b198b72"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c1f79a086f7746ed066fb8f"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c1e2d1f86f77431e9280bee"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d8e0db586f7744450412a42"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d0377ce86f774186372f689"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "590c621186f774138d11ea29"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c052f6886f7746b1e3db148"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "57347ca924597744596b4e71"
       },
       {
-        "MaxInLobby": 4,
-        "MaxInRaid": 4,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5fca138c2a7b221b2852a5c6"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c1d0efb86f7744baf2e7b7b"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5e42c81886f7742a01529f57"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c94bbff86f7747ee735c08f"
       },
       {
-        "MaxInLobby": 3,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5783c43d2459774bbe137486"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5e42c83786f7742a021fdf3c"
       },
       {
-        "MaxInLobby": 2,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "619cbf7d23893217ec30b689"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "619cbfccbedcde2f5b3f7bdd"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "60391afc25aff57af81f7085"
       },
       {
-        "MaxInLobby": 2,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "619cbfeb6b8a1b37a54eebfa"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 10,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c05300686f7746dce784e5d"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5bffdd7e0db834001b734a1a"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c110624d174af029e69734c"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c0696830db834001d23f5da"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c066e3a0db834001b7353f0"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5c0558060db834001b735271"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "57235b6f24597759bf5a30f1"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5a1eaa87fcdbcb001865f75e"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5d1b5e94d7ad1a2b865a96b0"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "609bab8b455afd752b2e6138"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "606f2696f2cb2e02a42aceb1"
       },
       {
-        "MaxInLobby": 2,
-        "MaxInRaid": 2,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5df8a42886f77412640e2e75"
       },
       {
-        "MaxInLobby": 2,
-        "MaxInRaid": 2,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "5e9db13186f7742f845ee9d3"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "628e1ffc83ec92260c0f437f"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "62a1b7fbc30cfa1d366af586"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "618bb76513f5097c8d5aa2d5"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "619cf0335771dd3c390269ae"
       },
       {
-        "MaxInLobby": 1,
-        "MaxInRaid": 1,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "639346cc1c8f182ad90c8972"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "6478641c19d732620e045e17"
       },
       {
-        "MaxInLobby": 5,
-        "MaxInRaid": 5,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "63fc44e2429a8a166c7f61e6"
       },
       {
-        "MaxInLobby": 2,
-        "MaxInRaid": 2,
+        "MaxInLobby": 9999999,
+        "MaxInRaid": 9999999,
         "TemplateId": "628baf0b967de16aab5a4f36"
       },
       {
@@ -33753,9 +33753,9 @@
         "TemplateId": "674078c4a9c9adf0450d59f9"
       }
     ],
-    "SavagePlayCooldown": 1500,
+    "SavagePlayCooldown": 2100,
     "SavagePlayCooldownDevelop": 0,
-    "SavagePlayCooldownNdaFree": 1500,
+    "SavagePlayCooldownNdaFree": 2100,
     "SeasonActivity": {
       "InfectionHalloween": {
         "DisplayUIEnabled": false,
@@ -34188,8 +34188,8 @@
       }
     },
     "SprintSpeed": {
-      "x": 0.5,
-      "y": 1,
+      "x": 0.375,
+      "y": 0.75,
       "z": 0
     },
     "SquadSettings": {
@@ -34287,8 +34287,8 @@
         "y": 1.3,
         "z": 0
       },
-      "SprintAccelerationLowerLimit": 0.8,
-      "SprintDrainRate": 4,
+      "SprintAccelerationLowerLimit": 0.4,
+      "SprintDrainRate": 3,
       "SprintOverweightLimits": {
         "x": 26,
         "y": 72,
@@ -34320,8 +34320,8 @@
         "z": 0
       },
       "WalkConsumption": {
-        "x": 0.2,
-        "y": 0.5,
+        "x": 0.17,
+        "y": 0.425,
         "z": 0
       },
       "WalkOverweightLimits": {
@@ -34482,8 +34482,8 @@
     "WAVE_COEF_LOW": 1,
     "WAVE_COEF_MID": 1.4,
     "WalkSpeed": {
-      "x": 0.625,
-      "y": 0.717,
+      "x": 0.53125,
+      "y": 0.60945,
       "z": 0
     },
     "WallContusionAbsorption": {

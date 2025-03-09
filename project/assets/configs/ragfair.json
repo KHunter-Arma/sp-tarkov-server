@@ -64,7 +64,7 @@
             ]
         },
         "offerAdjustment": {
-            "adjustPriceWhenBelowHandbookPrice": false,
+            "adjustPriceWhenBelowHandbookPrice": true,
             "maxPriceDifferenceBelowHandbookPercent": 64,
             "handbookPriceMultipier": 1.1,
             "priceThreshholdRub": 20000
@@ -281,8 +281,13 @@
             "max": 20
         },
         "armor": {
-            "removeRemovablePlateChance": 40,
-            "plateSlotIdToRemovePool": ["front_plate", "back_plate"]
+            "removeRemovablePlateChance": 60,
+            "plateSlotIdToRemovePool": [
+                "front_plate",
+                "left_side_plate",
+                "right_side_plate",
+                "back_plate"
+            ]
         },
         "itemPriceMultiplier": {
             "5737292724597765e5728562": 6,
