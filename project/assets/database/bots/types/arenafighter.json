@@ -45,7 +45,7 @@
       "FaceCover": 75,
       "FirstPrimaryWeapon": 100,
       "Headwear": 95,
-      "Holster": 100,
+      "Holster": 25,
       "Pockets": 100,
       "Scabbard": 0,
       "SecondPrimaryWeapon": 0,
@@ -212,13 +212,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 300,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -696,13 +696,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 300,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -1180,13 +1180,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 300,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -1664,13 +1664,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 300,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -2313,11 +2313,7 @@
         "5c0e57ba86f7747fa141986d": 4,
         "5c0e5bab86f77461f55ed1f3": 3,
         "5c0e625a86f7742d77340f62": 1,
-        "5c0e655586f774045612eeb2": 1,
-        "5ca2151486f774244a3b8d30": 2,
-        "5fd4c474dd870108a754b241": 1,
-        "609e8540d5c319764c2bc2e9": 2,
-        "63737f448b28897f2802b874": 1
+        "609e8540d5c319764c2bc2e9": 2
       },
       "Backpack": {
         "545cdae64bdc2d39198b4568": 2,
@@ -2354,28 +2350,18 @@
         "60363c0c92ec1c31037959f5": 1
       },
       "FirstPrimaryWeapon": {
-        "5447a9cd4bdc2dbd208b4567": 2,
+        "5447a9cd4bdc2dbd208b4567": 1,
         "576165642459773c7a400233": 3,
-        "57c44b372459772d2b39b8ce": 2,
-        "587e02ff24597743df3deaeb": 1,
+        "587e02ff24597743df3deaeb": 3,
         "59984ab886f7743e98271174": 1,
-        "5a367e5dc4a282000e49738f": 3,
         "5a7828548dc32e5a9c28b516": 1,
-        "5aafa857e5b5b00018480968": 2,
-        "5ac4cd105acfc40016339859": 2,
+        "5ac4cd105acfc40016339859": 5,
         "5ac66cb05acfc40198510a10": 2,
-        "5ba26383d4351e00334c93d9": 1,
-        "5cc82d76e24e8d00134b4b83": 2,
-        "5dcbd56fdbd3d91b3e5468d5": 2,
-        "5e00903ae9dc277128008b87": 3,
+        "5e00903ae9dc277128008b87": 2,
         "5f2a9575926fd9352339381f": 1,
-        "5fbcc1d9016cce60e8341ab3": 3,
-        "5fc3f2d5900b1d5091531e57": 3,
-        "60339954d62c9b14ed777c06": 1,
-        "618428466ef05c2ce828f218": 1,
-        "623063e994fc3f7b302a9696": 1,
+        "60339954d62c9b14ed777c06": 3,
         "628b9c37a733087d0d7fe84b": 2,
-        "62e14904c2699c0ec93adc47": 4,
+        "62e14904c2699c0ec93adc47": 1,
         "62e7c4fba689e8c9c50dfc38": 1
       },
       "Headwear": {
@@ -2398,15 +2384,9 @@
         "61bca7cda0eae612383adf57": 4
       },
       "Holster": {
-        "56d59856d2720bd8418b456a": 3,
-        "59f98b4986f7746f546d2cef": 2,
-        "5a17f98cfcdbcb0980087290": 2,
-        "5b1fa9b25acfc40018633c01": 1,
-        "5cadc190ae921500103bb3b6": 3,
-        "5e81c3cbac2bb513793cdc75": 25,
-        "602a9740da11d6478d5a06dc": 2,
-        "6193a720f8ee7e52e42109ed": 1,
-        "63088377b5cd696784087147": 5
+        "59f98b4986f7746f546d2cef": 1,
+        "5a17f98cfcdbcb0980087290": 1,
+        "602a9740da11d6478d5a06dc": 5
       },
       "Pockets": {
         "5af99e9186f7747c447120b8": 1
@@ -3231,44 +3211,14 @@
       "5ab8e79e86f7742d8b372e78": {
         "Back_plate": [
           "656f9d5900d62bcd2e02407c",
-          "656fa8d700d62bcd2e024084",
-          "656fa99800d62bcd2e024088",
-          "656fae5f7c2d57afe200c0d7",
-          "656faf0ca0dce000a2020f77",
-          "656fa0fb498d1b7e3e071d9c",
-          "656fafe3498d1b7e3e071da4",
-          "656fa76500d62bcd2e024080",
-          "656fa25e94b480b8a500c0e0",
-          "656fad8c498d1b7e3e071da0",
-          "656fa61e94b480b8a500c0e8",
-          "656fb21fa0dce000a2020f7c",
-          "656fac30c6baea13cd07e10c",
-          "656fb0bd7c2d57afe200c0dc",
-          "656f9fa0498d1b7e3e071d98",
-          "656fa53d94b480b8a500c0e4",
-          "65573fa5655447403702a816",
-          "64afc71497cf3a403c01ff38",
-          "655746010177119f4a097ff7",
-          "64afdcb83efdfea28601d041"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Collar": [
           "657326bc5d3a3129fb05f36b"
         ],
         "Front_plate": [
-          "656f611f94b480b8a500c0db",
-          "656f603f94b480b8a500c0d6",
           "656f57dc27aed95beb08f628",
-          "656f63c027aed95beb08f62c"
-        ],
-        "Left_side_plate": [
-          "6557458f83942d705f0c4962",
-          "64afdb577bb3bfe8fe03fd1d",
-          "64afd81707e2cf40e903a316"
-        ],
-        "Right_side_plate": [
-          "6557458f83942d705f0c4962",
-          "64afdb577bb3bfe8fe03fd1d",
-          "64afd81707e2cf40e903a316"
+          "656f603f94b480b8a500c0d6"
         ],
         "Soft_armor_back": [
           "657326978c1cc6dcd9098b56"
@@ -3448,50 +3398,14 @@
       "5b44d22286f774172b0c9de8": {
         "Back_plate": [
           "656f9d5900d62bcd2e02407c",
-          "656fa8d700d62bcd2e024084",
-          "656fa99800d62bcd2e024088",
-          "656fae5f7c2d57afe200c0d7",
-          "656faf0ca0dce000a2020f77",
-          "656fafe3498d1b7e3e071da4",
-          "656fa0fb498d1b7e3e071d9c",
-          "656fa25e94b480b8a500c0e0",
-          "656fa76500d62bcd2e024080",
-          "656fad8c498d1b7e3e071da0",
-          "656fa61e94b480b8a500c0e8",
-          "656fb21fa0dce000a2020f7c",
-          "656fac30c6baea13cd07e10c",
-          "656fb0bd7c2d57afe200c0dc",
-          "656f9fa0498d1b7e3e071d98",
-          "656fa53d94b480b8a500c0e4",
-          "65573fa5655447403702a816",
-          "64afc71497cf3a403c01ff38",
-          "655746010177119f4a097ff7",
-          "64afdcb83efdfea28601d041"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Collar": [
           "65705cea4916448ae1050897"
         ],
         "Front_plate": [
           "656f9d5900d62bcd2e02407c",
-          "656fa8d700d62bcd2e024084",
-          "656fa99800d62bcd2e024088",
-          "64afdcb83efdfea28601d041",
-          "655746010177119f4a097ff7",
-          "656fae5f7c2d57afe200c0d7",
-          "656faf0ca0dce000a2020f77",
-          "656fa0fb498d1b7e3e071d9c",
-          "656fafe3498d1b7e3e071da4",
-          "656fa76500d62bcd2e024080",
-          "656fa25e94b480b8a500c0e0",
-          "656fad8c498d1b7e3e071da0",
-          "656fa61e94b480b8a500c0e8",
-          "656fb21fa0dce000a2020f7c",
-          "656fac30c6baea13cd07e10c",
-          "656fb0bd7c2d57afe200c0dc",
-          "656f9fa0498d1b7e3e071d98",
-          "656fa53d94b480b8a500c0e4",
-          "65573fa5655447403702a816",
-          "64afc71497cf3a403c01ff38"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Soft_armor_back": [
           "65705c3c14f2ed6d7d0b7738"
@@ -3546,22 +3460,18 @@
         ]
       },
       "5c0e51be86f774598e797894": {
-        "Back_plate": [
-          "656efaf54772930db4031ff5",
-          "656efd66034e8e01c407f35c",
-          "654a4a964b446df1ad03f192"
-        ],
         "Collar": [
           "654a8ae00337d53f9102c2aa"
         ],
-        "Front_plate": [
-          "656f63c027aed95beb08f62c",
-          "656f57dc27aed95beb08f628",
-          "656f603f94b480b8a500c0d6",
-          "656f611f94b480b8a500c0db"
-        ],
         "Groin": [
           "654a8bc5f414fcea4004d79b"
+        ],
+        "Back_plate": [
+          "656efd66034e8e01c407f35c"
+        ],
+        "Front_plate": [
+          "656f57dc27aed95beb08f628",
+          "656f603f94b480b8a500c0d6"
         ],
         "Soft_armor_back": [
           "654a8976f414fcea4004d78b"
@@ -3572,7 +3482,7 @@
         "Soft_armor_left": [
           "654a8b3df414fcea4004d78f"
         ],
-        "soft_armor_right": [
+        "Soft_armor_right": [
           "654a8b80f414fcea4004d797"
         ]
       },
@@ -3584,15 +3494,11 @@
           "654a8bc5f414fcea4004d79b"
         ],
         "back_plate": [
-          "654a4a964b446df1ad03f192",
-          "656efaf54772930db4031ff5",
           "656efd66034e8e01c407f35c"
         ],
         "front_plate": [
-          "656f603f94b480b8a500c0d6",
-          "656f611f94b480b8a500c0db",
           "656f57dc27aed95beb08f628",
-          "656f63c027aed95beb08f62c"
+          "656f603f94b480b8a500c0d6"
         ],
         "soft_armor_back": [
           "654a8976f414fcea4004d78b"
@@ -3609,21 +3515,13 @@
       },
       "5c0e57ba86f7747fa141986d": {
         "Back_plate": [
-          "657b22485f444d6dff0c6c2f",
-          "657b2797c3dbcb01d60c35ea",
-          "657b28d25f444d6dff0c6c77"
+          "657b22485f444d6dff0c6c2f"
         ],
         "Collar": [
           "657080ca12755ae0d907ad5e"
         ],
         "Front_plate": [
-          "656f664200d62bcd2e024077",
-          "654a4dea7c17dec2f50cc86a",
-          "656f66b5c6baea13cd07e108",
-          "656f611f94b480b8a500c0db",
-          "656f603f94b480b8a500c0d6",
-          "656f57dc27aed95beb08f628",
-          "656f63c027aed95beb08f62c"
+          "654a4dea7c17dec2f50cc86a"
         ],
         "Groin": [
           "65708122f65e2491bf009755"
@@ -3646,17 +3544,13 @@
       },
       "5c0e5bab86f77461f55ed1f3": {
         "Back_plate": [
-          "657b22485f444d6dff0c6c2f",
-          "657b2797c3dbcb01d60c35ea",
-          "657b28d25f444d6dff0c6c77"
+          "657b22485f444d6dff0c6c2f"
         ],
         "Collar": [
           "6571babb4076795e5e07383f"
         ],
         "Front_plate": [
-          "656f664200d62bcd2e024077",
-          "654a4dea7c17dec2f50cc86a",
-          "656f66b5c6baea13cd07e108"
+          "654a4dea7c17dec2f50cc86a"
         ],
         "Groin": [
           "6571bac34076795e5e073843"
@@ -3680,44 +3574,14 @@
       "5c0e625a86f7742d77340f62": {
         "Back_plate": [
           "656f9d5900d62bcd2e02407c",
-          "656fa99800d62bcd2e024088",
-          "656fa8d700d62bcd2e024084",
-          "656fae5f7c2d57afe200c0d7",
-          "656faf0ca0dce000a2020f77",
-          "656fa0fb498d1b7e3e071d9c",
-          "656fa76500d62bcd2e024080",
-          "656fafe3498d1b7e3e071da4",
-          "656fa25e94b480b8a500c0e0",
-          "656fad8c498d1b7e3e071da0",
-          "656fac30c6baea13cd07e10c",
-          "656fa61e94b480b8a500c0e8",
-          "656fb21fa0dce000a2020f7c",
-          "656f9fa0498d1b7e3e071d98",
-          "656fb0bd7c2d57afe200c0dc",
-          "656fa53d94b480b8a500c0e4",
-          "655746010177119f4a097ff7",
-          "64afdcb83efdfea28601d041",
-          "65573fa5655447403702a816",
-          "64afc71497cf3a403c01ff38"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Collar": [
           "657643a220cc24d17102b14c"
         ],
         "Front_plate": [
-          "656f611f94b480b8a500c0db",
-          "656f603f94b480b8a500c0d6",
           "656f57dc27aed95beb08f628",
-          "656f63c027aed95beb08f62c"
-        ],
-        "Left_side_plate": [
-          "6557458f83942d705f0c4962",
-          "64afdb577bb3bfe8fe03fd1d",
-          "64afd81707e2cf40e903a316"
-        ],
-        "Right_side_plate": [
-          "6557458f83942d705f0c4962",
-          "64afdb577bb3bfe8fe03fd1d",
-          "64afd81707e2cf40e903a316"
+          "656f603f94b480b8a500c0d6"
         ],
         "Soft_armor_back": [
           "657642b0e6d5dd75f40688a5"
@@ -4364,57 +4228,11 @@
       "609e8540d5c319764c2bc2e9": {
         "Back_plate": [
           "656f9d5900d62bcd2e02407c",
-          "656fa8d700d62bcd2e024084",
-          "656fa99800d62bcd2e024088",
-          "656fae5f7c2d57afe200c0d7",
-          "656faf0ca0dce000a2020f77",
-          "656fa0fb498d1b7e3e071d9c",
-          "656fafe3498d1b7e3e071da4",
-          "656fa76500d62bcd2e024080",
-          "656fa25e94b480b8a500c0e0",
-          "656fad8c498d1b7e3e071da0",
-          "656fa61e94b480b8a500c0e8",
-          "656fb21fa0dce000a2020f7c",
-          "656fac30c6baea13cd07e10c",
-          "656fb0bd7c2d57afe200c0dc",
-          "656f9fa0498d1b7e3e071d98",
-          "656fa53d94b480b8a500c0e4",
-          "655746010177119f4a097ff7",
-          "64afdcb83efdfea28601d041",
-          "65573fa5655447403702a816",
-          "64afc71497cf3a403c01ff38"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Front_plate": [
           "656f9d5900d62bcd2e02407c",
-          "656fa8d700d62bcd2e024084",
-          "656fa99800d62bcd2e024088",
-          "656fae5f7c2d57afe200c0d7",
-          "656faf0ca0dce000a2020f77",
-          "656fa0fb498d1b7e3e071d9c",
-          "656fafe3498d1b7e3e071da4",
-          "656fa25e94b480b8a500c0e0",
-          "656fa76500d62bcd2e024080",
-          "656fad8c498d1b7e3e071da0",
-          "656fa61e94b480b8a500c0e8",
-          "656fb21fa0dce000a2020f7c",
-          "656fac30c6baea13cd07e10c",
-          "656fb0bd7c2d57afe200c0dc",
-          "656f9fa0498d1b7e3e071d98",
-          "656fa53d94b480b8a500c0e4",
-          "655746010177119f4a097ff7",
-          "64afdcb83efdfea28601d041",
-          "65573fa5655447403702a816",
-          "64afc71497cf3a403c01ff38"
-        ],
-        "Left_side_plate": [
-          "6557458f83942d705f0c4962",
-          "64afdb577bb3bfe8fe03fd1d",
-          "64afd81707e2cf40e903a316"
-        ],
-        "Right_side_plate": [
-          "6557458f83942d705f0c4962",
-          "64afdb577bb3bfe8fe03fd1d",
-          "64afd81707e2cf40e903a316"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Soft_armor_back": [
           "6572e52f73c0eabb700109a0"

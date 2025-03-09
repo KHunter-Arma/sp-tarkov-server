@@ -212,7 +212,6 @@
         "574d967124597745970e7c94": 15400,
         "60339954d62c9b14ed777c06": 5431,
         "5fb64bc92b1b027b1f50bcf2": 6412,
-        "5df8ce05b11454561e39243b": 1305,
         "62e14904c2699c0ec93adc47": 938
       },
       "SecondPrimaryWeapon": {},
@@ -3702,10 +3701,10 @@
       "mod_mount_004": 100
     },
     "equipmentMods": {
-      "front_plate": 100,
-      "back_plate": 100,
-      "left_side_plate": 61,
-      "right_side_plate": 61
+      "back_plate": 0,
+      "front_plate": 0,
+      "left_side_plate": 0,
+      "right_side_plate": 0
     }
   },
   "generation": {
