@@ -623,8 +623,8 @@
         "PANIC_SIT_WEIGHT_PEACE": 0,
         "USE_ADD_TO_ENEMY_VALIDATION": true,
         "VALID_REASONS_TO_ADD_ENEMY": [
-			"attackBTR",
-			"serviceBTR"
+          "attackBTR",
+          "serviceBTR"
         ]
       },
       "Boss": {
@@ -676,7 +676,7 @@
       },
       "Core": {
         "VisibleAngle": 130,
-        "VisibleDistance": 120,
+        "VisibleDistance": 1000,
         "GainSightCoef": 0.2,
         "ScatteringPerMeter": 0.05,
         "ScatteringClosePerMeter": 0.1,
@@ -685,9 +685,9 @@
         "CanRun": true,
         "CanGrenade": true,
         "AimingType": "normal",
-        "PistolFireDistancePref": 35,
-        "ShotgunFireDistancePref": 50,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 1500,
+        "ShotgunFireDistancePref": 1500,
+        "RifleFireDistancePref": 1500,
         "AccuratySpeed": 0.3,
         "WaitInCoverBetweenShotsSec": 1.5
       },
@@ -1139,8 +1139,8 @@
         "PANIC_SIT_WEIGHT_PEACE": 0,
         "USE_ADD_TO_ENEMY_VALIDATION": true,
         "VALID_REASONS_TO_ADD_ENEMY": [
-			"attackBTR",
-			"serviceBTR"
+          "attackBTR",
+          "serviceBTR"
         ]
       },
       "Boss": {
@@ -1192,7 +1192,7 @@
       },
       "Core": {
         "VisibleAngle": 130,
-        "VisibleDistance": 120,
+        "VisibleDistance": 1000,
         "GainSightCoef": 0.2,
         "ScatteringPerMeter": 0.05,
         "ScatteringClosePerMeter": 0.1,
@@ -1201,9 +1201,9 @@
         "CanRun": true,
         "CanGrenade": true,
         "AimingType": "normal",
-        "PistolFireDistancePref": 35,
-        "ShotgunFireDistancePref": 50,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 1500,
+        "ShotgunFireDistancePref": 1500,
+        "RifleFireDistancePref": 1500,
         "AccuratySpeed": 0.3,
         "WaitInCoverBetweenShotsSec": 1.5
       },
@@ -1655,8 +1655,8 @@
         "PANIC_SIT_WEIGHT_PEACE": 0,
         "USE_ADD_TO_ENEMY_VALIDATION": true,
         "VALID_REASONS_TO_ADD_ENEMY": [
-			"attackBTR",
-			"serviceBTR"
+          "attackBTR",
+          "serviceBTR"
         ]
       },
       "Boss": {
@@ -1708,7 +1708,7 @@
       },
       "Core": {
         "VisibleAngle": 130,
-        "VisibleDistance": 120,
+        "VisibleDistance": 1000,
         "GainSightCoef": 0.2,
         "ScatteringPerMeter": 0.05,
         "ScatteringClosePerMeter": 0.1,
@@ -1717,9 +1717,9 @@
         "CanRun": true,
         "CanGrenade": true,
         "AimingType": "normal",
-        "PistolFireDistancePref": 35,
-        "ShotgunFireDistancePref": 50,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 1500,
+        "ShotgunFireDistancePref": 1500,
+        "RifleFireDistancePref": 1500,
         "AccuratySpeed": 0.3,
         "WaitInCoverBetweenShotsSec": 1.5
       },
@@ -2171,8 +2171,8 @@
         "PANIC_SIT_WEIGHT_PEACE": 0,
         "USE_ADD_TO_ENEMY_VALIDATION": true,
         "VALID_REASONS_TO_ADD_ENEMY": [
-			"attackBTR",
-			"serviceBTR"
+          "attackBTR",
+          "serviceBTR"
         ]
       },
       "Boss": {
@@ -2224,7 +2224,7 @@
       },
       "Core": {
         "VisibleAngle": 130,
-        "VisibleDistance": 120,
+        "VisibleDistance": 1000,
         "GainSightCoef": 0.2,
         "ScatteringPerMeter": 0.05,
         "ScatteringClosePerMeter": 0.1,
@@ -2233,9 +2233,9 @@
         "CanRun": true,
         "CanGrenade": true,
         "AimingType": "normal",
-        "PistolFireDistancePref": 35,
-        "ShotgunFireDistancePref": 50,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 1500,
+        "ShotgunFireDistancePref": 1500,
+        "RifleFireDistancePref": 1500,
         "AccuratySpeed": 0.3,
         "WaitInCoverBetweenShotsSec": 1.5
       },
