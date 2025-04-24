@@ -33753,9 +33753,9 @@
         "TemplateId": "674078c4a9c9adf0450d59f9"
       }
     ],
-    "SavagePlayCooldown": 2100,
+    "SavagePlayCooldown": 43200,
     "SavagePlayCooldownDevelop": 0,
-    "SavagePlayCooldownNdaFree": 2100,
+    "SavagePlayCooldownNdaFree": 43200,
     "SeasonActivity": {
       "InfectionHalloween": {
         "DisplayUIEnabled": false,
