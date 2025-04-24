@@ -4,8 +4,8 @@
   "AirdropParameters": [
     {
       "AirdropPointDeactivateDistance": 50,
-      "MinPlayersCountToSpawnAirdrop": 6,
-      "PlaneAirdropChance": 0.2,
+      "MinPlayersCountToSpawnAirdrop": 99,
+      "PlaneAirdropChance": 0.0,
       "PlaneAirdropCooldownMax": 700,
       "PlaneAirdropCooldownMin": 600,
       "PlaneAirdropEnd": 1200,
@@ -16,7 +16,7 @@
     }
   ],
   "Area": 0,
-  "AveragePlayTime": 25,
+  "AveragePlayTime": 75,
   "AveragePlayerLevel": 20,
   "Banners": [
     {
@@ -525,15 +525,15 @@
   "BotSpawnTimeOnMin": 260,
   "BotStart": 20,
   "BotStartPlayer": 210,
-  "BotStop": 1500,
+  "BotStop": 4500,
   "Description": "Very Big Map",
   "DisabledForScav": false,
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 40,
-  "EscapeTimeLimitCoop": 25,
-  "EscapeTimeLimitPVE": 40,
+  "EscapeTimeLimit": 120,
+  "EscapeTimeLimitCoop": 60,
+  "EscapeTimeLimitPVE": 120,
   "Events": {
     "Halloween2024": {
       "CrowdAttackBlockRadius": 100,
