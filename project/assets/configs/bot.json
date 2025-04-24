@@ -287,8 +287,8 @@
             }
         }
     },
-    "chanceAssaultScavHasPlayerScavName": 10,
-    "secureContainerAmmoStackCount": 20,
+    "chanceAssaultScavHasPlayerScavName": 5,
+    "secureContainerAmmoStackCount": 60,
     "botRolesWithDogTags": ["pmcbear", "pmcusec"],
     "revenge": {
         "pmcBot": ["pmcBot", "gifter"],
