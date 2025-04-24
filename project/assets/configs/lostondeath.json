@@ -1,6 +1,6 @@
 {
     "equipment": {
-        "ArmBand": false,
+        "ArmBand": true,
         "Compass": false,
         "Headwear": true,
         "Earpiece": true,
@@ -13,7 +13,7 @@
         "Holster": true,
         "FirstPrimaryWeapon": true,
         "SecondPrimaryWeapon": true,
-        "Scabbard": false,
+        "Scabbard": true,
         "SecuredContainer": false
     },
     "questItems": true,
