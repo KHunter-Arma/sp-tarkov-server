@@ -26957,7 +26957,7 @@
       "ScavPriceMod": 0.8,
       "SnapToSurfaceWheelsSpeed": 0.2,
       "TaxiMinPrice": 4000,
-      "UsecPriceMod": 1.5
+      "UsecPriceMod": 2.5
     },
     "Ballistic": {
       "GlobalDamageDegradationCoefficient": 0.5
