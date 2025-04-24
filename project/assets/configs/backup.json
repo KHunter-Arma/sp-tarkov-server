@@ -1,9 +1,9 @@
 {
     "enabled": true,
-    "maxBackups": 15,
+    "maxBackups": 30,
     "directory": "./user/profiles/backups",
     "backupInterval": {
-        "enabled": false,
-        "intervalMinutes": 120
+        "enabled": true,
+        "intervalMinutes": 1440
     }
 }
