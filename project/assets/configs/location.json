@@ -255,7 +255,7 @@
     "fitLootIntoContainerAttempts": 3,
     "addOpenZonesToAllMaps": true,
     "addCustomBotWavesToMaps": true,
-    "enableBotTypeLimits": true,
+    "enableBotTypeLimits": false,
     "botTypeLimits": {
         "tarkovstreets": [
             {
