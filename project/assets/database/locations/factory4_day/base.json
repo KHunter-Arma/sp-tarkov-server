@@ -405,7 +405,7 @@
   "Id": "factory4_day",
   "Insurance": true,
   "IsSecret": false,
-  "Locked": false,
+  "Locked": true,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {

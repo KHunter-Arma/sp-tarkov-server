@@ -694,7 +694,7 @@
   "Id": "laboratory",
   "Insurance": false,
   "IsSecret": true,
-  "Locked": false,
+  "Locked": true,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {

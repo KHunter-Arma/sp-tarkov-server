@@ -411,7 +411,7 @@
   "Id": "Sandbox_high",
   "Insurance": true,
   "IsSecret": false,
-  "Locked": false,
+  "Locked": true,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {
