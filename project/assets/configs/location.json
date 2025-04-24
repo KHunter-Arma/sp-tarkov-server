@@ -308,11 +308,11 @@
         "containerGroupMinSizeMultiplier": 1,
         "containerGroupMaxSizeMultiplier": 1
     },
-    "minFillLooseMagazinePercent": 50,
-    "minFillStaticMagazinePercent": 50,
+    "minFillLooseMagazinePercent": 0,
+    "minFillStaticMagazinePercent": 0,
     "allowDuplicateItemsInStaticContainers": true,
     "magazineLootHasAmmoChancePercent": 50,
-    "staticMagazineLootHasAmmoChancePercent": 0,
+    "staticMagazineLootHasAmmoChancePercent": 20,
     "looseLootBlacklist": {},
     "scavRaidTimeSettings": {
         "settings": {
@@ -523,9 +523,9 @@
     },
     "equipmentLootSettings": {
         "modSpawnChancePercent": {
-            "mod_nvg": 5,
-            "front_plate": 100,
-            "back_plate": 100,
+            "mod_nvg": 0,
+            "front_plate": 50,
+            "back_plate": 50,
             "left_side_plate": 25,
             "right_side_plate": 25,
             "mod_equipment_000": 5,
