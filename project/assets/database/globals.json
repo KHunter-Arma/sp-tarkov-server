@@ -32780,7 +32780,7 @@
       "communityRequirementTax": 3,
       "communityTax": 3,
       "delaySinceOfferAdd": 0,
-      "enabled": true,
+      "enabled": false,
       "includePveTraderSales": false,
       "isOnlyFoundInRaidAllowed": false,
       "maxActiveOfferCount": [
@@ -32886,7 +32886,7 @@
           "value": 999999
         }
       },
-      "minUserLevel": 30,
+      "minUserLevel": 1,
       "offerDurationTimeInHour": 12,
       "offerDurationTimeInHourAfterRemove": 0.02,
       "offerPriorityCost": 6,
