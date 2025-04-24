@@ -28904,12 +28904,12 @@
         "0": {
           "AvailableExits": 3,
           "BotApplySilenceChance": 50,
-          "BotFollowChance": 50,
-          "BotGetInCoverChance": 50,
-          "BotHelpChance": 50,
-          "BotSpreadoutChance": 50,
+          "BotFollowChance": 10,
+          "BotGetInCoverChance": 60,
+          "BotHelpChance": 25,
+          "BotSpreadoutChance": 10,
           "BotStopChance": 50,
-          "CanInteractWithBtr": true,
+          "CanInteractWithBtr": false,
           "CircleOfCultistsBonusPercent": 0,
           "DeliveryGridSize": {
             "x": 5,
