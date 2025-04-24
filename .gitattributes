@@ -24,3 +24,4 @@ project/assets/database/templates/items.json filter=lfs diff=lfs merge=lfs -text
 project/assets/images/**/*.jpg filter=lfs diff=lfs merge=lfs -text
 project/assets/images/**/*.png filter=lfs diff=lfs merge=lfs -text
 --include-ref=refs/heads/Hz_new !text !filter !merge !diff
+--include-ref=refs/heads/Hz_new filter=lfs diff=lfs merge=lfs -text
