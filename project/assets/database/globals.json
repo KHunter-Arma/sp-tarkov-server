@@ -34380,15 +34380,15 @@
       "BearPriceMod": 1,
       "ClearAllPlayerEffectsOnTransit": false,
       "CoefficientDiscountCharisma": 0.002,
-      "DeliveryMinPrice": 1000,
-      "DeliveryPrice": 1000,
+      "DeliveryMinPrice": 20000,
+      "DeliveryPrice": 20000,
       "ModDeliveryCost": 0.05,
       "PercentageOfMissingEnergyRestore": 0,
       "PercentageOfMissingHealthRestore": 0,
       "PercentageOfMissingWaterRestore": 0,
       "RestoreHealthOnDestroyedParts": false,
       "ScavPriceMod": 0.8,
-      "UsecPriceMod": 1.05,
+      "UsecPriceMod": 1.15,
       "active": true
     },
     "TripwiresSettings": {
