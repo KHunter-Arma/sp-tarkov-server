@@ -1,7 +1,7 @@
 {
     "mailRedeemTimeHours": {
-        "default": 48,
-        "unheard_edition": 72
+        "default": 336,
+        "unheard_edition": 336
     },
     "usecOnlyQuests": [
         "6179b5eabca27a099552e052",
