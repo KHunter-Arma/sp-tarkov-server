@@ -24270,7 +24270,7 @@
       "CanSellOnRagfair": true,
       "CantRemoveFromSlotsDuringRaid": [],
       "ConflictingItems": [],
-      "Description": "Standard stash 10x30\n",
+      "Description": "Small Stash (10x125)\n",
       "DiscardLimit": -1,
       "DiscardingBlock": false,
       "DropSoundType": "None",
@@ -24291,7 +24291,7 @@
           "_parent": "566abbc34bdc2d92178b4576",
           "_props": {
             "cellsH": 10,
-            "cellsV": 30,
+            "cellsV": 125,
             "filters": [],
             "isSortingTable": false,
             "maxCount": 0,
@@ -59810,7 +59810,7 @@
       "CanSellOnRagfair": true,
       "CantRemoveFromSlotsDuringRaid": [],
       "ConflictingItems": [],
-      "Description": "Left Behind stash 10x40",
+      "Description": "Medium Stash (10x250)\n",
       "DiscardLimit": -1,
       "DiscardingBlock": false,
       "DropSoundType": "None",
@@ -59831,7 +59831,7 @@
           "_parent": "5811ce572459770cba1a34ea",
           "_props": {
             "cellsH": 10,
-            "cellsV": 40,
+            "cellsV": 250,
             "filters": [],
             "isSortingTable": false,
             "maxCount": 0,
@@ -59897,7 +59897,7 @@
       "CanSellOnRagfair": true,
       "CantRemoveFromSlotsDuringRaid": [],
       "ConflictingItems": [],
-      "Description": "Prepare for escape stash 10x50\n",
+      "Description": "Large Stash (10x400)\n",
       "DiscardLimit": -1,
       "DiscardingBlock": false,
       "DropSoundType": "None",
@@ -59918,7 +59918,7 @@
           "_parent": "5811ce662459770f6f490f32",
           "_props": {
             "cellsH": 10,
-            "cellsV": 50,
+            "cellsV": 400,
             "filters": [],
             "isSortingTable": false,
             "maxCount": 0,
@@ -59984,7 +59984,7 @@
       "CanSellOnRagfair": true,
       "CantRemoveFromSlotsDuringRaid": [],
       "ConflictingItems": [],
-      "Description": "Edge of darkness stash 10x68\n",
+      "Description": "Huge Stash (10x600)\n",
       "DiscardLimit": -1,
       "DiscardingBlock": false,
       "DropSoundType": "None",
@@ -60005,7 +60005,7 @@
           "_parent": "5811ce772459770e9e5f9532",
           "_props": {
             "cellsH": 10,
-            "cellsV": 68,
+            "cellsV": 600,
             "filters": [],
             "isSortingTable": false,
             "maxCount": 0,
@@ -584513,6 +584513,277 @@
       "Width": 2
     },
     "_proto": "578f87a3245977356274f2cb",
+    "_type": "Item"
+  },
+  "24874a3e83064dbc98aa5c10": {
+    "_id": "24874a3e83064dbc98aa5c10",
+    "_name": "PMC pockets",
+    "_parent": "557596e64bdc2dc2118b4571",
+    "_props": {
+      "AnimationVariantsNumber": 0,
+      "BackgroundColor": "default",
+      "BlocksArmorVest": false,
+      "CanPutIntoDuringTheRaid": true,
+      "CanRequireOnRagfair": false,
+      "CanSellOnRagfair": false,
+      "CantRemoveFromSlotsDuringRaid": [
+        "Pockets"
+      ],
+      "ConflictingItems": [],
+      "Description": "Pockets",
+      "DiscardLimit": -1,
+      "DiscardingBlock": false,
+      "DropSoundType": "None",
+      "ExamineExperience": 10,
+      "ExamineTime": 1,
+      "ExaminedByDefault": true,
+      "ExtraSizeDown": 0,
+      "ExtraSizeForceAdd": false,
+      "ExtraSizeLeft": 0,
+      "ExtraSizeRight": 0,
+      "ExtraSizeUp": 0,
+      "ForbidMissingVitalParts": false,
+      "ForbidNonEmptyContainers": false,
+      "Grids": [
+        {
+          "_id": "627a4e6b255f7527fb05a0f8",
+          "_name": "pocket1",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 1,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "627a4e6b255f7527fb05a0f9",
+          "_name": "pocket2",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 1,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "627a4e6b255f7527fb05a0fa",
+          "_name": "pocket3",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 1,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "627a4e6b255f7527fb05a0fb",
+          "_name": "pocket4",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 1,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "5af99fc786f77444520b2287",
+          "_name": "pocket5",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 2,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "f52aebbcd5e74343adf11ea4",
+          "_name": "pocket6",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 2,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "05877287651d47238f5a15aa",
+          "_name": "pocket7",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 2,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "469ab68843c9489791450e62",
+          "_name": "pocket8",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 2,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        }
+      ],
+      "Height": 20,
+      "HideEntrails": true,
+      "InsuranceDisabled": false,
+      "IsAlwaysAvailableForInsurance": false,
+      "IsLockedafterEquip": true,
+      "IsSpecialSlotOnly": false,
+      "IsUnbuyable": true,
+      "IsUndiscardable": true,
+      "IsUngivable": true,
+      "IsUnremovable": false,
+      "IsUnsaleable": true,
+      "ItemSound": "generic",
+      "LootExperience": 20,
+      "MergesWithChildren": false,
+      "Name": "Pockets",
+      "NotShownInSlot": true,
+      "Prefab": {
+        "path": "",
+        "rcid": ""
+      },
+      "QuestItem": false,
+      "QuestStashMaxCount": 0,
+      "RagFairCommissionModifier": 1,
+      "RarityPvE": "Not_exist",
+      "RepairCost": 0,
+      "RepairSpeed": 0,
+      "SearchSound": "looting_body_extended",
+      "ShortName": "Pockets",
+      "Slots": [],
+      "StackMaxSize": 1,
+      "StackObjectsCount": 1,
+      "Unlootable": true,
+      "UnlootableFromSide": [
+        "Bear",
+        "Usec",
+        "Savage"
+      ],
+      "UnlootableFromSlot": "Pockets",
+      "UsePrefab": {
+        "path": "",
+        "rcid": ""
+      },
+      "Weight": 0,
+      "Width": 20
+    },
+    "_proto": "557ffd194bdc2d28148b457f",
     "_type": "Item"
   }
 }
