@@ -1,7 +1,7 @@
 {
     "equipment": {
         "ArmBand": true,
-        "Compass": false,
+        "Compass": true,
         "Headwear": true,
         "Earpiece": true,
         "FaceCover": true,
@@ -17,5 +17,5 @@
         "SecuredContainer": false
     },
     "questItems": true,
-    "specialSlotItems": false
+    "specialSlotItems": true
 }
