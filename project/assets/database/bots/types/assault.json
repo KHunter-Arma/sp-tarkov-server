@@ -2140,8 +2140,8 @@
         "min": -1
       },
       "normal": {
-        "max": 20,
-        "min": 20
+        "max": -1,
+        "min": -1
       }
     },
     "standingForKill": {
@@ -2530,8 +2530,8 @@
           "min": 85
         },
         "Head": {
-          "max": 35,
-          "min": 35
+          "max": 30,
+          "min": 30
         },
         "LeftArm": {
           "max": 60,
@@ -2560,8 +2560,8 @@
           "min": 100
         },
         "Head": {
-          "max": 35,
-          "min": 35
+          "max": 30,
+          "min": 30
         },
         "LeftArm": {
           "max": 70,
