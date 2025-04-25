@@ -32452,7 +32452,7 @@
     "KarmaCalculationSettings": {
       "defaultPveKarmaValue": 0.5,
       "enable": true,
-      "expireDaysAfterLastRaid": 7,
+      "expireDaysAfterLastRaid": 90,
       "maxKarmaThresholdPercentile": 0.9,
       "minKarmaThresholdPercentile": 0.1,
       "minSurvivedRaidCount": 2
