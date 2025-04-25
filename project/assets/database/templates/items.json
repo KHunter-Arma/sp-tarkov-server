@@ -584686,7 +584686,7 @@
           "_parent": "24874a3e83064dbc98aa5c10",
           "_props": {
             "cellsH": 1,
-            "cellsV": 1,
+            "cellsV": 2,
             "filters": [
               {
                 "ExcludedFilter": [
@@ -584710,55 +584710,7 @@
           "_parent": "24874a3e83064dbc98aa5c10",
           "_props": {
             "cellsH": 1,
-            "cellsV": 1,
-            "filters": [
-              {
-                "ExcludedFilter": [
-                  "5448bf274bdc2dfc2f8b456a"
-                ],
-                "Filter": [
-                  "54009119af1c881c07000029"
-                ]
-              }
-            ],
-            "isSortingTable": false,
-            "maxCount": 0,
-            "maxWeight": 0,
-            "minCount": 0
-          },
-          "_proto": "55d329c24bdc2d892f8b4567"
-        },
-        {
-          "_id": "58519ece5f9947c5bb8e7e63",
-          "_name": "pocket9",
-          "_parent": "24874a3e83064dbc98aa5c10",
-          "_props": {
-            "cellsH": 1,
-            "cellsV": 1,
-            "filters": [
-              {
-                "ExcludedFilter": [
-                  "5448bf274bdc2dfc2f8b456a"
-                ],
-                "Filter": [
-                  "54009119af1c881c07000029"
-                ]
-              }
-            ],
-            "isSortingTable": false,
-            "maxCount": 0,
-            "maxWeight": 0,
-            "minCount": 0
-          },
-          "_proto": "55d329c24bdc2d892f8b4567"
-        },
-        {
-          "_id": "ae4bc887e0d14a82bffe2c34",
-          "_name": "pocket10",
-          "_parent": "24874a3e83064dbc98aa5c10",
-          "_props": {
-            "cellsH": 1,
-            "cellsV": 1,
+            "cellsV": 2,
             "filters": [
               {
                 "ExcludedFilter": [
