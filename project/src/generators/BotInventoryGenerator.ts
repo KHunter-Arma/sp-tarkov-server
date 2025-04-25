@@ -584,7 +584,7 @@ export class BotInventoryGenerator {
                 slot: EquipmentSlots.HOLSTER,
                 shouldSpawn: shouldSpawnPrimary
                     ? this.randomUtil.getChance100(equipmentChances.equipment.Holster) // Primary weapon = roll for chance at pistol
-                    : true, // No primary = force pistol
+                    : false, // No primary = force pistol ----- Hunter: nope
             },
         ];
     }
