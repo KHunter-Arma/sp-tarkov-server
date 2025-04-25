@@ -60,25 +60,25 @@
     "equipment": {
       "ArmBand": 0,
       "ArmorVest": 20,
-      "Backpack": 70,
+      "Backpack": 25,
       "Earpiece": 0,
-      "Eyewear": 25,
-      "FaceCover": 53,
+      "Eyewear": 15,
+      "FaceCover": 25,
       "FirstPrimaryWeapon": 93,
-      "Headwear": 68,
-      "Holster": 6,
+      "Headwear": 60,
+      "Holster": 10,
       "Pockets": 100,
-      "Scabbard": 86,
+      "Scabbard": 60,
       "SecondPrimaryWeapon": 0,
       "SecuredContainer": 100,
-      "TacticalVest": 100
+      "TacticalVest": 40
     },
     "equipmentMods": {
       "back_plate": 24,
-      "front_plate": 50,
+      "front_plate": 60,
       "left_side_plate": 0,
-      "mod_equipment": 11,
-      "mod_equipment_000": 20,
+      "mod_equipment": 5,
+      "mod_equipment_000": 5,
       "mod_equipment_001": 0,
       "mod_equipment_002": 0,
       "mod_mount": 0,
@@ -89,27 +89,27 @@
       "mod_bipod": 0,
       "mod_charge": 2,
       "mod_charge_001": 0,
-      "mod_flashlight": 99,
-      "mod_foregrip": 24,
+      "mod_flashlight": 20,
+      "mod_foregrip": 3,
       "mod_handguard": 100,
       "mod_launcher": 0,
       "mod_magazine": 100,
-      "mod_mount": 22,
-      "mod_mount_000": 27,
+      "mod_mount": 2,
+      "mod_mount_000": 2,
       "mod_mount_001": 0,
-      "mod_muzzle": 36,
+      "mod_muzzle": 10,
       "mod_pistol_grip": 0,
-      "mod_reciever": 91,
-      "mod_scope": 47,
-      "mod_sight_front": 28,
+      "mod_reciever": 80,
+      "mod_scope": 2,
+      "mod_sight_front": 75,
       "mod_sight_rear": 57,
       "mod_stock": 49,
-      "mod_stock_000": 10,
-      "mod_stock_akms": 100,
-      "mod_tactical": 33,
+      "mod_stock_000": 0,
+      "mod_stock_akms": 40,
+      "mod_tactical": 2,
       "mod_tactical_000": 2,
-      "mod_tactical_001": 76,
-      "mod_tactical_002": 3,
+      "mod_tactical_001": 5,
+      "mod_tactical_002": 1,
       "mod_tactical_003": 0,
       "mod_tactical_2": 0
     }
@@ -2145,9 +2145,9 @@
       }
     },
     "standingForKill": {
-      "easy": -0.03,
-      "hard": -0.05,
-      "normal": -0.04
+      "easy": -1.2,
+      "hard": -1.2,
+      "normal": -1.2
     },
     "useSimpleAnimator": false
   },
@@ -2437,63 +2437,51 @@
     "items": {
       "backpackLoot": {
         "weights": {
-          "0": 1,
-          "1": 6,
-          "2": 6,
-          "3": 1,
-          "4": 1,
-          "5": 1,
-          "6": 1
+          "0": 1
         },
         "whitelist": []
       },
       "currency": {
         "weights": {
           "0": 20,
-          "1": 5,
-          "2": 1
+          "1": 5
         },
         "whitelist": []
       },
       "drink": {
         "weights": {
-          "0": 10,
-          "1": 5,
-          "2": 2
+          "0": 6,
+          "1": 4,
+          "2": 1
         },
         "whitelist": []
       },
       "drugs": {
         "weights": {
-          "0": 30,
-          "1": 9,
-          "2": 1
+          "0": 3,
+          "1": 1
         },
         "whitelist": []
       },
       "food": {
         "weights": {
-          "0": 10,
-          "1": 5,
-          "2": 2
+          "0": 6,
+          "1": 4,
+          "2": 1
         },
         "whitelist": []
       },
       "grenades": {
         "weights": {
-          "0": 13,
-          "1": 6,
-          "2": 2,
-          "3": 1,
-          "4": 0,
-          "5": 0
+          "0": 10,
+          "1": 1
         },
         "whitelist": []
       },
       "healing": {
         "weights": {
           "0": 5,
-          "1": 6,
+          "1": 3,
           "2": 1
         },
         "whitelist": []
@@ -2510,38 +2498,25 @@
       },
       "pocketLoot": {
         "weights": {
-          "0": 2,
-          "1": 9,
-          "2": 3,
-          "3": 1,
-          "4": 1
+          "0": 1
         },
         "whitelist": []
       },
       "specialItems": {
         "weights": {
-          "0": 1,
-          "1": 0
+          "0": 1
         },
         "whitelist": []
       },
       "stims": {
         "weights": {
-          "0": 45,
-          "1": 3,
-          "2": 1
+          "0": 1
         },
         "whitelist": []
       },
       "vestLoot": {
         "weights": {
-          "0": 1,
-          "1": 3,
-          "2": 4,
-          "3": 1,
-          "4": 0,
-          "5": 0,
-          "6": 0
+          "0": 1
         },
         "whitelist": []
       }
