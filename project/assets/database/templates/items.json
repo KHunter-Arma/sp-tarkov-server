@@ -4468,11 +4468,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -6239,11 +6236,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -8876,12 +8870,8 @@
       "ShortName": "mtool",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -54251,11 +54241,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -57551,11 +57538,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -57658,11 +57642,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -84117,12 +84098,8 @@
       "ShortName": "item_quest_ms2000",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "assets/content/weapons/usable_items/item_ms2000/item_ms2000_container.bundle",
@@ -143642,12 +143619,8 @@
       "ShortName": "item_quest_signal_jammer",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "assets/content/weapons/usable_items/item_gsm_gps_jammer/item_gsm_gps_container.bundle",
@@ -151128,12 +151101,8 @@
       "ShortName": "minedetector",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -159045,12 +159014,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -159123,12 +159088,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -159201,12 +159162,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -159279,12 +159236,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -159357,12 +159310,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -162523,12 +162472,8 @@
       "ShortName": "item_spec_ipcamera",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -178219,11 +178164,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -179986,11 +179928,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -187417,11 +187356,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -187524,11 +187460,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -187631,11 +187564,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -188876,11 +188806,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -189228,11 +189155,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -189335,11 +189259,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -193981,11 +193902,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -302252,12 +302170,8 @@
       "ShortName": "item_spec_compass",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -307107,12 +307021,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -319170,11 +319080,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -332467,12 +332374,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 1,
       "StimulatorBuffs": "Buffs_hultafors",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -338173,12 +338076,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -342776,12 +342675,8 @@
       "ShortName": "Item",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -361592,12 +361487,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -361671,12 +361562,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -361750,12 +361637,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -361829,12 +361712,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -361908,12 +361787,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -361987,12 +361862,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -362066,12 +361937,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -362145,12 +362012,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -362224,12 +362087,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -362303,12 +362162,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -399221,12 +399076,8 @@
       "ShortName": "item_spec_radiotransmitter",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -404677,12 +404528,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 2,
       "StimulatorBuffs": "Buffs_hultafors",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -412213,11 +412060,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -413649,12 +413493,8 @@
       "ShortName": "item_spec_radiotransmitterbody",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -414534,12 +414374,8 @@
       "ShortName": "item_quest_radio_repeater",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "assets/content/weapons/usable_items/item_radio_repeater/item_radio_repeater_container.bundle",
@@ -445412,12 +445248,8 @@
       "ShortName": "Item",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -454891,11 +454723,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -513208,11 +513037,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -513296,12 +513122,8 @@
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
       "TradersDiscount": 0.5,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "",
@@ -518226,12 +518048,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -522234,12 +522052,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -522319,12 +522133,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -523755,12 +523565,8 @@
       "ShortName": "Item_spec_detector",
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "SpecialSlot",
       "UsePrefab": {
         "path": "assets/content/weapons/usable_items/item_gsm_gps_jammer/item_gsm_gps_container.bundle",
@@ -554147,12 +553953,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -567158,11 +566960,8 @@
       "StackObjectsCount": 1,
       "StaminaBurnRate": 0,
       "StimulatorBuffs": "",
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "Scabbard",
       "UsePrefab": {
         "path": "",
@@ -577886,12 +577685,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -577965,12 +577760,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -578044,12 +577835,8 @@
       "Slots": [],
       "StackMaxSize": 1,
       "StackObjectsCount": 1,
-      "Unlootable": true,
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "Unlootable": false,
+      "UnlootableFromSide": [],
       "UnlootableFromSlot": "ArmBand",
       "UsePrefab": {
         "path": "",
@@ -584536,7 +584323,7 @@
       "DropSoundType": "None",
       "ExamineExperience": 10,
       "ExamineTime": 1,
-      "ExaminedByDefault": false,
+      "ExaminedByDefault": true,
       "ExtraSizeDown": 0,
       "ExtraSizeForceAdd": false,
       "ExtraSizeLeft": 0,
