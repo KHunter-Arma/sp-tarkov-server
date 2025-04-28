@@ -1,7 +1,7 @@
 {
     "raidMenuSettings": {
         "aiAmount": "AsOnline",
-        "aiDifficulty": "AsOnline",
+        "aiDifficulty": "easy",
         "bossEnabled": true,
         "scavWars": false,
         "taggedAndCursed": false,
