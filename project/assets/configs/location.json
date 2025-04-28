@@ -205,10 +205,10 @@
         "containerGroupMinSizeMultiplier": 1,
         "containerGroupMaxSizeMultiplier": 1
     },
-    "minFillLooseMagazinePercent": 0,
-    "minFillStaticMagazinePercent": 0,
+    "minFillLooseMagazinePercent": 20,
+    "minFillStaticMagazinePercent": 20,
     "allowDuplicateItemsInStaticContainers": true,
-    "magazineLootHasAmmoChancePercent": 50,
+    "magazineLootHasAmmoChancePercent": 5,
     "staticMagazineLootHasAmmoChancePercent": 20,
     "looseLootBlacklist": {},
     "scavRaidTimeSettings": {
@@ -232,12 +232,7 @@
                     "54": 2,
                     "56": 2,
                     "58": 2,
-                    "60": 2,
-                    "62": 2,
-                    "64": 2,
-                    "66": 2,
-                    "68": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -245,7 +240,7 @@
                 "reduceLootByPercent": true,
                 "minDynamicLootPercent": 50,
                 "minStaticLootPercent": 40,
-                "reducedChancePercent": 95,
+                "reducedChancePercent": 100,
                 "reductionPercentWeights": {
                     "5": 2,
                     "20": 3,
@@ -253,8 +248,7 @@
                     "30": 5,
                     "40": 5,
                     "50": 5,
-                    "60": 2,
-                    "65": 2
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -262,13 +256,12 @@
                 "reduceLootByPercent": true,
                 "minDynamicLootPercent": 50,
                 "minStaticLootPercent": 40,
-                "reducedChancePercent": 75,
+                "reducedChancePercent": 100,
                 "reductionPercentWeights": {
                     "20": 4,
                     "30": 3,
                     "40": 3,
-                    "60": 2,
-                    "65": 2
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -288,12 +281,7 @@
                     "54": 2,
                     "56": 2,
                     "58": 2,
-                    "60": 2,
-                    "62": 2,
-                    "64": 2,
-                    "66": 2,
-                    "68": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -301,7 +289,7 @@
                 "reduceLootByPercent": true,
                 "minDynamicLootPercent": 50,
                 "minStaticLootPercent": 40,
-                "reducedChancePercent": 95,
+                "reducedChancePercent": 100,
                 "reductionPercentWeights": {
                     "20": 3,
                     "30": 3,
@@ -327,12 +315,7 @@
                     "54": 2,
                     "56": 2,
                     "58": 2,
-                    "60": 2,
-                    "62": 2,
-                    "64": 2,
-                    "66": 2,
-                    "68": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -352,12 +335,7 @@
                     "54": 2,
                     "56": 2,
                     "58": 2,
-                    "60": 2,
-                    "62": 2,
-                    "64": 2,
-                    "66": 2,
-                    "68": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -377,12 +355,7 @@
                     "54": 2,
                     "56": 2,
                     "58": 2,
-                    "60": 2,
-                    "62": 2,
-                    "64": 2,
-                    "66": 2,
-                    "68": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -402,12 +375,7 @@
                     "54": 2,
                     "56": 2,
                     "58": 2,
-                    "60": 2,
-                    "62": 2,
-                    "64": 2,
-                    "66": 2,
-                    "68": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -427,12 +395,7 @@
                     "54": 2,
                     "56": 2,
                     "58": 2,
-                    "60": 2,
-                    "62": 2,
-                    "64": 2,
-                    "66": 2,
-                    "68": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -440,14 +403,13 @@
                 "reduceLootByPercent": true,
                 "minDynamicLootPercent": 50,
                 "minStaticLootPercent": 40,
-                "reducedChancePercent": 95,
+                "reducedChancePercent": 100,
                 "reductionPercentWeights": {
                     "20": 3,
                     "30": 5,
                     "40": 5,
                     "50": 4,
-                    "60": 1,
-                    "65": 1
+                    "60": 1
                 },
                 "adjustWaves": true
             },
@@ -467,12 +429,7 @@
                     "54": 2,
                     "56": 2,
                     "58": 2,
-                    "60": 2,
-                    "62": 2,
-                    "64": 2,
-                    "66": 2,
-                    "68": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             },
@@ -480,15 +437,14 @@
                 "reduceLootByPercent": true,
                 "minDynamicLootPercent": 50,
                 "minStaticLootPercent": 50,
-                "reducedChancePercent": 95,
+                "reducedChancePercent": 100,
                 "reductionPercentWeights": {
                     "10": 1,
                     "20": 2,
                     "30": 5,
                     "40": 5,
                     "50": 5,
-                    "60": 2,
-                    "70": 1
+                    "60": 2
                 },
                 "adjustWaves": true
             }
@@ -497,15 +453,15 @@
     "equipmentLootSettings": {
         "modSpawnChancePercent": {
             "mod_nvg": 0,
-            "front_plate": 50,
-            "back_plate": 50,
-            "left_side_plate": 25,
-            "right_side_plate": 25,
-            "mod_equipment_000": 5,
-            "mod_equipment_001": 5,
-            "mod_equipment_002": 5,
-            "mod_mount": 5,
-            "mod_equipment": 5
+            "front_plate": 10,
+            "back_plate": 10,
+            "left_side_plate": 5,
+            "right_side_plate": 5,
+            "mod_equipment_000": 0,
+            "mod_equipment_001": 0,
+            "mod_equipment_002": 0,
+            "mod_mount": 0,
+            "mod_equipment": 0
         }
     },
     "reserveRaiderSpawnChanceOverrides": {
