@@ -385,10 +385,10 @@
       "TriggerName": ""
     }
   ],
-  "BotAssault": 100,
-  "BotEasy": 100,
-  "BotHard": 100,
-  "BotImpossible": 100,
+  "BotAssault": 80,
+  "BotEasy": 10,
+  "BotHard": 40,
+  "BotImpossible": 0,
   "BotLocationModifier": {
     "AccuracySpeed": 1,
     "AdditionalHostilitySettings": [
@@ -413,20 +413,20 @@
           "ravangeZryachiyEvent",
           "gifter"
         ],
-        "BearEnemyChance": 100,
+        "BearEnemyChance": 75,
         "BearPlayerBehaviour": "ChancedEnemies",
         "BotRole": "pmcBEAR",
         "ChancedEnemies": [
           {
-            "EnemyChance": 100,
+            "EnemyChance": 80,
             "Role": "assault"
           },
           {
-            "EnemyChance": 100,
+            "EnemyChance": 80,
             "Role": "marksman"
           },
           {
-            "EnemyChance": 100,
+            "EnemyChance": 75,
             "Role": "pmcUSEC"
           }
         ],
@@ -435,7 +435,7 @@
           "sectantWarrior"
         ],
         "SavagePlayerBehaviour": "Warn",
-        "UsecEnemyChance": 100,
+        "UsecEnemyChance": 90,
         "UsecPlayerBehaviour": "ChancedEnemies",
         "Warn": [
           "sectactPriestEvent"
@@ -460,28 +460,28 @@
           "ravangeZryachiyEvent",
           "gifter"
         ],
-        "BearEnemyChance": 100,
+        "BearEnemyChance": 90,
         "BearPlayerBehaviour": "ChancedEnemies",
         "BotRole": "pmcUSEC",
         "ChancedEnemies": [
           {
-            "EnemyChance": 100,
+            "EnemyChance": 80,
             "Role": "assault"
           },
           {
-            "EnemyChance": 100,
+            "EnemyChance": 80,
             "Role": "marksman"
           },
           {
-            "EnemyChance": 100,
+            "EnemyChance": 75,
             "Role": "pmcBEAR"
           },
           {
-            "EnemyChance": 100,
+            "EnemyChance": 15,
             "Role": "exUsec"
           },
           {
-            "EnemyChance": 100,
+            "EnemyChance": 15,
             "Role": "bossKnight"
           }
         ],
@@ -490,7 +490,7 @@
           "sectantWarrior"
         ],
         "SavagePlayerBehaviour": "Warn",
-        "UsecEnemyChance": 100,
+        "UsecEnemyChance": 75,
         "UsecPlayerBehaviour": "ChancedEnemies",
         "Warn": [
           "sectactPriestEvent"
@@ -550,11 +550,11 @@
         "SavagePlayerBehaviour": "Neutral"
       }
     ],
-    "DistToActivate": 5000,
-    "DistToActivatePvE": 5000,
+    "DistToActivate": 265,
+    "DistToActivatePvE": 265,
     "DistToPersueAxemanCoef": 1,
-    "DistToSleep": 6000,
-    "DistToSleepPvE": 6000,
+    "DistToSleep": 300,
+    "DistToSleepPvE": 300,
     "FogVisibilityDistanceCoef": 0,
     "FogVisibilitySpeedCoef": 0,
     "GainSight": 1,
@@ -569,28 +569,28 @@
     "MarksmanAccuratyCoef": 1,
     "MaxExfiltrationTime": 6900,
     "MinExfiltrationTime": 2400,
-    "NonWaveSpawnBotsLimitPerPlayer": 35,
-    "NonWaveSpawnBotsLimitPerPlayerPvE": 35,
+    "NonWaveSpawnBotsLimitPerPlayer": 10,
+    "NonWaveSpawnBotsLimitPerPlayerPvE": 10,
     "RainVisibilityDistanceCoef": 0.35,
     "RainVisibilitySpeedCoef": 0,
     "Scattering": 1,
     "VisibleDistance": 1
   },
-  "BotMarksman": 100,
-  "BotMax": 35,
-  "BotMaxPlayer": 17,
-  "BotMaxPvE": 35,
-  "BotMaxTimePlayer": 3600,
-  "BotNormal": 100,
-  "BotSpawnCountStep": 2,
-  "BotSpawnPeriodCheck": 10,
-  "BotSpawnTimeOffMax": 1100,
-  "BotSpawnTimeOffMin": 800,
-  "BotSpawnTimeOnMax": 90,
-  "BotSpawnTimeOnMin": 60,
+  "BotMarksman": 20,
+  "BotMax": 19,
+  "BotMaxPlayer": 9,
+  "BotMaxPvE": 30,
+  "BotMaxTimePlayer": 1000,
+  "BotNormal": 50,
+  "BotSpawnCountStep": 4,
+  "BotSpawnPeriodCheck": 15,
+  "BotSpawnTimeOffMax": 30,
+  "BotSpawnTimeOffMin": 20,
+  "BotSpawnTimeOnMax": 320,
+  "BotSpawnTimeOnMin": 260,
   "BotStart": 20,
-  "BotStartPlayer": 40,
-  "BotStop": 4500,
+  "BotStartPlayer": 210,
+  "BotStop": 1500,
   "Description": "Very Big Map",
   "DisabledForScav": false,
   "DisabledScavExits": "",
@@ -743,10 +743,10 @@
       "time": 450
     }
   ],
-  "MaxBotPerZone": 8,
-  "MaxCoopGroup": 5,
+  "MaxBotPerZone": 4,
+  "MaxCoopGroup": 12,
   "MaxDistToFreePoint": 200,
-  "MaxPlayers": 17,
+  "MaxPlayers": 12,
   "MinDistToExitPoint": 30,
   "MinDistToFreePoint": 60,
   "MinMaxBots": [
@@ -757,14 +757,14 @@
     }
   ],
   "MinPlayerLvlAccessKeys": 0,
-  "MinPlayers": 17,
+  "MinPlayers": 10,
   "Name": "Customs",
   "NewSpawn": true,
   "NewSpawnForPlayers": true,
   "NonWaveGroupScenario": {
-    "Chance": 100,
-    "Enabled": false,
-    "MaxToBeGroup": 5,
+    "Chance": 50,
+    "Enabled": true,
+    "MaxToBeGroup": 3,
     "MinToBeGroup": 2
   },
   "OcculsionCullingEnabled": false,
@@ -801,7 +801,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 115
         }
       },
       "CorePointId": 29,
@@ -831,7 +831,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 7,
@@ -861,7 +861,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -891,7 +891,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 131.24
         }
       },
       "CorePointId": 3,
@@ -921,7 +921,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 29,
@@ -951,7 +951,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -981,7 +981,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1011,7 +1011,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 131.24
         }
       },
       "CorePointId": 3,
@@ -1041,7 +1041,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1071,7 +1071,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 115
         }
       },
       "CorePointId": 15,
@@ -1101,7 +1101,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 75
         }
       },
       "CorePointId": 0,
@@ -1131,7 +1131,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 77.17
         }
       },
       "CorePointId": 11,
@@ -1161,7 +1161,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1191,7 +1191,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -1221,7 +1221,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1252,7 +1252,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -1314,7 +1314,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -1344,7 +1344,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -1405,7 +1405,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -1435,7 +1435,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 23,
@@ -1465,7 +1465,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1495,7 +1495,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1526,7 +1526,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -1556,7 +1556,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -1586,7 +1586,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1617,7 +1617,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -1648,7 +1648,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 1,
@@ -1678,7 +1678,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1709,7 +1709,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -1740,7 +1740,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 70
         }
       },
       "CorePointId": 15,
@@ -1770,7 +1770,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 65
         }
       },
       "CorePointId": 0,
@@ -1800,7 +1800,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -1830,7 +1830,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1860,7 +1860,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -1890,7 +1890,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -1920,7 +1920,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 70
         }
       },
       "CorePointId": 2,
@@ -1951,7 +1951,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 8,
@@ -1981,7 +1981,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2011,7 +2011,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2041,7 +2041,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2071,7 +2071,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 120
         }
       },
       "CorePointId": 12,
@@ -2102,7 +2102,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -2132,7 +2132,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 131.24
         }
       },
       "CorePointId": 3,
@@ -2162,7 +2162,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2192,7 +2192,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 120
         }
       },
       "CorePointId": 2,
@@ -2253,7 +2253,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 19,
@@ -2283,7 +2283,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 13,
@@ -2313,7 +2313,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 65
         }
       },
       "CorePointId": 0,
@@ -2375,7 +2375,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -2436,7 +2436,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -2466,7 +2466,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 3,
@@ -2496,7 +2496,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2526,7 +2526,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2556,7 +2556,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2587,7 +2587,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -2617,7 +2617,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 85.4
         }
       },
       "CorePointId": 29,
@@ -2647,7 +2647,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 130
         }
       },
       "CorePointId": 10,
@@ -2677,7 +2677,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 62.3
         }
       },
       "CorePointId": 11,
@@ -2707,7 +2707,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -2737,7 +2737,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 21,
@@ -2767,7 +2767,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -2797,7 +2797,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2827,7 +2827,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2888,7 +2888,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -2919,7 +2919,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -2949,7 +2949,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -2979,7 +2979,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 3,
@@ -3009,7 +3009,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3039,7 +3039,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 114.7
         }
       },
       "CorePointId": 2,
@@ -3070,7 +3070,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 20
         }
       },
       "CorePointId": 16,
@@ -3100,7 +3100,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 65
         }
       },
       "CorePointId": 0,
@@ -3130,7 +3130,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3160,7 +3160,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 120
         }
       },
       "CorePointId": 28,
@@ -3190,7 +3190,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -3220,7 +3220,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3250,7 +3250,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3280,7 +3280,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3310,7 +3310,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 27,
@@ -3341,7 +3341,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 1,
@@ -3372,7 +3372,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 45
         }
       },
       "CorePointId": 1,
@@ -3402,7 +3402,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 131.24
         }
       },
       "CorePointId": 3,
@@ -3433,7 +3433,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 45
         }
       },
       "CorePointId": 2,
@@ -3463,7 +3463,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -3493,7 +3493,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 8,
@@ -3523,7 +3523,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 95
         }
       },
       "CorePointId": 0,
@@ -3553,7 +3553,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 5,
@@ -3583,7 +3583,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 77.17
         }
       },
       "CorePointId": 11,
@@ -3613,7 +3613,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -3643,7 +3643,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3673,7 +3673,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3703,7 +3703,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3733,7 +3733,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3764,7 +3764,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -3795,7 +3795,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -3826,7 +3826,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -3856,7 +3856,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -3886,7 +3886,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 75
         }
       },
       "CorePointId": 0,
@@ -3916,7 +3916,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -3946,7 +3946,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 90
         }
       },
       "CorePointId": 11,
@@ -3976,7 +3976,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -4006,7 +4006,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -4036,7 +4036,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 164.4
         }
       },
       "CorePointId": 5,
@@ -4066,7 +4066,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -4096,7 +4096,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 26,
@@ -4126,7 +4126,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 95
         }
       },
       "CorePointId": 0,
@@ -4156,7 +4156,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 27,
@@ -4186,7 +4186,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 75
         }
       },
       "CorePointId": 0,
@@ -4247,7 +4247,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 2,
@@ -4277,7 +4277,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 6,
@@ -4307,7 +4307,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 3,
@@ -4337,7 +4337,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -4367,7 +4367,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -4397,7 +4397,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 131.24
         }
       },
       "CorePointId": 29,
@@ -4427,7 +4427,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -4457,7 +4457,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -4487,7 +4487,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -4518,7 +4518,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -4579,7 +4579,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 131.24
         }
       },
       "CorePointId": 3,
@@ -4609,7 +4609,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -4639,7 +4639,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 1,
@@ -4670,7 +4670,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -4700,7 +4700,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -4730,7 +4730,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -4761,7 +4761,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -4791,7 +4791,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 90
         }
       },
       "CorePointId": 7,
@@ -4821,7 +4821,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -4851,7 +4851,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -4881,7 +4881,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -4911,7 +4911,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 130
         }
       },
       "CorePointId": 4,
@@ -4942,7 +4942,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -4972,7 +4972,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5002,7 +5002,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 90
         }
       },
       "CorePointId": 11,
@@ -5032,7 +5032,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 26,
@@ -5063,7 +5063,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 3,
@@ -5093,7 +5093,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 90
         }
       },
       "CorePointId": 11,
@@ -5123,7 +5123,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5153,7 +5153,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 25
         }
       },
       "CorePointId": 0,
@@ -5184,7 +5184,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -5214,7 +5214,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 120
         }
       },
       "CorePointId": 5,
@@ -5244,7 +5244,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5274,7 +5274,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 114.7
         }
       },
       "CorePointId": 21,
@@ -5305,7 +5305,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -5335,7 +5335,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5365,7 +5365,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 29,
@@ -5395,7 +5395,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -5425,7 +5425,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 2,
@@ -5455,7 +5455,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 25
         }
       },
       "CorePointId": 0,
@@ -5485,7 +5485,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5515,7 +5515,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5545,7 +5545,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 65
         }
       },
       "CorePointId": 0,
@@ -5575,7 +5575,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 3,
@@ -5605,7 +5605,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -5635,7 +5635,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 120
         }
       },
       "CorePointId": 3,
@@ -5665,7 +5665,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -5695,7 +5695,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 26,
@@ -5726,7 +5726,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -5756,7 +5756,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 25
         }
       },
       "CorePointId": 0,
@@ -5787,7 +5787,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 1,
@@ -5818,7 +5818,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 20
         }
       },
       "CorePointId": 16,
@@ -5848,7 +5848,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5878,7 +5878,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 21,
@@ -5908,7 +5908,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5938,7 +5938,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -5968,7 +5968,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 4,
@@ -5999,7 +5999,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -6029,7 +6029,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 7,
@@ -6059,7 +6059,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -6089,7 +6089,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -6119,7 +6119,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 65
         }
       },
       "CorePointId": 0,
@@ -6149,7 +6149,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 130
         }
       },
       "CorePointId": 5,
@@ -6179,7 +6179,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -6209,7 +6209,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -6239,7 +6239,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 90
         }
       },
       "CorePointId": 7,
@@ -6270,7 +6270,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 37
         }
       },
       "CorePointId": 3,
@@ -6300,7 +6300,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 93.4
         }
       },
       "CorePointId": 11,
@@ -6330,7 +6330,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 25
         }
       },
       "CorePointId": 0,
@@ -6361,7 +6361,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 1,
@@ -6392,7 +6392,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -6422,7 +6422,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 13,
@@ -6452,7 +6452,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -6482,7 +6482,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 95
         }
       },
       "CorePointId": 0,
@@ -6513,7 +6513,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -6543,7 +6543,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -6574,7 +6574,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -6604,7 +6604,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -6634,7 +6634,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -6665,7 +6665,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -6695,7 +6695,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -6725,7 +6725,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -6755,7 +6755,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -6785,7 +6785,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 25
         }
       },
       "CorePointId": 0,
@@ -6815,7 +6815,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 70
         }
       },
       "CorePointId": 2,
@@ -6846,7 +6846,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -6876,7 +6876,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 117.5
         }
       },
       "CorePointId": 4,
@@ -6907,7 +6907,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -6937,7 +6937,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -6967,7 +6967,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 3,
@@ -6997,7 +6997,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -7027,7 +7027,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7058,7 +7058,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 1,
@@ -7088,7 +7088,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -7118,7 +7118,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 15,
@@ -7148,7 +7148,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7179,7 +7179,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 40
         }
       },
       "CorePointId": 2,
@@ -7209,7 +7209,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7240,7 +7240,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -7271,7 +7271,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -7301,7 +7301,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 114.7
         }
       },
       "CorePointId": 2,
@@ -7331,7 +7331,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 4,
@@ -7361,7 +7361,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7391,7 +7391,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 28,
@@ -7421,7 +7421,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -7451,7 +7451,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 13,
@@ -7481,7 +7481,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7511,7 +7511,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7541,7 +7541,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 95
         }
       },
       "CorePointId": 0,
@@ -7571,7 +7571,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 13,
@@ -7601,7 +7601,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7632,7 +7632,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 45
         }
       },
       "CorePointId": 2,
@@ -7663,7 +7663,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -7693,7 +7693,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7723,7 +7723,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 5,
@@ -7753,7 +7753,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 29,
@@ -7783,7 +7783,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7844,7 +7844,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -7874,7 +7874,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -7904,7 +7904,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -7934,7 +7934,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 75
         }
       },
       "CorePointId": 0,
@@ -7965,7 +7965,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -7995,7 +7995,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 29,
@@ -8025,7 +8025,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -8055,7 +8055,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -8085,7 +8085,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 40
         }
       },
       "CorePointId": 2,
@@ -8116,7 +8116,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -8146,7 +8146,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 15,
@@ -8176,7 +8176,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 14,
@@ -8206,7 +8206,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -8236,7 +8236,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -8266,7 +8266,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -8297,7 +8297,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -8327,7 +8327,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -8358,7 +8358,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -8388,7 +8388,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 26,
@@ -8418,7 +8418,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -8448,7 +8448,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 13,
@@ -8509,7 +8509,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 95
         }
       },
       "CorePointId": 0,
@@ -8539,7 +8539,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 120
         }
       },
       "CorePointId": 9,
@@ -8569,7 +8569,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 75
         }
       },
       "CorePointId": 0,
@@ -8599,7 +8599,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 26,
@@ -8629,7 +8629,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 141.4
         }
       },
       "CorePointId": 2,
@@ -8659,7 +8659,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 5,
@@ -8689,7 +8689,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 77.17
         }
       },
       "CorePointId": 25,
@@ -8719,7 +8719,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -8780,7 +8780,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 90
         }
       },
       "CorePointId": 7,
@@ -8811,7 +8811,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 1,
@@ -8841,7 +8841,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 77.17
         }
       },
       "CorePointId": 25,
@@ -8872,7 +8872,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -8902,7 +8902,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -8932,7 +8932,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -8962,7 +8962,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -8993,7 +8993,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -9023,7 +9023,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 114.7
         }
       },
       "CorePointId": 2,
@@ -9054,7 +9054,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -9084,7 +9084,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 3,
@@ -9114,7 +9114,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 164.4
         }
       },
       "CorePointId": 5,
@@ -9145,7 +9145,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -9175,7 +9175,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 19,
@@ -9205,7 +9205,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -9235,7 +9235,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -9265,7 +9265,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -9295,7 +9295,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 100
         }
       },
       "CorePointId": 28,
@@ -9326,7 +9326,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -9356,7 +9356,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 70
         }
       },
       "CorePointId": 0,
@@ -9386,7 +9386,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -9416,7 +9416,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -9447,7 +9447,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -9478,7 +9478,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 25
         }
       },
       "CorePointId": 1,
@@ -9508,7 +9508,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 80
         }
       },
       "CorePointId": 26,
@@ -9538,7 +9538,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -9568,7 +9568,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 50
         }
       },
       "CorePointId": 0,
@@ -9599,7 +9599,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 50
         }
       },
       "CorePointId": 17,
@@ -9629,7 +9629,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 70
         }
       },
       "CorePointId": 4,
@@ -9659,7 +9659,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 29,
@@ -9689,7 +9689,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 80
         }
       },
       "CorePointId": 0,
@@ -9720,7 +9720,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 60
+          "Radius": 77
         }
       },
       "CorePointId": 0,
@@ -9750,7 +9750,7 @@
             "y": 0,
             "z": 0
           },
-          "Radius": 30
+          "Radius": 110
         }
       },
       "CorePointId": 3,
@@ -10102,14 +10102,14 @@
       "SpawnPoints": "ZoneBrige",
       "WildSpawnType": "assault",
       "isPlayers": false,
-      "number": 3,
-      "slots_max": 3,
+      "number": 0,
+      "slots_max": 0,
       "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "hard",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10117,14 +10117,14 @@
       "SpawnPoints": "ZoneDormitory",
       "WildSpawnType": "assault",
       "isPlayers": false,
-      "number": 1,
-      "slots_max": 8,
-      "slots_min": 4,
+      "number": 2,
+      "slots_max": 3,
+      "slots_min": 1,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "hard",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10132,14 +10132,14 @@
       "SpawnPoints": "ZoneGasStation",
       "WildSpawnType": "assault",
       "isPlayers": false,
-      "number": 2,
-      "slots_max": 4,
-      "slots_min": 2,
+      "number": 3,
+      "slots_max": 2,
+      "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "normal",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10148,13 +10148,13 @@
       "WildSpawnType": "assault",
       "isPlayers": false,
       "number": 4,
-      "slots_max": 4,
-      "slots_min": 2,
+      "slots_max": 3,
+      "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "normal",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10163,13 +10163,13 @@
       "WildSpawnType": "assault",
       "isPlayers": false,
       "number": 5,
-      "slots_max": 4,
-      "slots_min": 2,
+      "slots_max": 0,
+      "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "normal",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10178,13 +10178,13 @@
       "WildSpawnType": "assault",
       "isPlayers": false,
       "number": 6,
-      "slots_max": 4,
-      "slots_min": 2,
+      "slots_max": 0,
+      "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "impossible",
+      "BotPreset": "hard",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10199,7 +10199,7 @@
       "time_min": -1
     },
     {
-      "BotPreset": "impossible",
+      "BotPreset": "hard",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10214,7 +10214,7 @@
       "time_min": -1
     },
     {
-      "BotPreset": "impossible",
+      "BotPreset": "hard",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10238,13 +10238,13 @@
       "WildSpawnType": "assault",
       "isPlayers": false,
       "number": 10,
-      "slots_max": 4,
-      "slots_min": 2,
+      "slots_max": 0,
+      "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "impossible",
+      "BotPreset": "normal",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10253,13 +10253,13 @@
       "WildSpawnType": "marksman",
       "isPlayers": false,
       "number": 11,
-      "slots_max": 1,
+      "slots_max": 0,
       "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "impossible",
+      "BotPreset": "easy",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10268,13 +10268,13 @@
       "WildSpawnType": "marksman",
       "isPlayers": false,
       "number": 13,
-      "slots_max": 1,
+      "slots_max": 0,
       "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "hard",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10283,13 +10283,13 @@
       "WildSpawnType": "assault",
       "isPlayers": false,
       "number": 14,
-      "slots_max": 2,
-      "slots_min": 1,
+      "slots_max": 0,
+      "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "hard",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10298,13 +10298,13 @@
       "WildSpawnType": "assault",
       "isPlayers": false,
       "number": 15,
-      "slots_max": 3,
-      "slots_min": 2,
+      "slots_max": 0,
+      "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "normal",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10313,13 +10313,13 @@
       "WildSpawnType": "assault",
       "isPlayers": false,
       "number": 16,
-      "slots_max": 3,
-      "slots_min": 1,
+      "slots_max": 0,
+      "slots_min": 0,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "normal",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10328,13 +10328,28 @@
       "WildSpawnType": "assault",
       "isPlayers": false,
       "number": 17,
+      "slots_max": 0,
+      "slots_min": 0,
+      "time_max": -1,
+      "time_min": -1
+    },
+    {
+      "BotPreset": "hard",
+      "BotSide": "Savage",
+      "SpawnMode": [
+        "pve"
+      ],
+      "SpawnPoints": "",
+      "WildSpawnType": "assault",
+      "isPlayers": false,
+      "number": 0,
       "slots_max": 3,
       "slots_min": 1,
       "time_max": -1,
       "time_min": -1
     },
     {
-      "BotPreset": "easy",
+      "BotPreset": "normal",
       "BotSide": "Savage",
       "SpawnMode": [
         "pve"
@@ -10342,24 +10357,9 @@
       "SpawnPoints": "",
       "WildSpawnType": "assault",
       "isPlayers": false,
-      "number": 18,
-      "slots_max": 4,
-      "slots_min": 2,
-      "time_max": -1,
-      "time_min": -1
-    },
-    {
-      "BotPreset": "easy",
-      "BotSide": "Savage",
-      "SpawnMode": [
-        "pve"
-      ],
-      "SpawnPoints": "",
-      "WildSpawnType": "assault",
-      "isPlayers": false,
-      "number": 18,
-      "slots_max": 4,
-      "slots_min": 2,
+      "number": 0,
+      "slots_max": 3,
+      "slots_min": 1,
       "time_max": -1,
       "time_min": -1
     }
