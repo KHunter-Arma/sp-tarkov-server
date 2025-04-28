@@ -24,7 +24,7 @@
     ],
     "carExtractBaseStandingGain": 0.01,
     "coopExtractBaseStandingGain": 0.25,
-    "scavExtractGain": 0.01,
+    "scavExtractStandingGain": 0.05,
     "pmcKillProbabilityForScavGain": 1.0,
     "keepFiRSecureContainerOnDeath": false,
 		"alwaysKeepFoundInRaidonRaidEnd": false,
