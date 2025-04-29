@@ -333,6 +333,11 @@ export class PlayerScavGenerator {
             // Set scav cooldown timer to 10 seconds for spt developer account
             scavLockDuration = 10;
         }
+        
+        // Hunter: Force cooldown to 0 if scav level is < 5
+        if (scavData.Info.Level < 5) {
+            scavLockDuration = 10;
+        }
 
         scavData.Info.SavageLockTime = Date.now() / 1000 + scavLockDuration;
 
