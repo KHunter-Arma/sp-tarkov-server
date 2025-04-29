@@ -262,6 +262,7 @@ export class BotGenerator {
             botGenerationDetails.isPmc,
             bot.Info.Level,
             bot.Info.GameVersion,
+            botGenerationDetails.isPlayerScav,
         );
 
         if (this.botConfig.botRolesWithDogTags.includes(botRoleLowercase)) {

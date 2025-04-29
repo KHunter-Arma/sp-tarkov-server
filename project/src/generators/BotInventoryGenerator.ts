@@ -73,6 +73,7 @@ export class BotInventoryGenerator {
         isPmc: boolean,
         botLevel: number,
         chosenGameVersion: string,
+        isPlayerScav: boolean,
     ): PmcInventory {
         const templateInventory = botJsonTemplate.inventory;
         const wornItemChances = botJsonTemplate.chances;
@@ -108,6 +109,7 @@ export class BotInventoryGenerator {
             isPmc,
             itemGenerationLimitsMinMax,
             botLevel,
+            isPlayerScav,
         );
 
         // Pick loot and add to bots containers (rig/backpack/pockets/secure)
@@ -545,8 +547,9 @@ export class BotInventoryGenerator {
         isPmc: boolean,
         itemGenerationLimitsMinMax: IGeneration,
         botLevel: number,
+        isPlayerScav: boolean,
     ): void {
-        const weaponSlotsToFill = this.getDesiredWeaponsForBot(equipmentChances);
+        const weaponSlotsToFill = this.getDesiredWeaponsForBot(equipmentChances, isPlayerScav);
         for (const weaponSlot of weaponSlotsToFill) {
             // Add weapon to bot if true and bot json has something to put into the slot
             if (weaponSlot.shouldSpawn && Object.keys(templateInventory.equipment[weaponSlot.slot]).length) {
@@ -570,7 +573,7 @@ export class BotInventoryGenerator {
      * @param equipmentChances Chances bot has certain equipment
      * @returns What slots bot should have weapons generated for
      */
-    protected getDesiredWeaponsForBot(equipmentChances: IChances): { slot: EquipmentSlots; shouldSpawn: boolean }[] {
+    protected getDesiredWeaponsForBot(equipmentChances: IChances, isPlayerScav: boolean): { slot: EquipmentSlots; shouldSpawn: boolean }[] {
         const shouldSpawnPrimary = this.randomUtil.getChance100(equipmentChances.equipment.FirstPrimaryWeapon);
         return [
             { slot: EquipmentSlots.FIRST_PRIMARY_WEAPON, shouldSpawn: shouldSpawnPrimary },
@@ -584,7 +587,7 @@ export class BotInventoryGenerator {
                 slot: EquipmentSlots.HOLSTER,
                 shouldSpawn: shouldSpawnPrimary
                     ? this.randomUtil.getChance100(equipmentChances.equipment.Holster) // Primary weapon = roll for chance at pistol
-                    : false, // No primary = force pistol ----- Hunter: nope
+                    : !isPlayerScav, // No primary = force pistol ----- Hunter: don't force if player scav
             },
         ];
     }
