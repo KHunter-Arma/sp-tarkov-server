@@ -129,7 +129,7 @@ export class Watermark {
             ? `${sptVersion} - BLEEDINGEDGE ${ProgramStatics.COMMIT?.slice(0, 6) ?? ""}`
             : `${sptVersion} - ${ProgramStatics.COMMIT?.slice(0, 6) ?? ""}`;
 
-        return `${this.sptConfig.projectName} ${versionTag}`;
+        return `${this.sptConfig.projectName} (Hunter'z) ${versionTag}`;
     }
 
     /** Set window title */
