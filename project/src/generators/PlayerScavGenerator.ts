@@ -334,9 +334,9 @@ export class PlayerScavGenerator {
             scavLockDuration = 10;
         }
         
-        // Hunter: Force cooldown to 0 if scav level is < 5
+        // Hunter: Force small cooldown if scav level is < 5
         if (scavData.Info.Level < 5) {
-            scavLockDuration = 10;
+            scavLockDuration = 900;
         }
 
         scavData.Info.SavageLockTime = Date.now() / 1000 + scavLockDuration;
