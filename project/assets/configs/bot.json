@@ -2646,19 +2646,19 @@
     "55d4af3a4bdc2d972f8b456f"
   ],
   "maxBotCap": {
-    "bigmap": 23,
-    "default": 19,
-    "factory4_day": 11,
-    "factory4_night": 11,
-    "interchange": 22,
-    "laboratory": 19,
-    "lighthouse": 22,
+    "bigmap": 24,
+    "default": 24,
+    "factory4_day": 13,
+    "factory4_night": 13,
+    "interchange": 28,
+    "laboratory": 20,
+    "lighthouse": 24,
     "rezervbase": 22,
-    "sandbox": 14,
-    "sandbox_high": 14,
-    "shoreline": 22,
-    "tarkovstreets": 23,
-    "woods": 22
+    "sandbox": 24,
+    "sandbox_high": 24,
+    "shoreline": 28,
+    "tarkovstreets": 32,
+    "woods": 28
   },
   "playerScavBrainType": {
     "bigmap": {
