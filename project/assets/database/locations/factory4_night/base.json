@@ -2,8 +2,8 @@
   "AccessKeys": [],
   "AccessKeysPvE": [],
   "Area": 0.9,
-  "AveragePlayTime": 15,
-  "AveragePlayerLevel": 15,
+  "AveragePlayTime": 30,
+  "AveragePlayerLevel": 30,
   "Banners": [
     {
       "id": "5464e0404bdc2d2a708b4567",
@@ -367,8 +367,8 @@
     "LockSpawnStepTimePvE": 50,
     "MagnetPower": 15,
     "MarksmanAccuratyCoef": 1,
-    "MaxExfiltrationTime": 900,
-    "MinExfiltrationTime": 600,
+    "MaxExfiltrationTime": 3000,
+    "MinExfiltrationTime": 1200,
     "NonWaveSpawnBotsLimitPerPlayer": 10,
     "NonWaveSpawnBotsLimitPerPlayerPvE": 15,
     "RainVisibilityDistanceCoef": 1,
@@ -396,9 +396,9 @@
   "DisabledScavExits": "Cellars,Gate 0",
   "EnableCoop": true,
   "Enabled": false,
-  "EscapeTimeLimit": 25,
-  "EscapeTimeLimitCoop": 15,
-  "EscapeTimeLimitPVE": 25,
+  "EscapeTimeLimit": 60,
+  "EscapeTimeLimitCoop": 25,
+  "EscapeTimeLimitPVE": 60,
   "Events": {
     "Halloween2024": {
       "CrowdAttackBlockRadius": 100,
@@ -517,7 +517,7 @@
   "Id": "factory4_night",
   "Insurance": true,
   "IsSecret": false,
-  "Locked": true,
+  "Locked": false,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {
@@ -571,7 +571,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 15,
   "Rules": "AvoidOwnPmc",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,

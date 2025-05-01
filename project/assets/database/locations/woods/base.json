@@ -4,8 +4,8 @@
   "AirdropParameters": [
     {
       "AirdropPointDeactivateDistance": 50,
-      "MinPlayersCountToSpawnAirdrop": 6,
-      "PlaneAirdropChance": 0.25,
+      "MinPlayersCountToSpawnAirdrop": 99,
+      "PlaneAirdropChance": 0.0,
       "PlaneAirdropCooldownMax": 800,
       "PlaneAirdropCooldownMin": 700,
       "PlaneAirdropEnd": 1200,
@@ -16,7 +16,7 @@
     }
   ],
   "Area": 0,
-  "AveragePlayTime": 25,
+  "AveragePlayTime": 90,
   "AveragePlayerLevel": 15,
   "Banners": [
     {
@@ -517,8 +517,8 @@
     "LockSpawnStepTimePvE": 50,
     "MagnetPower": 44,
     "MarksmanAccuratyCoef": 1,
-    "MaxExfiltrationTime": 1800,
-    "MinExfiltrationTime": 1200,
+    "MaxExfiltrationTime": 9600,
+    "MinExfiltrationTime": 2700,
     "NonWaveSpawnBotsLimitPerPlayer": 10,
     "NonWaveSpawnBotsLimitPerPlayerPvE": 15,
     "RainVisibilityDistanceCoef": 0.35,
@@ -546,9 +546,9 @@
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 40,
-  "EscapeTimeLimitCoop": 30,
-  "EscapeTimeLimitPVE": 40,
+  "EscapeTimeLimit": 180,
+  "EscapeTimeLimitCoop": 60,
+  "EscapeTimeLimitPVE": 180,
   "Events": {
     "Halloween2024": {
       "CrowdAttackBlockRadius": 100,
@@ -669,7 +669,7 @@
   "Id": "Woods",
   "Insurance": true,
   "IsSecret": false,
-  "Locked": true,
+  "Locked": false,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {
@@ -731,7 +731,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 5,
   "Rules": "Normal",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,

@@ -4,8 +4,8 @@
   "AirdropParameters": [
     {
       "AirdropPointDeactivateDistance": 50,
-      "MinPlayersCountToSpawnAirdrop": 6,
-      "PlaneAirdropChance": 0.2,
+      "MinPlayersCountToSpawnAirdrop": 99,
+      "PlaneAirdropChance": 0.0,
       "PlaneAirdropCooldownMax": 1000,
       "PlaneAirdropCooldownMin": 900,
       "PlaneAirdropEnd": 1800,
@@ -16,8 +16,8 @@
     }
   ],
   "Area": 0,
-  "AveragePlayTime": 35,
-  "AveragePlayerLevel": 25,
+  "AveragePlayTime": 90,
+  "AveragePlayerLevel": 30,
   "Banners": [
     {
       "id": "5807c3f124597746bf2db2ce",
@@ -597,8 +597,8 @@
     "LockSpawnStepTimePvE": 50,
     "MagnetPower": 40,
     "MarksmanAccuratyCoef": 1,
-    "MaxExfiltrationTime": 2000,
-    "MinExfiltrationTime": 1500,
+    "MaxExfiltrationTime": 9300,
+    "MinExfiltrationTime": 3000,
     "NonWaveSpawnBotsLimitPerPlayer": 10,
     "NonWaveSpawnBotsLimitPerPlayerPvE": 15,
     "RainVisibilityDistanceCoef": 0.35,
@@ -626,9 +626,9 @@
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 45,
-  "EscapeTimeLimitCoop": 35,
-  "EscapeTimeLimitPVE": 45,
+  "EscapeTimeLimit": 180,
+  "EscapeTimeLimitCoop": 60,
+  "EscapeTimeLimitPVE": 180,
   "Events": {
     "Halloween2024": {
       "CrowdAttackBlockRadius": 100,
@@ -749,7 +749,7 @@
   "Id": "Shoreline",
   "Insurance": true,
   "IsSecret": false,
-  "Locked": true,
+  "Locked": false,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {
@@ -811,7 +811,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 20,
   "Rules": "Normal",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,

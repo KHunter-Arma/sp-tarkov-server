@@ -4,8 +4,8 @@
   "AirdropParameters": [
     {
       "AirdropPointDeactivateDistance": 100,
-      "MinPlayersCountToSpawnAirdrop": 6,
-      "PlaneAirdropChance": 0.125,
+      "MinPlayersCountToSpawnAirdrop": 99,
+      "PlaneAirdropChance": 0.0,
       "PlaneAirdropCooldownMax": 800,
       "PlaneAirdropCooldownMin": 700,
       "PlaneAirdropEnd": 2700,
@@ -16,8 +16,8 @@
     }
   ],
   "Area": 0,
-  "AveragePlayTime": 35,
-  "AveragePlayerLevel": 20,
+  "AveragePlayTime": 60,
+  "AveragePlayerLevel": 7,
   "Banners": [],
   "BossLocationSpawn": [
     {
@@ -223,8 +223,8 @@
     "LockSpawnStepTime": 50,
     "LockSpawnStepTimePvE": 50,
     "MarksmanAccuratyCoef": 1,
-    "MaxExfiltrationTime": 1500,
-    "MinExfiltrationTime": 1200,
+    "MaxExfiltrationTime": 6600,
+    "MinExfiltrationTime": 2400,
     "NonWaveSpawnBotsLimitPerPlayer": 10,
     "NonWaveSpawnBotsLimitPerPlayerPvE": 15,
     "RainVisibilityDistanceCoef": 0.35,
@@ -252,9 +252,9 @@
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 35,
-  "EscapeTimeLimitCoop": 30,
-  "EscapeTimeLimitPVE": 35,
+  "EscapeTimeLimit": 120,
+  "EscapeTimeLimitCoop": 45,
+  "EscapeTimeLimitPVE": 120,
   "Events": {
     "Halloween2024": {
       "CrowdAttackBlockRadius": 100,
@@ -373,7 +373,7 @@
   "Id": "Sandbox",
   "Insurance": true,
   "IsSecret": false,
-  "Locked": true,
+  "Locked": false,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {

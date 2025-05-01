@@ -4,8 +4,8 @@
   "AirdropParameters": [
     {
       "AirdropPointDeactivateDistance": 50,
-      "MinPlayersCountToSpawnAirdrop": 6,
-      "PlaneAirdropChance": 0.2,
+      "MinPlayersCountToSpawnAirdrop": 99,
+      "PlaneAirdropChance": 0.0,
       "PlaneAirdropCooldownMax": 800,
       "PlaneAirdropCooldownMin": 700,
       "PlaneAirdropEnd": 1500,
@@ -16,7 +16,7 @@
     }
   ],
   "Area": 0,
-  "AveragePlayTime": 30,
+  "AveragePlayTime": 60,
   "AveragePlayerLevel": 35,
   "Banners": [
     {
@@ -696,8 +696,8 @@
     "LockSpawnStepTime": 50,
     "LockSpawnStepTimePvE": 50,
     "MarksmanAccuratyCoef": 1,
-    "MaxExfiltrationTime": 1800,
-    "MinExfiltrationTime": 1200,
+    "MaxExfiltrationTime": 6600,
+    "MinExfiltrationTime": 2400,
     "NonWaveSpawnBotsLimitPerPlayer": 10,
     "NonWaveSpawnBotsLimitPerPlayerPvE": 15,
     "RainVisibilityDistanceCoef": 0.35,
@@ -725,9 +725,9 @@
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 40,
-  "EscapeTimeLimitCoop": 30,
-  "EscapeTimeLimitPVE": 40,
+  "EscapeTimeLimit": 120,
+  "EscapeTimeLimitCoop": 60,
+  "EscapeTimeLimitPVE": 120,
   "Events": {
     "Halloween2024": {
       "CrowdAttackBlockRadius": 100,
@@ -848,7 +848,7 @@
   "Id": "Lighthouse",
   "Insurance": true,
   "IsSecret": false,
-  "Locked": true,
+  "Locked": false,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {
@@ -902,7 +902,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 25,
   "Rules": "Normal",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,

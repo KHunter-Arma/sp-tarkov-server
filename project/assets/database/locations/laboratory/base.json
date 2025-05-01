@@ -6,7 +6,7 @@
     "5c94bbff86f7747ee735c08f"
   ],
   "Area": 0,
-  "AveragePlayTime": 30,
+  "AveragePlayTime": 40,
   "AveragePlayerLevel": 45,
   "Banners": [
     {
@@ -585,8 +585,8 @@
     "LockSpawnStepTimePvE": 50,
     "MagnetPower": 10,
     "MarksmanAccuratyCoef": 1,
-    "MaxExfiltrationTime": 1800,
-    "MinExfiltrationTime": 1200,
+    "MaxExfiltrationTime": 3000,
+    "MinExfiltrationTime": 1500,
     "NonWaveSpawnBotsLimitPerPlayer": 10,
     "NonWaveSpawnBotsLimitPerPlayerPvE": 15,
     "RainVisibilityDistanceCoef": 1,
@@ -614,9 +614,9 @@
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 35,
+  "EscapeTimeLimit": 60,
   "EscapeTimeLimitCoop": 30,
-  "EscapeTimeLimitPVE": 35,
+  "EscapeTimeLimitPVE": 60,
   "Events": {
     "Halloween2024": {
       "CrowdAttackBlockRadius": 100,
@@ -735,7 +735,7 @@
   "Id": "laboratory",
   "Insurance": false,
   "IsSecret": true,
-  "Locked": true,
+  "Locked": false,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {
@@ -789,7 +789,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 35,
   "Rules": "Normal",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,

@@ -4,8 +4,8 @@
   "AirdropParameters": [
     {
       "AirdropPointDeactivateDistance": 100,
-      "MinPlayersCountToSpawnAirdrop": 6,
-      "PlaneAirdropChance": 0.125,
+      "MinPlayersCountToSpawnAirdrop": 99,
+      "PlaneAirdropChance": 0.0,
       "PlaneAirdropCooldownMax": 800,
       "PlaneAirdropCooldownMin": 700,
       "PlaneAirdropEnd": 2700,
@@ -16,7 +16,7 @@
     }
   ],
   "Area": 0,
-  "AveragePlayTime": 50,
+  "AveragePlayTime": 120,
   "AveragePlayerLevel": 40,
   "Banners": [
     {
@@ -511,8 +511,8 @@
     "LockSpawnStepTime": 50,
     "LockSpawnStepTimePvE": 50,
     "MarksmanAccuratyCoef": 1,
-    "MaxExfiltrationTime": 2200,
-    "MinExfiltrationTime": 1800,
+    "MaxExfiltrationTime": 10200,
+    "MinExfiltrationTime": 3600,
     "NonWaveSpawnBotsLimitPerPlayer": 10,
     "NonWaveSpawnBotsLimitPerPlayerPvE": 15,
     "RainVisibilityDistanceCoef": 0.35,
@@ -540,9 +540,9 @@
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 50,
-  "EscapeTimeLimitCoop": 30,
-  "EscapeTimeLimitPVE": 50,
+  "EscapeTimeLimit": 210,
+  "EscapeTimeLimitCoop": 100,
+  "EscapeTimeLimitPVE": 210,
   "Events": {
     "Halloween2024": {
       "CrowdAttackBlockRadius": 100,
@@ -661,7 +661,7 @@
   "Id": "TarkovStreets",
   "Insurance": true,
   "IsSecret": false,
-  "Locked": true,
+  "Locked": false,
   "Loot": [],
   "MatchMakerMinPlayersByWaitTime": [
     {
@@ -727,7 +727,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 30,
   "Rules": "Normal",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,
