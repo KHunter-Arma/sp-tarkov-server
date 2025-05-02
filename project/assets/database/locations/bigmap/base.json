@@ -16,8 +16,8 @@
     }
   ],
   "Area": 0,
-  "AveragePlayTime": 75,
-  "AveragePlayerLevel": 12,
+  "AveragePlayTime": 60,
+  "AveragePlayerLevel": 20,
   "Banners": [
     {
       "id": "5464e0404bdc2d2a708b4567",
@@ -567,7 +567,7 @@
     "LockSpawnStepTimePvE": 50,
     "MagnetPower": 44,
     "MarksmanAccuratyCoef": 1,
-    "MaxExfiltrationTime": 6900,
+    "MaxExfiltrationTime": 6600,
     "MinExfiltrationTime": 2400,
     "NonWaveSpawnBotsLimitPerPlayer": 10,
     "NonWaveSpawnBotsLimitPerPlayerPvE": 10,
@@ -779,7 +779,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 10,
   "Rules": "AvoidAllPmc",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,
