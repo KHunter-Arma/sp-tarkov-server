@@ -346,7 +346,7 @@
   "BotStartPlayer": 0,
   "BotStop": 1800,
   "Description": "The downtown Tarkov with banks, malls, hotels and all the other things a striving modern city could have needed.",
-  "DisabledForScav": false,
+  "DisabledForScav": true,
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
