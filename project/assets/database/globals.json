@@ -34772,9 +34772,9 @@
         "Lighthouse"
       ]
     },
-    "SavagePlayCooldown": 43200,
+    "SavagePlayCooldown": 7200,
     "SavagePlayCooldownDevelop": 0,
-    "SavagePlayCooldownNdaFree": 43200,
+    "SavagePlayCooldownNdaFree": 7200,
     "SeasonActivity": {
       "InfectionHalloween": {
         "DisplayUIEnabled": false,
