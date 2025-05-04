@@ -791,7 +791,7 @@
             "additionalFriendlyTypes": ["gifter", "shooterBTR", "sectactPriestEvent", "peacefullZryachiyEvent"],
             "chancedEnemies": [
                 {
-                    "EnemyChance": 85,
+                    "EnemyChance": 100,
                     "Role": "pmcUSEC"
                 },
                 {
