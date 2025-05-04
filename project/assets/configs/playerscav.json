@@ -13,12 +13,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
                     "Backpack": -100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": -100
+                    "Scabbard": -100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -73,6 +79,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -91,12 +103,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
                     "Backpack": -100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": -100
+                    "Scabbard": -100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -151,6 +169,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -169,12 +193,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
                     "Backpack": -100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": -100
+                    "Scabbard": -100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -229,6 +259,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -247,12 +283,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
                     "Backpack": -100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": -100
+                    "Scabbard": -100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -307,6 +349,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -325,12 +373,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
                     "Backpack": -100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": -100
+                    "Scabbard": -100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -385,6 +439,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -403,12 +463,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
                     "Backpack": -100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": -100
+                    "Scabbard": -100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -463,6 +529,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -481,12 +553,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
                     "Backpack": -100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": -100
+                    "Scabbard": -100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -541,6 +619,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -559,12 +643,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
                     "Backpack": -100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": -100
+                    "Scabbard": -100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -619,6 +709,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -637,12 +733,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": -100,
+                    "ArmBand": -100,
                     "ArmorVest": -100,
-                    "Backpack": -50,
+                    "Backpack": -23,
+                    "Earpiece": -100,
+                    "Eyewear": 0,
+                    "FaceCover": 0,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": -100,
                     "Holster": -100,
-                    "Scabbard": 100
+                    "Scabbard": 100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": 100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -699,6 +801,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -717,12 +825,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": 0,
-                    "ArmorVest": -50,
-                    "Backpack": 0,
+                    "ArmBand": -100,
+                    "ArmorVest": -10,
+                    "Backpack": -13,
+                    "Earpiece": -100,
+                    "Eyewear": 0,
+                    "FaceCover": 0,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": 0,
                     "Holster": 50,
-                    "Scabbard": 100
+                    "Scabbard": 100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": 100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -779,6 +893,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -796,13 +916,19 @@
                 "Scabbard": []
             },
             "modifiers": {
-                "equipment": {
-                    "Headwear": 0,
+                "equipment": {                    
+                    "ArmBand": -100,
                     "ArmorVest": 0,
-                    "Backpack": 100,
+                    "Backpack": 0,
+                    "Earpiece": -100,
+                    "Eyewear": 0,
+                    "FaceCover": 0,
                     "FirstPrimaryWeapon": -100,
+                    "Headwear": 0,
                     "Holster": 100,
-                    "Scabbard": 100
+                    "Scabbard": 100,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": 100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -862,6 +988,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -880,12 +1012,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": 0,
+                    "ArmBand": -100,
                     "ArmorVest": 20,
                     "Backpack": 100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": -50,
-                    "Holster": 50,
-                    "Scabbard": 0
+                    "Headwear": 0,
+                    "Holster": 100,
+                    "Scabbard": 0,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -946,6 +1084,12 @@
                         "0": 0
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -964,12 +1108,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": 20,
+                    "ArmBand": -100,
                     "ArmorVest": 40,
                     "Backpack": 100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": 0,
+                    "Headwear": 20,
                     "Holster": 0,
-                    "Scabbard": 0
+                    "Scabbard": 0,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": -100,
@@ -1031,6 +1181,12 @@
                         "1": 1
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
@@ -1049,12 +1205,18 @@
             },
             "modifiers": {
                 "equipment": {
-                    "Headwear": 33,
+                    "ArmBand": -100,
                     "ArmorVest": 80,
                     "Backpack": 100,
+                    "Earpiece": -100,
+                    "Eyewear": -100,
+                    "FaceCover": -100,
                     "FirstPrimaryWeapon": 100,
+                    "Headwear": 33,
                     "Holster": 0,
-                    "Scabbard": 0
+                    "Scabbard": 0,
+                    "SecondPrimaryWeapon": -100,
+                    "TacticalVest": -100
                 },
                 "mod": {
                     "mod_mount": 0,
@@ -1116,6 +1278,12 @@
                         "1": 1
                     },
                     "whitelist": []
+                },
+                "currency": {
+                  "weights": {
+                    "0": 1
+                  },
+                  "whitelist": []
                 }
             },
             "labsAccessCardChancePercent": 0,
