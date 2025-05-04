@@ -35409,7 +35409,7 @@
       "RestoreHealthOnDestroyedParts": false,
       "ScavPriceMod": 0.8,
       "UsecPriceMod": 1.15,
-      "active": false
+      "active": true
     },
     "TripwiresSettings": {
       "CollisionCapsuleCheckCoef": 2,
