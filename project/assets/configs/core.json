@@ -183,7 +183,7 @@
         "chatbotFeatures": {
             "sptFriendGiftsEnabled": false,
             "commandoFeatures": {
-                "giveCommandEnabled": true
+                "giveCommandEnabled": false
             },
             "commandUseLimits": {
                 "StashRows": 15
