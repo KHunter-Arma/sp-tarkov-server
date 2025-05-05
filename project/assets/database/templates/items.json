@@ -329221,13 +329221,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -330029,13 +330025,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -330496,13 +330488,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -330571,13 +330559,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -330850,13 +330834,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -331621,13 +331601,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -332622,13 +332598,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -333416,13 +333388,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -334424,13 +334392,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -334923,13 +334887,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -335122,13 +335082,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -335197,13 +335153,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -335680,13 +335632,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -336714,13 +336662,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -336789,13 +336733,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -337328,13 +337268,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -337403,13 +337339,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "ArmBand",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -375142,7 +375074,7 @@
     "_props": {
       "Name": "Prepare for escape stash 10x48",
       "ShortName": "Prepare for escape stash 10x48",
-      "Description": "Prepare for escape stash 10x48\n",
+      "Description": "Large Stash (10x400)\n",
       "Weight": 1,
       "BackgroundColor": "blue",
       "Width": 1,
@@ -375202,7 +375134,7 @@
           "_props": {
             "filters": [],
             "cellsH": 10,
-            "cellsV": 48,
+            "cellsV": 400,
             "minCount": 0,
             "maxCount": 0,
             "maxWeight": 0,
@@ -377253,7 +377185,7 @@
     "_props": {
       "Name": "Edge of darkness stash 10x68",
       "ShortName": "Edge of darkness stash 10x68",
-      "Description": "Edge of darkness stash 10x68\n",
+      "Description": "Huge Stash (10x600)\n",
       "Weight": 1,
       "BackgroundColor": "blue",
       "Width": 1,
@@ -377313,7 +377245,7 @@
           "_props": {
             "filters": [],
             "cellsH": 10,
-            "cellsV": 68,
+            "cellsV": 600,
             "minCount": 0,
             "maxCount": 0,
             "maxWeight": 0,
@@ -378626,7 +378558,7 @@
     "_props": {
       "Name": "Standard stash 10x28",
       "ShortName": "Standard stash 10x28",
-      "Description": "Standard stash 10x28\n",
+      "Description": "Small Stash (10x125)\n",
       "Weight": 1,
       "BackgroundColor": "blue",
       "Width": 1,
@@ -378686,7 +378618,7 @@
           "_props": {
             "filters": [],
             "cellsH": 10,
-            "cellsV": 28,
+            "cellsV": 125,
             "minCount": 0,
             "maxCount": 0,
             "maxWeight": 0,
@@ -379224,7 +379156,7 @@
     "_props": {
       "Name": "Left Behind stash 10x38",
       "ShortName": "Left Behind stash 10x38",
-      "Description": "Left Behind stash 10x38",
+      "Description": "Medium Stash (10x250)\n",
       "Weight": 1,
       "BackgroundColor": "blue",
       "Width": 1,
@@ -379284,7 +379216,7 @@
           "_props": {
             "filters": [],
             "cellsH": 10,
-            "cellsV": 38,
+            "cellsV": 250,
             "minCount": 0,
             "maxCount": 0,
             "maxWeight": 0,
@@ -393647,12 +393579,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -393751,12 +393680,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -394460,12 +394386,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -395147,12 +395070,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -395251,12 +395171,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -396675,12 +396592,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -396779,12 +396693,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -397462,12 +397373,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -398014,12 +397922,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -398660,12 +398565,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -398764,12 +398666,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -398868,12 +398767,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -400774,13 +400670,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -401284,12 +401176,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -401388,12 +401277,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -402196,12 +402082,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -403453,13 +403336,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -403558,12 +403437,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -405385,13 +405261,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -405938,13 +405810,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -408042,13 +407910,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -408549,13 +408413,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -408618,13 +408478,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -409572,13 +409428,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -409641,13 +409493,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -410428,13 +410276,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -412641,13 +412485,9 @@
       "CanSellOnRagfair": false,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -414947,13 +414787,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "SpecialSlot",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec",
-        "Savage"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -459640,12 +459476,9 @@
       "CanSellOnRagfair": true,
       "CanRequireOnRagfair": false,
       "ConflictingItems": [],
-      "Unlootable": true,
+      "Unlootable": false,
       "UnlootableFromSlot": "Scabbard",
-      "UnlootableFromSide": [
-        "Bear",
-        "Usec"
-      ],
+      "UnlootableFromSide": [],
       "AnimationVariantsNumber": 0,
       "DiscardingBlock": false,
       "RagFairCommissionModifier": 1,
@@ -465450,5 +465283,447 @@
       "Resource": 0
     },
     "_proto": "57347c2e24597744902c94a1"
+  },
+  "24874a3e83064dbc98aa5c10": {
+    "_id": "24874a3e83064dbc98aa5c10",
+    "_name": "PMC pockets",
+    "_parent": "557596e64bdc2dc2118b4571",
+    "_props": {
+      "AnimationVariantsNumber": 0,
+      "BackgroundColor": "default",
+      "BlocksArmorVest": false,
+      "CanPutIntoDuringTheRaid": true,
+      "CanRequireOnRagfair": false,
+      "CanSellOnRagfair": false,
+      "CantRemoveFromSlotsDuringRaid": [
+        "Pockets"
+      ],
+      "ConflictingItems": [],
+      "Description": "Pockets",
+      "DiscardLimit": -1,
+      "DiscardingBlock": false,
+      "DropSoundType": "None",
+      "ExamineExperience": 10,
+      "ExamineTime": 1,
+      "ExaminedByDefault": true,
+      "ExtraSizeDown": 0,
+      "ExtraSizeForceAdd": false,
+      "ExtraSizeLeft": 0,
+      "ExtraSizeRight": 0,
+      "ExtraSizeUp": 0,
+      "ForbidMissingVitalParts": false,
+      "ForbidNonEmptyContainers": false,
+      "Grids": [
+        {
+          "_id": "627a4e6b255f7527fb05a0f8",
+          "_name": "pocket1",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 1,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "627a4e6b255f7527fb05a0f9",
+          "_name": "pocket2",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 1,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "627a4e6b255f7527fb05a0fa",
+          "_name": "pocket3",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 1,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "627a4e6b255f7527fb05a0fb",
+          "_name": "pocket4",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 1,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "5af99fc786f77444520b2287",
+          "_name": "pocket5",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 2,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "f52aebbcd5e74343adf11ea4",
+          "_name": "pocket6",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 2,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "05877287651d47238f5a15aa",
+          "_name": "pocket7",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 2,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_id": "469ab68843c9489791450e62",
+          "_name": "pocket8",
+          "_parent": "24874a3e83064dbc98aa5c10",
+          "_props": {
+            "cellsH": 1,
+            "cellsV": 2,
+            "filters": [
+              {
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ],
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ]
+              }
+            ],
+            "isSortingTable": false,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "minCount": 0
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        }
+      ],
+      "Height": 20,
+      "HideEntrails": true,
+      "InsuranceDisabled": false,
+      "IsAlwaysAvailableForInsurance": false,
+      "IsLockedafterEquip": true,
+      "IsSpecialSlotOnly": false,
+      "IsUnbuyable": true,
+      "IsUndiscardable": true,
+      "IsUngivable": true,
+      "IsUnremovable": false,
+      "IsUnsaleable": true,
+      "ItemSound": "generic",
+      "LootExperience": 20,
+      "MergesWithChildren": false,
+      "Name": "Pockets",
+      "NotShownInSlot": true,
+      "Prefab": {
+        "path": "",
+        "rcid": ""
+      },
+      "QuestItem": false,
+      "QuestStashMaxCount": 0,
+      "RagFairCommissionModifier": 1,
+      "RarityPvE": "Not_exist",
+      "RepairCost": 0,
+      "RepairSpeed": 0,
+      "SearchSound": "looting_body_extended",
+      "ShortName": "Pockets",
+      "Slots": [],
+      "StackMaxSize": 1,
+      "StackObjectsCount": 1,
+      "Unlootable": true,
+      "UnlootableFromSide": [
+        "Bear",
+        "Usec",
+        "Savage"
+      ],
+      "UnlootableFromSlot": "Pockets",
+      "UsePrefab": {
+        "path": "",
+        "rcid": ""
+      },
+      "Weight": 0,
+      "Width": 20
+    },
+    "_proto": "557ffd194bdc2d28148b457f",
+    "_type": "Item"
+  },
+  "3d49c609fc3a45e39c6f2ac8": {
+    "_id": "3d49c609fc3a45e39c6f2ac8",
+    "_name": "Scav pockets",
+    "_parent": "557596e64bdc2dc2118b4571",
+    "_type": "Item",
+    "_props": {
+      "Name": "Pockets",
+      "ShortName": "Pockets",
+      "Description": "Pockets",
+      "Weight": 0,
+      "BackgroundColor": "default",
+      "Width": 20,
+      "Height": 20,
+      "StackMaxSize": 1,
+      "ItemSound": "generic",
+      "Prefab": {
+        "path": "",
+        "rcid": ""
+      },
+      "UsePrefab": {
+        "path": "",
+        "rcid": ""
+      },
+      "StackObjectsCount": 1,
+      "NotShownInSlot": true,
+      "ExaminedByDefault": true,
+      "ExamineTime": 1,
+      "IsUndiscardable": true,
+      "IsUnsaleable": true,
+      "IsUnbuyable": true,
+      "IsUngivable": true,
+      "IsLockedafterEquip": true,
+      "QuestItem": false,
+      "LootExperience": 20,
+      "ExamineExperience": 10,
+      "HideEntrails": true,
+      "RepairCost": 0,
+      "RepairSpeed": 0,
+      "ExtraSizeLeft": 0,
+      "ExtraSizeRight": 0,
+      "ExtraSizeUp": 0,
+      "ExtraSizeDown": 0,
+      "ExtraSizeForceAdd": false,
+      "MergesWithChildren": false,
+      "CanSellOnRagfair": false,
+      "CanRequireOnRagfair": false,
+      "ConflictingItems": [],
+      "Unlootable": true,
+      "UnlootableFromSlot": "Pockets",
+      "UnlootableFromSide": [
+        "Bear",
+        "Usec",
+        "Savage"
+      ],
+      "AnimationVariantsNumber": 0,
+      "DiscardingBlock": false,
+      "RagFairCommissionModifier": 1,
+      "IsAlwaysAvailableForInsurance": false,
+      "DiscardLimit": -1,
+      "DropSoundType": "None",
+      "InsuranceDisabled": false,
+      "QuestStashMaxCount": 0,
+      "IsSpecialSlotOnly": false,
+      "IsUnremovable": false,
+      "Grids": [
+        {
+          "_name": "pocket1",
+          "_id": "ddb4087bffa042d78d337e52",
+          "_parent": "3d49c609fc3a45e39c6f2ac8",
+          "_props": {
+            "filters": [
+              {
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ],
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ]
+              }
+            ],
+            "cellsH": 1,
+            "cellsV": 1,
+            "minCount": 0,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "isSortingTable": false
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_name": "pocket2",
+          "_id": "c8b565cf4cf44dd6b22509e0",
+          "_parent": "3d49c609fc3a45e39c6f2ac8",
+          "_props": {
+            "filters": [
+              {
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ],
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ]
+              }
+            ],
+            "cellsH": 1,
+            "cellsV": 2,
+            "minCount": 0,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "isSortingTable": false
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_name": "pocket3",
+          "_id": "da34a29d14bf4cf79d2820df",
+          "_parent": "3d49c609fc3a45e39c6f2ac8",
+          "_props": {
+            "filters": [
+              {
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ],
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ]
+              }
+            ],
+            "cellsH": 1,
+            "cellsV": 2,
+            "minCount": 0,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "isSortingTable": false
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        },
+        {
+          "_name": "pocket4",
+          "_id": "3460db0822fe435699cfdf66",
+          "_parent": "3d49c609fc3a45e39c6f2ac8",
+          "_props": {
+            "filters": [
+              {
+                "Filter": [
+                  "54009119af1c881c07000029"
+                ],
+                "ExcludedFilter": [
+                  "5448bf274bdc2dfc2f8b456a"
+                ]
+              }
+            ],
+            "cellsH": 1,
+            "cellsV": 1,
+            "minCount": 0,
+            "maxCount": 0,
+            "maxWeight": 0,
+            "isSortingTable": false
+          },
+          "_proto": "55d329c24bdc2d892f8b4567"
+        }
+      ],
+      "Slots": [],
+      "CanPutIntoDuringTheRaid": true,
+      "CantRemoveFromSlotsDuringRaid": [
+        "Pockets"
+      ],
+      "SearchSound": "looting_body_extended",
+      "BlocksArmorVest": false
+    }
   }
 }
