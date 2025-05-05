@@ -182,9 +182,9 @@
         "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.02,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 500,
+        "VisibleDistance": 700,
         "WaitInCoverBetweenShotsSec": 1
       },
       "Cover": {
@@ -667,9 +667,9 @@
         "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.02,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 500,
+        "VisibleDistance": 700,
         "WaitInCoverBetweenShotsSec": 1
       },
       "Cover": {
@@ -1152,9 +1152,9 @@
         "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.02,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 500,
+        "VisibleDistance": 700,
         "WaitInCoverBetweenShotsSec": 1
       },
       "Cover": {
@@ -1637,9 +1637,9 @@
         "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.02,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 500,
+        "VisibleDistance": 700,
         "WaitInCoverBetweenShotsSec": 1
       },
       "Cover": {

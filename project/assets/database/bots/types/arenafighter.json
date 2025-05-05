@@ -212,13 +212,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 300,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -696,13 +696,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 300,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -1180,13 +1180,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 300,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -1664,13 +1664,13 @@
         "DamageCoeff": 1,
         "GainSightCoef": 0.1,
         "HearingSense": 2.9,
-        "PistolFireDistancePref": 35,
-        "RifleFireDistancePref": 100,
+        "PistolFireDistancePref": 50,
+        "RifleFireDistancePref": 300,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 142,
+        "VisibleDistance": 500,
         "WaitInCoverBetweenShotsSec": 0.3
       },
       "Cover": {
@@ -3188,14 +3188,14 @@
       "5ab8e79e86f7742d8b372e78": {
         "Back_plate": [
           "656f9d5900d62bcd2e02407c",
-		  "656fad8c498d1b7e3e071da0"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Collar": [
           "657326bc5d3a3129fb05f36b"
         ],
         "Front_plate": [
           "656f57dc27aed95beb08f628",
-		  "656f603f94b480b8a500c0d6"
+          "656f603f94b480b8a500c0d6"
         ],
         "Soft_armor_back": [
           "657326978c1cc6dcd9098b56"
@@ -3375,14 +3375,14 @@
       "5b44d22286f774172b0c9de8": {
         "Back_plate": [
           "656f9d5900d62bcd2e02407c",
-		  "656fad8c498d1b7e3e071da0"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Collar": [
           "65705cea4916448ae1050897"
         ],
         "Front_plate": [
           "656f9d5900d62bcd2e02407c",
-		  "656fad8c498d1b7e3e071da0"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Soft_armor_back": [
           "65705c3c14f2ed6d7d0b7738"
@@ -3443,12 +3443,12 @@
         "Groin": [
           "654a8bc5f414fcea4004d79b"
         ],
-        "back_plate": [
+        "Back_plate": [
           "656efd66034e8e01c407f35c"
         ],
         "Front_plate": [
           "656f57dc27aed95beb08f628",
-		  "656f603f94b480b8a500c0d6"
+          "656f603f94b480b8a500c0d6"
         ],
         "Soft_armor_back": [
           "654a8976f414fcea4004d78b"
@@ -3459,7 +3459,7 @@
         "Soft_armor_left": [
           "654a8b3df414fcea4004d78f"
         ],
-        "soft_armor_right": [
+        "Soft_armor_right": [
           "654a8b80f414fcea4004d797"
         ]
       },
@@ -3475,7 +3475,7 @@
         ],
         "front_plate": [
           "656f57dc27aed95beb08f628",
-		  "656f603f94b480b8a500c0d6"
+          "656f603f94b480b8a500c0d6"
         ],
         "soft_armor_back": [
           "654a8976f414fcea4004d78b"
@@ -3551,14 +3551,14 @@
       "5c0e625a86f7742d77340f62": {
         "Back_plate": [
           "656f9d5900d62bcd2e02407c",
-		  "656fad8c498d1b7e3e071da0"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Collar": [
           "657643a220cc24d17102b14c"
         ],
         "Front_plate": [
           "656f57dc27aed95beb08f628",
-		  "656f603f94b480b8a500c0d6"
+          "656f603f94b480b8a500c0d6"
         ],
         "Soft_armor_back": [
           "657642b0e6d5dd75f40688a5"
@@ -4205,11 +4205,11 @@
       "609e8540d5c319764c2bc2e9": {
         "Back_plate": [
           "656f9d5900d62bcd2e02407c",
-		  "656fad8c498d1b7e3e071da0"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Front_plate": [
           "656f9d5900d62bcd2e02407c",
-		  "656fad8c498d1b7e3e071da0"
+          "656fad8c498d1b7e3e071da0"
         ],
         "Soft_armor_back": [
           "6572e52f73c0eabb700109a0"

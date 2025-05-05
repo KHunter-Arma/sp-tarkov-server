@@ -39,6 +39,7 @@
       "back_plate": 0,
       "front_plate": 0,
       "left_side_plate": 0,
+      "side_plate": 0,
       "right_side_plate": 0
     },
     "weaponMods": {
