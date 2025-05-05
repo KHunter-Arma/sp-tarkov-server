@@ -4267,49 +4267,37 @@
     },
     "playerScavBrainType": {
         "factory4_day": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "factory4_night": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "bigmap": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "laboratory": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "woods": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "interchange": {
-            "bossKilla": 1,
-            "assault": 1,
-            "pmcBot": 1
+            "assault": 1
         },
         "lighthouse": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "rezervbase": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "shoreline": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "tarkovstreets": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         },
         "sandbox": {
-            "assault": 3,
-            "pmcBot": 1
+            "assault": 1
         }
     },
     "maxBotCap": {
