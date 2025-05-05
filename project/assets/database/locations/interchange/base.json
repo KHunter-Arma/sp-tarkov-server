@@ -3,8 +3,8 @@
   "AirdropParameters": [
     {
       "AirdropPointDeactivateDistance": 100,
-      "MinPlayersCountToSpawnAirdrop": 6,
-      "PlaneAirdropChance": 0.2,
+      "MinPlayersCountToSpawnAirdrop": 99,
+      "PlaneAirdropChance": 0.0,
       "PlaneAirdropCooldownMax": 900,
       "PlaneAirdropCooldownMin": 800,
       "PlaneAirdropEnd": 1800,
@@ -15,7 +15,7 @@
     }
   ],
   "Area": 0,
-  "AveragePlayTime": 35,
+  "AveragePlayTime": 60,
   "AveragePlayerLevel": 25,
   "Banners": [
     {
@@ -92,8 +92,8 @@
   "DisabledScavExits": "scav_NW,scav_SE",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 40,
-  "EscapeTimeLimitCoop": 30,
+  "EscapeTimeLimit": 120,
+  "EscapeTimeLimitCoop": 60,
   "GenerateLocalLootCache": true,
   "GlobalContainerChanceModifier": 1,
   "GlobalLootChanceModifier": 0.64,
@@ -163,7 +163,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 15,
   "Rules": "Normal",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,

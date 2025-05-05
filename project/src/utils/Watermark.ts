@@ -133,7 +133,7 @@ export class Watermark
             ? `${akiVersion} - BLEEDINGEDGE ${globalThis.G_COMMIT?.slice(0, 6) ?? ""}`
             : `${akiVersion} - ${globalThis.G_COMMIT?.slice(0, 6) ?? ""}`;
 
-        return `${this.akiConfig.projectName} ${versionTag}`;
+        return `${this.akiConfig.projectName} (Hunter'z) ${versionTag}`;
     }
 
     /** Set window title */

@@ -1,8 +1,8 @@
 {
   "AccessKeys": [],
   "Area": 0.9,
-  "AveragePlayTime": 15,
-  "AveragePlayerLevel": 1,
+  "AveragePlayTime": 20,
+  "AveragePlayerLevel": 25,
   "Banners": [
     {
       "id": "5464e0404bdc2d2a708b4567",
@@ -118,8 +118,8 @@
   "DisabledScavExits": "Cellars,Gate 0",
   "EnableCoop": true,
   "Enabled": true,
-  "EscapeTimeLimit": 20,
-  "EscapeTimeLimitCoop": 15,
+  "EscapeTimeLimit": 45,
+  "EscapeTimeLimitCoop": 20,
   "GenerateLocalLootCache": true,
   "GlobalContainerChanceModifier": 1,
   "GlobalLootChanceModifier": 0.2,
@@ -177,7 +177,7 @@
     "rcid": ""
   },
   "RequiredPlayerLevelMax": 100,
-  "RequiredPlayerLevelMin": 0,
+  "RequiredPlayerLevelMin": 15,
   "Rules": "AvoidOwnPmc",
   "SafeLocation": false,
   "ScavMaxPlayersInGroup": 4,

@@ -3,7 +3,7 @@
         "5c94bbff86f7747ee735c08f"
     ],
     "Area": 0,
-    "AveragePlayTime": 30,
+    "AveragePlayTime": 40,
     "AveragePlayerLevel": 45,
     "Banners": [{
             "id": "5805f617245977100b2c1f41",
@@ -292,7 +292,7 @@
     "DisabledScavExits": "",
     "EnableCoop": true,
     "Enabled": true,
-    "EscapeTimeLimit": 35,
+    "EscapeTimeLimit": 60,
     "EscapeTimeLimitCoop": 30,
     "GenerateLocalLootCache": true,
     "GlobalContainerChanceModifier": 1,
@@ -356,7 +356,7 @@
         "rcid": ""
     },
     "RequiredPlayerLevelMax": 100,
-    "RequiredPlayerLevelMin": 0,
+    "RequiredPlayerLevelMin": 35,
     "Rules": "Normal",
     "SafeLocation": false,
     "ScavMaxPlayersInGroup": 4,

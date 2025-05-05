@@ -65,6 +65,7 @@ export class BotInventoryGenerator
         botRole: string,
         isPmc: boolean,
         botLevel: number,
+        isPlayerScav: boolean,
     ): PmcInventory
     {
         const templateInventory = botJsonTemplate.inventory;
@@ -86,6 +87,7 @@ export class BotInventoryGenerator
             isPmc,
             itemGenerationLimitsMinMax,
             botLevel,
+            isPlayerScav,
         );
 
         // Pick loot and add to bots containers (rig/backpack/pockets/secure)
@@ -473,9 +475,10 @@ export class BotInventoryGenerator
         isPmc: boolean,
         itemGenerationLimitsMinMax: Generation,
         botLevel: number,
+        isPlayerScav: boolean,
     ): void
     {
-        const weaponSlotsToFill = this.getDesiredWeaponsForBot(equipmentChances);
+        const weaponSlotsToFill = this.getDesiredWeaponsForBot(equipmentChances, isPlayerScav);
         for (const weaponSlot of weaponSlotsToFill)
         {
             // Add weapon to bot if true and bot json has something to put into the slot
@@ -501,7 +504,7 @@ export class BotInventoryGenerator
      * @param equipmentChances Chances bot has certain equipment
      * @returns What slots bot should have weapons generated for
      */
-    protected getDesiredWeaponsForBot(equipmentChances: Chances): { slot: EquipmentSlots, shouldSpawn: boolean }[]
+    protected getDesiredWeaponsForBot(equipmentChances: Chances, isPlayerScav: boolean): { slot: EquipmentSlots, shouldSpawn: boolean }[]
     {
         const shouldSpawnPrimary = this.randomUtil.getChance100(equipmentChances.equipment.FirstPrimaryWeapon);
         return [{ slot: EquipmentSlots.FIRST_PRIMARY_WEAPON, shouldSpawn: shouldSpawnPrimary }, {
@@ -513,7 +516,7 @@ export class BotInventoryGenerator
             slot: EquipmentSlots.HOLSTER,
             shouldSpawn: shouldSpawnPrimary
                 ? this.randomUtil.getChance100(equipmentChances.equipment.Holster) // Primary weapon = roll for chance at pistol
-                : true, // No primary = force pistol
+                : !isPlayerScav, // No primary = force pistol ----- Hunter: don't force if player scav
         }];
     }
 

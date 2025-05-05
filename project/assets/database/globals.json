@@ -21943,7 +21943,7 @@
       "ScavPriceMod": 0.8,
       "SnapToSurfaceWheelsSpeed": 0.2,
       "TaxiMinPrice": 4000,
-      "UsecPriceMod": 1.5
+      "UsecPriceMod": 2.5
     },
     "Ballistic": {
       "GlobalDamageDegradationCoefficient": 0.5
@@ -22818,7 +22818,7 @@
           "BotHelpChance": 40,
           "BotSpreadoutChance": 40,
           "BotStopChance": 40,
-          "CanInteractWithBtr": true,
+          "CanInteractWithBtr": false,
           "DeliveryGridSize": {
             "x": 3,
             "y": 2,
@@ -22845,7 +22845,7 @@
           "BotHelpChance": 30,
           "BotSpreadoutChance": 30,
           "BotStopChance": 30,
-          "CanInteractWithBtr": true,
+          "CanInteractWithBtr": false,
           "DeliveryGridSize": {
             "x": 2,
             "y": 2,
@@ -22872,7 +22872,7 @@
           "BotHelpChance": 20,
           "BotSpreadoutChance": 20,
           "BotStopChance": 20,
-          "CanInteractWithBtr": true,
+          "CanInteractWithBtr": false,
           "DeliveryGridSize": {
             "x": 3,
             "y": 1,
@@ -22899,7 +22899,7 @@
           "BotHelpChance": 15,
           "BotSpreadoutChance": 15,
           "BotStopChance": 15,
-          "CanInteractWithBtr": true,
+          "CanInteractWithBtr": false,
           "DeliveryGridSize": {
             "x": 2,
             "y": 1,
@@ -22926,7 +22926,7 @@
           "BotHelpChance": 10,
           "BotSpreadoutChance": 10,
           "BotStopChance": 10,
-          "CanInteractWithBtr": true,
+          "CanInteractWithBtr": false,
           "DeliveryGridSize": {
             "x": 1,
             "y": 1,
@@ -23007,7 +23007,7 @@
           "BotHelpChance": 50,
           "BotSpreadoutChance": 50,
           "BotStopChance": 50,
-          "CanInteractWithBtr": true,
+          "CanInteractWithBtr": false,
           "DeliveryGridSize": {
             "x": 5,
             "y": 2,
@@ -26340,7 +26340,7 @@
       "communityRequirementTax": 3,
       "communityTax": 3,
       "delaySinceOfferAdd": 0,
-      "enabled": true,
+      "enabled": false,
       "includePveTraderSales": false,
       "isOnlyFoundInRaidAllowed": true,
       "maxActiveOfferCount": [
@@ -26427,7 +26427,7 @@
           "value": 999999
         }
       },
-      "minUserLevel": 30,
+      "minUserLevel": 1,
       "offerDurationTimeInHour": 12,
       "offerDurationTimeInHourAfterRemove": 0.02,
       "offerPriorityCost": 6,
@@ -26958,9 +26958,9 @@
         "TemplateId": "628baf0b967de16aab5a4f36"
       }
     ],
-    "SavagePlayCooldown": 2100,
+    "SavagePlayCooldown": 7200,
     "SavagePlayCooldownDevelop": 0,
-    "SavagePlayCooldownNdaFree": 2100,
+    "SavagePlayCooldownNdaFree": 7200,
     "SessionsToShowHotKeys": 100,
     "SkillAtrophy": false,
     "SkillEnduranceWeightThreshold": 0.65,
@@ -28018,18 +28018,18 @@
     },
     "rating": {
       "categories": {
-        "avgEarnings": false,
+        "avgEarnings": true,
         "experience": true,
         "inventoryFullCost": true,
         "kd": false,
         "longestShot": true,
         "pmcKills": true,
-        "ragFairStanding": true,
+        "ragFairStanding": false,
         "raidCount": true,
-        "surviveRatio": false,
+        "surviveRatio": true,
         "timeOnline": true
       },
-      "levelRequired": 10,
+      "levelRequired": 5,
       "limit": 100
     },
     "t_base_lockpicking": 45,

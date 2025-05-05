@@ -277,7 +277,10 @@
             "removeRemovablePlateChance": 60,
             "plateSlotIdToRemovePool": [
                 "front_plate",
-                "back_plate"
+                 "left_side_plate",
+                 "right_side_plate",
+                 "side_plate",
+                 "back_plate"
             ]
         },
         "itemPriceMultiplier": {

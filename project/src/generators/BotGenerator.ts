@@ -198,6 +198,7 @@ export class BotGenerator
             botRole,
             botGenerationDetails.isPmc,
             botLevel.level,
+            botGenerationDetails.isPlayerScav,
         );
 
         if (this.botHelper.isBotPmc(botRole))
