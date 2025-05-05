@@ -208,9 +208,9 @@
         "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 500,
+        "VisibleDistance": 700,
         "WaitInCoverBetweenShotsSec": 1
       },
       "Cover": {
@@ -706,9 +706,9 @@
         "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 500,
+        "VisibleDistance": 700,
         "WaitInCoverBetweenShotsSec": 1
       },
       "Cover": {
@@ -1204,9 +1204,9 @@
         "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 500,
+        "VisibleDistance": 700,
         "WaitInCoverBetweenShotsSec": 1
       },
       "Cover": {
@@ -1702,9 +1702,9 @@
         "RifleFireDistancePref": 500,
         "ScatteringClosePerMeter": 0.12,
         "ScatteringPerMeter": 0.045,
-        "ShotgunFireDistancePref": 50,
+        "ShotgunFireDistancePref": 100,
         "VisibleAngle": 160,
-        "VisibleDistance": 500,
+        "VisibleDistance": 700,
         "WaitInCoverBetweenShotsSec": 1
       },
       "Cover": {
@@ -2137,7 +2137,7 @@
         },
         "whitelist": []
       },
-	  "currency": {
+      "currency": {
         "weights": {
           "0": 20,
           "1": 5,
@@ -2153,7 +2153,7 @@
         },
         "whitelist": []
       },
-	  "food": {
+      "food": {
         "weights": {
           "0": 10,
           "1": 5,
@@ -2161,7 +2161,7 @@
         },
         "whitelist": []
       },
-	  "drink": {
+      "drink": {
         "weights": {
           "0": 10,
           "1": 5,
