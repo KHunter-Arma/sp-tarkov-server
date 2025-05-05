@@ -21,6 +21,8 @@
   },
   "items_buy": {
     "category": [
+		"543be5e94bdc2df1348b4568",
+		"567849dd4bdc2d150f8b456e",
       "543be5f84bdc2dd4348b456a",
       "5448e5284bdc2dcb718b4567",
       "57864a3d24597754843f8721",
@@ -94,8 +96,8 @@
     "currency_coefficient": 1,
     "excluded_category": [],
     "excluded_id_list": [],
-    "price_rate": 0,
-    "quality": "1"
+    "price_rate": 1,
+    "quality": "1.4"
   },
   "sell_category": [
     "5b5f71b386f774093f2ecf11",

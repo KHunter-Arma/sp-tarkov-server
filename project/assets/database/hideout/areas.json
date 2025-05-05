@@ -1091,7 +1091,7 @@
           },
           {
             "templateId": "5449016a4bdc2d6f028b456f",
-            "count": 2500000,
+            "count": 125000,
             "isFunctional": false,
             "isEncoded": false,
             "type": "Item"
@@ -1156,7 +1156,7 @@
           },
           {
             "templateId": "5449016a4bdc2d6f028b456f",
-            "count": 8500000,
+            "count": 200000,
             "isFunctional": false,
             "isEncoded": false,
             "type": "Item"
@@ -1222,7 +1222,7 @@
           },
           {
             "templateId": "569668774bdc2da2298b4568",
-            "count": 200000,
+            "count": 2500,
             "isFunctional": false,
             "isEncoded": false,
             "type": "Item"

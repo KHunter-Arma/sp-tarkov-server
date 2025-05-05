@@ -1,11 +1,11 @@
 {
     "insuranceMultiplier": {
         "54cb50c76803fa8b248b4571": 0.16,
-        "54cb57776803fa99248b456e": 0.25
+        "54cb57776803fa99248b456e": 0.28
     },
     "returnChancePercent": {
-        "54cb50c76803fa8b248b4571": 75,
-        "54cb57776803fa99248b456e": 85
+        "54cb50c76803fa8b248b4571": 66,
+        "54cb57776803fa99248b456e": 77
     },
     "blacklistedEquipment": [
         "SpecialSlot1",

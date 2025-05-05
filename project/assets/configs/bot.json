@@ -2577,18 +2577,18 @@
         }
     },
     "maxBotCap": {
-        "factory4_day": 13,
-        "factory4_night": 13,
-        "bigmap": 20,
-        "woods": 20,
-        "shoreline": 22,
-        "lighthouse": 22,
-        "rezervbase": 20,
-        "interchange": 20,
-        "laboratory": 20,
-        "tarkovstreets": 26,
-        "sandbox": 16,
-        "default": 16
+        "factory4_day": 200,
+        "factory4_night": 200,
+        "bigmap": 200,
+        "woods": 200,
+        "shoreline": 200,
+        "lighthouse": 200,
+        "rezervbase": 200,
+        "interchange": 200,
+        "laboratory": 200,
+        "tarkovstreets": 200,
+        "sandbox": 200,
+        "default": 200
     },
     "walletLoot": {
         "chancePercent": 35,

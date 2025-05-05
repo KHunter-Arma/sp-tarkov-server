@@ -31,10 +31,10 @@
         "Smugglers_Trail_coop",
         "Scav_coop_exit"
     ],
-    "carExtractBaseStandingGain": 0.2,
+    "carExtractBaseStandingGain": 0.01,
     "coopExtractBaseStandingGain": 0.25,
     "scavExtractGain": 0.01,
-    "pmcKillProbabilityForScavGain": 0.2,
+    "pmcKillProbabilityForScavGain": 1,
     "keepFiRSecureContainerOnDeath": false,
-    "playerScavHostileChancePercent": 15
+    "playerScavHostileChancePercent": 1
 }

@@ -62,7 +62,7 @@
             ]
         },
         "offerAdjustment": {
-            "adjustPriceWhenBelowHandbookPrice": false,
+            "adjustPriceWhenBelowHandbookPrice": true,
             "maxPriceDifferenceBelowHandbookPercent": 64,
             "handbookPriceMultipier": 1.1,
             "priceThreshholdRub": 20000
@@ -274,7 +274,7 @@
             "max": 20
         },
         "armor": {
-            "removeRemovablePlateChance": 40,
+            "removeRemovablePlateChance": 60,
             "plateSlotIdToRemovePool": [
                 "front_plate",
                 "back_plate"
