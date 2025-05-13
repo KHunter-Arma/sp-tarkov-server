@@ -1381,12 +1381,12 @@
                 "minStaticLootPercent": 30,
                 "reducedChancePercent": 100,
                 "reductionPercentWeights": {
-                    "70": 1,
-                    "72": 1,
-                    "74": 1,
-                    "76": 1,
-                    "78": 1,
-                    "80": 1
+                    "60": 1,
+                    "62": 1,
+                    "64": 1,
+                    "66": 1,
+                    "68": 1,
+                    "70": 1
                 },
                 "adjustWaves": true
 
