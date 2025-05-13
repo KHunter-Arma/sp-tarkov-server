@@ -367,6 +367,12 @@ export class BotEquipmentModGenerator
         );
         const botWeaponSightWhitelist = this.botEquipmentFilterService.getBotWeaponSightWhitelist(botEquipmentRole);
         const randomisationSettings = this.botHelper.getBotRandomizationDetails(botLevel, botEquipConfig);
+        
+        // Hunter: get whitelist too
+        const botEquipWhitelist = this.botEquipmentFilterService.getBotEquipmentWhitelist(
+            botEquipmentRole,
+            pmcProfile.Info.Level,
+        );
 
         // Iterate over mod pool and choose mods to attach
         const sortedModKeys = this.sortModKeys(Object.keys(compatibleModsPool));
@@ -401,6 +407,7 @@ export class BotEquipmentModGenerator
                 isRandomisableSlot,
                 botWeaponSightWhitelist,
                 botEquipBlacklist,
+                botEquipWhitelist,
                 compatibleModsPool,
                 weapon,
                 ammoTpl,
@@ -754,6 +761,7 @@ export class BotEquipmentModGenerator
         isRandomisableSlot: boolean,
         botWeaponSightWhitelist: Record<string, string[]>,
         botEquipBlacklist: EquipmentFilterDetails,
+        botEquipWhitelist: EquipmentFilterDetails,
         itemModPool: Record<string, string[]>,
         weapon: Item[],
         ammoTpl: string,
@@ -805,6 +813,8 @@ export class BotEquipmentModGenerator
             modSpawnResult,
             weapon,
             modSlot,
+            botEquipWhitelist,
+            botEquipBlacklist,
         );
         if (chosenModResult.slotBlocked && !parentSlot._required)
         {
@@ -855,6 +865,8 @@ export class BotEquipmentModGenerator
         modSpawnResult: ModSpawn,
         weapon: Item[],
         modSlotname: string,
+        botEquipWhitelist: EquipmentFilterDetails,
+        botEquipBlacklist: EquipmentFilterDetails,
     ): IChooseRandomCompatibleModResult
     {
         let chosenTpl: string;
@@ -868,6 +880,19 @@ export class BotEquipmentModGenerator
         while (exhaustableModPool.hasValues())
         {
             chosenTpl = exhaustableModPool.getRandomValue();
+            
+            // Hunter: use whitelist and blacklist for mods
+            if (botEquipBlacklist && botEquipBlacklist.equipment[modSlotname]) {
+              if (botEquipBlacklist.equipment[modSlotname].includes(chosenTpl)) {
+                  continue;
+                }
+            }
+            if (botEquipWhitelist && botEquipWhitelist.equipment[modSlotname]) {
+              if (!(botEquipWhitelist.equipment[modSlotname].includes(chosenTpl))) {
+                  continue;
+                }
+            }
+            
             if (modSpawnResult === ModSpawn.DEFAULT_MOD && modPool.length === 1)
             {
                 // Default mod wanted and only one choice in pool
