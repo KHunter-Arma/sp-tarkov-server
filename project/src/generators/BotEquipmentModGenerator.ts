@@ -875,7 +875,9 @@ export class BotEquipmentModGenerator
         const modParentFilterList = parentSlot._props.filters[0].Filter;
 
         // How many times can a mod for the slot be blocked before we stop trying
-        const maxBlockedAttempts = Math.round(modPool.length * 0.75); // Roughly 75% of pool size
+        // Hunter: release the kraken!
+        // const maxBlockedAttempts = Math.round(modPool.length * 0.75); // Roughly 75% of pool size
+        const maxBlockedAttempts = modPool.length;
         let blockedAttemptCount = 0;
         while (exhaustableModPool.hasValues())
         {
