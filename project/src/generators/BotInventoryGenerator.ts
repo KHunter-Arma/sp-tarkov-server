@@ -331,8 +331,10 @@ export class BotInventoryGenerator
         {
             let pickedItemDb: ITemplateItem;
             let found = false;
-
-            const maxAttempts = Math.round(Object.keys(settings.rootEquipmentPool).length * 0.75); // Roughly 75% of pool size
+            
+            // Hunter: check whole equipment pool
+            //const maxAttempts = Math.round(Object.keys(settings.rootEquipmentPool).length * 0.75); // Roughly 75% of pool size
+            const maxAttempts = Object.keys(settings.rootEquipmentPool).length;
             let attempts = 0;
             while (!found)
             {
