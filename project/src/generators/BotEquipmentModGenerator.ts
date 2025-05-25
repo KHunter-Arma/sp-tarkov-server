@@ -257,50 +257,30 @@ export class BotEquipmentModGenerator
         }
 
         // Choose a plate level based on weighting
-        const chosenArmorPlateLevel = this.weightedRandomHelper.getWeightedValue<string>(plateWeights);
+        var chosenArmorPlateLevel = this.weightedRandomHelper.getWeightedValue<string>(plateWeights);
 
         // Convert the array of ids into database items
         const platesFromDb = existingPlateTplPool.map(plateTpl => this.itemHelper.getItem(plateTpl)[1]);
 
         // Filter plates to the chosen level based on its armorClass property
-        const platesOfDesiredLevel = platesFromDb.filter(item => item._props.armorClass === chosenArmorPlateLevel);
+        var platesOfDesiredLevel = platesFromDb.filter(item => item._props.armorClass === chosenArmorPlateLevel);
         if (platesOfDesiredLevel.length === 0)
         {
-            this.logger.debug(
-                `Plate filter was too restrictive for armor: ${armorItem._name} ${armorItem._id}, unable to find plates of level: ${chosenArmorPlateLevel}. Using mod items default plate`,
-            );
-
-            const relatedItemDbModSlot = armorItem._props.Slots.find(slot => slot._name.toLowerCase() === modSlot);
-            const defaultPlate = relatedItemDbModSlot._props.filters[0].Plate;
-            if (!defaultPlate)
-            {
-                // No relevant plate found after filtering AND no default plate
-
-                // Last attempt, get default preset and see if it has a plate default
-                const defaultPreset = this.presetHelper.getDefaultPreset(armorItem._id);
-                if (defaultPreset)
-                {
-                    const relatedPresetSlot = defaultPreset._items.find(item =>
-                        item.slotId?.toLowerCase() === modSlot,
-                    );
-                    if (relatedPresetSlot)
-                    {
-                        result.result = Result.SUCCESS;
-                        result.plateModTpls = [relatedPresetSlot._tpl];
-
-                        return result;
-                    }
-                }
-
-                result.result = Result.NO_DEFAULT_FILTER;
-
+            // Hunter: overhaul plate modding
+             this.logger.debug(`Plate filter: ${armorItem._name} ${armorItem._id}, unable to find plates of level: ${chosenArmorPlateLevel}.`,);
+             
+             while ((chosenArmorPlateLevel > 2) && (platesOfDesiredLevel.length === 0)) {
+                chosenArmorPlateLevel--;
+                platesOfDesiredLevel = platesFromDb.filter(item => item._props.armorClass === chosenArmorPlateLevel);
+                if (platesOfDesiredLevel.length === 0) {
+                  this.logger.debug(`Plate filter: ${armorItem._name} ${armorItem._id}, unable to find plates of level: ${chosenArmorPlateLevel}.`,);
+               }
+             }
+             
+             if (platesOfDesiredLevel.length === 0) {
                 return result;
-            }
-
-            result.result = Result.SUCCESS;
-            result.plateModTpls = [defaultPlate];
-
-            return result;
+             }
+             
         }
 
         // Only return the items ids
