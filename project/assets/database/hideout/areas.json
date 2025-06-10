@@ -3087,7 +3087,7 @@
   {
     "_id": "5d494a175b56502f18c98a04",
     "type": 14,
-    "enabled": true,
+    "enabled": false,
     "needsFuel": false,
     "takeFromSlotLocked": false,
     "craftGivesExp": false,
