@@ -356,7 +356,7 @@
         "rcid": ""
     },
     "RequiredPlayerLevelMax": 100,
-    "RequiredPlayerLevelMin": 35,
+    "RequiredPlayerLevelMin": 45,
     "Rules": "Normal",
     "SafeLocation": false,
     "ScavMaxPlayersInGroup": 4,
