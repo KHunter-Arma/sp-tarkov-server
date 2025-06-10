@@ -167,7 +167,7 @@
   "BotStartPlayer": 220,
   "BotStop": 2700,
   "Description": "The coastline that leads to the port.",
-  "DisabledForScav": false,
+  "DisabledForScav": true,
   "DisabledScavExits": "",
   "EnableCoop": true,
   "Enabled": true,
