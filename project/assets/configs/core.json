@@ -22,8 +22,8 @@
         "autoInstallModDependencies": false,
         "compressProfile": false,
         "chatbotFeatures": {
-            "sptFriendEnabled": true,
-            "commandoEnabled": true,
+            "sptFriendEnabled": false,
+            "commandoEnabled": false,
             "commandoFeatures": {
                 "giveCommandEnabled": false
             }
