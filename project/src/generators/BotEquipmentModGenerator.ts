@@ -871,7 +871,10 @@ export class BotEquipmentModGenerator
             }
             if (botEquipWhitelist && botEquipWhitelist.equipment[modSlotname]) {
               if (!(botEquipWhitelist.equipment[modSlotname].includes(chosenTpl))) {
-                  continue;
+                  // Hunter: cheap ahh solution to make ALP work better
+                  if (!(botEquipWhitelist.equipment["Other"] && (botEquipWhitelist.equipment["Other"].includes(chosenTpl)))) {
+                    continue;
+                  }
                 }
             }
             
