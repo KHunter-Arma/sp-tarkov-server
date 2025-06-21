@@ -78,6 +78,18 @@ export class BotEquipmentModGenerator
         shouldForceSpawn = false,
     ): Item[]
     {
+        
+        // Hunter: get b&w lists (kinda poo for performance but reeeeee)
+        const botEquipmentRole = this.botGeneratorHelper.getBotEquipmentRole(settings.botRole);
+        const botEquipBlacklist = this.botEquipmentFilterService.getBotEquipmentBlacklist(
+            botEquipmentRole,
+            settings.botLevel,
+        );
+        const botEquipWhitelist = this.botEquipmentFilterService.getBotEquipmentWhitelist(
+            botEquipmentRole,
+            settings.botLevel,
+        );
+     
         let forceSpawn = shouldForceSpawn;
 
         const compatibleModsPool = settings.modPool[parentTemplate._id];
@@ -158,6 +170,7 @@ export class BotEquipmentModGenerator
             let modTpl: string;
             let found = false;
             const exhaustableModPool = new ExhaustableArray(modPoolToChooseFrom, this.randomUtil, this.jsonUtil);
+            
             while (exhaustableModPool.hasValues())
             {
                 modTpl = exhaustableModPool.getRandomValue();
@@ -166,6 +179,20 @@ export class BotEquipmentModGenerator
                         .incompatible
                 )
                 {
+                    // Hunter: use whitelist and blacklist for mods
+                    if (botEquipBlacklist && botEquipBlacklist.equipment[modSlotName]) {
+                      if (botEquipBlacklist.equipment[modSlotName].includes(modTpl)) {
+                          continue;
+                        }
+                    }
+                    if (botEquipWhitelist && botEquipWhitelist.equipment[modSlotName]) {
+                      if (!(botEquipWhitelist.equipment[modSlotName].includes(modTpl))) {
+                          // Hunter: cheap ahh solution to make ALP work better
+                          if (!(botEquipWhitelist.equipment["Other"] && (botEquipWhitelist.equipment["Other"].includes(modTpl)))) {
+                            continue;
+                          }
+                        }
+                    }
                     found = true;
                     break;
                 }
