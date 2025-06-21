@@ -341,9 +341,11 @@ export class BotEquipmentModGenerator
         }
 
         const botEquipConfig = this.botConfig.equipment[botEquipmentRole];
+        // Hunter: use the bot's level instead of player level to get blacklist & whitelist
         const botEquipBlacklist = this.botEquipmentFilterService.getBotEquipmentBlacklist(
             botEquipmentRole,
-            pmcProfile.Info.Level,
+            //pmcProfile.Info.Level,
+            botLevel,
         );
         const botWeaponSightWhitelist = this.botEquipmentFilterService.getBotWeaponSightWhitelist(botEquipmentRole);
         const randomisationSettings = this.botHelper.getBotRandomizationDetails(botLevel, botEquipConfig);
@@ -351,7 +353,8 @@ export class BotEquipmentModGenerator
         // Hunter: get whitelist too
         const botEquipWhitelist = this.botEquipmentFilterService.getBotEquipmentWhitelist(
             botEquipmentRole,
-            pmcProfile.Info.Level,
+            //pmcProfile.Info.Level,
+            botLevel,
         );
 
         // Iterate over mod pool and choose mods to attach
